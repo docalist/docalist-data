@@ -1,8 +1,6 @@
 <?php
 /**
-* @package     Prisme
-* @subpackage  modules
-* @author      Daniel Ménard <daniel.menard.35@gmail.com>
+* @author Daniel Ménard <daniel.menard.35@gmail.com>
 */
 namespace Docalist\Databases\Import;
 
@@ -21,10 +19,6 @@ use stdClass;
  * }
  *
  * </code>
- *
- * @package     Prisme
- * @subpackage  modules
- * @author      Daniel Ménard <daniel.menard.35@gmail.com>
  */
 class BdspCsv implements Iterator
 {

@@ -16,9 +16,7 @@
  * Text Domain: docalist-databases
  * Domain Path: /languages
  *
- * @package     Docalist
- * @subpackage  Databases
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases;
 
