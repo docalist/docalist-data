@@ -68,7 +68,7 @@ class Database extends PostTypeRepository
         $type = $settings->postType();
 
         // Construit le dépôt
-        parent::__construct($type, 'Docalist\Databases\Reference');
+        parent::__construct($type, 'Docalist\Databases\Type');
 
         // Stocke nos paramètres
         $this->settings = $settings;
@@ -163,7 +163,7 @@ class Database extends PostTypeRepository
     }
 
     /**
-     * @return Reference
+     * @return Type
      */
     public function load($id)
     {
@@ -181,7 +181,7 @@ class Database extends PostTypeRepository
      * @param WP_Post|array $post
      * @param string $context
      * @throws InvalidArgumentException
-     * @return Reference
+     * @return Type
      */
     public function fromPost($post)
     {
@@ -200,7 +200,7 @@ class Database extends PostTypeRepository
 
         // Récupère le type de la notice
         if (!isset($data['type'])) {
-            throw new InvalidArgumentException('No type found in reference');
+            throw new InvalidArgumentException('No type found in record');
         }
         $type = $data['type'];
 

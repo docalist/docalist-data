@@ -14,7 +14,7 @@ use Docalist\Databases\Type;
 /**
  * Classe de base pour les convertisseurs.
  *
- * Un convertisseur se charge de transformer une Reference Docalist dans un autre format.
+ * Un convertisseur se charge de transformer un enregistrement Docalist dans un autre format.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */

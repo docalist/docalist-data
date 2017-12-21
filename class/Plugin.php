@@ -11,7 +11,7 @@ namespace Docalist\Databases;
 
 use Docalist\Views;
 use Docalist\Databases\Database;
-use Docalist\Databases\Reference;
+use Docalist\Databases\Type;
 use Docalist\Databases\Settings\Settings;
 use Docalist\Databases\Settings\DatabaseSettings;
 use Docalist\Databases\Pages\AdminDatabases;
@@ -154,7 +154,7 @@ class Plugin
      *
      * @param string $id POST_ID de la référence à charger.
      *
-     * @return Reference Retourne un objet Reference si une grille a été
+     * @return Type Retourne un objet Reference si une grille a été
      * indiquée ; un tableau contenant les données de la notice sinon.
      *
      * @throws Exception

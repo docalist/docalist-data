@@ -70,8 +70,7 @@ class Exporter extends BaseExport
     /**
      * Exporte le lot de notices passé en paramètre.
      *
-     * @param ReferenceIterator $references Un itérateur contenant les
-     * notices à exporter.
+     * @param ReferenceIterator $references Un itérateur contenant les enregistrements à exporter.
      */
     public function export(ReferenceIterator $references)
     {
