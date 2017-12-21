@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the "Docalist Biblio" plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2015-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
 use WP_Query;
 use Docalist\Search\SearchRequest;
@@ -20,7 +20,7 @@ use RuntimeException;
 use Docalist\Search\Aggregation\Standard\TermsIn;
 
 /**
- * Service docalist-biblio-export  : génère des fichiers d'export et des bibliographies.
+ * Service docalist-databases-export  : génère des fichiers d'export et des bibliographies.
  */
 class ExportService
 {
@@ -37,7 +37,7 @@ class ExportService
      *
      * @var string
      */
-    const TRANSIENT = 'docalist-biblio-export-last-request-%d';
+    const TRANSIENT = 'docalist-databases-export-last-request-%d';
 
     /**
      * La requête docalist-search contenant les notices à exporter.
@@ -91,7 +91,7 @@ class ExportService
 
         // Déclare le widget "Export notices"
         add_action('widgets_init', function () {
-            register_widget('Docalist\Biblio\Export\ExportWidget');
+            register_widget('Docalist\Databases\Export\ExportWidget');
         });
 
         // Stocke la dernière requête exécutée par docalist-search dans un transient.
@@ -161,7 +161,7 @@ class ExportService
         // Affiche un message si on n'a aucune requête en cours
         $request = get_transient($this->transient()); /** @var SearchRequest $request */
         if ($request === false) {
-            return $this->view('docalist-biblio:export/norequest');
+            return $this->view('docalist-databases:export/norequest');
         }
 
         // Exécute la requête
@@ -172,7 +172,7 @@ class ExportService
 
         // Affiche un message si on a aucune réponse
         if ($searchResponse->getHitsCount() === 0) {
-            return $this->view('docalist-biblio:export/nohits');
+            return $this->view('docalist-databases:export/nohits');
         }
 
         // Détermine la liste des types de notices qu'on va exporter
@@ -186,7 +186,7 @@ class ExportService
         // Récupère la liste des formats d'export possibles
         $formats = $this->formats($types);
         if (empty($formats)) {
-            return $this->view('docalist-biblio:export/noformat', [
+            return $this->view('docalist-databases:export/noformat', [
                 'types' => $countByType,
                 'total' => $searchResponse->getHitsCount(),
                 'max' => 100,
@@ -213,7 +213,7 @@ class ExportService
         }
 
         // Sinon, affiche le formulaire "choix du format"
-        return $this->view('docalist-biblio:export/form', [
+        return $this->view('docalist-databases:export/form', [
             'types' => $countByType,
             'total' => $searchResponse->getHitsCount(),
             'max' => 100,
@@ -336,9 +336,9 @@ class ExportService
 
         // Récupère la liste des formats d'export définis
         // TODO : depuis la table
-        $allFormats = apply_filters('docalist_biblio_get_export_formats', []);
+        $allFormats = apply_filters('docalist_databases_get_export_formats', []);
         if (empty($allFormats)) {
-            throw new RuntimeException(__("Aucun format d'export disponible", 'docalist-biblio'));
+            throw new RuntimeException(__("Aucun format d'export disponible", 'docalist-databases'));
         }
         // on récupère un tableau de la forme 'format' => params
 

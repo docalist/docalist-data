@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Database;
-use Docalist\Biblio\Pages\ImportPage;
+use Docalist\Databases\Database;
+use Docalist\Databases\Pages\ImportPage;
 
 /**
  * Cette vue est affichée lorsqu'on lance l'option "vider la base".
@@ -38,13 +36,13 @@ $startTime = microtime(true);
  * @param Database $database La base de données en cours.
  * @param int $count Le nombre de notices à supprimer.
  */
-add_action('docalist_biblio_deleteall_start', function(Database $database, $count) { ?>
+add_action('docalist_databases_deleteall_start', function(Database $database, $count) { ?>
     <div class="wrap">
-        <h2><?= __("Vider la base", 'docalist-biblio') ?></h2>
+        <h2><?= __("Vider la base", 'docalist-databases') ?></h2>
 
         <p class="description"><?php
             printf(
-                __("Il y a %d notices à supprimer", 'docalist-biblio'),
+                __("Il y a %d notices à supprimer", 'docalist-databases'),
                 $count
             );
             ?>
@@ -58,12 +56,12 @@ add_action('docalist_biblio_deleteall_start', function(Database $database, $coun
 
 <?php
 /**
- * docalist_biblio_deleteall_progress : affiche un message de progression de la
+ * docalist_databases_deleteall_progress : affiche un message de progression de la
  * suppression.
  *
  * @param string $message Message à afficher.
  */
-add_action('docalist_biblio_deleteall_progress', function($message) {
+add_action('docalist_databases_deleteall_progress', function($message) {
     echo '<li>', $message, '</li>';
     flush();
 }, 10, 1);
@@ -71,16 +69,16 @@ add_action('docalist_biblio_deleteall_progress', function($message) {
 
 <?php
 /**
- * docalist_biblio_deleteall_done : fin de la suppression.
+ * docalist_databases_deleteall_done : fin de la suppression.
  *
- * Ferme le <ul> ouvert par docalist_biblio_deleteall_start.
+ * Ferme le <ul> ouvert par docalist_databases_deleteall_start.
  *
  * @param Database $database La base de données en cours.
  * @param int $count Le nombre de notices supprimées.
  */
-add_action('docalist_biblio_deleteall_done', function(Database $database, $count) use ($startTime) { ?>
+add_action('docalist_databases_deleteall_done', function(Database $database, $count) use ($startTime) { ?>
         </ul> <?php
-            $msg = __('%d notices supprimées. Temps écoulé : %.2f secondes', 'docalist-biblio');
+            $msg = __('%d notices supprimées. Temps écoulé : %.2f secondes', 'docalist-databases');
             printf("<p>$msg</p>", $count, (microtime(true) - $startTime)); ?>
     </div> <?php
     flush();

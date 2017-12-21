@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the "Docalist Biblio" plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2015-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
 use Docalist\Type\Settings as TypeSettings;
 use Docalist\Type\Integer;
@@ -23,7 +23,7 @@ use Docalist\Type\Integer;
  */
 class Settings extends TypeSettings
 {
-    protected $id = 'docalist-biblio-export';
+    protected $id = 'docalist-databases-export';
 
     public static function loadSchema()
     {
@@ -31,19 +31,19 @@ class Settings extends TypeSettings
             'fields' => [
                 'exportpage' => [
                     'type' => 'Docalist\Type\Integer',
-                    'label' => __("Page pour l'export", 'docalist-biblio'),
+                    'label' => __("Page pour l'export", 'docalist-databases'),
                     'description' => __(
                         "Page WordPress sur laquelle l'export sera disponible.",
-                        'docalist-biblio'
+                        'docalist-databases'
                     ),
                     'default' => 0,
                 ],
                 'limit' => [
-                    'type' => 'Docalist\Biblio\Export\LimitSetting*',
-                    'label' => __("Limites de l'export", 'docalist-biblio'),
+                    'type' => 'Docalist\Databases\Export\LimitSetting*',
+                    'label' => __("Limites de l'export", 'docalist-databases'),
                     'description' => __(
                         'Liste des rôles autorisés à exporter des notices et nombre maximum de notices par rôle.',
-                        'docalist-biblio'
+                        'docalist-databases'
                     ),
                     'key' => 'role',
                 ],

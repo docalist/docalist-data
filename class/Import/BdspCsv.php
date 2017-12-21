@@ -4,7 +4,7 @@
 * @subpackage  modules
 * @author      Daniel Ménard <daniel.menard.35@gmail.com>
 */
-namespace Docalist\Biblio\Import;
+namespace Docalist\Databases\Import;
 
 use Iterator;
 use stdClass;

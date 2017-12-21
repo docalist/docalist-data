@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Pages;
+namespace Docalist\Databases\Pages;
 
-use Docalist\Biblio\Database;
-use Docalist\Biblio\Type;
+use Docalist\Databases\Database;
+use Docalist\Databases\Type;
 use WP_Post;
 use WP_Screen;
 use Exception;
@@ -117,10 +115,10 @@ class EditReference
         // Le titre de la page "edit-post" est stocké dans une variable globale "title" qui est définie dans
         // post-new.php (entres autres) et affichée dans edit-form-advanced...
         $GLOBALS['title'] = sprintf(
-            __('%s » %s » %s', 'docalist-biblio'),
+            __('%s » %s » %s', 'docalist-databases'),
             $this->database->settings()->label(),
             $this->database->settings()->types[$type]->label(),
-            $creation ? __('Création', 'docalist-biblio') : __('Modification', 'docalist-biblio')
+            $creation ? __('Création', 'docalist-databases') : __('Modification', 'docalist-databases')
         );
     }
 
@@ -183,7 +181,7 @@ class EditReference
 
         // Affiche la page "Choix du type de notice à créer"
         require_once('./admin-header.php');
-        $view = new ViewResponse('docalist-biblio:reference/choose-type', [
+        $view = new ViewResponse('docalist-databases:reference/choose-type', [
             'database' => $this->database,
         ]);
         $view->sendContent();
@@ -241,7 +239,7 @@ class EditReference
         $this->setPageTitle($ref->type(), false);
 
         // Insère notre feuille de style
-        wp_styles()->enqueue('docalist-biblio-edit-reference');
+        wp_styles()->enqueue('docalist-databases-edit-reference');
 
         // Crée un nonce
         add_action('edit_form_after_title', function () {
@@ -509,7 +507,7 @@ class EditReference
         $fields = $schema->getFields();
 
         // Crée un groupe par défaut si la liste ne commence pas par un groupe
-        if (reset($fields)->type() !== 'Docalist\Biblio\Type\Group') {
+        if (reset($fields)->type() !== 'Docalist\Databases\Type\Group') {
             $box = new Container();
             $box->setLabel('')->setAttribute('id', 'defaultgroup');
             $hasBoxCap = true;
@@ -519,7 +517,7 @@ class EditReference
         $metaboxes = [];
         foreach ($fields as $name => $field) {
             // Nouveau champ
-            if ($field->type() !== 'Docalist\Biblio\Type\Group') {
+            if ($field->type() !== 'Docalist\Databases\Type\Group') {
                 // Si on n'a pas la cap de la boite en cours, inutile de créer le champ
                 if (! $hasBoxCap) {
                     continue;
@@ -600,10 +598,10 @@ class EditReference
 //             }
 
 //             // Table incorrecte, affiche une admin notice
-//             $msg = __("La table <code>%s</code> indiquée pour le champ <code>%s</code> n'est pas valide.", 'docalist-biblio');
+//             $msg = __("La table <code>%s</code> indiquée pour le champ <code>%s</code> n'est pas valide.", 'docalist-databases');
 //             $msg = sprintf($msg, $def->$table() ?: ' ', $def->name());
 //             $msg .= '<br />';
-//             $msg .= __('Vous devez corriger la grille de saisie', 'docalist-biblio');
+//             $msg .= __('Vous devez corriger la grille de saisie', 'docalist-databases');
 //             add_action('admin_notices', function () use ($msg) {
 //                 printf('<div class="error"><p>%s</p></div>', $msg);
 //             });

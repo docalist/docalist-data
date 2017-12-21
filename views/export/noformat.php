@@ -1,18 +1,18 @@
 <?php
 /**
- * This file is part of the "Docalist Biblio" plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2015-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export\Views;
+namespace Docalist\Databases\Export\Views;
 
-use Docalist\Biblio\Export\Plugin;
+use Docalist\Databases\Export\Plugin;
 
 /**
  * Affiche un message "aucun format disponible"
@@ -29,7 +29,7 @@ if (count($types) === 1) {
 } else {
     $detail = [];
     foreach ($types as $label => $count) {
-        $detail[] = sprintf(__('%s : %d', 'docalist-biblio'), lcfirst($label), $count);
+        $detail[] = sprintf(__('%s : %d', 'docalist-databases'), lcfirst($label), $count);
     }
     $detail = implode(', ', $detail);
 }

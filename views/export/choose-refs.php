@@ -1,21 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Database;
+use Docalist\Databases\Database;
 use Docalist\Forms\Container;
-use Docalist\Biblio\Pages\ImportPage;
+use Docalist\Databases\Pages\ImportPage;
 
 /**
  * Export de notices : choix des notices à exporter.
@@ -81,10 +79,10 @@ $form->render('bootstrap');
 */
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__('Export %s', 'docalist-biblio'), $database->settings()->label) ?></h2>
+    <h2><?= sprintf(__('Export %s', 'docalist-databases'), $database->settings()->label) ?></h2>
 
     <p class="description">
-        <?= __("Choisissez les notices à exporter.", 'docalist-biblio') ?>
+        <?= __("Choisissez les notices à exporter.", 'docalist-databases') ?>
     </p>
 
     <?php if (isset($error)): ?>
@@ -101,7 +99,7 @@ $form->render('bootstrap');
 
         <div class="submit buttons">
             <button type="submit" class="run-export">
-                <?=__("Lancer l'export...", 'docalist-biblio') ?>
+                <?=__("Lancer l'export...", 'docalist-databases') ?>
             </button>
         </div>
         <?php if(!empty($exporter)): ?>

@@ -1,25 +1,23 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Settings\TypeSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 use Docalist\Forms\Metabox;
 use Docalist\Forms\Container;
-use Docalist\Biblio\Type\Group;
+use Docalist\Databases\Type\Group;
 
 /**
  * Edite une grille.
@@ -68,7 +66,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $label = $prefix ?: $grid->label();
     $label = sprintf('%s - <span class="label">%s</span>', $prefix, $grid->label() ?: $schema->label());
     $label = sprintf('<span>%s</span>', $grid->label() ?: $schema->label());
-    $prefix && ($grid->type() !== 'Docalist\Biblio\Type\Group') && $label .= " <small>($prefix)</small>";
+    $prefix && ($grid->type() !== 'Docalist\Databases\Type\Group') && $label .= " <small>($prefix)</small>";
 
     // Détermine les classes CSS à appliquer à la metabox
     $type = $schema->type() ?: 'Docalist\Type\Composite';
@@ -80,10 +78,10 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $metabox->setLabel($label)->setAttribute('class', $class)->addItems($form->getItems());
 
     // Valeur par défaut
-    if ($level > 1 && $method !== 'getFormatSettingsForm' && $schema->type() !== 'Docalist\Biblio\Type\Group') {
+    if ($level > 1 && $method !== 'getFormatSettingsForm' && $schema->type() !== 'Docalist\Databases\Type\Group') {
         $default = $fieldType->getEditorForm($grid)
             ->setName('default')
-            ->setLabel(__('Valeur par défaut', 'docalist-biblio'));
+            ->setLabel(__('Valeur par défaut', 'docalist-databases'));
         $metabox->add($default);
     }
     // TODO : ça devrait être getSettingsForm/getEditorSettingsForm qui se charge d'insérer l'éditeur
@@ -95,7 +93,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $fields = $grid->getFields();
     if ($fields) {
         $form = $metabox->container('fields')
-            ->setLabel(__('Champs', 'docalist-biblio'))
+            ->setLabel(__('Champs', 'docalist-databases'))
             ->addClass('meta-box-sortables');
         foreach($fields as $name => $field) {
             // si c'est un groupe, il n'est que dans la grille, pas dans le schéma, on prend le schéma du groupe
@@ -121,17 +119,17 @@ $methods = [
 $form = createForm($type->grids['base'], $grid, $methods[$grid->gridtype()]);
 $form->bind($grid->getPhpValue());
 
-wp_styles()->enqueue(['docalist-biblio-edit-reference', 'docalist-biblio-grid-edit']);
-wp_scripts()->enqueue(['docalist-biblio-grid-edit']);
+wp_styles()->enqueue(['docalist-databases-edit-reference', 'docalist-biblio-grid-edit']);
+wp_scripts()->enqueue(['docalist-databases-grid-edit']);
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - %s - %s', 'docalist-biblio'), $database->label(), $type->label(), $grid->label()) ?></h1>
+    <h1><?= sprintf(__('%s - %s - %s', 'docalist-databases'), $database->label(), $type->label(), $grid->label()) ?></h1>
 
     <p class="description">
-        <?= __('L\'écran ci-dessous vous permet de personnaliser la grille.', 'docalist-biblio') ?>
-        <?= __('Cliquez sur un champ pour afficher et modifier ses propriétés.', 'docalist-biblio') ?>
-        <?= __('Utilisez le bouton "Ajouter un groupe" pour créer un nouveau groupe de champs.', 'docalist-biblio') ?>
-        <?= __('Vous pouvez également modifier l\'ordre des champs et les déplacer d\'un groupe à un autre en faisant un glisser/déposer.', 'docalist-biblio') ?>
+        <?= __('L\'écran ci-dessous vous permet de personnaliser la grille.', 'docalist-databases') ?>
+        <?= __('Cliquez sur un champ pour afficher et modifier ses propriétés.', 'docalist-databases') ?>
+        <?= __('Utilisez le bouton "Ajouter un groupe" pour créer un nouveau groupe de champs.', 'docalist-databases') ?>
+        <?= __('Vous pouvez également modifier l\'ordre des champs et les déplacer d\'un groupe à un autre en faisant un glisser/déposer.', 'docalist-databases') ?>
     </p>
     <form action ="" method="post">
         <div id="poststuff">
@@ -149,7 +147,7 @@ wp_scripts()->enqueue(['docalist-biblio-grid-edit']);
                         <div class="inside">
                             <p class="buttons">
                                 <button type="submit" class="button button-primary">
-                                    <?= __('Enregistrer les modifications', 'docalist-biblio') ?>
+                                    <?= __('Enregistrer les modifications', 'docalist-databases') ?>
                                 </button>
                             </p>
                         </div>
@@ -159,7 +157,7 @@ wp_scripts()->enqueue(['docalist-biblio-grid-edit']);
                             <h3 class="hndle">Outils</h3>
                             <div class="inside">
                                 <button type="button" class="button add-group">
-                                    <?= __('Ajouter un groupe de champs', 'docalist-biblio') ?>
+                                    <?= __('Ajouter un groupe de champs', 'docalist-databases') ?>
                                 </button>
                             </div>
                         </div>
@@ -173,9 +171,9 @@ wp_scripts()->enqueue(['docalist-biblio-grid-edit']);
     <script type="text/html" id="group-template"><?php // Pas d'espace avant le début du formulaire sinon on a un warning jqueryMigrate "$.html() must start with '<'"
             $schema = new Schema([
                 // Valeurs par défaut communes
-                'type' => 'Docalist\Biblio\Type\Group',
+                'type' => 'Docalist\Databases\Type\Group',
                 'name' => 'group{group-number}',
-                'label' => __('Nouveau groupe de champs', 'docalist-biblio'),
+                'label' => __('Nouveau groupe de champs', 'docalist-databases'),
 
                 // Valeurs par défaut pour grille de saisie
                 'state' => '', // = normal

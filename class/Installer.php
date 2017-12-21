@@ -1,23 +1,21 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio;
+namespace Docalist\Databases;
 
 use Docalist\Table\TableManager;
 use Docalist\Table\TableInfo;
 
 /**
- * Installation/désinstallation de docalist-biblio.
+ * Installation/désinstallation de docalist-databases.
  */
 class Installer {
 
@@ -54,19 +52,19 @@ class Installer {
      * @return array
      */
     protected function getTables() {
-        $dir = DOCALIST_BIBLIO_DIR . DIRECTORY_SEPARATOR . 'tables'  . DIRECTORY_SEPARATOR;
+        $dir = DOCALIST_DATABASES_DIR . DIRECTORY_SEPARATOR . 'tables'  . DIRECTORY_SEPARATOR;
         return [
             // Etiquettes de rôles
             'marc21-relators_fr' => [
                 'path' => $dir . 'relators/marc21-relators_fr.txt',
-                'label' => __('Etiquettes de rôles marc21 en français', 'docalist-biblio'),
+                'label' => __('Etiquettes de rôles marc21 en français', 'docalist-databases'),
                 'format' => 'thesaurus',
                 'type' => 'roles',
                 'creation' => '2014-03-14 11:04:05',
             ],
             'marc21-relators_en' => [
                 'path' => $dir . 'relators/marc21-relators_en.txt',
-                'label' => __('Etiquettes de rôles marc21 en anglais', 'docalist-biblio'),
+                'label' => __('Etiquettes de rôles marc21 en anglais', 'docalist-databases'),
                 'format' => 'thesaurus',
                 'type' => 'roles',
                 'creation' => '2014-03-14 11:04:46',
@@ -82,7 +80,7 @@ class Installer {
             // Exemple de thesaurus
             'thesaurus-example' => [
                 'path' => $dir . 'thesaurus-example.txt',
-                'label' => __('Exemple de table thesaurus', 'docalist-biblio'),
+                'label' => __('Exemple de table thesaurus', 'docalist-databases'),
                 'format' => 'thesaurus',
                 'type' => 'thesaurus',
                 'creation' => '2014-03-17 07:57:35',
@@ -91,7 +89,7 @@ class Installer {
             // Supports
             'medias' => [
                 'path' => $dir . 'medias.txt',
-                'label' => __('Supports de documents', 'docalist-biblio'),
+                'label' => __('Supports de documents', 'docalist-databases'),
                 'format' => 'thesaurus',
                 'type' => 'medias',
                 'creation' => '2013-11-02 11:02:15',
@@ -100,7 +98,7 @@ class Installer {
             // Genres
             'genres' => [
                 'path' => $dir . 'genres.txt',
-                'label' => __('Genres de documents', 'docalist-biblio'),
+                'label' => __('Genres de documents', 'docalist-databases'),
                 'format' => 'thesaurus',
                 'type' => 'genres',
                 'creation' => '2014-07-16 09:41:59',
@@ -109,7 +107,7 @@ class Installer {
             // Numbers (types de numéros)
             'numbers' => [
                 'path' => $dir . 'numbers.txt',
-                'label' => __('Types de numéros', 'docalist-biblio'),
+                'label' => __('Types de numéros', 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'numbers',
                 'creation' => '2014-06-26 00:30:23',
@@ -118,7 +116,7 @@ class Installer {
             // Extent (types de pagination)
             'extent' => [
                 'path' => $dir . 'extent.txt',
-                'label' => __('Types de pagination', 'docalist-biblio'),
+                'label' => __('Types de pagination', 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'extent',
                 'creation' => '2014-06-12 11:47:35',
@@ -127,7 +125,7 @@ class Installer {
             // Format (étiquettes de collation)
             'format' => [
                 'path' => $dir . 'format.txt',
-                'label' => __('Etiquettes de format', 'docalist-biblio'),
+                'label' => __('Etiquettes de format', 'docalist-databases'),
                 'format' => 'thesaurus',
                 'type' => 'format',
                 'creation' => '2014-06-11 14:26:20',
@@ -136,7 +134,7 @@ class Installer {
             // Dates
             'dates' => [
                 'path' => $dir . 'dates.txt',
-                'label' => __('Types de dates', 'docalist-biblio'),
+                'label' => __('Types de dates', 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'dates',
                 'creation' => '2014-06-03 08:01:53',
@@ -145,7 +143,7 @@ class Installer {
             // Types de titres
             'titles' => [
                 'path' => $dir . 'titles.txt',
-                'label' => __("Types de titres", 'docalist-biblio'),
+                'label' => __("Types de titres", 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'titles',
                 'creation' => '2013-11-04 01:28:47',
@@ -154,7 +152,7 @@ class Installer {
             // Vocabulaires disponibles
             'topics' => [
                 'path' => $dir . 'topics.php',
-                'label' => __("Liste des vocabulaires disponibles pour l'indexation", 'docalist-biblio'),
+                'label' => __("Liste des vocabulaires disponibles pour l'indexation", 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'topics',
                 'creation' => '2014-02-05 08:38:11',
@@ -163,7 +161,7 @@ class Installer {
             // Types de contenus
             'content' => [
                 'path' => $dir . 'content.txt',
-                'label' => __("Contenu", 'docalist-biblio'),
+                'label' => __("Contenu", 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'content',
                 'creation' => '2013-11-04 03:25:53',
@@ -172,7 +170,7 @@ class Installer {
             // Types de liens
             'links' => [
                 'path' => $dir . 'links.txt',
-                'label' => __("Types de liens", 'docalist-biblio'),
+                'label' => __("Types de liens", 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'links',
                 'creation' => '2013-11-05 00:38:40',
@@ -181,7 +179,7 @@ class Installer {
             // Types de relations
             'relations' => [
                 'path' => $dir . 'relations.txt',
-                'label' => __("Types de relations", 'docalist-biblio'),
+                'label' => __("Types de relations", 'docalist-databases'),
                 'format' => 'table',
                 'type' => 'relations',
                 'creation' => '2013-11-05 03:13:18',

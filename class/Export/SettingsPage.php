@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the "Docalist Biblio" plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2015-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
 use Docalist\AdminPage;
 use Exception;
@@ -37,9 +37,9 @@ class SettingsPage extends AdminPage
         $this->settings = $settings;
 
         parent::__construct(
-            'docalist-biblio-export-settings',          // ID
-            'options-general.php',                      // page parent
-            __('Export et biblios', 'docalist-biblio')  // libellé menu
+            'docalist-databases-export-settings',           // ID
+            'options-general.php',                          // page parent
+            __('Export et biblios', 'docalist-databases')   // libellé menu
         );
     }
 
@@ -63,7 +63,7 @@ class SettingsPage extends AdminPage
                 $this->settings->save();
 
                 docalist('admin-notices')->success(
-                    __('Options enregistrées.', 'docalist-biblio')
+                    __('Options enregistrées.', 'docalist-databases')
                 );
 
                 return $this->redirect($this->url($this->getDefaultAction()), 303);
@@ -72,7 +72,7 @@ class SettingsPage extends AdminPage
             }
         }
 
-        return $this->view('docalist-biblio:export/settings/export', [
+        return $this->view('docalist-databases:export/settings/export', [
             'settings' => $this->settings,
         ]);
     }

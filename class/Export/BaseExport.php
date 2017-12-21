@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
 /**
  * Classe de base pour les convertisseurs et les exporteurs.
@@ -46,7 +46,7 @@ namespace Docalist\Biblio\Export;
  *       'converter' => 'Prisme\Export\Prisme2014',
  *
  *       // Nom de classe complet de l'exporteur à utiliser
- *       'exporter' => 'Docalist\Biblio\Export\Json',
+ *       'exporter' => 'Docalist\Databases\Export\Json',
  *
  *       // Paramétres éventuels du convertisseur
  *       'converter-settings' => [
@@ -60,9 +60,9 @@ namespace Docalist\Biblio\Export;
  *   ];
  *
  * Pour le moment, les formats d'export disponibles sont définis en répondant
- * au filtre wordpress 'docalist_biblio_get_exporters' :
+ * au filtre wordpress 'docalist_databases_get_exporters' :
  *
- *   add_filter('docalist_biblio_get_exporters', function(array $exporters) {
+ *   add_filter('docalist_databases_get_exporters', function(array $exporters) {
  *       $exporters['mon-format] = [ ... ];
  *       return $erporters;
  *   });
@@ -78,7 +78,7 @@ namespace Docalist\Biblio\Export;
  * les paramètres obtenus sont enregistrés.
  *
  * Par la suite, lorsqu'un exporteur ou un convertisseur est créé,
- * docalist-biblio lui fournit les paramètres enregistrés et il peut accéder
+ * docalist-databases lui fournit les paramètres enregistrés et il peut accéder
  * à ses paramètres en utilisant la méthode get() qui permet de récupérer une
  * option de configuration.
  */
@@ -193,8 +193,8 @@ abstract class BaseExport
      * Retourne l'identifiant unique de l'objet.
      *
      * L'identifiant est généré à partir du nom complet de la classe PHP. Les antislashs sont remplacés par un tiret
-     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-biblio-export-xml" pour la classe
-     * "Docalist\Biblio\Export\Xml".
+     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-databases-export-xml" pour la classe
+     * "Docalist\Databases\Export\Xml".
      *
      * Remarque : Le résultat obtenu est utilisable comme nom de classe CSS ou comme id dans du code html.
      *
@@ -209,7 +209,7 @@ abstract class BaseExport
      * Retourne le nom usuel utilisé pour identifier l'objet.
      *
      * Par défaut, le nom usuel correspond à la version en minuscules du nom court (sans namespace) de la classe PHP.
-     * Par Exemple : retourne "xml" pour la classe "Docalist\Biblio\Export\Xml".
+     * Par Exemple : retourne "xml" pour la classe "Docalist\Databases\Export\Xml".
      *
      * Les classes descendantes peuvent surcharger la méthode pour retourner un nom plus approprié.
      *

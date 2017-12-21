@@ -1,21 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Settings\TypeSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Settings\TypeSettings;
 use Docalist\Forms\Form;
 
 /**
@@ -29,10 +27,10 @@ use Docalist\Forms\Form;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - paramètres du type "%s"', 'docalist-biblio'), $database->label(), $type->name()) ?></h1>
+    <h1><?= sprintf(__('%s - paramètres du type "%s"', 'docalist-databases'), $database->label(), $type->name()) ?></h1>
 
     <p class="description">
-        <?= __('Utilisez le formulaire ci-dessous pour modifier les paramètres du type :', 'docalist-biblio') ?>
+        <?= __('Utilisez le formulaire ci-dessous pour modifier les paramètres du type :', 'docalist-databases') ?>
     </p>
 
     <?php
@@ -43,7 +41,7 @@ use Docalist\Forms\Form;
         $form->textarea('description')
              ->setAttribute('rows', '2')
              ->addClass('large-text');
-        $form->submit(__('Enregistrer les modifications', 'docalist-biblio'));
+        $form->submit(__('Enregistrer les modifications', 'docalist-databases'));
 
         $form->bind($type)->display();
     ?>

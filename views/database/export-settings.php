@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
 
 /**
  * Exporte (affiche) les paramètres d'une base.
@@ -26,15 +24,15 @@ use Docalist\Biblio\Settings\DatabaseSettings;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - exporter les paramètres de la base', 'docalist-biblio'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s - exporter les paramètres de la base', 'docalist-databases'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Recopiez le code ci-dessous pour faire une sauvegarde des paramètres de la base ou transférer les paramètres vers une autre base.', 'docalist-biblio') ?>
+        <?= __('Recopiez le code ci-dessous pour faire une sauvegarde des paramètres de la base ou transférer les paramètres vers une autre base.', 'docalist-databases') ?>
         <br />
-        <?= __('Le code JSON affiché contient les paramètres de la base, les paramètres des types et les paramètres des grilles.', 'docalist-biblio') ?>
+        <?= __('Le code JSON affiché contient les paramètres de la base, les paramètres des types et les paramètres des grilles.', 'docalist-databases') ?>
         <br />
-        <?= __('Veillez à copier <b>la totalité du code</b> du, premier "{" au dernier "}", sinon cela ne fonctionnera pas.', 'docalist-biblio') ?>
-        <?= __('Par exemple, cliquez dans la zone de texte et tapez Ctrl+A puis Ctrl+C.', 'docalist-biblio') ?>
+        <?= __('Veillez à copier <b>la totalité du code</b> du, premier "{" au dernier "}", sinon cela ne fonctionnera pas.', 'docalist-databases') ?>
+        <?= __('Par exemple, cliquez dans la zone de texte et tapez Ctrl+A puis Ctrl+C.', 'docalist-databases') ?>
     </p>
 
     <textarea class="code large-text" style="height: 80vh" readonly><?php

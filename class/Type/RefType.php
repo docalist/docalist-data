@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Type;
+namespace Docalist\Databases\Type;
 
 use Docalist\Type\ListEntry;
-use Docalist\Biblio\Database;
+use Docalist\Databases\Database;
 
 /**
  * Le type docalist de la notice.
@@ -24,8 +22,8 @@ class RefType extends ListEntry
     public static function loadSchema()
     {
         return [
-            'label' => __('Type de fiche', 'docalist-biblio'),
-            'description' => __('Type docalist de la fiche.', 'docalist-biblio'),
+            'label' => __('Type de fiche', 'docalist-databases'),
+            'description' => __('Type docalist de la fiche.', 'docalist-databases'),
         ];
     }
 

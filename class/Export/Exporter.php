@@ -1,19 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
-use Docalist\Biblio\Reference\ReferenceIterator;
-use Docalist\Biblio\Reference;
+use Docalist\Databases\Reference\ReferenceIterator;
+use Docalist\Databases\Type;
 
 /**
  * Classe de base pour les exporteurs.
@@ -76,7 +76,7 @@ class Exporter extends BaseExport
      */
     public function export(ReferenceIterator $references)
     {
-        foreach ($references as $reference) { /* var $ref Reference */
+        foreach ($references as $reference) { /** var Type $ref */
             $data = $this->converter->convert($reference);
             var_export($data);
             echo "\n\n";

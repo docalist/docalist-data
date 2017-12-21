@@ -1,18 +1,18 @@
 <?php
 /**
- * This file is part of the "Docalist Biblio" plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2015-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export\Views;
+namespace Docalist\Databases\Export\Views;
 
-use Docalist\Biblio\Export\Plugin;
+use Docalist\Databases\Export\Plugin;
 
 /**
  * Affiche le message "aucune requête en cours".

@@ -1,16 +1,16 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
 /**
  * Convertisseur "Docalist".
@@ -21,11 +21,11 @@ class Docalist extends Converter
 {
     public function getLabel()
     {
-        return __('Format docalist', 'docalist-biblio');
+        return __('Format docalist', 'docalist-databases');
     }
 
     public function getDescription()
     {
-        return __('Notices au format natif de Docalist-Biblio.', 'docalist-biblio');
+        return __('Notices au format natif de Docalist-Databases.', 'docalist-databases');
     }
 }

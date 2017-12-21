@@ -1,28 +1,26 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Pages;
+namespace Docalist\Databases\Pages;
 
 use Docalist\AdminPage;
 use Exception;
-use Docalist\Biblio\Database;
-use Docalist\Biblio\Settings\Settings;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Settings\TypeSettings;
+use Docalist\Databases\Database;
+use Docalist\Databases\Settings\Settings;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 use WP_Role;
-use Docalist\Biblio\Type;
-use Docalist\Biblio\Grid;
+use Docalist\Databases\Type;
+use Docalist\Databases\Grid;
 
 /**
  * Gestion des bases de données.
@@ -37,7 +35,7 @@ class AdminDatabases extends AdminPage
     ];
 
     /**
-     * Les settings de docalist-biblio.
+     * Les settings de docalist-databases.
      *
      * @var Settings
      */
@@ -52,20 +50,20 @@ class AdminDatabases extends AdminPage
 
         // @formatter:off
         parent::__construct(
-            'docalist-biblio-databases',                // ID
-            'options-general.php',                      // page parent
-            __('Bases documentaires', 'docalist-biblio')    // libellé menu
+            'docalist-databases',                           // ID
+            'options-general.php',                          // page parent
+            __('Bases documentaires', 'docalist-databases') // libellé menu
         );
         // @formatter:on
 
         // Ajoute un lien "Réglages" dans la page des plugins
-        $filter = 'plugin_action_links_docalist-biblio/docalist-biblio.php';
+        $filter = 'plugin_action_links_docalist-databases/docalist-databases.php';
         add_filter($filter, function ($actions) {
             $action = sprintf(
                 '<a href="%s" title="%s">%s</a>',
                 esc_attr($this->url()),
                 $this->menuTitle(),
-                __('Réglages', 'docalist-biblio')
+                __('Réglages', 'docalist-databases')
             );
             array_unshift($actions, $action);
 
@@ -90,8 +88,8 @@ class AdminDatabases extends AdminPage
             return $this->settings->databases[$dbindex];
         }
 
-        $title = __('Index de base de données invalide', 'docalist-biblio');
-        $msg = __('La base <b>%s</b> n\'existe pas.', 'docalist-biblio');
+        $title = __('Index de base de données invalide', 'docalist-databases');
+        $msg = __('La base <b>%s</b> n\'existe pas.', 'docalist-databases');
         wp_die(sprintf($msg, $dbindex), $title);
     }
 
@@ -109,10 +107,10 @@ class AdminDatabases extends AdminPage
             return $database->types[$typeindex];
         }
 
-        $title = __('Index de type invalide', 'docalist-biblio');
+        $title = __('Index de type invalide', 'docalist-databases');
         $msg = __(
             'Le type de notices <b>%s</b> n\'existe pas dans la base <b>%s</b>.',
-            'docalist-biblio'
+            'docalist-databases'
         );
         wp_die(sprintf($msg, $typeindex, $dbindex), $title);
     }
@@ -155,7 +153,7 @@ class AdminDatabases extends AdminPage
      * Liste des bases de données.
      */
     public function actionDatabasesList() {
-        return $this->view('docalist-biblio:database/list', [
+        return $this->view('docalist-databases:database/list', [
             'databases' => $this->settings->databases
         ]);
     }
@@ -212,17 +210,17 @@ class AdminDatabases extends AdminPage
                     }
 
                     if ($database->name() === $db->name()) {
-                        $msg = __('Il existe déjà une base avec le nom "%s"', 'docalist-biblio');
+                        $msg = __('Il existe déjà une base avec le nom "%s"', 'docalist-databases');
                         throw new Exception(sprintf($msg, $db->name()));
                     }
 
                     if ($database->homepage() && $database->homepage() === $db->homepage()) {
-                        $msg = __('La page d\'accueil indiquée est déjà utilisée par "%s"', 'docalist-biblio');
+                        $msg = __('La page d\'accueil indiquée est déjà utilisée par "%s"', 'docalist-databases');
                         throw new Exception(sprintf($msg, $db->label()));
                     }
 
                     if (trim(strtolower($database->label())) === trim(strtolower($db->label()))) {
-                        $msg = __('Il existe déjà une base avec le même libellé (%s), vous allez vous mélanger les pinceaux !', 'docalist-biblio');
+                        $msg = __('Il existe déjà une base avec le même libellé (%s), vous allez vous mélanger les pinceaux !', 'docalist-databases');
                         throw new Exception(sprintf($msg, $db->label()));
                     }
                 }
@@ -254,7 +252,7 @@ class AdminDatabases extends AdminPage
         }
 
         // Affiche le formulaire
-        return $this->view('docalist-biblio:database/edit', [
+        return $this->view('docalist-databases:database/edit', [
             'database' => $database,
             'dbindex' => $dbindex,
             'error' => $error
@@ -280,7 +278,7 @@ class AdminDatabases extends AdminPage
 
         /*
          * Explication :
-         * On ne veut changer que les capacités propres à docalist-biblio (par
+         * On ne veut changer que les capacités propres à docalist-databases (par
          * exemple, on ne veut pas modifier le droit standard "read" de WP), et
          * uniquement celles qui sont des "primitive capacities" (il ne faut
          * pas attribuer une "meta capability" directement à un rôle).
@@ -314,11 +312,11 @@ class AdminDatabases extends AdminPage
         if (! $confirm) {
             $msg = __(
                 'La base de données <strong>%s (%s)</strong> va être supprimée.',
-                'docalist-biblio'
+                'docalist-databases'
             );
             return $this->confirm(
                 sprintf($msg, $database->label(), $database->slug()),
-                __('Supprimer une base', 'docalist-biblio')
+                __('Supprimer une base', 'docalist-databases')
             );
         }
 
@@ -348,7 +346,7 @@ class AdminDatabases extends AdminPage
         $database = $this->database($dbindex);
 
         // Affiche le formulaire
-        return $this->view('docalist-biblio:database/export-settings', [
+        return $this->view('docalist-databases:database/export-settings', [
             'database' => $database,
             'dbindex' => $dbindex,
             'pretty' => $pretty
@@ -369,23 +367,23 @@ class AdminDatabases extends AdminPage
             $settings = json_decode(wp_unslash($settings), true);
             if (! is_array($settings) || ! isset($settings['name'])) {
                 return $this->view('docalist-core:error', [
-                    'h2' => __('Importer des paramètres', 'docalist-biblio'),
-                    'h3' => __("Paramètres incorrects", 'docalist-biblio'),
-                    'message' => __("Le code que vous avez fourni n'est pas valide, vérifiez que vous avez bien collé la totalité des paramètres.", 'docalist-biblio'),
+                    'h2' => __('Importer des paramètres', 'docalist-databases'),
+                    'h3' => __("Paramètres incorrects", 'docalist-databases'),
+                    'message' => __("Le code que vous avez fourni n'est pas valide, vérifiez que vous avez bien collé la totalité des paramètres.", 'docalist-databases'),
                 ]);
             }
 
             if (empty($settings['types'])) {
                 return $this->view('docalist-core:info', [
-                    'h2' => __('Importer des paramètres', 'docalist-biblio'),
-                    'h3' => __("Aucun type", 'docalist-biblio'),
-                    'message' => __("Le code que vous avez fourni est valide mais ne contient aucun type, impossible d'importer quoi que ce soit.", 'docalist-biblio'),
+                    'h2' => __('Importer des paramètres', 'docalist-databases'),
+                    'h3' => __("Aucun type", 'docalist-databases'),
+                    'message' => __("Le code que vous avez fourni est valide mais ne contient aucun type, impossible d'importer quoi que ce soit.", 'docalist-databases'),
                 ]);
             }
 
             // Affiche le formulaire permettant de choisir les types à importer
             if (empty($types)) {
-                return $this->view('docalist-biblio:database/import-settings-confirm', [
+                return $this->view('docalist-databases:database/import-settings-confirm', [
                     'database' => $database,
                     'dbindex' => $dbindex,
                     'settings' => $settings,
@@ -414,7 +412,7 @@ class AdminDatabases extends AdminPage
         }
 
         // Affiche le formulaire permettant de coller le code
-        return $this->view('docalist-biblio:database/import-settings', [
+        return $this->view('docalist-databases:database/import-settings', [
             'database' => $database,
             'dbindex' => $dbindex
         ]);
@@ -430,7 +428,7 @@ class AdminDatabases extends AdminPage
         $database = $this->database($dbindex);
 
         // Liste des types
-        return $this->view('docalist-biblio:type/list', [
+        return $this->view('docalist-databases:type/list', [
             'database' => $database,
             'dbindex' => $dbindex
         ]);
@@ -467,14 +465,14 @@ class AdminDatabases extends AdminPage
             // Plus aucun type disponible
             if (empty($types)) {
                 return $this->view('docalist-core:error', [
-                    'h2' => __('Modifier une base', 'docalist-biblio'),
-                    'h3' => __("Impossible d'ajouter un type de notice", 'docalist-biblio'),
-                    'message' => __('La base contient déjà tous les types de notice possibles.', 'docalist-biblio'),
+                    'h2' => __('Modifier une base', 'docalist-databases'),
+                    'h3' => __("Impossible d'ajouter un type de notice", 'docalist-databases'),
+                    'message' => __('La base contient déjà tous les types de notice possibles.', 'docalist-databases'),
                 ]);
             }
 
             // Choisit le type
-            return $this->view('docalist-biblio:type/add', [
+            return $this->view('docalist-databases:type/add', [
                 'database' => $database,
                 'dbindex' => $dbindex,
                 'types' => $types,
@@ -484,15 +482,15 @@ class AdminDatabases extends AdminPage
         foreach((array)$name as $name) {
             // Vérifie que le type choisi existe
             if (! isset($types[$name])) {
-                $title = __('Type inexistant', 'docalist-biblio');
-                $msg = __("Le type de notice %s n'existe pas.", 'docalist-biblio');
+                $title = __('Type inexistant', 'docalist-databases');
+                $msg = __("Le type de notice %s n'existe pas.", 'docalist-databases');
                 wp_die(sprintf($msg, $name), $title);
             }
 
             // Vérifie que le type indiqué ne figure pas déjà dans la base
             if (isset($selected[$name])) {
-                $title = __("Impossible d'ajouter ce type", 'docalist-biblio');
-                $msg = __('Le type de notice %s est déjà dans la base.', 'docalist-biblio');
+                $title = __("Impossible d'ajouter ce type", 'docalist-databases');
+                $msg = __('Le type de notice %s est déjà dans la base.', 'docalist-databases');
                 wp_die(sprintf($msg, $name), $title);
             }
 
@@ -543,7 +541,7 @@ class AdminDatabases extends AdminPage
             return $this->redirect($this->url('TypesList', $dbindex), 303);
         }
 
-        return $this->view('docalist-biblio:type/edit', [
+        return $this->view('docalist-databases:type/edit', [
             'dbindex' => $dbindex,
             'typeindex' => $typeindex,
             'database' => $database,
@@ -567,11 +565,11 @@ class AdminDatabases extends AdminPage
                 'Le type <b>%s</b> va être supprimé de la base <b>%s</b>.
                 Tous les paramètres de ce type (propriétés, grille de saisie...)
                 vont être perdus.',
-                'docalist-biblio'
+                'docalist-databases'
             );
             return $this->confirm(
                 sprintf($msg, $type->label(), $database->label()),
-                __('Supprimer un type', 'docalist-biblio')
+                __('Supprimer un type', 'docalist-databases')
             );
         }
 
@@ -601,7 +599,7 @@ class AdminDatabases extends AdminPage
         $type = $this->type($dbindex, $typeindex);
 
         // Liste des grilles
-        return $this->view('docalist-biblio:grid/list', [
+        return $this->view('docalist-databases:grid/list', [
             'database' => $database,
             'dbindex' => $dbindex,
             'type' => $type,
@@ -633,7 +631,7 @@ class AdminDatabases extends AdminPage
             return $this->redirect($this->url('GridList', $dbindex, $typeindex), 303);
         }
 
-        return $this->view('docalist-biblio:grid/settings', [
+        return $this->view('docalist-databases:grid/settings', [
             'database' => $database,
             'dbindex' => $dbindex,
             'type' => $type,
@@ -680,7 +678,7 @@ class AdminDatabases extends AdminPage
             $fields = [];
             $groupNumber = 1;
             foreach($data['fields'] as $name => $field) {
-                if (isset($field['type']) && $field['type'] === 'Docalist\Biblio\Type\Group') {
+                if (isset($field['type']) && $field['type'] === 'Docalist\Databases\Type\Group') {
                     $name = 'group' . $groupNumber;
                     $groupNumber++;
                 }
@@ -695,7 +693,7 @@ class AdminDatabases extends AdminPage
             return $this->redirect($this->url('GridList', $dbindex, $typeindex), 303);
         }
 
-        return $this->view('docalist-biblio:grid/edit', [
+        return $this->view('docalist-databases:grid/edit', [
             'database' => $database,
             'dbindex' => $dbindex,
             'type' => $type,
@@ -744,7 +742,7 @@ class AdminDatabases extends AdminPage
             $base = $types[$typeindex]::getBaseGrid();
         }
 
-        return $this->view('docalist-biblio:grid/tophp', [
+        return $this->view('docalist-databases:grid/tophp', [
             'database' => $database,
             'dbindex' => $dbindex,
             'type' => $type,

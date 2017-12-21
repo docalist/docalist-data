@@ -1,17 +1,15 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Type;
+namespace Docalist\Databases\Type;
 
 use Docalist\Type\TypedText;
 use Docalist\Type\Text;
@@ -33,19 +31,19 @@ class Topic extends TypedText
     {
         return [
 
-            'label' => __('Indexation', 'docalist-biblio'),
+            'label' => __('Indexation', 'docalist-databases'),
             'description' => __(
                 'Mots-clés, tags et étiquettes permettant de classer le document et de décrire son contenu.',
-                'docalist-biblio'
+                'docalist-databases'
             ),
             'fields' => [
                 'type' => [
-                    'label' => __('Vocabulaire', 'docalist-biblio'),
+                    'label' => __('Vocabulaire', 'docalist-databases'),
                     'table' => 'table:topics',
                 ],
                 'value' => [
                     'type' => 'Docalist\Type\Text*', // Monovalué dans TypedText, on le rend répétable
-                    'label' => __('Termes', 'docalist-biblio'),
+                    'label' => __('Termes', 'docalist-databases'),
                 ],
             ],
             'key' => 'type', // La collection indexe les éléments par type de topic
@@ -54,7 +52,7 @@ class Topic extends TypedText
 
     public static function getCollectionClass()
     {
-        return 'Docalist\Biblio\Type\Topics';
+        return 'Docalist\Databases\Type\Topics';
     }
 
     /* ------------------------------------------------------------------------------------------------------------

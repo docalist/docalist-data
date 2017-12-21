@@ -1,18 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Import;
+namespace Docalist\Databases\Import;
 
-use Docalist\Biblio\Database;
+use Docalist\Databases\Database;
 
 /**
  * Classe de base pour les importeurs.
@@ -126,8 +126,8 @@ abstract class Importer
      * Retourne l'identifiant unique de l'objet.
      *
      * L'identifiant est généré à partir du nom complet de la classe PHP. Les antislashs sont remplacés par un tiret
-     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-biblio-export-xml" pour la classe
-     * "Docalist\Biblio\Export\Xml".
+     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-databases-export-xml" pour la classe
+     * "Docalist\Databases\Export\Xml".
      *
      * Remarque : Le résultat obtenu est utilisable comme nom de classe CSS ou comme id dans du code html.
      *
@@ -142,7 +142,7 @@ abstract class Importer
      * Retourne le nom usuel utilisé pour identifier l'objet.
      *
      * Par défaut, le nom usuel correspond à la version en minuscules du nom court (sans namespace) de la classe PHP.
-     * Par Exemple : retourne "xml" pour la classe "Docalist\Biblio\Export\Xml".
+     * Par Exemple : retourne "xml" pour la classe "Docalist\Databases\Export\Xml".
      *
      * Les classes descendantes peuvent surcharger la méthode pour retourner un nom plus approprié.
      *
@@ -178,7 +178,7 @@ abstract class Importer
     protected function report($message, ...$args)
     {
         $message = sprintf($message, ...$args);
-        do_action('docalist_biblio_import_progress', $message);
+        do_action('docalist_databases_import_progress', $message);
     }
 
     protected function reportWarning($message, ...$args)

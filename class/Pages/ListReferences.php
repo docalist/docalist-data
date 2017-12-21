@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Pages;
+namespace Docalist\Databases\Pages;
 
-use Docalist\Biblio\Database;
-use Docalist\Biblio\Reference;
+use Docalist\Databases\Database;
+use Docalist\Databases\Type;
 use WP_Post;
 use DateTime, DateInterval;
 use Exception;
@@ -76,10 +74,10 @@ class ListReferences{
                 $customColumns = [
                     'cb' => $columns['cb'],
                     'title' => $columns['title'],
-                    'type' => __('Type', 'docalist-biblio'),
-                    'ref' => __('Ref', 'docalist-biblio'),
-                    'creation' => __('Création', 'docalist-biblio'),
-                    'lastupdate' => __('Mise à jour', 'docalist-biblio'),
+                    'type' => __('Type', 'docalist-databases'),
+                    'ref' => __('Ref', 'docalist-databases'),
+                    'creation' => __('Création', 'docalist-databases'),
+                    'lastupdate' => __('Mise à jour', 'docalist-databases'),
     //                 'author' => $columns['author'],
     //                 'date' => $columns['date'],
                 ];
@@ -96,7 +94,7 @@ class ListReferences{
 
         // Fournit le contenu des colonnes personnalisées pour chaque notice
         add_action("manage_{$this->postType}_posts_custom_column", function($column, $post_id) {
-            /** @var Reference $ref */
+            /** @var Type $ref */
             static $ref = null;
 
             /** @var WP_Post $post */
@@ -211,7 +209,7 @@ class ListReferences{
         for ($i = 0; $i < 6; $i++) {
             $now->sub($oneDay);
             if ($date->format('Ymd') === $now->format('Ymd')) {
-                $day = $i ? $wp_locale->get_weekday($date->format('w')) : __('hier', 'docalist-biblio');
+                $day = $i ? $wp_locale->get_weekday($date->format('w')) : __('hier', 'docalist-databases');
                 $format = $excerpt ? '%s %s' : '<abbr title="%2$s">%1$s</abbr>';
                 return sprintf($format, $day, $date->format('H:i:s'));
             }
@@ -268,7 +266,7 @@ class ListReferences{
             printf(
                 "<option%s value=''>%s</option>",
                 selected($current, '', false),
-                __('Filtrer par année', 'docalist-biblio')
+                __('Filtrer par année', 'docalist-databases')
             );
 
             foreach($years as $year) {
@@ -290,7 +288,7 @@ class ListReferences{
             printf(
                 "<option%s value=''>%s</option>",
                 selected($current, '', false),
-                __('Filtrer par type', 'docalist-biblio')
+                __('Filtrer par type', 'docalist-databases')
             );
 
             foreach($types as $type) {

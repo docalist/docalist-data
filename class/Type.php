@@ -1,32 +1,30 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio;
+namespace Docalist\Databases;
 
 use Docalist\Type\Entity;
 use Docalist\Schema\Schema;
 
-use Docalist\Biblio\Type\PostType;
-use Docalist\Biblio\Type\PostStatus;
-use Docalist\Biblio\Type\PostTitle;
-use Docalist\Biblio\Type\PostDate;
-use Docalist\Biblio\Type\PostAuthor;
-use Docalist\Biblio\Type\PostModified;
-use Docalist\Biblio\Type\PostPassword;
-use Docalist\Biblio\Type\PostParent;
-use Docalist\Biblio\Type\PostSlug;
-use Docalist\Biblio\Type\RefNumber;
-use Docalist\Biblio\Type\RefType;
+use Docalist\Databases\Type\PostType;
+use Docalist\Databases\Type\PostStatus;
+use Docalist\Databases\Type\PostTitle;
+use Docalist\Databases\Type\PostDate;
+use Docalist\Databases\Type\PostAuthor;
+use Docalist\Databases\Type\PostModified;
+use Docalist\Databases\Type\PostPassword;
+use Docalist\Databases\Type\PostParent;
+use Docalist\Databases\Type\PostSlug;
+use Docalist\Databases\Type\RefNumber;
+use Docalist\Databases\Type\RefType;
 
 use Docalist\Repository\Repository;
 
@@ -61,20 +59,20 @@ class Type extends Entity
     {
         return [
             'name' => 'type',
-            'label' => __('Type de base (thing ?)', 'docalist-biblio'),
-            'description' => __('Type de base docalist-biblio.', 'docalist-biblio'),
+            'label' => __('Type de base (thing ?)', 'docalist-databases'),
+            'description' => __('Type de base docalist-databases.', 'docalist-databases'),
             'fields' => [
-                'posttype'      => 'Docalist\Biblio\Type\PostType',
-                'status'        => 'Docalist\Biblio\Type\PostStatus',
-                'posttitle'     => 'Docalist\Biblio\Type\PostTitle',
-                'creation'      => 'Docalist\Biblio\Type\PostDate',
-                'createdBy'     => 'Docalist\Biblio\Type\PostAuthor',
-                'lastupdate'    => 'Docalist\Biblio\Type\PostModified',
-                'password'      => 'Docalist\Biblio\Type\PostPassword',
-                'parent'        => 'Docalist\Biblio\Type\PostParent',
-                'slug'          => 'Docalist\Biblio\Type\PostSlug',
-                'ref'           => 'Docalist\Biblio\Type\RefNumber',
-                'type'          => 'Docalist\Biblio\Type\RefType',
+                'posttype'      => 'Docalist\Databases\Type\PostType',
+                'status'        => 'Docalist\Databases\Type\PostStatus',
+                'posttitle'     => 'Docalist\Databases\Type\PostTitle',
+                'creation'      => 'Docalist\Databases\Type\PostDate',
+                'createdBy'     => 'Docalist\Databases\Type\PostAuthor',
+                'lastupdate'    => 'Docalist\Databases\Type\PostModified',
+                'password'      => 'Docalist\Databases\Type\PostPassword',
+                'parent'        => 'Docalist\Databases\Type\PostParent',
+                'slug'          => 'Docalist\Databases\Type\PostSlug',
+                'ref'           => 'Docalist\Databases\Type\RefNumber',
+                'type'          => 'Docalist\Databases\Type\RefType',
             ],
         ];
     }
@@ -234,7 +232,7 @@ class Type extends Entity
 
             // Crée un groupe pour ce niveau
             $fields['group' . $groupNumber] = [
-                'type' => 'Docalist\Biblio\Type\Group',
+                'type' => 'Docalist\Databases\Type\Group',
                 'label' => $schema['label'],
             ];
             ++$groupNumber;
@@ -254,7 +252,7 @@ class Type extends Entity
 
         if ($specific) {
             $fields['group' . $groupNumber] = [
-                'type' => 'Docalist\Biblio\Type\Group',
+                'type' => 'Docalist\Databases\Type\Group',
                 'label' => __('Champs de gestion', 'docalist-core'),
                 'state' => 'collapsed',
             ];
@@ -264,7 +262,7 @@ class Type extends Entity
         // Construit la grille finale
         /*
         $description = sprintf(__(
-            "Saisie/modification d'une fiche '%s'.", 'docalist-biblio'),
+            "Saisie/modification d'une fiche '%s'.", 'docalist-databases'),
             static::getDefaultSchema()->label()
         );
         */
@@ -272,7 +270,7 @@ class Type extends Entity
         return [
             'name' => 'edit',
             'gridtype' => 'edit',
-            'label' => __('Formulaire de saisie', 'docalist-biblio'),
+            'label' => __('Formulaire de saisie', 'docalist-databases'),
             //'description' => $description,
             'fields' => $fields,
         ];
@@ -299,7 +297,7 @@ class Type extends Entity
             // Crée un groupe pour ce niveau
             $level = $class::getDefaultSchema();
             $fields['group' . $groupNumber] = [
-                'type' => 'Docalist\Biblio\Type\Group',
+                'type' => 'Docalist\Databases\Type\Group',
                 'label' => $level->label(),
             ];
             ++$groupNumber;
@@ -313,7 +311,7 @@ class Type extends Entity
 
         // Ajoute un groupe pour les champs de gestion (type et ref uniquement, les autres sont gérés par wordpress)
         $fields['group' . $groupNumber] = [
-            'type' => 'Docalist\Biblio\Type\Group',
+            'type' => 'Docalist\Databases\Type\Group',
             'label' => 'Champs de gestion',
             'state' => 'collapsed',
         ];
@@ -323,12 +321,12 @@ class Type extends Entity
 //         $fields = array_merge($fields, array_keys(self::loadSchema()['fields']));
 
         // Construit la grille finale
-        $description = sprintf(__("Saisie/modification d'une fiche '%s'.", 'docalist-biblio'), $schema->label());
+        $description = sprintf(__("Saisie/modification d'une fiche '%s'.", 'docalist-databases'), $schema->label());
 
         return [
             'name' => 'edit',
             'gridtype' => 'edit',
-            'label' => __('Formulaire de saisie', 'docalist-biblio'),
+            'label' => __('Formulaire de saisie', 'docalist-databases'),
             'description' => $description,
             'fields' => $fields,
         ];
@@ -349,8 +347,8 @@ class Type extends Entity
         // Groupe 1 : champs de l'entité + champ ref
         $fields = [];
         $fields['group1'] = [
-            'type' => 'Docalist\Biblio\Type\Group',
-            'label' => __('Champs affichés', 'docalist-biblio'),
+            'type' => 'Docalist\Databases\Type\Group',
+            'label' => __('Champs affichés', 'docalist-databases'),
             'before' => '<dl>',
             'format' => '<dt>%label</dt><dd>%content</dd>',
             'after' => '</dl>'
@@ -365,8 +363,8 @@ class Type extends Entity
 
         // Groupe 2 : champs de gestion
         $fields['group2'] = [
-            'type' => 'Docalist\Biblio\Type\Group',
-            'label' => __('Champs non affichés', 'docalist-biblio'),
+            'type' => 'Docalist\Databases\Type\Group',
+            'label' => __('Champs non affichés', 'docalist-databases'),
         ];
 
         // Ajoute tous les champs de gestion (sauf ref, déjà affiché dans groupe 1)
@@ -375,11 +373,11 @@ class Type extends Entity
         $fields = array_merge($fields, array_keys($management));
 
         // Construit la grille finale
-        $description = sprintf(__("Affichage détaillé d'une fiche '%s'.", 'docalist-biblio'), $schema->label());
+        $description = sprintf(__("Affichage détaillé d'une fiche '%s'.", 'docalist-databases'), $schema->label());
         return [
             'name' => 'content',
             'gridtype' => 'display',
-            'label' => __('Affichage long', 'docalist-biblio'),
+            'label' => __('Affichage long', 'docalist-databases'),
             'description' => $description,
             'fields' => $fields,
         ];
@@ -398,8 +396,8 @@ class Type extends Entity
         // Groupe 1 : champs affichés (aucun)
         $fields = [];
         $fields['group1'] = [
-            'type' => 'Docalist\Biblio\Type\Group',
-            'label' => __('Champs affichés', 'docalist-biblio'),
+            'type' => 'Docalist\Databases\Type\Group',
+            'label' => __('Champs affichés', 'docalist-databases'),
             'before' => '<dl>',
             'format' => '<dt>%label</dt><dd>%content</dd>',
             'after' => '</dl>'
@@ -407,8 +405,8 @@ class Type extends Entity
 
         // Groupe 2 : champs masqués (tous)
         $fields['group2'] = [
-            'type' => 'Docalist\Biblio\Type\Group',
-            'label' => __('Champs non affichés', 'docalist-biblio'),
+            'type' => 'Docalist\Databases\Type\Group',
+            'label' => __('Champs non affichés', 'docalist-databases'),
         ];
 
         // Ajoute tous les champs dans le groupe 2
@@ -417,11 +415,11 @@ class Type extends Entity
         $fields = array_merge($fields, array_keys($all));
 
         // Construit la grille finale
-        $description = sprintf(__("Affichage court d'une fiche '%s'.", 'docalist-biblio'), $schema->label());
+        $description = sprintf(__("Affichage court d'une fiche '%s'.", 'docalist-databases'), $schema->label());
         return [
             'name' => 'excerpt',
             'gridtype' => 'display',
-            'label' => __('Affichage court', 'docalist-biblio'),
+            'label' => __('Affichage court', 'docalist-databases'),
             'description' => $description,
             'fields' => $fields,
         ];
@@ -636,7 +634,7 @@ class Type extends Entity
         // Formatte la notice
         foreach ($fields as $name => $field) {
             // Si c'est un groupe, cela devient le nouveau groupe courant
-            if ($field->type() === 'Docalist\Biblio\Type\Group') {
+            if ($field->type() === 'Docalist\Databases\Type\Group') {
                 // Génère le groupe précédent si on a des items
                 if ($items) {
                     $result .= $before . implode($sep, $items) . $after;

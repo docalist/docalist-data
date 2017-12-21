@@ -1,17 +1,15 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Type;
+namespace Docalist\Databases\Type;
 
 use Docalist\Schema\Schema;
 use Docalist\Type\Integer;
@@ -78,16 +76,16 @@ class Relation extends Integer
         $form->input('reltype')
              ->setAttribute('disabled')
              ->addClass('code large-text')
-             ->setLabel(__('Entité liée', 'docalist-biblio'))
-             ->setDescription(__('Pour information, nom de classe des entités liées à ce champ.', 'docalist-biblio'));
+             ->setLabel(__('Entité liée', 'docalist-databases'))
+             ->setDescription(__('Pour information, nom de classe des entités liées à ce champ.', 'docalist-databases'));
 */
         $form->input('relfilter')
              ->addClass('code large-text')
-             ->setLabel(__('Filtre de recherche', 'docalist-biblio'))
+             ->setLabel(__('Filtre de recherche', 'docalist-databases'))
              ->setDescription(__(
                  'Equation utilisée pour filtrer les suggestions (lookups) en saisie.
                   Exemple : <code>type:mytype</code> ou <code>+type:mytype +database:mybase</code>.',
-                 'docalist-biblio'
+                 'docalist-databases'
              ));
 
         return $form;
@@ -96,8 +94,8 @@ class Relation extends Integer
     public function getAvailableEditors()
     {
         return [
-            'lookup' => __('Lookup dynamique', 'docalist-biblio'),
-            'input' => __('Saisie manuelle du POST ID', 'docalist-biblio'),
+            'lookup' => __('Lookup dynamique', 'docalist-databases'),
+            'input' => __('Saisie manuelle du POST ID', 'docalist-databases'),
         ];
     }
 
@@ -128,12 +126,12 @@ class Relation extends Integer
     public function getAvailableFormats()
     {
         return [
-            'id'            => __('Post ID', 'docalist-biblio'),
-            'title'         => __('Titre', 'docalist-biblio'),
-            'url'           => __('Permalien', 'docalist-biblio'),
-            'link-id'       => __('Post ID cliquable', 'docalist-biblio'),
-            'link-title'    => __('Titre cliquable', 'docalist-biblio'),
-            'link-url'      => __('Permalien cliquable', 'docalist-biblio'),
+            'id'            => __('Post ID', 'docalist-databases'),
+            'title'         => __('Titre', 'docalist-databases'),
+            'url'           => __('Permalien', 'docalist-databases'),
+            'link-id'       => __('Post ID cliquable', 'docalist-databases'),
+            'link-title'    => __('Titre cliquable', 'docalist-databases'),
+            'link-url'      => __('Permalien cliquable', 'docalist-databases'),
         ];
     }
 

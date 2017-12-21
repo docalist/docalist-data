@@ -1,21 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Settings\TypeSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Settings\TypeSettings;
 
 /**
  * Liste des types d'une base de données.
@@ -26,18 +24,18 @@ use Docalist\Biblio\Settings\TypeSettings;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s : types de notices', 'docalist-biblio'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s : types de notices', 'docalist-databases'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Votre base de données contient les types de notices suivants :', 'docalist-biblio') ?>
+        <?= __('Votre base de données contient les types de notices suivants :', 'docalist-databases') ?>
     </p>
 
     <table class="widefat fixed">
 
     <thead>
         <tr>
-            <th><?= __('Type', 'docalist-biblio') ?></th>
-            <th><?= __('Description', 'docalist-biblio') ?></th>
+            <th><?= __('Type', 'docalist-databases') ?></th>
+            <th><?= __('Description', 'docalist-databases') ?></th>
         </tr>
     </thead>
 
@@ -61,25 +59,25 @@ use Docalist\Biblio\Settings\TypeSettings;
             <div class="row-actions">
                 <span class="edit">
                     <a href="<?= $edit ?>">
-                        <?= __('Paramètres', 'docalist-biblio') ?>
+                        <?= __('Paramètres', 'docalist-databases') ?>
                     </a>
                 </span>
                 |
                 <span class="fields">
                     <a href="<?= $listGrids ?>">
-                        <?= __('Grilles et formulaires', 'docalist-biblio') ?>
+                        <?= __('Grilles et formulaires', 'docalist-databases') ?>
                     </a>
                 </span>
                 |
                 <span class="delete">
                     <a href="<?= $delete ?>">
-                        <?= __('Supprimer ce type', 'docalist-biblio') ?>
+                        <?= __('Supprimer ce type', 'docalist-databases') ?>
                     </a>
                 </span>
                 |
                 <span class="recreate">
                     <a href="<?= $recreate ?>">
-                        <?= __('debug : recréer', 'docalist-biblio') ?>
+                        <?= __('debug : recréer', 'docalist-databases') ?>
                     </a>
                 </span>
             </div>
@@ -93,7 +91,7 @@ use Docalist\Biblio\Settings\TypeSettings;
     if ($nb === 0) : ?>
         <tr>
             <td colspan="2">
-                <em><?= __('Aucun type de notices dans cette base.', 'docalist-biblio') ?></em>
+                <em><?= __('Aucun type de notices dans cette base.', 'docalist-databases') ?></em>
             </td>
         </tr>
     <?php endif; ?>
@@ -102,7 +100,7 @@ use Docalist\Biblio\Settings\TypeSettings;
 
     <p>
         <a href="<?= esc_url($addType) ?>" class="button button-primary">
-            <?= __('Ajouter un type de notices...', 'docalist-biblio') ?>
+            <?= __('Ajouter un type de notices...', 'docalist-databases') ?>
         </a>
     </p>
 </div>

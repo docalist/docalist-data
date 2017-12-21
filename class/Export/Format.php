@@ -1,19 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
 use InvalidArgumentException;
-use Docalist\Biblio\Reference\ReferenceIterator;
+use Docalist\Databases\Reference\ReferenceIterator;
 use Docalist\Search\SearchRequest;
 
 /**
@@ -67,7 +67,7 @@ class Format
         // Vérifie que les clés obligatoires sont définies dans les options
         foreach(['converter', 'exporter'] as $key) {
             if (!isset($format[$key])) {
-                $msg = sprintf(__('La clé %s doit être définie pour le le format %s.', 'docalist-biblio'), $key, $name);
+                $msg = sprintf(__('La clé %s doit être définie pour le le format %s.', 'docalist-databases'), $key, $name);
                 throw new InvalidArgumentException($msg);
             }
 

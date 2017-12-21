@@ -1,21 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Settings\TypeSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 
 /**
@@ -40,10 +38,10 @@ echo '<pre>', htmlspecialchars(json_encode($grid, JSON_UNESCAPED_SLASHES | JSON_
 die();
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('Code PHP de la grille "%s" pour le type "%s"', 'docalist-biblio'), $gridname, $typeindex) ?></h1>
+    <h1><?= sprintf(__('Code PHP de la grille "%s" pour le type "%s"', 'docalist-databases'), $gridname, $typeindex) ?></h1>
 
 	<p class="description">
-        <?= __("Le code PHP ci-dessous peut être utilisé pour générer une grille identique.", 'docalist-biblio') ?>
+        <?= __("Le code PHP ci-dessous peut être utilisé pour générer une grille identique.", 'docalist-databases') ?>
     </p>
 
     <p>
@@ -85,7 +83,7 @@ echo "return new Schema([\n";
         unset($properties['name']);
 
         // Si c'est un groupe, passe une ligne et génère un commentaire
-        if ($field->type() === 'Docalist\Biblio\Type\Group') {
+        if ($field->type() === 'Docalist\Databases\Type\Group') {
             echo "\n        // ", $field->label(), "\n";
             $properties = ['type' => $field->type()] + $properties; // type en premier
             $format = $field->format();
@@ -104,7 +102,7 @@ echo "return new Schema([\n";
         }
 
         // Si c'est un champ dans un groupe sans format (i.e. non affiché)
-        if (($gridname !== 'base') && empty($format) && $field->type() !== 'Docalist\Biblio\Type\Group') {
+        if (($gridname !== 'base') && empty($format) && $field->type() !== 'Docalist\Databases\Type\Group') {
             $properties = [];
         }
 
@@ -165,7 +163,7 @@ function varExport($value, $key = '') {
     }
 
     if ($key === 'label' || $key ==='description' || $key === 'labelspec' || $key ==='descriptionspec') {
-        $value = "__($value, 'docalist-biblio')";
+        $value = "__($value, 'docalist-databases')";
     }
 	return $value;
 }

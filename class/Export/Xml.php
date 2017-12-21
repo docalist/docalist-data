@@ -1,18 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist\Biblio\Export
+ * @package     Docalist\Databases\Export
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Export;
+namespace Docalist\Databases\Export;
 
-use Docalist\Biblio\Reference\ReferenceIterator;
+use Docalist\Databases\Reference\ReferenceIterator;
 use XMLWriter;
 
 /**
@@ -99,7 +99,7 @@ class Xml extends Exporter
         return sprintf(
             __(
                 '<a href="%s">Extensible Markup Language</a> : fichier texte contenant des &lt;balises&gt;.',
-                'docalist-biblio'
+                'docalist-databases'
             ),
             'https://fr.wikipedia.org/wiki/Extensible_Markup_Language'
         );

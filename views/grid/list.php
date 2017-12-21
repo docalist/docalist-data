@@ -1,21 +1,19 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Settings\TypeSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Settings\TypeSettings;
 
 /**
  * Liste les grilles et les formulaires disponibles pour un type.
@@ -40,19 +38,19 @@ use Docalist\Biblio\Settings\TypeSettings;
 </style>
 
 <div class="wrap">
-    <h1><?= sprintf(__('%s - %s - grilles et formulaires', 'docalist-biblio'), $database->label(), $type->label()) ?></h1>
+    <h1><?= sprintf(__('%s - %s - grilles et formulaires', 'docalist-databases'), $database->label(), $type->label()) ?></h1>
 
     <p class="description">
-        <?= __("L'écran ci-dessous affiche la liste des grilles disponibles pour ce type de notice.", 'docalist-biblio') ?>
+        <?= __("L'écran ci-dessous affiche la liste des grilles disponibles pour ce type de notice.", 'docalist-databases') ?>
     </p>
 
     <table class="widefat fixed">
 
     <thead>
         <tr>
-            <th class="grid-label"><?= __('Nom de la grille', 'docalist-biblio') ?></th>
-            <th class="grid-name"><?= __('Code', 'docalist-biblio') ?></th>
-            <th class="grid-description"><?= __('Description', 'docalist-biblio') ?></th>
+            <th class="grid-label"><?= __('Nom de la grille', 'docalist-databases') ?></th>
+            <th class="grid-name"><?= __('Code', 'docalist-databases') ?></th>
+            <th class="grid-description"><?= __('Description', 'docalist-databases') ?></th>
         </tr>
     </thead>
 
@@ -76,32 +74,32 @@ use Docalist\Biblio\Settings\TypeSettings;
             <div class="row-actions">
                 <span class="settings">
                     <a href="<?= $settings ?>">
-                        <?= __('Paramètres', 'docalist-biblio') ?>
+                        <?= __('Paramètres', 'docalist-databases') ?>
                     </a>
                 </span>
                 |
                 <span class="edit">
                     <a href="<?= $edit ?>">
-                        <?= __('Modifier', 'docalist-biblio') ?>
+                        <?= __('Modifier', 'docalist-databases') ?>
                     </a>
                 </span>
                 |
                 <span class="copy">
                     <a href="<?= $copy ?>">
-                        <?= __('Dupliquer', 'docalist-biblio') ?>
+                        <?= __('Dupliquer', 'docalist-databases') ?>
                     </a>
                 </span>
                 |
                 <span class="delete">
                     <a href="<?= $delete ?>">
-                        <?= __('Supprimer', 'docalist-biblio') ?>
+                        <?= __('Supprimer', 'docalist-databases') ?>
                     </a>
                 </span>
                 <?php if (wp_get_current_user()->user_login === 'dmenard') : ?>
                 |
                 <span class="tophp">
                     <a href="<?= $tophp ?>">
-                        <?= __('Code PHP', 'docalist-biblio') ?>
+                        <?= __('Code PHP', 'docalist-databases') ?>
                     </a>
                 </span>
                 <?php endif;?>
@@ -117,7 +115,7 @@ use Docalist\Biblio\Settings\TypeSettings;
     if ($nb === 0) : ?>
         <tr>
             <td colspan="2">
-                <em><?= __('Erreur interne : aucune grille disponible pour ce type de notice.', 'docalist-biblio') ?></em>
+                <em><?= __('Erreur interne : aucune grille disponible pour ce type de notice.', 'docalist-databases') ?></em>
             </td>
         </tr>
     <?php endif; ?>

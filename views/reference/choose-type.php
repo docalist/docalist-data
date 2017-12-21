@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\EditReference;
-use Docalist\Biblio\Database;
+use Docalist\Databases\Pages\EditReference;
+use Docalist\Databases\Database;
 
 /**
  * Permet à l'utilisateur de choisir le type de notice à créer.
@@ -33,7 +31,7 @@ use Docalist\Biblio\Database;
     <h1><?= $title ?></h1>
 
     <p class="description">
-        <?= __("Choisissez le type de notice à créer.", 'docalist-biblio') ?>
+        <?= __("Choisissez le type de notice à créer.", 'docalist-databases') ?>
     </p>
     <table class="widefat">
         <?php $nb = 0 ?>
@@ -53,7 +51,7 @@ use Docalist\Biblio\Database;
         <?php if ($nb === 0): ?>
             <tr>
                 <td class="desc" colspan="2">
-                    <?= __('Aucun type disponible dans cette base.', 'docalist-biblio') ?>
+                    <?= __('Aucun type disponible dans cette base.', 'docalist-databases') ?>
                 </td>
             </tr>
         <?php endif ?>

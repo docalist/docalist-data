@@ -1,25 +1,23 @@
 <?php
 /**
- * This file is part of the "Docalist Biblio" plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2015-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio;
+namespace Docalist\Databases;
 
 // Les scripts suivants ne sont dispos que dans le back-office
 add_action('admin_init', function () {
-    $url = DOCALIST_BIBLIO_URL;
+    $url = DOCALIST_DATABASES_URL;
 
     // Css pour EditReference (également utilisé dans le paramétrage de la grille de saisie)
     wp_register_style(
-        'docalist-biblio-edit-reference',
+        'docalist-databases-edit-reference',
         "$url/assets/edit-reference.css",
         ['wp-admin'],
         '160108'
@@ -27,7 +25,7 @@ add_action('admin_init', function () {
 
     // Editeur de grille
     wp_register_script(
-        'docalist-biblio-grid-edit',
+        'docalist-databases-grid-edit',
         "$url/views/grid/edit.js",
         ['jquery', 'jquery-ui-sortable'],
         '20150510',
@@ -35,7 +33,7 @@ add_action('admin_init', function () {
     );
 
     wp_register_style(
-        'docalist-biblio-grid-edit',
+        'docalist-databases-grid-edit',
         "$url/views/grid/edit.css",
         [],
         '20150510'

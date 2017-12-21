@@ -1,22 +1,20 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Database;
+use Docalist\Databases\Database;
 use Docalist\Forms\Form;
 use Symfony\Component\HttpFoundation\Cookie;
-use Docalist\Biblio\Pages\ImportPage;
+use Docalist\Databases\Pages\ImportPage;
 
 /**
  * Export de notices : choix du format d'export.
@@ -44,23 +42,23 @@ foreach($formats as $name => $format) {
 }
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__("Export %s : choix du format d'export", 'docalist-biblio'), $database->settings()->label()) ?></h2>
+    <h2><?= sprintf(__("Export %s : choix du format d'export", 'docalist-databases'), $database->settings()->label()) ?></h2>
 
     <p class="description">
-        <?= sprintf(__("Le tableau ci-dessous liste les formats d'export disponibles pour la base %s. ", 'docalist-biblio'), $database->settings()->label()) ?>
-        <?= __("Survolez les options pour obtenir une bulle d'aide avec des informations complémentaires. ", 'docalist-biblio') ?>
+        <?= sprintf(__("Le tableau ci-dessous liste les formats d'export disponibles pour la base %s. ", 'docalist-databases'), $database->settings()->label()) ?>
+        <?= __("Survolez les options pour obtenir une bulle d'aide avec des informations complémentaires. ", 'docalist-databases') ?>
         <br />
-        <?= __("Choisissez le format d'export à utiliser pour sélectionner le format des notices que vous voulez obtenir et le type de fichier à générer puis cliquez sur l'un des boutons en bas de page. ", 'docalist-biblio') ?>
+        <?= __("Choisissez le format d'export à utiliser pour sélectionner le format des notices que vous voulez obtenir et le type de fichier à générer puis cliquez sur l'un des boutons en bas de page. ", 'docalist-databases') ?>
         <br />
-        <?= __("Remarque : le format choisi sera enregistré comme option par défaut pour la prochaine fois. ", 'docalist-biblio') ?>
+        <?= __("Remarque : le format choisi sera enregistré comme option par défaut pour la prochaine fois. ", 'docalist-databases') ?>
     </p>
 
     <form action="" method="post">
         <table class="widefat export-formats">
             <tr>
-                <th><?= __("Format des notices", 'docalist-biblio') ?></th>
-                <th><?= __("Fichier généré", 'docalist-biblio') ?></th>
-                <th><?= __("Format d'export", 'docalist-biblio') ?></th>
+                <th><?= __("Format des notices", 'docalist-databases') ?></th>
+                <th><?= __("Fichier généré", 'docalist-databases') ?></th>
+                <th><?= __("Format d'export", 'docalist-databases') ?></th>
             </tr>
             <?php $i = 0; foreach($converters as $converter => $exporters): ?>
                 <?php $export = 0; foreach($exporters as $exporter => $options): ?>
@@ -107,13 +105,13 @@ foreach($formats as $name => $format) {
 
         <div class="submit buttons"> <!-- button-group -->
             <button name="mode" value="download" type="submit" class="button button-primary">
-                <?=__("Enregistrer le fichier...", 'docalist-biblio') ?>
+                <?=__("Enregistrer le fichier...", 'docalist-databases') ?>
             </button>
             <button name="mode" value="display" type="submit" class="button button-secondary">
-                <?=__("Afficher les notices...", 'docalist-biblio') ?>
+                <?=__("Afficher les notices...", 'docalist-databases') ?>
             </button>
             <button name="mode" value="mail" type="submit" class="button button-secondary">
-                <?=__("Envoyer dans ma messagerie...", 'docalist-biblio') ?>
+                <?=__("Envoyer dans ma messagerie...", 'docalist-databases') ?>
             </button>
         </div>
 

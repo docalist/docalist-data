@@ -1,20 +1,18 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Pages\AdminDatabases;
-use Docalist\Biblio\Settings\DatabaseSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Settings\DatabaseSettings;
 use Docalist\Schema\Schema;
 
 /**
@@ -29,10 +27,10 @@ use Docalist\Schema\Schema;
 $back = $this->url('TypesList', $dbindex);
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s : ajouter un type de notice', 'docalist-biblio'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s : ajouter un type de notice', 'docalist-databases'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Sélectionnez les types de notice à ajouter dans la base :', 'docalist-biblio') ?>
+        <?= __('Sélectionnez les types de notice à ajouter dans la base :', 'docalist-databases') ?>
     </p>
 
     <form method="POST" action="<?=$this->url('TypeAdd', $dbindex) ?>">
@@ -52,11 +50,11 @@ $back = $this->url('TypesList', $dbindex);
 
         <p>
             <button type="submit" class="button-primary ">
-                <?= __('Ajouter les types sélectionnés', 'docalist-biblio') ?>
+                <?= __('Ajouter les types sélectionnés', 'docalist-databases') ?>
             </button>
 
             <a href="<?= esc_url($back) ?>" class="button">
-                <?= __('Annuler', 'docalist-biblio') ?>
+                <?= __('Annuler', 'docalist-databases') ?>
             </a>
         </p>
     </form>

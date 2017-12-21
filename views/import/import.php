@@ -1,19 +1,17 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Views;
+namespace Docalist\Databases\Views;
 
-use Docalist\Biblio\Database;
+use Docalist\Databases\Database;
 
 /**
  * Cette vue est affichée lorsqu'on lance l'import d'un ou plusieurs fichiers
@@ -23,22 +21,22 @@ use Docalist\Biblio\Database;
  * appellés au bon moment par les importeurs.
  *
  * Six filtres sont installés :
- * - docalist_biblio_before_import : début de l'import des fichier. Affiche le
+ * - docalist_databases_before_import : début de l'import des fichier. Affiche le
  *   début de la page (début de la div.wrap, titre h2, p.description).
  *
- * - docalist_biblio_import_start : début de l'import d'un fichier donné.
+ * - docalist_databases_import_start : début de l'import d'un fichier donné.
  *   Affiche un titre h3 avec le nom du type en cours et ouvre un <ul>.
  *
- * - docalist_biblio_import_progress : affiche l'avancement de l'import (par
+ * - docalist_databases_import_progress : affiche l'avancement de l'import (par
  *   exemple le nombre de notices importées jusque là).
  *   Affiche le début d'un <li> indiquant le nombre de notices chargées.
  *
- * - docalist_biblio_import_error : affiche une erreur.
+ * - docalist_databases_import_error : affiche une erreur.
  *
- * - docalist_biblio_import_done : fin de l'import d'un fichier donné. Affiche
+ * - docalist_databases_import_done : fin de l'import d'un fichier donné. Affiche
  *   le nombre de notices chargées pour ce fichier.
  *
- * - docalist_biblio_after_import : fin de l'import des fichiers choisis.
+ * - docalist_databases_after_import : fin de l'import des fichiers choisis.
  *
  * Remarque : cette vue ne prend aucun paramètre, ils sont passés directement
  * aux callbacks des filtres installés.
@@ -56,19 +54,19 @@ $startTime = microtime(true);
  *
  * @param Database $database La base de données destination
  */
-add_action('docalist_biblio_before_import', function(array $files, Database $database, array $options) { ?>
+add_action('docalist_databases_before_import', function(array $files, Database $database, array $options) { ?>
     <?php
         if ($options['simulate']) {
-            $h2 = __("Simulation de l'import de fichiers", 'docalist-biblio');
+            $h2 = __("Simulation de l'import de fichiers", 'docalist-databases');
             $desc = __(
                 "Vous avez lancé une simulation d'import de fichiers dans la base <strong>%s</strong>.",
-                 'docalist-biblio'
+                 'docalist-databases'
              );
         } else {
-            $h2 = __("Import de fichiers", 'docalist-biblio');
+            $h2 = __("Import de fichiers", 'docalist-databases');
             $desc = __(
                 'Vous avez lancé un import de fichiers dans la base <strong>%s</strong>.',
-                 'docalist-biblio'
+                 'docalist-databases'
              );
         }
     ?>
@@ -83,7 +81,7 @@ add_action('docalist_biblio_before_import', function(array $files, Database $dat
             );
             echo '<br />';
             _e('La page affichera des informations supplémentaires au fur
-                et à mesure de l\'avancement. Veuillez patienter.', 'docalist-biblio'
+                et à mesure de l\'avancement. Veuillez patienter.', 'docalist-databases'
             );
             // @formatter:on
             ?>
@@ -95,18 +93,18 @@ add_action('docalist_biblio_before_import', function(array $files, Database $dat
 
 <?php
 /**
- * docalist_biblio_import_start : début de l'import d'un fichier donné.
+ * docalist_databases_import_start : début de l'import d'un fichier donné.
  *
  * Affiche un titre h3 et ouvre un <ul>.
  *
  * @param string $file le path du fichier qui va être importé.
  */
-add_action('docalist_biblio_import_start', function($file, $options) { ?>
+add_action('docalist_databases_import_start', function($file, $options) { ?>
     <?php
         if ($options['simulate']) {
-            $h3 = __('Test du fichier %s', 'docalist-biblio');
+            $h3 = __('Test du fichier %s', 'docalist-databases');
         } else {
-            $h3 = __('Import du fichier %s', 'docalist-biblio');
+            $h3 = __('Import du fichier %s', 'docalist-databases');
         }
     ?>
 
@@ -119,11 +117,11 @@ add_action('docalist_biblio_import_start', function($file, $options) { ?>
 
 <?php
 /**
- * docalist_biblio_import_progress : affiche un message de progression.
+ * docalist_databases_import_progress : affiche un message de progression.
  *
  * @param string $message Message à afficher.
  */
-add_action('docalist_biblio_import_progress', function($message) {
+add_action('docalist_databases_import_progress', function($message) {
     echo '<li>', $message, '</li>';
     flush();
 }, 10, 1);
@@ -131,11 +129,11 @@ add_action('docalist_biblio_import_progress', function($message) {
 
 <?php
 /**
- * docalist_biblio_import_error : signale une erreur
+ * docalist_databases_import_error : signale une erreur
  *
  * @param string $error Message d'erreur à afficher.
  */
-add_action('docalist_biblio_import_error', function($error) {
+add_action('docalist_databases_import_error', function($error) {
     echo '<li style="color: red; font-weight: bold;">', $error, '</li>';
     flush();
 }, 10, 1);
@@ -143,13 +141,13 @@ add_action('docalist_biblio_import_error', function($error) {
 
 <?php
 /**
- * docalist_biblio_import_done : fin de l'import d'un fichier donné.
+ * docalist_databases_import_done : fin de l'import d'un fichier donné.
  *
- * Ferme le <ul> ouvert par docalist_biblio_import_start.
+ * Ferme le <ul> ouvert par docalist_databases_import_start.
  *
  * @param string $file le path du fichier qui a été importé.
  */
-add_action('docalist_biblio_import_done', function($file, $options) { ?>
+add_action('docalist_databases_import_done', function($file, $options) { ?>
     </ul>
     <?php
     flush();
@@ -158,27 +156,27 @@ add_action('docalist_biblio_import_done', function($file, $options) { ?>
 
 <?php
 /**
- * docalist_biblio_after_import : fin de l'import.
+ * docalist_databases_after_import : fin de l'import.
  *
  * @param array $files Un tableau contenant la liste des fichiers importés
  * sous la forme $path => $importer.
  *
  * @param Database $database La base de données destination
  */
-add_action('docalist_biblio_after_import', function(array $files, Database $database, array $options) use ($startTime) { ?>
-        <h3><?= __('Terminé !', 'docalist-biblio') ?></h3>
+add_action('docalist_databases_after_import', function(array $files, Database $database, array $options) use ($startTime) { ?>
+        <h3><?= __('Terminé !', 'docalist-databases') ?></h3>
     </div>
     <?php
     if ($options['simulate']) {
         $msg = _n(
             'La simulation d\'import est terminée : le fichier %2$s a été testé.',
             'La simulation d\'import est terminée : %d fichiers ont été testés (%2$s).',
-            count($files), 'docalist-biblio');
+            count($files), 'docalist-databases');
     } else {
         $msg = _n(
             'L\'import est terminé : le fichier %2$s a été importé dans %3$s.',
             'L\'import est terminé : %d fichiers ont été importés dans %3$s (%2$s).',
-            count($files), 'docalist-biblio');
+            count($files), 'docalist-databases');
     }
 
     printf("<p>$msg</p>",
@@ -187,7 +185,7 @@ add_action('docalist_biblio_after_import', function(array $files, Database $data
         $database->settings()->label
     );
 
-    $msg = __('Temps écoulé : %.2f secondes.', 'docalist-biblio');
+    $msg = __('Temps écoulé : %.2f secondes.', 'docalist-databases');
     printf("<p>$msg</p>", (microtime(true) - $startTime));
 
     flush();

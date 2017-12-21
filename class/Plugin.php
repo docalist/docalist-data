@@ -1,29 +1,27 @@
 <?php
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of the 'Docalist Databases' plugin.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio;
+namespace Docalist\Databases;
 
 use Docalist\Views;
-use Docalist\Biblio\Database;
-use Docalist\Biblio\Reference;
-use Docalist\Biblio\Settings\Settings;
-use Docalist\Biblio\Settings\DatabaseSettings;
-use Docalist\Biblio\Pages\AdminDatabases;
+use Docalist\Databases\Database;
+use Docalist\Databases\Reference;
+use Docalist\Databases\Settings\Settings;
+use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Databases\Pages\AdminDatabases;
+use Docalist\Databases\Export\ExportService;
 use Exception;
-use Docalist\Biblio\Export\ExportService;
 
 /**
- * Plugin de gestion de notices bibliographiques.
+ * Plugin de gestion des bases docalist.
  */
 class Plugin {
 
@@ -46,15 +44,15 @@ class Plugin {
      */
     public function __construct() {
         // Charge les fichiers de traduction du plugin
-        load_plugin_textdomain('docalist-biblio', false, 'docalist-biblio/languages');
+        load_plugin_textdomain('docalist-databases', false, 'docalist-databases/languages');
 
         // Ajoute notre répertoire "views" au service "docalist-views"
         add_filter('docalist_service_views', function(Views $views) {
-            return $views->addDirectory('docalist-biblio', DOCALIST_BIBLIO_DIR . '/views');
+            return $views->addDirectory('docalist-databases', DOCALIST_DATABASES_DIR . '/views');
         });
 
-        // Déclare le service "docalist-biblio-export"
-        docalist('services')->add('docalist-biblio-export', new ExportService());
+        // Déclare le service "docalist-databases-export"
+        docalist('services')->add('docalist-databases-export', new ExportService());
 
         add_action('init', function() {
             // Charge la configuration du plugin
@@ -69,47 +67,47 @@ class Plugin {
             }
         });
 
-        // Crée la page Réglages » Docalist-Biblio
+        // Crée la page Réglages » Docalist-Databases
         add_action('admin_menu', function () {
             new AdminDatabases($this->settings);
         });
 
         // Déclare la liste des types définis dans ce plugin
-        add_filter('docalist_biblio_get_types', function(array $types) {
+        add_filter('docalist_databases_get_types', function(array $types) {
             $types += [
-                'article'           => 'Docalist\Biblio\Reference\Article',
-                'book'              => 'Docalist\Biblio\Reference\Book',
-                'book-chapter'      => 'Docalist\Biblio\Reference\BookChapter',
-                'degree'            => 'Docalist\Biblio\Reference\Degree',
-                'film'              => 'Docalist\Biblio\Reference\Film',
-                'legislation'       => 'Docalist\Biblio\Reference\Legislation',
-                'meeting'           => 'Docalist\Biblio\Reference\Meeting',
-                'periodical'        => 'Docalist\Biblio\Reference\Periodical',
-                'periodical-issue'  => 'Docalist\Biblio\Reference\PeriodicalIssue',
-                'report'            => 'Docalist\Biblio\Reference\Report',
-                'website'           => 'Docalist\Biblio\Reference\WebSite',
+                'article'           => 'Docalist\Databases\Reference\Article',
+                'book'              => 'Docalist\Databases\Reference\Book',
+                'book-chapter'      => 'Docalist\Databases\Reference\BookChapter',
+                'degree'            => 'Docalist\Databases\Reference\Degree',
+                'film'              => 'Docalist\Databases\Reference\Film',
+                'legislation'       => 'Docalist\Databases\Reference\Legislation',
+                'meeting'           => 'Docalist\Databases\Reference\Meeting',
+                'periodical'        => 'Docalist\Databases\Reference\Periodical',
+                'periodical-issue'  => 'Docalist\Databases\Reference\PeriodicalIssue',
+                'report'            => 'Docalist\Databases\Reference\Report',
+                'website'           => 'Docalist\Databases\Reference\WebSite',
             ];
 
             return $types;
         });
 
         // Nos filtres
-        add_filter('docalist_biblio_get_reference', array($this, 'getReference'));
+        add_filter('docalist_databases_get_reference', array($this, 'getReference'));
 
         // Liste des exporteurs définis dans ce plugin
-        add_filter('docalist_biblio_get_export_formats', function(array $formats) {
+        add_filter('docalist_databases_get_export_formats', function(array $formats) {
             $formats['docalist-json'] = [
                 'label' => 'Docalist JSON',
                 'description' => 'Fichier JSON compact, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Biblio\Export\Docalist',
-                'exporter' => 'Docalist\Biblio\Export\Json',
+                'converter' => 'Docalist\Databases\Export\Docalist',
+                'exporter' => 'Docalist\Databases\Export\Json',
             ];
 
             $formats['docalist-json-pretty'] = [
                 'label' => 'Docalist JSON formatté',
                 'description' => 'Fichier JSON formatté et indenté, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Biblio\Export\Docalist',
-                'exporter' => 'Docalist\Biblio\Export\Json',
+                'converter' => 'Docalist\Databases\Export\Docalist',
+                'exporter' => 'Docalist\Databases\Export\Json',
                 'exporter-settings' => [
                     'pretty' => true,
                 ],
@@ -118,15 +116,15 @@ class Plugin {
             $formats['docalist-xml'] = [
                 'label' => 'Docalist XML',
                 'description' => 'Fichier XML compact, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Biblio\Export\Docalist',
-                'exporter' => 'Docalist\Biblio\Export\Xml',
+                'converter' => 'Docalist\Databases\Export\Docalist',
+                'exporter' => 'Docalist\Databases\Export\Xml',
             ];
 
             $formats['docalist-xml-pretty'] = [
                 'label' => 'Docalist XML formatté',
                 'description' => 'Fichier XML formatté et indenté, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Biblio\Export\Docalist',
-                'exporter' => 'Docalist\Biblio\Export\Xml',
+                'converter' => 'Docalist\Databases\Export\Docalist',
+                'exporter' => 'Docalist\Databases\Export\Xml',
                 'exporter-settings' => [
                     'indent' => 4,
                 ],
@@ -163,7 +161,7 @@ class Plugin {
     /**
      * Retourne l'objet référence dont l'id est passé en paramètre.
      *
-     * Implémentation du filtre 'docalist_biblio_get_reference'.
+     * Implémentation du filtre 'docalist_databases_get_reference'.
      *
      * @param string $id POST_ID de la référence à charger.
      *
