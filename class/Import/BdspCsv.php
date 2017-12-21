@@ -118,7 +118,7 @@ class BdspCsv implements Iterator
     public function __destruct()
     {
         fclose($this->file);
-        foreach($this->handles as $file) {
+        foreach ($this->handles as $file) {
             fclose($file);
         }
     }
@@ -132,8 +132,7 @@ class BdspCsv implements Iterator
      */
     protected function read()
     {
-        if (feof($this->file))
-        {
+        if (feof($this->file)) {
             $this->eof = true;
             return false;
         }
@@ -150,7 +149,7 @@ class BdspCsv implements Iterator
      * Charge la ligne d'entête du fichier, initialise le numéro de l'enregistrement en cours et
      * le flag de fin de fichier puis charge le premier enregistrement.
      */
-    function rewind()
+    public function rewind()
     {
         fseek($this->file, 0);
         $this->headers = $this->read();
@@ -164,17 +163,20 @@ class BdspCsv implements Iterator
      * Interface Iterator. Charge le prochain enregistrement du fichier.
      *
      */
-    function next()
+    public function next()
     {
         $this->data = $this->read();
-        if ($this->data === false) return;
+        if ($this->data === false) {
+            return;
+        }
 
         // Détection d'erreurs
         if (count($this->data) !== count($this->headers)) {
-            echo "<p>Notice erronnée dans le fichier CSV : le nombre de champs dans la notice ne correspond pas au nombre de champs dans la ligne d'entête</p>";
+            echo "<p>Notice erronnée dans le fichier CSV : ";
+            echo "le nombre de champs dans la notice ne correspond pas au nombre de champs dans la ligne d'entête</p>";
             echo '<table border="1"><tr><th>Entête</th><th>Notice</th></tr>';
             $max = max(count($this->data), count($this->headers));
-            for($i=0; $i < $max; $i++) {
+            for ($i=0; $i < $max; $i++) {
                 echo '<tr>';
                 echo '<th>', isset($this->headers[$i]) ? $this->headers[$i] : '-', '</th>';
                 echo '<td>', isset($this->data[$i])    ? $this->data[$i]    : '-', '</td>';
@@ -191,7 +193,7 @@ class BdspCsv implements Iterator
         $this->data = array_map('trim', $this->data); // trim all
         $this->data = array_filter($this->data, 'strlen'); // ne garde que ceux dont len !== 0
         if ($this->fieldIndex) {
-            foreach($this->data as $key=>$value) {
+            foreach ($this->data as $key => $value) {
                 if (! isset($this->handles[$key])) {
                     $path = $this->path . "-$key.txt";
                     $this->handles[$key] = fopen($path, 'w');
@@ -200,7 +202,9 @@ class BdspCsv implements Iterator
             }
         }
 
-        if ($this->conversion) $this->data = $this->convert();
+        if ($this->conversion) {
+            $this->data = $this->convert();
+        }
     }
 
 
@@ -209,7 +213,7 @@ class BdspCsv implements Iterator
      *
      * @return bool
      */
-    function valid()
+    public function valid()
     {
         return ! $this->eof;
     }
@@ -220,7 +224,7 @@ class BdspCsv implements Iterator
      *
      * @return int
      */
-    function key()
+    public function key()
     {
         return $this->recordNumber;
     }
@@ -231,12 +235,13 @@ class BdspCsv implements Iterator
      *
      *  @return array
      */
-    function current()
+    public function current()
     {
         return $this->data;
     }
     protected $errors;
-    protected function error($message) {
+    protected function error($message)
+    {
         $this->errors[] = $message;
     }
 
@@ -250,20 +255,19 @@ class BdspCsv implements Iterator
 
         // Stocke la notice d'origine
         $imported = '';
-        foreach($this->data as $key=>$value) {
+        foreach ($this->data as $key => $value) {
             $imported .= "$key:$value\n";
         }
 
         // Convertit les champs articles en tableaux de valeurs
-        $repeatable = array_flip(explode(' ', 'AUT AUTS AUTCOLL AUTCOLS ORGCOMM DATEDIT DATORIGI ISBN ISSN TYPDOC TYPDOCB PAYS LANGUE VILED MOTSCLE1 NOUVDESC'));
-        foreach($this->data as $name => & $value)
-        {
-            if (empty($value))
-            {
+        $fields = 'AUT AUTS AUTCOLL AUTCOLS ORGCOMM DATEDIT DATORIGI ISBN ISSN TYPDOC TYPDOCB PAYS ';
+        $fields .= 'LANGUE VILED MOTSCLE1 NOUVDESC';
+        $repeatable = array_flip(explode(' ', $fields));
+        foreach ($this->data as $name => & $value) {
+            if (empty($value)) {
                 unset($this->data[$name]);
             }
-            elseif (isset($repeatable[$name]))
-            {
+            elseif (isset($repeatable[$name])) {
                 $value = array_map('trim', explode('¨', $value));
             }
         }
@@ -274,17 +278,17 @@ class BdspCsv implements Iterator
         if (isset($data->REF)) {
             $doc->ref = (int) $data->REF;
             if ($doc->ref != $data->REF) {
-                $this->error ('Champ REF incorrect');
+                $this->error('Champ REF incorrect');
             }
             unset($data->REF);
         } else {
-            $this->error ('Champ REF absent');
+            $this->error('Champ REF absent');
         }
 
         // AUT, AUTS
-        foreach(array('AUT' => '', 'AUTS' => 'interviewer') as $AU => $defaultRole) {
+        foreach (array('AUT' => '', 'AUTS' => 'interviewer') as $AU => $defaultRole) {
             if (isset($data->$AU)) {
-                foreach($data->$AU as $aut) {
+                foreach ($data->$AU as $aut) {
 //                    if (strpos($aut, 'CAYLA') !== false) die('here');
                     if (false !== $pt = strpos($aut, ':')) {
                         $aut = rtrim(substr($aut, 0, $pt));
@@ -295,13 +299,15 @@ class BdspCsv implements Iterator
                             'firstname' => trim($match[2]),
                         );
                         $match[3] = trim($match[3]);
-                        if (!$match[3] && $defaultRole) $match[3] = $defaultRole;
+                        if (!$match[3] && $defaultRole) {
+                            $match[3] = $defaultRole;
+                        }
                         $match[3] && $aut['role'] = $match[3];
 
                         $doc->author[] = $aut;
                     } else {
                         $doc->author[] = array('name' => $aut);
-                        $this->error ("Auteur invalide dans $AU : $aut");
+                        $this->error("Auteur invalide dans $AU : $aut");
                     }
                 }
             }
@@ -317,7 +323,9 @@ class BdspCsv implements Iterator
         unset($data->SO, $data->DATRI, $data->NO);
 
         $data=(array)$data;
-        if ($data) $doc->todo = array_keys($data);
+        if ($data) {
+            $doc->todo = array_keys($data);
+        }
 
         return $doc;
     }

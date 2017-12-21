@@ -24,14 +24,9 @@ class ExportWidget extends WP_Widget
     {
         $id = 'docalist-databases-export';
         parent::__construct(
-            // Base ID. Inutile de préfixer avec "widget", WordPress le fait
-            $id,
-
-            // Titre (nom) du widget affiché en back office
-            __('Export de notices', 'docalist-databases'),
-
-            // Args
-            [
+            $id,    // Base ID. Inutile de préfixer avec "widget", WordPress le fait
+            __('Export de notices', 'docalist-databases'),  // Titre (nom) du widget affiché en back office
+            [   // Args
                 'description' => __('Export de notices', 'docalist-databases'),
                 'classname' => $id, // par défaut, WordPress met 'widget_'.$id
                 'customize_selective_refresh' => true,
@@ -101,7 +96,8 @@ class ExportWidget extends WP_Widget
 
         // Lien "Exporter"
         $label = $settings['file'];
-        $label && printf($link,
+        $label && printf(
+            $link,
             'export-file',
             '',
             __("Génére un fichier d'export", 'docalist-databases'),
@@ -111,7 +107,8 @@ class ExportWidget extends WP_Widget
 
         // Lien "Bibliographie"
         $label = $settings['print'];
-        $label && printf($link,
+        $label && printf(
+            $link,
             'export-print',
             '',
             __('Génére une bibliographie', 'docalist-databases'),
@@ -121,7 +118,8 @@ class ExportWidget extends WP_Widget
 
         // Lien "Mail"
         $label = $settings['mail'];
-        $label && printf($link,
+        $label && printf(
+            $link,
             'export-mail',
             '',
             __("Génère un fichier d'export et l'envoie par messagerie", 'docalist-databases'),
@@ -146,7 +144,8 @@ class ExportWidget extends WP_Widget
         $form = new Container();
 
         $form->input('title')
-            ->setAttribute('id', $this->get_field_id('title')) // pour que le widget affiche le bon titre en backoffice. cf widgets.dev.js, fonction appendTitle(), L250
+            ->setAttribute('id', $this->get_field_id('title'))
+            // id pour que le widget affiche le bon titre. cf widgets.dev.js, fonction appendTitle(), L250
             ->setLabel(__('<b>Titre du widget</b>', 'docalist-databases'))
             ->addClass('widefat');
 

@@ -240,5 +240,4 @@ abstract class BaseExport
     {
         return '';
     }
-
 }

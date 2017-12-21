@@ -12,7 +12,8 @@ namespace Docalist\Databases\Pages;
 use Docalist\Databases\Database;
 use Docalist\Databases\Type;
 use WP_Post;
-use DateTime, DateInterval;
+use DateTime;
+use DateInterval;
 use Exception;
 
 /**
@@ -20,7 +21,8 @@ use Exception;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class ListReferences{
+class ListReferences
+{
     /**
      * La base de données documentaire.
      *
@@ -41,7 +43,8 @@ class ListReferences{
      *
      * @param Database $settings
      */
-    public function __construct(Database $database) {
+    public function __construct(Database $database)
+    {
         $this->database = $database;
         $this->postType = $database->postType();
 
@@ -56,9 +59,10 @@ class ListReferences{
      * La colonne type ne s'affiche que si on a au moins deux types de notices
      * différents dans la base.
      */
-    protected function setupColumns() {
+    protected function setupColumns()
+    {
         // Définit la liste des colonnes à afficher
-        add_filter("manage_{$this->postType}_posts_columns", function($columns) {
+        add_filter("manage_{$this->postType}_posts_columns", function ($columns) {
             static $customColumns = null;
 
             // On peut être appellé plusieurs fois, init au 1er appel
@@ -93,7 +97,7 @@ class ListReferences{
         });
 
         // Fournit le contenu des colonnes personnalisées pour chaque notice
-        add_action("manage_{$this->postType}_posts_custom_column", function($column, $post_id) {
+        add_action("manage_{$this->postType}_posts_custom_column", function ($column, $post_id) {
             /** @var Type $ref */
             static $ref = null;
 
@@ -111,19 +115,20 @@ class ListReferences{
                 }
             }
 
-            switch ( $column ) {
-                case 'ref' :
+            switch ($column) {
+                case 'ref':
                     echo $ref->ref();
                     break;
 
-                case 'type' :
+                case 'type':
                     echo $ref->getSchema()->label();
                     break;
 
                 case 'creation':
                     $date = $post->post_date;
                     $author = get_user_by('id', $post->post_author); /** @var WP_User $author */
-                    printf('%s<br/><a href="%s">%s</a>',
+                    printf(
+                        '%s<br/><a href="%s">%s</a>',
                         $this->formatDate($date),
                         esc_url(add_query_arg(['author' => $author ? $author->ID : 0])),
                         $author ? $author->display_name : 'n/a'
@@ -136,7 +141,8 @@ class ListReferences{
                         $id = get_post_meta($post->ID, '_edit_last', true);
                         if ($id /* && $id !== $post->post_author */) {
                             $author = get_user_by('id', $id); /** @var WP_User $author */
-                            printf('%s<br/><a href="%s">%s</a>',
+                            printf(
+                                '%s<br/><a href="%s">%s</a>',
                                 $this->formatDate($date),
                                 esc_url(add_query_arg(['author' => $author ? $author->ID : 0])),
                                 $author ? $author->display_name : 'n/a'
@@ -145,9 +151,9 @@ class ListReferences{
                     }
                     break;
             }
-        }, 10, 2 );
+        }, 10, 2);
 
-        add_filter("manage_edit-{$this->postType}_sortable_columns", function($columns) {
+        add_filter("manage_edit-{$this->postType}_sortable_columns", function ($columns) {
             /*
              * On a plusieurs possibilités pour trier sur "la date de dernière
              * modification" et peu de doc. Examen des requêtes SQL générées:
@@ -191,7 +197,8 @@ class ListReferences{
         });
     }
 
-    private function formatDate($date) {
+    private function formatDate($date)
+    {
         global $wp_locale;
         global $mode; // "list" ou "excerpt"
 
@@ -236,10 +243,11 @@ class ListReferences{
      * @param array $types La liste des types présents dans la base, telle que
      * retournée par countTypes().
      */
-    protected function setupFilters() {
+    protected function setupFilters()
+    {
         // Pour le moment, on se contente de masquer le bouton "filtrer"
         // comme on n'a plus aucun filtre
-        add_action('restrict_manage_posts', function() {
+        add_action('restrict_manage_posts', function () {
             echo '<style type="text/css">#post-query-submit {display: none;}</style>';
         });
 
@@ -247,7 +255,7 @@ class ListReferences{
         // (une seconde de délai en plus). cf. docalist-biblio#8.
         return;
 
-        add_action('restrict_manage_posts', function() {
+        add_action('restrict_manage_posts', function () {
             global $typenow;
 
 //             if ($typenow !== $this->postType || count($this->types) < 2) {
@@ -269,14 +277,13 @@ class ListReferences{
                 __('Filtrer par année', 'docalist-databases')
             );
 
-            foreach($years as $year) {
+            foreach ($years as $year) {
                 printf(
                     "<option%s value='%s'>%s</option>",
                     selected($current, $year->year, false),
                     esc_attr($year->year),
                     sprintf('%s (%d)', $year->year, $year->count)
                 );
-
             }
             echo '</select>';
 
@@ -291,19 +298,18 @@ class ListReferences{
                 __('Filtrer par type', 'docalist-databases')
             );
 
-            foreach($types as $type) {
+            foreach ($types as $type) {
                 printf(
                     "<option%s value='%s'>%s</option>",
                     selected($current, $type->type, false),
                     esc_attr($type->type),
                     sprintf('%s (%d)', $type->label, $type->count)
                 );
-
             }
             echo '</select>';
         });
 
-        add_filter('parse_query', function(\WP_Query $wp_query) {
+        add_filter('parse_query', function (\WP_Query $wp_query) {
             global $pagenow, $typenow;
 
             if ($pagenow=='edit.php' && $typenow === $this->postType) {
@@ -327,7 +333,8 @@ class ListReferences{
      * 3. pas très utile de filtrer par mois, beaucoup trop d'entrées
      *   (plus de 400 avec la base Prisme qui couvre 40 ans de littérature).
      */
-    protected function removeMonthsFilter() {
+    protected function removeMonthsFilter()
+    {
         // Empêche l'affichage du filtre (cf. WP_List_Table::months_dropdown()).
         add_filter('months_dropdown_results', '__return_empty_array');
 
@@ -339,7 +346,7 @@ class ListReferences{
         global $pagenow, $typenow;
 
         if ($pagenow === 'edit.php' && $typenow === $this->postType) {
-            add_filter('query', function($query) {
+            add_filter('query', function ($query) {
                 $sql = 'SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month';
                 if (strpos($query, $sql) !== false) {
                     return 'DO 0'; // il faut que ce soit du sql valide
@@ -358,7 +365,8 @@ class ListReferences{
      * - count : le nombre de notices de ce type,
      * - label : le libellé du type (par exemple "Article de périodique").
      */
-    protected function countTypes() {
+    protected function countTypes()
+    {
         static $cache = null;
 
         global $wpdb;
@@ -414,7 +422,8 @@ class ListReferences{
      * - year : l'année
      * - count : le nombre de notices créé pour cette année,
      */
-    protected function countYears() {
+    protected function countYears()
+    {
         static $cache = null;
 
         global $wpdb;

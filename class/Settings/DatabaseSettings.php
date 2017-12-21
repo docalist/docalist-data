@@ -65,13 +65,19 @@ class DatabaseSettings extends Composite
                 'searchpage' => [
                     'type' => 'Docalist\Type\Integer',
                     'label' => __('Page liste des réponses', 'docalist-search'),
-                    'description' => __('Page WordPress sur laquelle sont affichées les recherches dans cette base.', 'docalist-search'),
+                    'description' => __(
+                        'Page WordPress sur laquelle sont affichées les recherches dans cette base.',
+                        'docalist-search'
+                    ),
                 ],
 
                 'label' => [
                     'type' => 'Docalist\Type\Text',
                     'label' => __('Libellé à afficher', 'docalist-databases'),
-                    'description' => __('Libellé affiché dans les menus et dans les pages du back-office.', 'docalist-databases'),
+                    'description' => __(
+                        'Libellé affiché dans les menus et dans les pages du back-office.',
+                        'docalist-databases'
+                    ),
                 ],
 
                 'description' => [
@@ -83,7 +89,10 @@ class DatabaseSettings extends Composite
                 'stemming' => [
                     'type' => 'Docalist\Type\Text',
                     'label' => __('Stemming', 'docalist-databases'),
-                    'description' => __('Stemming qui sera appliqué aux champs textes des notices.', 'docalist-databases'),
+                    'description' => __(
+                        'Stemming qui sera appliqué aux champs textes des notices.',
+                        'docalist-databases'
+                    ),
                     'default' => 'fr',
                 ],
                 'types' => [
@@ -100,14 +109,20 @@ class DatabaseSettings extends Composite
                 'lastupdate' => [
                     'type' => 'Docalist\Type\DateTime',
                     'label' => __('Dernière modification', 'docalist-databases'),
-                    'description' => __('Date/heure de dernière modification des paramètres de la base.', 'docalist-databases'),
+                    'description' => __(
+                        'Date/heure de dernière modification des paramètres de la base.',
+                        'docalist-databases'
+                    ),
                 ],
 
                 'icon' => [
                     'type' => 'Docalist\Type\Text',
                     'label' => __('Icône', 'docalist-databases'),
                     'default' => 'dashicons-feedback',
-                    'description' => __('Nom de la dashicon affichée dans les menus WordPress.', 'docalist-databases'),
+                    'description' => __(
+                        'Nom de la dashicon affichée dans les menus WordPress.',
+                        'docalist-databases'
+                    ),
                 ],
 
                 'notes' => [
@@ -125,7 +140,10 @@ class DatabaseSettings extends Composite
                 'revisions' => [
                     'type' => 'Docalist\Type\Boolean',
                     'label' => __('Activer les révisions', 'docalist-databases'),
-                    'description' => __('Journaliser les modifications apportées aux références.', 'docalist-databases'),
+                    'description' => __(
+                        'Journaliser les modifications apportées aux références.',
+                        'docalist-databases'
+                    ),
                 ],
 
                 'comments' => [

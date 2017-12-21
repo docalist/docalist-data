@@ -86,10 +86,9 @@ class Database extends PostTypeRepository
         // Déclare nos facettes
         $this->docalistSearchFacets();
 
-        // Comme on stocke les données dans post_excerpt, on doit garantir qu'il n'est jamais modifié (autosave, heartbeat, etc.)
+        // Comme on stocke les données dans post_excerpt, on doit garantir qu'il n'est jamais modifié
         global $pagenow;
-        if (
-            $pagenow === 'admin-ajax.php'
+        if ($pagenow === 'admin-ajax.php'
             // && defined('DOING_AUTOSAVE') && DOING_AUTOSAVE
             && isset($_POST['data']['wp_autosave']['post_type'])
             && $_POST['data']['wp_autosave']['post_type'] === $this->postType
@@ -99,7 +98,9 @@ class Database extends PostTypeRepository
                 unset($data['post_name']);
 
                 return $data;
-            }, 999); // EditReference a également un filtre wp_insert_post_data avec ne priorité supérieure. Les priorités doivent rester synchro.
+            }, 999);
+            // EditReference a également un filtre wp_insert_post_data avec ne priorité supérieure.
+            // Les priorités doivent rester synchro.
         }
 
         // Crée la page "Liste des références"
@@ -135,7 +136,7 @@ class Database extends PostTypeRepository
 
             // Formatte la notice
             return $ref->getFormattedValue($grid);
-        }, 9999,2); // priorité très haute pour ignorer wp_autop et cie.
+        }, 9999, 2); // priorité très haute pour ignorer wp_autop et cie.
 
         // Par contre pour le content, on est obligé de filtre the_content() car il n'y a aucun
         // filtre dans get_the_content(). Donc si un thème appelle get_the_content, il n'aura rien.
@@ -416,7 +417,9 @@ class Database extends PostTypeRepository
             'show_in_admin_bar' => true,  // Afficher dans la barre d'outils admin
          // 'menu_position'         => 20,    // En dessous de "Pages", avant "commentaires"
             'menu_icon' => $this->settings->icon(),
-            'capability_type' => $this->settings->capabilitySuffix(), // Inutile car on définit 'capabilities', mais évite que wp_front dise : "Uses 'Posts' capabilities. Upgrade to Pro"
+            'capability_type' => $this->settings->capabilitySuffix(),
+            // capability_type est inutile car on définit 'capabilities', mais ça évite que wp_front nous dise :
+            // "Uses 'Posts' capabilities. Upgrade to Pro"
             'capabilities' => $this->settings->capabilities(),
             'map_meta_cap' => true,  // Doit être à true pour que WP traduise correctement nos droits
             'supports' => $supports,
@@ -444,51 +447,56 @@ class Database extends PostTypeRepository
         register_post_type($type, $args);
 
         // Crée une requête quand on est sur la page d'accueil
-        add_filter('docalist_search_create_request', function (SearchRequest $request = null, WP_Query $query, & $displayResults) {
-            // Si quelqu'un a déjà créé une requête, on le laisse gérer
-            if ($request) {
-                return $request;
-            }
-
-            // Si c'est une page back-office, on ne fait rien
-            if (is_admin()) {
-                return $request;
-            }
-
-            // Pages "liste des réponses" et "accueil" en mode 'page' ou 'search'
-            if ($query->is_page && $page = $query->get_queried_object_id()) {
-                // Page liste des réponses
-                if ($page === $this->searchPage()) {
-                    // on fait une recherche et on affiche les réponses
-                    $searchUrl = new SearchUrl($_SERVER['REQUEST_URI'], [$this->postType]);
-                    $displayResults = true;
-
-                    return $searchUrl->getSearchRequest();
+        add_filter(
+            'docalist_search_create_request',
+            function (SearchRequest $request = null, WP_Query $query, & $displayResults) {
+                // Si quelqu'un a déjà créé une requête, on le laisse gérer
+                if ($request) {
+                    return $request;
                 }
 
-                // Page d'accueil
-                if ($page === $this->homePage()) {
-                    // en mode 'page', on fait une recherche mais on laisse wp afficher la page
-                    // en mode 'search', on affiche les réponses obtenues
+                // Si c'est une page back-office, on ne fait rien
+                if (is_admin()) {
+                    return $request;
+                }
+
+                // Pages "liste des réponses" et "accueil" en mode 'page' ou 'search'
+                if ($query->is_page && $page = $query->get_queried_object_id()) {
+                    // Page liste des réponses
+                    if ($page === $this->searchPage()) {
+                        // on fait une recherche et on affiche les réponses
+                        $searchUrl = new SearchUrl($_SERVER['REQUEST_URI'], [$this->postType]);
+                        $displayResults = true;
+
+                        return $searchUrl->getSearchRequest();
+                    }
+
+                    // Page d'accueil
+                    if ($page === $this->homePage()) {
+                        // en mode 'page', on fait une recherche mais on laisse wp afficher la page
+                        // en mode 'search', on affiche les réponses obtenues
+                        $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
+                        $displayResults = ($this->settings->homemode() === 'search');
+
+                        return $searchUrl->getSearchRequest();
+                    }
+                }
+
+                // Page d'accueil - mode 'archive'
+                elseif ($query->is_post_type_archive && $query->get('post_type') === $this->postType) {
+                    // on fait une recherche, mais on laisse wp afficher les archives
                     $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
-                    $displayResults = ($this->settings->homemode() === 'search');
+                    $displayResults = false;
 
                     return $searchUrl->getSearchRequest();
                 }
-            }
 
-            // Page d'accueil - mode 'archive'
-            elseif ($query->is_post_type_archive && $query->get('post_type') === $this->postType) {
-                // on fait une recherche, mais on laisse wp afficher les archives
-                $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
-                $displayResults = false;
-
-                return $searchUrl->getSearchRequest();
-            }
-
-            // Ce n'est pas une de nos pages
-            return $request;
-        }, 10, 3);
+                // Ce n'est pas une de nos pages
+                return $request;
+            },
+            10,
+            3
+        );
 
 
         // Vérifie que le CPT est déclaré correctement

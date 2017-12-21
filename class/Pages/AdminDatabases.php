@@ -45,7 +45,8 @@ class AdminDatabases extends AdminPage
      *
      * @param Settings $settings
      */
-    public function __construct(Settings $settings) {
+    public function __construct(Settings $settings)
+    {
         $this->settings = $settings;
 
         // @formatter:off
@@ -83,7 +84,8 @@ class AdminDatabases extends AdminPage
      *
      * @return DatabaseSettings
      */
-    protected function database($dbindex) {
+    protected function database($dbindex)
+    {
         if (isset($this->settings->databases[$dbindex])) {
             return $this->settings->databases[$dbindex];
         }
@@ -101,7 +103,8 @@ class AdminDatabases extends AdminPage
      *
      * @return TypeSettings
      */
-    protected function type($dbindex, $typeindex) {
+    protected function type($dbindex, $typeindex)
+    {
         $database = $this->database($dbindex);
         if (isset($database->types[$typeindex])) {
             return $database->types[$typeindex];
@@ -143,7 +146,8 @@ class AdminDatabases extends AdminPage
      * - On se contente d'appeller flush_rewrite_rules() et on redirige vers
      *   actionDatabaseList().
      */
-    public function actionRewriteRules() {
+    public function actionRewriteRules()
+    {
         flush_rewrite_rules(false);
 
         return $this->redirect($this->url('DatabasesList'), 303);
@@ -152,7 +156,8 @@ class AdminDatabases extends AdminPage
     /**
      * Liste des bases de données.
      */
-    public function actionDatabasesList() {
+    public function actionDatabasesList()
+    {
         return $this->view('docalist-databases:database/list', [
             'databases' => $this->settings->databases
         ]);
@@ -161,7 +166,8 @@ class AdminDatabases extends AdminPage
     /**
      * Nouvelle base de données.
      */
-    public function actionDatabaseAdd() {
+    public function actionDatabaseAdd()
+    {
         $name = ''; // n'existe pas déjà car on ne peut pas enregistrer une base avec un nom vide
         $this->settings->databases[] = ['name' => $name];
         return $this->actionDatabaseEdit($name);
@@ -172,7 +178,8 @@ class AdminDatabases extends AdminPage
      *
      * @param int $dbindex Numéro de la base à éditer.
      */
-    public function actionDatabaseEdit($dbindex) {
+    public function actionDatabaseEdit($dbindex)
+    {
         // Vérifie que la base à éditer existe
         $database = $this->database($dbindex);
 
@@ -220,7 +227,11 @@ class AdminDatabases extends AdminPage
                     }
 
                     if (trim(strtolower($database->label())) === trim(strtolower($db->label()))) {
-                        $msg = __('Il existe déjà une base avec le même libellé (%s), vous allez vous mélanger les pinceaux !', 'docalist-databases');
+                        $msg = __(
+                            'Il existe déjà une base avec le même libellé (%s),
+                            vous allez vous mélanger les pinceaux !',
+                            'docalist-databases'
+                        );
                         throw new Exception(sprintf($msg, $db->label()));
                     }
                 }
@@ -266,7 +277,8 @@ class AdminDatabases extends AdminPage
      * les droits.
      * @param bool $grant true : ajoute les droits, false : les supprime
      */
-    private function setupCapacities(DatabaseSettings $database, $grant = true) {
+    private function setupCapacities(DatabaseSettings $database, $grant = true)
+    {
         // Récupère la liste des droits à attribuer
         $capabilities = $database->capabilities();
 
@@ -289,7 +301,7 @@ class AdminDatabases extends AdminPage
         // Attribue les droits à tous les rôles indiqués
         foreach ($roles as $role) {
             $role = get_role($role); /** @var WP_Role $role */
-            foreach($capabilities as $capability) {
+            foreach ($capabilities as $capability) {
                 if (substr($capability, -strlen($primary)) === $primary) {
                     $grant ? $role->add_cap($capability) : $role->remove_cap($capability);
                 }
@@ -304,7 +316,8 @@ class AdminDatabases extends AdminPage
      *
      * @param int $confirm
      */
-    public function actionDatabaseDelete($dbindex, $confirm = false) {
+    public function actionDatabaseDelete($dbindex, $confirm = false)
+    {
         // Vérifie que la base à supprimer existe
         $database = $this->database($dbindex);
 
@@ -341,7 +354,8 @@ class AdminDatabases extends AdminPage
      *
      * @param string $dbindex
      */
-    public function actionDatabaseExportSettings($dbindex, $pretty = false) {
+    public function actionDatabaseExportSettings($dbindex, $pretty = false)
+    {
         // Vérifie que la base à éditer existe
         $database = $this->database($dbindex);
 
@@ -358,7 +372,8 @@ class AdminDatabases extends AdminPage
      *
      * @param string $dbindex
      */
-    public function actionDatabaseImportSettings($dbindex, $settings = null, $types = null) {
+    public function actionDatabaseImportSettings($dbindex, $settings = null, $types = null)
+    {
         // Vérifie que la base à éditer existe
         $database = $this->database($dbindex);
 
@@ -369,7 +384,11 @@ class AdminDatabases extends AdminPage
                 return $this->view('docalist-core:error', [
                     'h2' => __('Importer des paramètres', 'docalist-databases'),
                     'h3' => __("Paramètres incorrects", 'docalist-databases'),
-                    'message' => __("Le code que vous avez fourni n'est pas valide, vérifiez que vous avez bien collé la totalité des paramètres.", 'docalist-databases'),
+                    'message' => __(
+                        "Le code que vous avez fourni n'est pas valide, vérifiez que vous avez bien collé
+                        la totalité des paramètres.",
+                        'docalist-databases'
+                    ),
                 ]);
             }
 
@@ -377,7 +396,11 @@ class AdminDatabases extends AdminPage
                 return $this->view('docalist-core:info', [
                     'h2' => __('Importer des paramètres', 'docalist-databases'),
                     'h3' => __("Aucun type", 'docalist-databases'),
-                    'message' => __("Le code que vous avez fourni est valide mais ne contient aucun type, impossible d'importer quoi que ce soit.", 'docalist-databases'),
+                    'message' => __(
+                        "Le code que vous avez fourni est valide mais ne contient aucun type,
+                        impossible d'importer quoi que ce soit.",
+                        'docalist-databases'
+                    ),
                 ]);
             }
 
@@ -390,7 +413,7 @@ class AdminDatabases extends AdminPage
                 ]);
             }
 
-            foreach($settings['types'] as $type) {
+            foreach ($settings['types'] as $type) {
                 $name = $type['name'];
                 if (! in_array($name, $types)) {
 //                    echo "ne pas importer $name<br />";
@@ -423,7 +446,8 @@ class AdminDatabases extends AdminPage
      *
      * @param int $dbindex Numéro de la base à éditer.
      */
-    public function actionTypesList($dbindex) {
+    public function actionTypesList($dbindex)
+    {
         // Vérifie que la base à modifier existe
         $database = $this->database($dbindex);
 
@@ -440,7 +464,8 @@ class AdminDatabases extends AdminPage
      * @param int $dbindex Numéro de la base à supprimer.
      * @param string|array $name Nom du type à ajouter
      */
-    public function actionTypeAdd($dbindex, $name = null) {
+    public function actionTypeAdd($dbindex, $name = null)
+    {
         // Vérifie que la base à modifier existe
         $database = $this->database($dbindex);
 
@@ -452,9 +477,8 @@ class AdminDatabases extends AdminPage
 
         // Ecran "choix du type"
         if (empty($name)) {
-
             // Construit la liste tous les types qui ne sont pas déjà dans la base
-            foreach($types as $name => $class) {
+            foreach ($types as $name => $class) {
                 if (isset($selected[$name])) {
                     unset($types[$name]);
                 } else {
@@ -479,7 +503,7 @@ class AdminDatabases extends AdminPage
             ]);
         }
 
-        foreach((array)$name as $name) {
+        foreach ((array)$name as $name) {
             // Vérifie que le type choisi existe
             if (! isset($types[$name])) {
                 $title = __('Type inexistant', 'docalist-databases');
@@ -526,7 +550,8 @@ class AdminDatabases extends AdminPage
      * @param int $dbindex Base à éditer
      * @param int $typeindex Type à éditer
      */
-    public function actionTypeEdit($dbindex, $typeindex) {
+    public function actionTypeEdit($dbindex, $typeindex)
+    {
         $database = $this->database($dbindex);
         $type = $this->type($dbindex, $typeindex);
 
@@ -555,7 +580,8 @@ class AdminDatabases extends AdminPage
      * @param int $dbindex Base à éditer
      * @param int $typeindex Type à supprimer
      */
-    public function actionTypeDelete($dbindex, $typeindex, $confirm = false) {
+    public function actionTypeDelete($dbindex, $typeindex, $confirm = false)
+    {
         $database = $this->database($dbindex);
         $type = $this->type($dbindex, $typeindex);
 
@@ -581,7 +607,8 @@ class AdminDatabases extends AdminPage
         return $this->redirect($this->url('TypesList', $dbindex), 303);
     }
 
-    public function actionTypeRecreate($dbindex, $typeindex, $confirm = false) {
+    public function actionTypeRecreate($dbindex, $typeindex, $confirm = false)
+    {
         unset($this->settings->databases[$dbindex]->types[$typeindex]);
 
         return $this->actionTypeAdd($dbindex, $typeindex);
@@ -593,7 +620,8 @@ class AdminDatabases extends AdminPage
      * @param int $dbindex Base à éditer
      * @param int $typeindex Type à éditer
      */
-    public function actionGridList($dbindex, $typeindex) {
+    public function actionGridList($dbindex, $typeindex)
+    {
         // Vérifie les paramètres
         $database = $this->database($dbindex);
         $type = $this->type($dbindex, $typeindex);
@@ -614,7 +642,8 @@ class AdminDatabases extends AdminPage
      * @param int $typeindex Type à éditer
      * @param string $gridname Nom de la grille à éditer.
      */
-    public function actionGridSettings($dbindex, $typeindex, $gridname) {
+    public function actionGridSettings($dbindex, $typeindex, $gridname)
+    {
         $database = $this->database($dbindex);
         $type = $this->type($dbindex, $typeindex);
 
@@ -648,7 +677,8 @@ class AdminDatabases extends AdminPage
      * @param int $typeindex Type à éditer
      * @param string $gridname Nom de la grille à éditer.
      */
-    public function actionGridEdit($dbindex, $typeindex, $gridname) {
+    public function actionGridEdit($dbindex, $typeindex, $gridname)
+    {
         $debug = false;
 
         $database = $this->database($dbindex);
@@ -677,7 +707,7 @@ class AdminDatabases extends AdminPage
             // Renumérote les groupes
             $fields = [];
             $groupNumber = 1;
-            foreach($data['fields'] as $name => $field) {
+            foreach ($data['fields'] as $name => $field) {
                 if (isset($field['type']) && $field['type'] === 'Docalist\Databases\Type\Group') {
                     $name = 'group' . $groupNumber;
                     $groupNumber++;
@@ -710,7 +740,8 @@ class AdminDatabases extends AdminPage
      * @param int $typeindex Type à éditer
      * @param string $gridname Nom de la grille à copier.
      */
-    public function actionGridCopy($dbindex, $typeindex, $gridname) {
+    public function actionGridCopy($dbindex, $typeindex, $gridname)
+    {
         return $this->info('Pas encore implémenté', 'Dupliquer une grille');
     }
 
@@ -721,11 +752,13 @@ class AdminDatabases extends AdminPage
      * @param int $typeindex Type à éditer
      * @param string $gridname Nom de la grille à éditer.
      */
-    public function actionGridDelete($dbindex, $typeindex, $gridname) {
+    public function actionGridDelete($dbindex, $typeindex, $gridname)
+    {
         return $this->info('Pas encore implémenté', 'Supprimer une grille');
     }
 
-    public function actionGridToPhp($dbindex, $typeindex, $gridname, $diffonly = false) {
+    public function actionGridToPhp($dbindex, $typeindex, $gridname, $diffonly = false)
+    {
         $database = $this->database($dbindex);
         $type = $this->type($dbindex, $typeindex);
         $grid = $type->grids[$gridname]; /** @var Schema $grid */

@@ -87,7 +87,10 @@ class EditReference
 
         // Enregistre les données transmises lorsque wordpress sauve le post
         global $pagenow;
-        if ($pagenow === 'post.php' && $this->isMyPostType() && isset($_POST['action']) && $_POST['action'] === 'editpost') {
+        if ($pagenow === 'post.php'
+            && $this->isMyPostType()
+            && isset($_POST['action'])
+            && $_POST['action'] === 'editpost') {
             add_filter('wp_insert_post_data', function (array $data, array $postarr) {
                 return $this->save($data, $postarr);
             }, 10, 2);
@@ -207,7 +210,10 @@ class EditReference
                 $data = array_filter($data);
 
                 echo "<h4>Propriétés du post WordPress :</h4><pre>";
-                echo htmlspecialchars(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                echo htmlspecialchars(json_encode(
+                    $data,
+                    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                ));
                 echo "</pre>";
 
                 echo "<h4>Contenu de la notice :</h4><pre>";
@@ -215,7 +221,10 @@ class EditReference
                 echo "</pre>";
 
                 echo "<h4>Mapping Docalist-Search</h4><pre>";
-                echo htmlspecialchars(json_encode($ref->map(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                echo htmlspecialchars(json_encode(
+                    $ref->map(),
+                    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                ));
 
                 echo "</pre>";
             },
@@ -385,7 +394,9 @@ class EditReference
 
         if ($debug) {
             echo '<h1>Notice existante</h1>';
-            echo "<p>Ref créée à partir de data, il s'agit de la notice existante, sauf pour les champs WP mappés qui contiennent déjà la valeur mise à jour.</p>";
+            echo "<p>Ref créée à partir de data. ";
+            echo "Il s'agit de la notice existante, ";
+            echo "sauf pour les champs WP mappés qui contiennent déjà la valeur mise à jour.</p>";
             echo "<pre>$ref</pre>";
         }
 
@@ -598,7 +609,10 @@ class EditReference
 //             }
 
 //             // Table incorrecte, affiche une admin notice
-//             $msg = __("La table <code>%s</code> indiquée pour le champ <code>%s</code> n'est pas valide.", 'docalist-databases');
+//             $msg = __(
+//                 "La table <code>%s</code> indiquée pour le champ <code>%s</code> n'est pas valide.",
+//                 'docalist-databases'
+//             );
 //             $msg = sprintf($msg, $def->$table() ?: ' ', $def->name());
 //             $msg .= '<br />';
 //             $msg .= __('Vous devez corriger la grille de saisie', 'docalist-databases');

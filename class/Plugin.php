@@ -23,8 +23,8 @@ use Exception;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Plugin {
-
+class Plugin
+{
     /**
      * La configuration du plugin.
      *
@@ -42,19 +42,20 @@ class Plugin {
     /**
      * Initialise le plugin.
      */
-    public function __construct() {
+    public function __construct()
+    {
         // Charge les fichiers de traduction du plugin
         load_plugin_textdomain('docalist-databases', false, 'docalist-databases/languages');
 
         // Ajoute notre répertoire "views" au service "docalist-views"
-        add_filter('docalist_service_views', function(Views $views) {
+        add_filter('docalist_service_views', function (Views $views) {
             return $views->addDirectory('docalist-databases', DOCALIST_DATABASES_DIR . '/views');
         });
 
         // Déclare le service "docalist-databases-export"
         docalist('services')->add('docalist-databases-export', new ExportService());
 
-        add_action('init', function() {
+        add_action('init', function () {
             // Charge la configuration du plugin
             $this->settings = new Settings(docalist('settings-repository'));
 
@@ -73,21 +74,7 @@ class Plugin {
         });
 
         // Déclare la liste des types définis dans ce plugin
-        add_filter('docalist_databases_get_types', function(array $types) {
-            $types += [
-                'article'           => 'Docalist\Databases\Reference\Article',
-                'book'              => 'Docalist\Databases\Reference\Book',
-                'book-chapter'      => 'Docalist\Databases\Reference\BookChapter',
-                'degree'            => 'Docalist\Databases\Reference\Degree',
-                'film'              => 'Docalist\Databases\Reference\Film',
-                'legislation'       => 'Docalist\Databases\Reference\Legislation',
-                'meeting'           => 'Docalist\Databases\Reference\Meeting',
-                'periodical'        => 'Docalist\Databases\Reference\Periodical',
-                'periodical-issue'  => 'Docalist\Databases\Reference\PeriodicalIssue',
-                'report'            => 'Docalist\Databases\Reference\Report',
-                'website'           => 'Docalist\Databases\Reference\WebSite',
-            ];
-
+        add_filter('docalist_databases_get_types', function (array $types) {
             return $types;
         });
 
@@ -95,7 +82,7 @@ class Plugin {
         add_filter('docalist_databases_get_reference', array($this, 'getReference'));
 
         // Liste des exporteurs définis dans ce plugin
-        add_filter('docalist_databases_get_export_formats', function(array $formats) {
+        add_filter('docalist_databases_get_export_formats', function (array $formats) {
             $formats['docalist-json'] = [
                 'label' => 'Docalist JSON',
                 'description' => 'Fichier JSON compact, notices en format natif de Docalist.',
@@ -142,7 +129,8 @@ class Plugin {
      *
      * @return Database[]
      */
-    public function databases() {
+    public function databases()
+    {
         return $this->databases;
     }
 
@@ -154,7 +142,8 @@ class Plugin {
      * @return Database|null Retourne l'objet Database ou null si la base
      * indiquée n'existe pas.
      */
-    public function database($postType) {
+    public function database($postType)
+    {
         return isset($this->databases[$postType]) ? $this->databases[$postType] : null;
     }
 
@@ -170,7 +159,8 @@ class Plugin {
      *
      * @throws Exception
      */
-    public function getReference($id = null) {
+    public function getReference($id = null)
+    {
         is_null($id) && $id = get_the_ID();
         $type = get_post_type($id);
 

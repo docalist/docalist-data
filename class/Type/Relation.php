@@ -77,7 +77,7 @@ class Relation extends Integer
              ->setAttribute('disabled')
              ->addClass('code large-text')
              ->setLabel(__('Entité liée', 'docalist-databases'))
-             ->setDescription(__('Pour information, nom de classe des entités liées à ce champ.', 'docalist-databases'));
+             ->setDescription(__('Pour info, nom de classe des entités liées à ce champ.', 'docalist-databases'));
 */
         $form->input('relfilter')
              ->addClass('code large-text')

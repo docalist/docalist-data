@@ -25,7 +25,8 @@ use Docalist\Databases\Export\Exporter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class ImportPage extends AdminPage {
+class ImportPage extends AdminPage
+{
 
     /**
      *
@@ -37,7 +38,8 @@ class ImportPage extends AdminPage {
      *
      * @param Database $database
      */
-    public function __construct(Database $database) {
+    public function __construct(Database $database)
+    {
         parent::__construct(
             'import-' . $database->postType(),              // ID
             'edit.php?post_type=' . $database->postType(),  // Page parent
@@ -66,7 +68,8 @@ class ImportPage extends AdminPage {
      *
      * @return ViewResponse|CallBackResponse
      */
-    public function actionImport(array $ids = null, array $formats = null, array $options = []) {
+    public function actionImport(array $ids = null, array $formats = null, array $options = [])
+    {
         // Récupère la liste des importeurs disponibles
         // Le filtre retourne un tableau de la forme
         // Nom de code de l'importeur => libellé de l'importeur
@@ -90,7 +93,7 @@ class ImportPage extends AdminPage {
 
         // Vérifie les fichiers indiqués
         $files = [];
-        foreach($ids as $index => $id) {
+        foreach ($ids as $index => $id) {
             // Récupère le path du fichier attaché
             $path = get_attached_file($id);
             if (empty($path) || ! file_exists($path)) {
@@ -106,7 +109,10 @@ class ImportPage extends AdminPage {
                 return $this->view('docalist-core:error', [
                     'h2' => __('Importer un fichier', 'docalist-databases'),
                     'h3' => __("Convertisseur incorrect", 'docalist-databases'),
-                    'message' => sprintf(__("Le convertisseur indiqué pour le fichier %s n'est pas valide.", 'docalist-databases'), $id),
+                    'message' => sprintf(
+                        __("Le convertisseur indiqué pour le fichier %s n'est pas valide.", 'docalist-databases'),
+                        $id
+                    ),
                 ]);
             }
 
@@ -121,15 +127,17 @@ class ImportPage extends AdminPage {
 
         // On retourne une réponse de type "callback" qui lance l'import
         // lorsqu'elle est générée (import_start, error, progress, done)
-        $response = new CallbackResponse(function() use($files, $options) {
+        $response = new CallbackResponse(function () use ($files, $options) {
             // Permet au script de s'exécuter longtemps
             ignore_user_abort(true);
             set_time_limit(3600);
 
             // Supprime la bufferisation pour voir le suivi en temps réel
-            while(ob_get_level()) ob_end_flush();
-            ini_set('implicit_flush',1);
-            ini_set('zlib.output_compression',0);
+            while (ob_get_level()) {
+                ob_end_flush();
+            }
+            ini_set('implicit_flush', 1);
+            ini_set('zlib.output_compression', 0);
 
 //             Susceptible d'être plus rapide avec une base innodb, à tester.
 //             global $wpdb;
@@ -146,7 +154,7 @@ class ImportPage extends AdminPage {
             do_action('docalist_databases_before_import', $files, $this->database, $options);
 
             // Importe tous les fichiers dans l'ordre indiqué
-            foreach($files as $file => $importer) {
+            foreach ($files as $file => $importer) {
                 // Début de l'import du fichier
                 do_action('docalist_databases_import_start', $file, $options);
 
@@ -155,7 +163,10 @@ class ImportPage extends AdminPage {
 
                 // Vérifie qu'il y a bien un callback derrière
                 if (! has_action($tag)) {
-                    $msg = __("L'importeur %s n'est pas installé correctement, impossible d'importer le fichier.", 'docalist-databases');
+                    $msg = __(
+                        "L'importeur %s n'est pas installé correctement, impossible d'importer le fichier.",
+                        'docalist-databases'
+                    );
                     do_action('docalist_databases_import_error', sprintf($msg, $importer));
                 }
 
@@ -179,7 +190,8 @@ class ImportPage extends AdminPage {
         return $response;
     }
 
-    public function actionDeleteAll($confirm = false) {
+    public function actionDeleteAll($confirm = false)
+    {
         if (! $confirm) {
             return $this->view(
                 'docalist-databases:delete-all/confirm',
@@ -189,13 +201,15 @@ class ImportPage extends AdminPage {
 
         // On retourne une réponse de type "callback" qui lance la suppression
         // lorsqu'elle est générée.
-        $response = new CallbackResponse(function() {
+        $response = new CallbackResponse(function () {
             // Permet au script de s'exécuter longtemps
             ignore_user_abort(true);
             set_time_limit(3600);
 
             // Supprime la bufferisation pour voir le suivi en temps réel
-            while(ob_get_level()) ob_end_flush();
+            while (ob_get_level()) {
+                ob_end_flush();
+            }
 
             // Pour suivre le déroulement, on affiche une vue qui installe
             // différents filtres sur les événements déclenchés pendant la
@@ -204,7 +218,6 @@ class ImportPage extends AdminPage {
 
             // Lance la suppression
             $this->database->deleteAll();
-
         });
 
         // Indique que notre réponse doit s'afficher dans le back-office wp
@@ -217,13 +230,14 @@ class ImportPage extends AdminPage {
     /**
      * Taxonomies
      */
-    public function actionTaxonomies() {
+    public function actionTaxonomies()
+    {
         // $posttype = $this->plugin()->get('references')->getID();
         // $taxonomies = get_taxonomies(array('object_type' => array($posttype)), 'objects');
         $taxonomies = get_taxonomies(array(), 'objects');
 
         echo '<ul class="ul-disc">';
-        foreach($taxonomies as $taxonomy) {
+        foreach ($taxonomies as $taxonomy) {
 /*
             //@formatter:off
             $url = admin_url(sprintf(
@@ -236,8 +250,8 @@ class ImportPage extends AdminPage {
 
             //@formatter:off
             $url = admin_url(sprintf(
-                    'edit-tags.php?taxonomy=%s',
-                    $taxonomy->name
+                'edit-tags.php?taxonomy=%s',
+                $taxonomy->name
             ));
             //@formatter:off
             printf('<li><a href="%s">%s</a></li>', $url, $taxonomy->label);
@@ -250,7 +264,8 @@ class ImportPage extends AdminPage {
      *
      * Documentation sur le format de la base documentaire.
      */
-    public function actionDoc() {
+    public function actionDoc()
+    {
         // Récupère le type des entités
         $class = $this->database->type();
 
@@ -260,8 +275,10 @@ class ImportPage extends AdminPage {
 
         $maxlevel = 4;
 
-        $msg = '<table class="widefat"><thead><tr><th colspan="%d">%s</th><th>%s</th><th>%s</th><th>%s</th><th>%s</th></tr></thead>';
-        printf($msg,
+        echo '<table class="widefat">';
+        $msg = '<thead><tr><th colspan="%d">%s</th><th>%s</th><th>%s</th><th>%s</th><th>%s</th></tr></thead>';
+        printf(
+            $msg,
             $maxlevel,
             __('Nom du champ', 'docalist-databases'),
             __('Libellé', 'docalist-databases'),
@@ -274,10 +291,11 @@ class ImportPage extends AdminPage {
         echo '</table>';
     }
 
-    protected function doc(array $fields, $level, $maxlevel) {
+    protected function doc(array $fields, $level, $maxlevel)
+    {
         // var_dump($schema);
 
-        foreach($fields as $field) { /** @var Schema $field */
+        foreach ($fields as $field) { /** @var Schema $field */
             echo '<tr>';
 
             //$level && printf('<td colspan="%d">x</td>', $level);
@@ -285,9 +303,14 @@ class ImportPage extends AdminPage {
                 echo '<td></td>';
             }
 
-            $repeat = $field->repeatable() ? __('<b>Répétable</b>', 'docalist-databases') : __('Monovalué', 'docalist-databases');
-            $msg = '<th colspan="%1$d"><h%2$d style="margin: 0">%3$s</h%2$d></th><td class="row-title">%4$s</td><td><i>%5$s</i></td><td>%6$s</td><td>%7$s</td>';
-            printf($msg,
+            $repeat = $field->repeatable()
+                ? __('<b>Répétable</b>', 'docalist-databases')
+                : __('Monovalué', 'docalist-databases');
+            $msg = '<th colspan="%1$d"><h%2$d style="margin: 0">%3$s</h%2$d></th>';
+            $msg .= '<td class="row-title">%4$s</td><td><i>%5$s</i></td><td>%6$s</td><td>%7$s</td>';
+
+            printf(
+                $msg,
                 $maxlevel - $level,     // %1
                 $level + 3,             // %2
                 $field->name(),         // %3
@@ -311,7 +334,8 @@ class ImportPage extends AdminPage {
      * exécuter.
      * @param string $format Nom du format d'export à utiliser
      */
-    public function actionExport($format = null, $mode = 'download', $zip = false) {
+    public function actionExport($format = null, $mode = 'download', $zip = false)
+    {
         // Essaie de construire une requête avec les arguments en cours
         $args = $_REQUEST;
         unset($args['page']); // nom de la page admin / numéro de page de résultats
@@ -346,7 +370,10 @@ class ImportPage extends AdminPage {
             return $this->view('docalist-databases:export/choose-refs', [
                 'database' => $this->database,
                 'format' => $format,
-                'error'    => __("Aucune notice ne correspond aux critères de recherche indiqués.", 'docalist-databases')
+                'error' => __(
+                    "Aucune notice ne correspond aux critères de recherche indiqués.",
+                    'docalist-databases'
+                )
             ]);
         }
 
@@ -374,7 +401,10 @@ class ImportPage extends AdminPage {
             return $this->view('docalist-core:error', [
                 'h2' => __('Exporter des notices', 'docalist-databases'),
                 'h3' => __("Format d'export incorrect", 'docalist-databases'),
-                'message' => sprintf(__("Le format d'export indiqué (%s) n'est pas valide.", 'docalist-databases'), $format),
+                'message' => sprintf(
+                    __("Le format d'export indiqué (%s) n'est pas valide.", 'docalist-databases'),
+                    $format
+                ),
             ]);
         }
         $name = $format;
@@ -412,7 +442,7 @@ class ImportPage extends AdminPage {
         $iterator = new ReferenceIterator($request);
 
         // Crée une réponse de type "callback" qui lancera l'export
-        $response = new CallbackResponse(function() use($exporter, $iterator) {
+        $response = new CallbackResponse(function () use ($exporter, $iterator) {
             // Permet au script de s'exécuter longtemps
             set_time_limit(3600);
 
@@ -429,11 +459,12 @@ class ImportPage extends AdminPage {
         return $response;
     }
 
-    public function actionShowSettings() {
+    public function actionShowSettings()
+    {
         return $this->view('docalist-core:info', [
             'h2' => __('Settings', 'docalist-databases'),
 //            'message' => '<pre>' . (string)$this->database->settings() . '</pre>',
-            'message' => '<pre>' . var_export($this->database->settings(),true) . '</pre>',
+            'message' => '<pre>' . var_export($this->database->settings(), true) . '</pre>',
         ]);
     }
 }

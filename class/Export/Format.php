@@ -64,12 +64,15 @@ class Format
     public function __construct($name, array $format)
     {
         // Vérifie que les clés obligatoires sont définies dans les options
-        foreach(['converter', 'exporter'] as $key) {
+        foreach (['converter', 'exporter'] as $key) {
             if (!isset($format[$key])) {
-                $msg = sprintf(__('La clé %s doit être définie pour le le format %s.', 'docalist-databases'), $key, $name);
+                $msg = sprintf(
+                    __('La clé %s doit être définie pour le le format %s.', 'docalist-databases'),
+                    $key,
+                    $name
+                );
                 throw new InvalidArgumentException($msg);
             }
-
         }
 
         $this->name = $name;
