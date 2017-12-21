@@ -3,7 +3,7 @@
 $GLOBALS['wp_tests_options'] = array(
     'active_plugins' => array(
         'docalist-core/docalist-core.php',
-        'docalist-biblio/docalist-biblio.php',
+        'docalist-databases/docalist-databases.php',
         'docalist-search/docalist-search.php',
     ),
 );
