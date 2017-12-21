@@ -1,2 +1,2 @@
-# docalist-biblio
-Docalist : module documentaire
+# docalist-databases
+Docalist : Gestion des bases.
