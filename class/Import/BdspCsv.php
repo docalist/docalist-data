@@ -1,7 +1,12 @@
 <?php
 /**
-* @author Daniel Ménard <daniel.menard.35@gmail.com>
-*/
+ * This file is part of Docalist Databases.
+ *
+ * Copyright (C) 2012-2017 Daniel Ménard
+ *
+ * For copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 namespace Docalist\Databases\Import;
 
 use Iterator;
@@ -19,6 +24,8 @@ use stdClass;
  * }
  *
  * </code>
+ *
+ * @author Daniel Ménard <daniel.menard.35@gmail.com>
  */
 class BdspCsv implements Iterator
 {

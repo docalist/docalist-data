@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Type;
 
@@ -17,6 +15,8 @@ use Docalist\Databases\Type\Topic;
 
 /**
  * Une collection de topics d'indexation.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Topics extends Collection
 {

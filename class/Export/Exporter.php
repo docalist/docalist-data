@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Export;
 
@@ -22,6 +20,8 @@ use Docalist\Databases\Type;
  *
  * Pour chacune des notices, il appelle la méthode convert() du convertisseur
  * et écrit les données obtenus dans le format de fichier attendu.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Exporter extends BaseExport
 {

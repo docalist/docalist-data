@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Views;
 
@@ -22,6 +20,8 @@ use Docalist\Forms\Form;
  * @var DatabaseSettings $database La base en cours.
  * @var string $dbindex L'index de la base.
  * @var array $settings Les paramètres à importer.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 
 $settings = $settings; // évite warning 'not initialize dans le foreach ci-dessous, bug pdt-extensions

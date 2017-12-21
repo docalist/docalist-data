@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases;
 
@@ -52,6 +50,8 @@ use InvalidArgumentException;
  * @property PostSlug       $slug       Slug de la fiche
  * @property RefNumber      $ref        Numéro unique identifiant la fiche
  * @property RefType        $type       Type de fiche
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Type extends Entity
 {

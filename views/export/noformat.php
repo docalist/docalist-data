@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
- * Copyright (C) 2015-2017 Daniel Ménard
+ * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Export\Views;
 
@@ -20,6 +18,8 @@ use Docalist\Databases\Export\Plugin;
  * @var array   $types Types des notices (libellé => count)
  * @var int     $total Nombre total de hits obtenus (notices à exporter).
  * @var int     $max   Nombre maximum de notices exportables.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 
 // Crée le détail par type des notices qui seront exportées

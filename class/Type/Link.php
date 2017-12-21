@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Type;
 
@@ -34,6 +32,8 @@ use InvalidArgumentException;
  * @property Url        $url        Adresse du lien.
  * @property Text       $label      Libellé du lien.
  * @property DateTime   $date       Date de consultation.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Link extends MultiField
 {

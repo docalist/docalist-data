@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
- * Copyright (C) 2012-2015 Daniel Ménard
+ * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Settings;
 
@@ -37,6 +35,8 @@ use Exception;
  * @property Boolean $thumbnail Indique si les notices peuvent avoir une image à la une.
  * @property Boolean $revisions Indique si les modifications des notices font l'objet de révisions.
  * @property Boolean $comments Indique si les notices peuvent avoir des commentaires.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class DatabaseSettings extends Composite
 {

@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Views;
 
@@ -28,6 +26,8 @@ use Docalist\Schema\Schema;
  * @var string              $gridname   L'index de la grille.
  * @var Schema              $base       La grille à éditer.
  * @var bool                $diffonly   Mode de comparaison (grille complète / différences uniquement).
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 
 echo '<pre>', htmlspecialchars(var_export($grid->getPhpValue(), true)), '</pre>';

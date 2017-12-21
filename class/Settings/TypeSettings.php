@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
- * Copyright (C) 2012-2015 Daniel Ménard
+ * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Settings;
 
@@ -29,6 +27,8 @@ use Docalist\Schema\Schema;
  * @property Text $label Libellé.
  * @property Text $description Description.
  * @property Schema[] $grids Grilles de saisie et d'affichage.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class TypeSettings extends Composite
 {

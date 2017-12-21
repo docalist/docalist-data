@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Views;
 
@@ -31,6 +29,8 @@ use Docalist\Databases\Type\Group;
  * @var int                 $typeindex  L'index du type.
  * @var Schema              $grid       La grille à éditer.
  * @var string              $gridname   L'index de la grille.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 
 /**

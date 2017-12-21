@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
- * Copyright (C) 2015-2017 Daniel Ménard
+ * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Export\Views;
 
@@ -19,6 +17,8 @@ use Docalist\Databases\Export\Plugin;
  * Cette vue est affichée quand on n'a aucun transient ou que celui-ci a expiré.
  *
  * @var Plugin  $this
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 $searchPage = get_permalink(docalist('docalist-search-engine')->searchPage());
 $basketPage = docalist('basket-controller')->basketPageUrl();

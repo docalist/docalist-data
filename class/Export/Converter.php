@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Export;
 
@@ -17,6 +15,8 @@ use Docalist\Databases\Type;
  * Classe de base pour les convertisseurs.
  *
  * Un convertisseur se charge de transformer une Reference Docalist dans un autre format.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Converter extends BaseExport
 {

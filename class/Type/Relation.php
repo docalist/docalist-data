@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Type;
 
@@ -18,6 +16,8 @@ use InvalidArgumentException;
 
 /**
  * Gère une relation vers un autre post WordPress.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Relation extends Integer
 {

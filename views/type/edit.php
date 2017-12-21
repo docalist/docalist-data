@@ -1,13 +1,11 @@
 <?php
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2017 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Databases\Views;
 
@@ -24,6 +22,8 @@ use Docalist\Forms\Form;
  * @var int $dbindex L'index de la base.
  * @var TypeSettings $type Le type à éditer.
  * @var int $typeindex L'index du type.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 ?>
 <div class="wrap">

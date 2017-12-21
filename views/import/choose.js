@@ -1,18 +1,18 @@
 /**
- * This file is part of the 'Docalist Databases' plugin.
+ * This file is part of Docalist Databases.
  *
  * Copyright (C) 2012-2014 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 
 /**
  * Gère l'import de fichier dans une base.
  *
  * @see http://shibashake.com/wordpress-theme/how-to-add-the-wordpress-3-5-media-manager-interface-part-2
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 (function($) {
     // Gère l'ajout d'un ou de plusieurs fichiers dans la liste
