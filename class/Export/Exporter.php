@@ -9,7 +9,7 @@
  */
 namespace Docalist\Databases\Export;
 
-use Docalist\Databases\Reference\ReferenceIterator;
+use Traversable;
 use Docalist\Databases\Type;
 
 /**
@@ -68,14 +68,14 @@ class Exporter extends BaseExport
     }
 
     /**
-     * Exporte le lot de notices passé en paramètre.
+     * Exporte les enregistrements passés en paramètre.
      *
-     * @param ReferenceIterator $references Un itérateur contenant les enregistrements à exporter.
+     * @param Traversable|Record[] $records Les enregistrements à exporter.
      */
-    public function export(ReferenceIterator $references)
+    public function export($records)
     {
-        foreach ($references as $reference) { /** var Type $ref */
-            $data = $this->converter->convert($reference);
+        foreach ($records as $record) { /** var Type $ref */
+            $data = $this->converter->convert($record);
             var_export($data);
             echo "\n\n";
         }

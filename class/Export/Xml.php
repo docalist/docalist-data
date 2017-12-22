@@ -9,7 +9,6 @@
  */
 namespace Docalist\Databases\Export;
 
-use Docalist\Databases\Reference\ReferenceIterator;
 use XMLWriter;
 
 /**
@@ -29,7 +28,7 @@ class Xml extends Exporter
         'binary' => true,
     ];
 
-    public function export(ReferenceIterator $references)
+    public function export($records)
     {
         $xml = new XMLWriter();
         $xml->openURI('php://output');
@@ -40,11 +39,11 @@ class Xml extends Exporter
         }
         $xml->startDocument('1.0', 'utf-8', 'yes');
         $xml->startElement('references');
-        $xml->writeAttribute('count', $references->count());
+        $xml->writeAttribute('count', $records->count());
         $xml->writeAttribute('datetime', date('Y-m-d H:i:s'));
-        $xml->writeAttribute('query', $references->getSearchRequest()->getEquation());
-        foreach ($references as $reference) {
-            $data = $this->converter->convert($reference);
+        $xml->writeAttribute('query', $records->getSearchRequest()->getEquation());
+        foreach ($records as $record) {
+            $data = $this->converter->convert($record);
             if (empty($data)) {
                 continue;
             }

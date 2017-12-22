@@ -9,8 +9,6 @@
  */
 namespace Docalist\Databases\Export;
 
-use Docalist\Databases\Reference\ReferenceIterator;
-
 /**
  * Un exporteur au format JSON.
  *
@@ -27,7 +25,7 @@ class Json extends Exporter
         'pretty' => false,
     ];
 
-    public function export(ReferenceIterator $references)
+    public function export($records)
     {
         $pretty = $this->get('pretty');
         $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
@@ -37,8 +35,8 @@ class Json extends Exporter
         echo '[';
         $pretty && print("\n");
         $comma = $pretty ? ",\n" : ',';
-        foreach ($references as $reference) {
-            $data = $this->converter->convert($reference);
+        foreach ($records as $record) {
+            $data = $this->converter->convert($record);
             $data = $this->removeEmpty($data);
             if (empty($data)) {
                 continue;
