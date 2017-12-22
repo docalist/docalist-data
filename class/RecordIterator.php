@@ -21,7 +21,7 @@ use Countable;
 /**
  * Un itérateur de références (pour l'export).
  */
-class ReferenceIterator implements Iterator, Countable
+class RecordIterator implements Iterator, Countable
 {
     /**
      * La requête en cours.
