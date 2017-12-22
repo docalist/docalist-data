@@ -37,7 +37,7 @@ use Closure;
 use InvalidArgumentException;
 
 /**
- * Type de base des entités qu'on peut stocker dans une base docalist.
+ * Un enregistrement dans une base docalist.
  *
  * @property PostType       $posttype   Post Type
  * @property PostStatus     $status     Statut de la fiche
@@ -53,7 +53,7 @@ use InvalidArgumentException;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Type extends Entity
+class Record extends Entity
 {
     public static function loadSchema()
     {
