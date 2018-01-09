@@ -119,7 +119,7 @@ $methods = [
 $form = createForm($type->grids['base'], $grid, $methods[$grid->gridtype()]);
 $form->bind($grid->getPhpValue());
 
-wp_styles()->enqueue(['docalist-databases-edit-reference', 'docalist-biblio-grid-edit']);
+wp_styles()->enqueue(['docalist-databases-edit-reference', 'docalist-databases-grid-edit']);
 wp_scripts()->enqueue(['docalist-databases-grid-edit']);
 ?>
 <div class="wrap">
