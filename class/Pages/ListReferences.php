@@ -24,7 +24,7 @@ use Exception;
 class ListReferences
 {
     /**
-     * La base de données documentaire.
+     * La base de données docalist.
      *
      * @var Database
      */

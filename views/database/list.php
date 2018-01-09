@@ -30,10 +30,10 @@ div.dbdesc{
 }
 </style>
 <div class="wrap">
-    <h1><?= __('Gestion des bases documentaires', 'docalist-databases') ?></h1>
+    <h1><?= __('Gestion des bases Docalist', 'docalist-databases') ?></h1>
 
     <p class="description">
-        <?= __('Voici la liste de vos bases de données :', 'docalist-databases') ?>
+        <?= __('Voici la liste de vos bases Docalist :', 'docalist-databases') ?>
     </p>
 
     <table class="widefat fixed">

@@ -21,7 +21,7 @@ use WP_Query;
 use InvalidArgumentException;
 
 /**
- * Une base de données documentaire.
+ * Une base de données docalist.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -58,7 +58,7 @@ class Database extends PostTypeRepository
     protected $settings;
 
     /**
-     * Crée une nouvelle base de données documentaire.
+     * Crée une nouvelle base de données docalist.
      *
      * @param DatabaseSettings $settings Paramètres de la base.
      */
@@ -383,7 +383,7 @@ class Database extends PostTypeRepository
     }
 
     /**
-     * Crée un custom post type wordpress pour la base documentaire.
+     * Crée un custom post type wordpress pour la base docalist.
      *
      * @see http://codex.wordpress.org/Function_Reference/register_post_type
      */
@@ -557,7 +557,7 @@ class Database extends PostTypeRepository
     }
 
     /**
-     * Retourne les libellés à utiliser pour la base documentaire.
+     * Retourne les libellés à utiliser pour la base docalist.
      *
      * @return string[]
      *

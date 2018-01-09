@@ -27,7 +27,7 @@ class Settings extends \Docalist\Type\Settings
                 'databases' => [
                     'type' => 'Docalist\Databases\Settings\DatabaseSettings*',
                     'key' => 'name',
-                    'label' => __('Liste des bases de données documentaires', 'docalist-databases'),
+                    'label' => __('Liste des bases de données docalist', 'docalist-databases'),
                 ],
             ],
         ];

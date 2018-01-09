@@ -41,7 +41,7 @@ class EditReference
     const DEBUG_METABOX = 'dbdebug';
 
     /**
-     * @var Database La base de données documentaire.
+     * @var Database La base de données docalist.
      */
     protected $database;
 

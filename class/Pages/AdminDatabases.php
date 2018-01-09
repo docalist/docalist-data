@@ -53,7 +53,7 @@ class AdminDatabases extends AdminPage
         parent::__construct(
             'docalist-databases',                           // ID
             'options-general.php',                          // page parent
-            __('Bases documentaires', 'docalist-databases') // libellé menu
+            __('Bases Docalist', 'docalist-databases')      // libellé menu
         );
         // @formatter:on
 
