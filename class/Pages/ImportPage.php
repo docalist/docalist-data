@@ -10,7 +10,7 @@
 namespace Docalist\Databases\Pages;
 
 use Docalist\Databases\Database;
-use Docalist\Databases\Type;
+use Docalist\Databases\Record;
 use Docalist\AdminPage;
 use Docalist\Schema\Schema;
 use Docalist\Http\ViewResponse;
@@ -270,7 +270,7 @@ class ImportPage extends AdminPage
         $class = $this->database->type();
 
         // Récupère le schéma
-        $ref = new $class; /** @var Type $ref */
+        $ref = new $class; /** @var Record $ref */
         $schema = $ref->getSchema();
 
         $maxlevel = 4;

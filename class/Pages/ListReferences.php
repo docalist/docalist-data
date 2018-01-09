@@ -10,7 +10,7 @@
 namespace Docalist\Databases\Pages;
 
 use Docalist\Databases\Database;
-use Docalist\Databases\Type;
+use Docalist\Databases\Record;
 use WP_Post;
 use DateTime;
 use DateInterval;
@@ -98,7 +98,7 @@ class ListReferences
 
         // Fournit le contenu des colonnes personnalisées pour chaque notice
         add_action("manage_{$this->postType}_posts_custom_column", function ($column, $post_id) {
-            /** @var Type $ref */
+            /** @var Record $ref */
             static $ref = null;
 
             /** @var WP_Post $post */

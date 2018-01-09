@@ -17,7 +17,7 @@ use Docalist\Databases\Settings\DatabaseSettings;
 use Docalist\Databases\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 use WP_Role;
-use Docalist\Databases\Type;
+use Docalist\Databases\Record;
 use Docalist\Databases\Grid;
 
 /**
@@ -519,7 +519,7 @@ class AdminDatabases extends AdminPage
             }
 
             // Initialise les différentes grilles du type
-            $class = $types[$name]; /** @var Type $class */
+            $class = $types[$name]; /** @var Record $class */
 
             $base    = new Grid($class::getBaseGrid());
             $edit    = new Grid($class::getEditGrid());

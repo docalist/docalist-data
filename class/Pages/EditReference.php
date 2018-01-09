@@ -10,7 +10,7 @@
 namespace Docalist\Databases\Pages;
 
 use Docalist\Databases\Database;
-use Docalist\Databases\Type;
+use Docalist\Databases\Record;
 use WP_Post;
 use WP_Screen;
 use Exception;
@@ -53,7 +53,7 @@ class EditReference
     protected $postType;
 
     /**
-     * @var Type La notice en cours d'édition.
+     * @var Record L'enregistrement en cours d'édition.
      */
     protected $reference;
 
@@ -196,8 +196,10 @@ class EditReference
 
     /**
      * Ajoute une metabox de débogage qui affiche le contenu brut du post.
+     *
+     * @param Record $ref L'enregistrement en cours.
      */
-    protected function addDebugMetabox(Type $ref)
+    protected function addDebugMetabox(Record $ref)
     {
         add_meta_box(
             self::DEBUG_METABOX,
@@ -377,7 +379,7 @@ class EditReference
          * - les anciennes données de la notice existante, encodées en json
          *   dans le champ post_excerpt fournit par wordpress dans $data.
          *
-         * On construit un objet Type à partir de ces données :
+         * On construit un objet Record à partir de ces données :
          * - la référence obtenue correspond aux données de l'ancienne notice
          *   sauf pour les champs mappés qui contiennent les données WP à jour.
          * - les champs wordpress qui ne sont pas mappés (post_date_gmt,
@@ -504,12 +506,12 @@ class EditReference
     /**
      * Retourne les formulaires utilisés pour saisir une notice de ce type.
      *
-     * @param string    $type
+     * @param Record    $ref L'enregistrement en cours d'édition.
      * @param bool      $ignoreDefaults Indique s'il faut ignorer la valeur par défaut des champs.
      *
      * @return Container[] Un tableau de la forme id metabox => form fragment
      */
-    protected function metaboxes(Type $ref, $ignoreDefaults = false)
+    protected function metaboxes(Record $ref, $ignoreDefaults = false)
     {
         // Charge la grille "edit" correspondant au type de la notice
         $schema = $this->database->settings()->types[$ref->type()]->grids['edit'];

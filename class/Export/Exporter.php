@@ -10,7 +10,7 @@
 namespace Docalist\Databases\Export;
 
 use Traversable;
-use Docalist\Databases\Type;
+use Docalist\Databases\Record;
 
 /**
  * Classe de base pour les exporteurs.
@@ -74,7 +74,7 @@ class Exporter extends BaseExport
      */
     public function export($records)
     {
-        foreach ($records as $record) { /** var Type $ref */
+        foreach ($records as $record) { /** var Record $ref */
             $data = $this->converter->convert($record);
             var_export($data);
             echo "\n\n";

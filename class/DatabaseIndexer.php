@@ -12,6 +12,7 @@ namespace Docalist\Databases;
 use Docalist\Databases\Settings\TypeSettings;
 use Docalist\Search\IndexManager;
 use Docalist\Search\Indexer\CustomPostTypeIndexer;
+use Docalist\Databases\Record;
 
 /**
  * Un indexeur pour les notices d'une base.
@@ -70,7 +71,7 @@ class DatabaseIndexer extends CustomPostTypeIndexer
         $indexManager->delete($this->getType(), is_scalar($post) ? $post : $this->getID($post), $esType);
     }
 
-    protected function map($ref) /** @var Type $ref */
+    protected function map($ref) /** @var Record $ref */
     {
         $document = $ref->map();
 //      $document['database'] = $this->database->postType(); // mapping créé dans Type::buildIndexSettings()

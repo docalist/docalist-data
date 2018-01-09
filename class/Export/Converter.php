@@ -9,7 +9,7 @@
  */
 namespace Docalist\Databases\Export;
 
-use Docalist\Databases\Type;
+use Docalist\Databases\Record;
 
 /**
  * Classe de base pour les convertisseurs.
@@ -21,14 +21,14 @@ use Docalist\Databases\Type;
 class Converter extends BaseExport
 {
     /**
-     * Convertit une notice docalist.
+     * Convertit un enregistrement Docalist.
      *
-     * @param Type $ref La notice à convertir.
+     * @param Record $record L'enregistrement Docalist à convertir.
      *
      * @return array Un tableau contenant les données à exporter.
      */
-    public function convert(Type $ref)
+    public function convert(Record $record)
     {
-        return $ref->getPhpValue();
+        return $record->getPhpValue();
     }
 }
