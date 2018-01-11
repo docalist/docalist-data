@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Settings\TypeSettings;
 
 /**
  * Affiche la liste des bases de données existantes.
@@ -30,21 +30,21 @@ div.dbdesc{
 }
 </style>
 <div class="wrap">
-    <h1><?= __('Gestion des bases Docalist', 'docalist-databases') ?></h1>
+    <h1><?= __('Gestion des bases Docalist', 'docalist-data') ?></h1>
 
     <p class="description">
-        <?= __('Voici la liste de vos bases Docalist :', 'docalist-databases') ?>
+        <?= __('Voici la liste de vos bases Docalist :', 'docalist-data') ?>
     </p>
 
     <table class="widefat fixed">
 
     <thead>
         <tr>
-            <th><?= __('Nom de la base', 'docalist-databases') ?></th>
-            <th><?= __('Page d\'accueil', 'docalist-databases') ?></th>
-            <th><?= __('Types de notices', 'docalist-databases') ?></th>
-            <th><?= __('Nombre de notices', 'docalist-databases') ?></th>
-            <th><?= __('Description', 'docalist-databases') ?></th>
+            <th><?= __('Nom de la base', 'docalist-data') ?></th>
+            <th><?= __('Page d\'accueil', 'docalist-data') ?></th>
+            <th><?= __('Types de notices', 'docalist-data') ?></th>
+            <th><?= __('Nombre de notices', 'docalist-data') ?></th>
+            <th><?= __('Description', 'docalist-data') ?></th>
         </tr>
     </thead>
 
@@ -69,31 +69,31 @@ div.dbdesc{
                 <div class="row-actions">
                     <span class="edit">
                         <a href="<?= $edit ?>">
-                            <?= __('Paramètres', 'docalist-databases') ?>
+                            <?= __('Paramètres', 'docalist-data') ?>
                         </a>
                     </span>
                     |
                     <span class="list-types">
                         <a href="<?= $listTypes ?>">
-                            <?= __('Types de notices', 'docalist-databases') ?>
+                            <?= __('Types de notices', 'docalist-data') ?>
                         </a>
                     </span>
                     |
                     <span class="delete">
                         <a href="<?= $delete ?>">
-                            <?= __('Supprimer', 'docalist-databases') ?>
+                            <?= __('Supprimer', 'docalist-data') ?>
                         </a>
                     </span>
                     <br />
                     <span class="export-settings">
                         <a href="<?= $exportSettings ?>">
-                            <?= __('Exporter paramètres', 'docalist-databases') ?>
+                            <?= __('Exporter paramètres', 'docalist-data') ?>
                         </a>
                     </span>
                     |
                     <span class="import-settings">
                         <a href="<?= $importSettings ?>">
-                            <?= __('Importer paramètres', 'docalist-databases') ?>
+                            <?= __('Importer paramètres', 'docalist-data') ?>
                         </a>
                     </span>
                 </div>
@@ -103,7 +103,7 @@ div.dbdesc{
             <td>
                 <?php if (0 === count($database->types)): ?>
                     <a href="<?= esc_url($this->url('TypeAdd', $dbindex)) ?>">
-                        <?= __('Ajouter un type...', 'docalist-databases') ?>
+                        <?= __('Ajouter un type...', 'docalist-data') ?>
                     </a>
                 <?php else: ?>
                     <?php foreach ($database->types as $typeindex => $type): /** @var TypeSettings $type */ ?>
@@ -124,7 +124,7 @@ div.dbdesc{
     if ($nb === 0) : ?>
         <tr>
             <td colspan="4">
-                <em><?= __('Aucune base définie.', 'docalist-databases') ?></em>
+                <em><?= __('Aucune base définie.', 'docalist-data') ?></em>
             </td>
         </tr><?php
     endif; ?>
@@ -133,7 +133,7 @@ div.dbdesc{
 
     <p>
         <a href="<?= esc_url($this->url('DatabaseAdd')) ?>" class="button button-primary">
-            <?= __('Créer une base...', 'docalist-databases') ?>
+            <?= __('Créer une base...', 'docalist-data') ?>
         </a>
     </p>
 </div>

@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Forms\Form;
 
 /**
@@ -43,21 +43,21 @@ foreach($settings['types'] as $type) {
     }
 </style>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - importer des paramètres', 'docalist-databases'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s - importer des paramètres', 'docalist-data'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Les paramètres que vous avez collés contiennent les types listés ci-dessous.', 'docalist-databases') ?>
-        <?= __("Par défaut, <b>tous les types seront importés</b> mais vous pouvez décocher certains types pour n'importer qu'une partie des paramètres.", 'docalist-databases') ?>
+        <?= __('Les paramètres que vous avez collés contiennent les types listés ci-dessous.', 'docalist-data') ?>
+        <?= __("Par défaut, <b>tous les types seront importés</b> mais vous pouvez décocher certains types pour n'importer qu'une partie des paramètres.", 'docalist-data') ?>
     </p>
 
     <?php
         $form = new Form();
         $form->checklist('types')
              ->setOptions($types)
-             ->setLabel(__('Types à importer', 'docalist-databases'))
-             ->setDescription(__("Désélectionnez les types que vous ne voulez pas importer.", 'docalist-databases'));
+             ->setLabel(__('Types à importer', 'docalist-data'))
+             ->setDescription(__("Désélectionnez les types que vous ne voulez pas importer.", 'docalist-data'));
 
-        $form->submit(__('Importer...', 'docalist-databases'));
+        $form->submit(__('Importer...', 'docalist-data'));
         $form->hidden('settings');
 
         $form->bind([

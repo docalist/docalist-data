@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Import;
+namespace Docalist\Data\Import;
 
-use Docalist\Databases\Database;
+use Docalist\Data\Database;
 
 /**
  * Classe de base pour les importeurs.
@@ -124,8 +124,8 @@ abstract class Importer
      * Retourne l'identifiant unique de l'objet.
      *
      * L'identifiant est généré à partir du nom complet de la classe PHP. Les antislashs sont remplacés par un tiret
-     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-databases-export-xml" pour la classe
-     * "Docalist\Databases\Export\Xml".
+     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-data-export-xml" pour la classe
+     * "Docalist\Data\Export\Xml".
      *
      * Remarque : Le résultat obtenu est utilisable comme nom de classe CSS ou comme id dans du code html.
      *
@@ -140,7 +140,7 @@ abstract class Importer
      * Retourne le nom usuel utilisé pour identifier l'objet.
      *
      * Par défaut, le nom usuel correspond à la version en minuscules du nom court (sans namespace) de la classe PHP.
-     * Par Exemple : retourne "xml" pour la classe "Docalist\Databases\Export\Xml".
+     * Par Exemple : retourne "xml" pour la classe "Docalist\Data\Export\Xml".
      *
      * Les classes descendantes peuvent surcharger la méthode pour retourner un nom plus approprié.
      *

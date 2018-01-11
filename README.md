@@ -1,2 +1,2 @@
-# docalist-databases
+# docalist-data
 Docalist : Gestion des bases.

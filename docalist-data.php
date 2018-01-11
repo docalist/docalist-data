@@ -7,23 +7,23 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  *
- * Plugin Name: Docalist Databases
+ * Plugin Name: Docalist Data
  * Plugin URI:  http://docalist.org/
  * Description: Docalist: gestion des bases.
  * Version:     0.16.0
  * Author:      Daniel Ménard
  * Author URI:  http://docalist.org/
- * Text Domain: docalist-databases
+ * Text Domain: docalist-data
  * Domain Path: /languages
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Databases;
+namespace Docalist\Data;
 
 /**
  * Version du plugin.
  */
-define('DOCALIST_DATABASES_VERSION', '0.16.0'); // Garder synchro avec la version indiquée dans l'entête
+define('DOCALIST_DATA_VERSION', '0.16.0'); // Garder synchro avec la version indiquée dans l'entête
 
 /**
  * Path absolu du répertoire dans lequel le plugin est installé.
@@ -34,17 +34,17 @@ define('DOCALIST_DATABASES_VERSION', '0.16.0'); // Garder synchro avec la versio
  * Si le répertoire du plugin est un lien symbolique, la constante doit être définie manuellement dans le fichier
  * wp_config.php et pointer sur le lien symbolique et non sur le répertoire réel.
  */
-!defined('DOCALIST_DATABASES_DIR') && define('DOCALIST_DATABASES_DIR', __DIR__);
+!defined('DOCALIST_DATA_DIR') && define('DOCALIST_DATA_DIR', __DIR__);
 
 /**
  * Path absolu du fichier principal du plugin.
  */
-define('DOCALIST_DATABASES', DOCALIST_DATABASES_DIR . DIRECTORY_SEPARATOR . basename(__FILE__));
+define('DOCALIST_DATA', DOCALIST_DATA_DIR . DIRECTORY_SEPARATOR . basename(__FILE__));
 
 /**
  * Url de base du plugin.
  */
-define('DOCALIST_DATABASES_URL', plugins_url('', DOCALIST_DATABASES));
+define('DOCALIST_DATA_URL', plugins_url('', DOCALIST_DATA));
 
 /**
  * Initialise le plugin.
@@ -55,7 +55,7 @@ add_action('plugins_loaded', function () {
     foreach ($dependencies as $dependency) {
         if (! defined($dependency)) {
             return add_action('admin_notices', function () use ($dependency) {
-                deactivate_plugins(DOCALIST_DATABASES);
+                deactivate_plugins(DOCALIST_DATA);
                 unset($_GET['activate']); // empêche wp d'afficher "extension activée"
                 printf(
                     '<div class="%s"><p><b>%s</b> has been deactivated because it requires <b>%s</b>.</p></div>',
@@ -72,13 +72,13 @@ add_action('plugins_loaded', function () {
         ->add(__NAMESPACE__, __DIR__ . '/class')
         ->add(__NAMESPACE__ . '\Tests', __DIR__ . '/tests');
 
-    docalist('services')->add('docalist-databases', new Plugin());
+    docalist('services')->add('docalist-data', new Plugin());
 });
 
 /*
  * Activation du plugin.
  */
-    register_activation_hook(DOCALIST_DATABASES, function () {
+    register_activation_hook(DOCALIST_DATA, function () {
     // Si docalist-core n'est pas dispo, on ne peut rien faire
     if (defined('DOCALIST_CORE')) {
         // plugins_loaded n'a pas encore été lancé, donc il faut initialiser notre autoloader
@@ -90,7 +90,7 @@ add_action('plugins_loaded', function () {
 /*
  * Désactivation du plugin.
 */
-register_deactivation_hook(DOCALIST_DATABASES, function () {
+register_deactivation_hook(DOCALIST_DATA, function () {
     // Si docalist-core n'est pas dispo, on ne peut rien faire
     if (defined('DOCALIST_CORE')) {
         docalist('autoloader')->add(__NAMESPACE__, __DIR__ . '/class');

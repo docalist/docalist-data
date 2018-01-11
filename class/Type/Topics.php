@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Collection;
 use Docalist\Forms\TopicsInput;
-use Docalist\Databases\Type\Topic;
+use Docalist\Data\Type\Topic;
 
 /**
  * Une collection de topics d'indexation.
@@ -20,7 +20,7 @@ use Docalist\Databases\Type\Topic;
  */
 class Topics extends Collection
 {
-    protected static $type = 'Docalist\Databases\Type\Topic';
+    protected static $type = 'Docalist\Data\Type\Topic';
 
     public function getEditorForm($options = null)
     {

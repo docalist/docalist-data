@@ -7,15 +7,15 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases;
+namespace Docalist\Data;
 
 use Docalist\Views;
-use Docalist\Databases\Database;
-use Docalist\Databases\Type;
-use Docalist\Databases\Settings\Settings;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Export\ExportService;
+use Docalist\Data\Database;
+use Docalist\Data\Type;
+use Docalist\Data\Settings\Settings;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Export\ExportService;
 use Exception;
 
 /**
@@ -45,15 +45,15 @@ class Plugin
     public function __construct()
     {
         // Charge les fichiers de traduction du plugin
-        load_plugin_textdomain('docalist-databases', false, 'docalist-databases/languages');
+        load_plugin_textdomain('docalist-data', false, 'docalist-data/languages');
 
         // Ajoute notre répertoire "views" au service "docalist-views"
         add_filter('docalist_service_views', function (Views $views) {
-            return $views->addDirectory('docalist-databases', DOCALIST_DATABASES_DIR . '/views');
+            return $views->addDirectory('docalist-data', DOCALIST_DATA_DIR . '/views');
         });
 
-        // Déclare le service "docalist-databases-export"
-        docalist('services')->add('docalist-databases-export', new ExportService());
+        // Déclare le service "docalist-data-export"
+        docalist('services')->add('docalist-data-export', new ExportService());
 
         add_action('init', function () {
             // Charge la configuration du plugin
@@ -86,15 +86,15 @@ class Plugin
             $formats['docalist-json'] = [
                 'label' => 'Docalist JSON',
                 'description' => 'Fichier JSON compact, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Databases\Export\Docalist',
-                'exporter' => 'Docalist\Databases\Export\Json',
+                'converter' => 'Docalist\Data\Export\Docalist',
+                'exporter' => 'Docalist\Data\Export\Json',
             ];
 
             $formats['docalist-json-pretty'] = [
                 'label' => 'Docalist JSON formatté',
                 'description' => 'Fichier JSON formatté et indenté, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Databases\Export\Docalist',
-                'exporter' => 'Docalist\Databases\Export\Json',
+                'converter' => 'Docalist\Data\Export\Docalist',
+                'exporter' => 'Docalist\Data\Export\Json',
                 'exporter-settings' => [
                     'pretty' => true,
                 ],
@@ -103,15 +103,15 @@ class Plugin
             $formats['docalist-xml'] = [
                 'label' => 'Docalist XML',
                 'description' => 'Fichier XML compact, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Databases\Export\Docalist',
-                'exporter' => 'Docalist\Databases\Export\Xml',
+                'converter' => 'Docalist\Data\Export\Docalist',
+                'exporter' => 'Docalist\Data\Export\Xml',
             ];
 
             $formats['docalist-xml-pretty'] = [
                 'label' => 'Docalist XML formatté',
                 'description' => 'Fichier XML formatté et indenté, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Databases\Export\Docalist',
-                'exporter' => 'Docalist\Databases\Export\Xml',
+                'converter' => 'Docalist\Data\Export\Docalist',
+                'exporter' => 'Docalist\Data\Export\Xml',
                 'exporter-settings' => [
                     'indent' => 4,
                 ],

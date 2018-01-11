@@ -7,13 +7,13 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Test;
+namespace Docalist\Data\Test;
 
 // Environnement de test
 $GLOBALS['wp_tests_options'] = array(
     'active_plugins' => array(
         'docalist-core/docalist-core.php',
-        'docalist-databases/docalist-databases.php',
+        'docalist-data/docalist-data.php',
         'docalist-search/docalist-search.php',
     ),
 );

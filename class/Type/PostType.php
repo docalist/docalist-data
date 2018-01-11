@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Text;
 
@@ -21,8 +21,8 @@ class PostType extends Text
     public static function loadSchema()
     {
         return [
-            'label' => __('Type de post WordPress', 'docalist-databases'),
-            'description' => __('Nom de code interne du type de post WordPress', 'docalist-databases'),
+            'label' => __('Type de post WordPress', 'docalist-data'),
+            'description' => __('Nom de code interne du type de post WordPress', 'docalist-data'),
         ];
     }
 }

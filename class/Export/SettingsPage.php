@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use Docalist\AdminPage;
 use Exception;
@@ -36,9 +36,9 @@ class SettingsPage extends AdminPage
         $this->settings = $settings;
 
         parent::__construct(
-            'docalist-databases-export-settings',           // ID
+            'docalist-data-export-settings',           // ID
             'options-general.php',                          // page parent
-            __('Export et biblios', 'docalist-databases')   // libellé menu
+            __('Export et biblios', 'docalist-data')   // libellé menu
         );
     }
 
@@ -62,7 +62,7 @@ class SettingsPage extends AdminPage
                 $this->settings->save();
 
                 docalist('admin-notices')->success(
-                    __('Options enregistrées.', 'docalist-databases')
+                    __('Options enregistrées.', 'docalist-data')
                 );
 
                 return $this->redirect($this->url($this->getDefaultAction()), 303);
@@ -71,7 +71,7 @@ class SettingsPage extends AdminPage
             }
         }
 
-        return $this->view('docalist-databases:export/settings/export', [
+        return $this->view('docalist-data:export/settings/export', [
             'settings' => $this->settings,
         ]);
     }

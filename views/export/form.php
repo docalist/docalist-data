@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export\Views;
+namespace Docalist\Data\Export\Views;
 
-use Docalist\Databases\Export\Plugin;
+use Docalist\Data\Export\Plugin;
 
 /**
  * Affiche le formulaire d'export.
@@ -32,7 +32,7 @@ if (count($types) === 1) {
 } else {
     $detail = [];
     foreach ($types as $label => $count) {
-        $detail[] = sprintf(__('%s : %d', 'docalist-databases'), lcfirst($label), $count);
+        $detail[] = sprintf(__('%s : %d', 'docalist-data'), lcfirst($label), $count);
     }
     $detail = implode(', ', $detail);
 }
@@ -80,16 +80,16 @@ if (count($types) === 1) {
         <?php
             $limit = '';
             if ($total > $max) {
-                $limit = sprintf(__(', seules les %d premières notices seront exportées', 'docalist-databases'), $max);
+                $limit = sprintf(__(', seules les %d premières notices seront exportées', 'docalist-data'), $max);
             }
             printf(
-                __('Votre sélection contient <abbr title="%s">%d notice(s)</abbr>%s.', 'docalist-databases'),
+                __('Votre sélection contient <abbr title="%s">%d notice(s)</abbr>%s.', 'docalist-data'),
                 $detail, $total, $limit
             );
         ?>
     </p>
 
-    <h3><?=__('Format', 'docalist-databases')?></h3>
+    <h3><?=__('Format', 'docalist-data')?></h3>
     <table>
         <?php foreach($formats as $name => $fmt): /** @var Format $fmt */ ?>
         <tr>
@@ -113,7 +113,7 @@ if (count($types) === 1) {
         <?php endforeach; ?>
     </table>
 <!--
-    <h3><?=__('Options', 'docalist-databases')?></h3>
+    <h3><?=__('Options', 'docalist-data')?></h3>
     <table>
         <tr>
             <th>
@@ -122,7 +122,7 @@ if (count($types) === 1) {
             <td>
                 <p>
                     <label for="mail">
-                        <?=__('Envoyez-moi le fichier par messagerie', 'docalist-databases')?>
+                        <?=__('Envoyez-moi le fichier par messagerie', 'docalist-data')?>
                     </label>
                 </p>
             </td>
@@ -134,7 +134,7 @@ if (count($types) === 1) {
             <td>
                 <p>
                     <label for="zip">
-                        <?=__('Compresser le fichier (zip)', 'docalist-databases')?>
+                        <?=__('Compresser le fichier (zip)', 'docalist-data')?>
                     </label>
                 </p>
             </td>
@@ -142,7 +142,7 @@ if (count($types) === 1) {
     </table>
  -->
     <h3>
-        <button class="btn" type="submit"><?=__("Lancer l'export...", 'docalist-databases')?></button>
+        <button class="btn" type="submit"><?=__("Lancer l'export...", 'docalist-data')?></button>
     </h3>
     <input type="hidden" name="go" value="1" />
 </form>

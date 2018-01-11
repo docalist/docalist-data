@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export\Views;
+namespace Docalist\Data\Export\Views;
 
-use Docalist\Databases\Export\Settings;
+use Docalist\Data\Export\Settings;
 use Docalist\Forms\Form;
 
 /**
@@ -25,12 +25,12 @@ use Docalist\Forms\Form;
 .limit table.field-table { width: auto; }
 </style>
 <div class="wrap">
-    <h1><?= __('Export et bibliographies', 'docalist-databases') ?></h1>
+    <h1><?= __('Export et bibliographies', 'docalist-data') ?></h1>
 
     <p class="description"><?php
         echo __(
             "Le module d'export vous permet de générer des fichiers d'export et des bibliographies à partir d'une recherche docalist-search ou du panier de notices.",
-            'docalist-databases'
+            'docalist-data'
         );
     ?></p>
 
@@ -45,7 +45,7 @@ use Docalist\Forms\Form;
                 ->select('role')->setOptions(userRoles())->getParent()
                 ->input('limit')->setAttribute('type', 'number');
 
-        $form->submit(__('Enregistrer les modifications', 'docalist-databases'))
+        $form->submit(__('Enregistrer les modifications', 'docalist-data'))
              ->addClass('button button-primary');
 
         $form->bind($settings)->display();

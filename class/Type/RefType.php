@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\ListEntry;
-use Docalist\Databases\Database;
+use Docalist\Data\Database;
 
 /**
  * Le type docalist de la notice.
@@ -22,8 +22,8 @@ class RefType extends ListEntry
     public static function loadSchema()
     {
         return [
-            'label' => __('Type de fiche', 'docalist-databases'),
-            'description' => __('Type docalist de la fiche.', 'docalist-databases'),
+            'label' => __('Type de fiche', 'docalist-data'),
+            'description' => __('Type docalist de la fiche.', 'docalist-data'),
         ];
     }
 

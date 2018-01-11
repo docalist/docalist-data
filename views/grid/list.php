@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Settings\TypeSettings;
 
 /**
  * Liste les grilles et les formulaires disponibles pour un type.
@@ -38,19 +38,19 @@ use Docalist\Databases\Settings\TypeSettings;
 </style>
 
 <div class="wrap">
-    <h1><?= sprintf(__('%s - %s - grilles et formulaires', 'docalist-databases'), $database->label(), $type->label()) ?></h1>
+    <h1><?= sprintf(__('%s - %s - grilles et formulaires', 'docalist-data'), $database->label(), $type->label()) ?></h1>
 
     <p class="description">
-        <?= __("L'écran ci-dessous affiche la liste des grilles disponibles pour ce type de notice.", 'docalist-databases') ?>
+        <?= __("L'écran ci-dessous affiche la liste des grilles disponibles pour ce type de notice.", 'docalist-data') ?>
     </p>
 
     <table class="widefat fixed">
 
     <thead>
         <tr>
-            <th class="grid-label"><?= __('Nom de la grille', 'docalist-databases') ?></th>
-            <th class="grid-name"><?= __('Code', 'docalist-databases') ?></th>
-            <th class="grid-description"><?= __('Description', 'docalist-databases') ?></th>
+            <th class="grid-label"><?= __('Nom de la grille', 'docalist-data') ?></th>
+            <th class="grid-name"><?= __('Code', 'docalist-data') ?></th>
+            <th class="grid-description"><?= __('Description', 'docalist-data') ?></th>
         </tr>
     </thead>
 
@@ -74,32 +74,32 @@ use Docalist\Databases\Settings\TypeSettings;
             <div class="row-actions">
                 <span class="settings">
                     <a href="<?= $settings ?>">
-                        <?= __('Paramètres', 'docalist-databases') ?>
+                        <?= __('Paramètres', 'docalist-data') ?>
                     </a>
                 </span>
                 |
                 <span class="edit">
                     <a href="<?= $edit ?>">
-                        <?= __('Modifier', 'docalist-databases') ?>
+                        <?= __('Modifier', 'docalist-data') ?>
                     </a>
                 </span>
                 |
                 <span class="copy">
                     <a href="<?= $copy ?>">
-                        <?= __('Dupliquer', 'docalist-databases') ?>
+                        <?= __('Dupliquer', 'docalist-data') ?>
                     </a>
                 </span>
                 |
                 <span class="delete">
                     <a href="<?= $delete ?>">
-                        <?= __('Supprimer', 'docalist-databases') ?>
+                        <?= __('Supprimer', 'docalist-data') ?>
                     </a>
                 </span>
                 <?php if (wp_get_current_user()->user_login === 'dmenard') : ?>
                 |
                 <span class="tophp">
                     <a href="<?= $tophp ?>">
-                        <?= __('Code PHP', 'docalist-databases') ?>
+                        <?= __('Code PHP', 'docalist-data') ?>
                     </a>
                 </span>
                 <?php endif;?>
@@ -115,7 +115,7 @@ use Docalist\Databases\Settings\TypeSettings;
     if ($nb === 0) : ?>
         <tr>
             <td colspan="2">
-                <em><?= __('Erreur interne : aucune grille disponible pour ce type de notice.', 'docalist-databases') ?></em>
+                <em><?= __('Erreur interne : aucune grille disponible pour ce type de notice.', 'docalist-data') ?></em>
             </td>
         </tr>
     <?php endif; ?>

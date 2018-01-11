@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Schema\Schema;
 use Docalist\Type\Integer;
@@ -76,16 +76,16 @@ class Relation extends Integer
         $form->input('reltype')
              ->setAttribute('disabled')
              ->addClass('code large-text')
-             ->setLabel(__('Entité liée', 'docalist-databases'))
-             ->setDescription(__('Pour info, nom de classe des entités liées à ce champ.', 'docalist-databases'));
+             ->setLabel(__('Entité liée', 'docalist-data'))
+             ->setDescription(__('Pour info, nom de classe des entités liées à ce champ.', 'docalist-data'));
 */
         $form->input('relfilter')
              ->addClass('code large-text')
-             ->setLabel(__('Filtre de recherche', 'docalist-databases'))
+             ->setLabel(__('Filtre de recherche', 'docalist-data'))
              ->setDescription(__(
                  'Equation utilisée pour filtrer les suggestions (lookups) en saisie.
                   Exemple : <code>type:mytype</code> ou <code>+type:mytype +database:mybase</code>.',
-                 'docalist-databases'
+                 'docalist-data'
              ));
 
         return $form;
@@ -94,8 +94,8 @@ class Relation extends Integer
     public function getAvailableEditors()
     {
         return [
-            'lookup' => __('Lookup dynamique', 'docalist-databases'),
-            'input' => __('Saisie manuelle du POST ID', 'docalist-databases'),
+            'lookup' => __('Lookup dynamique', 'docalist-data'),
+            'input' => __('Saisie manuelle du POST ID', 'docalist-data'),
         ];
     }
 
@@ -126,12 +126,12 @@ class Relation extends Integer
     public function getAvailableFormats()
     {
         return [
-            'id'            => __('Post ID', 'docalist-databases'),
-            'title'         => __('Titre', 'docalist-databases'),
-            'url'           => __('Permalien', 'docalist-databases'),
-            'link-id'       => __('Post ID cliquable', 'docalist-databases'),
-            'link-title'    => __('Titre cliquable', 'docalist-databases'),
-            'link-url'      => __('Permalien cliquable', 'docalist-databases'),
+            'id'            => __('Post ID', 'docalist-data'),
+            'title'         => __('Titre', 'docalist-data'),
+            'url'           => __('Permalien', 'docalist-data'),
+            'link-id'       => __('Post ID cliquable', 'docalist-data'),
+            'link-title'    => __('Titre cliquable', 'docalist-data'),
+            'link-url'      => __('Permalien cliquable', 'docalist-data'),
         ];
     }
 

@@ -7,12 +7,12 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Database;
+use Docalist\Data\Database;
 use Docalist\Forms\Form;
 use Symfony\Component\HttpFoundation\Cookie;
-use Docalist\Databases\Pages\ImportPage;
+use Docalist\Data\Pages\ImportPage;
 
 /**
  * Export de notices : choix du format d'export.
@@ -42,23 +42,23 @@ foreach($formats as $name => $format) {
 }
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__("Export %s : choix du format d'export", 'docalist-databases'), $database->settings()->label()) ?></h2>
+    <h2><?= sprintf(__("Export %s : choix du format d'export", 'docalist-data'), $database->settings()->label()) ?></h2>
 
     <p class="description">
-        <?= sprintf(__("Le tableau ci-dessous liste les formats d'export disponibles pour la base %s. ", 'docalist-databases'), $database->settings()->label()) ?>
-        <?= __("Survolez les options pour obtenir une bulle d'aide avec des informations complémentaires. ", 'docalist-databases') ?>
+        <?= sprintf(__("Le tableau ci-dessous liste les formats d'export disponibles pour la base %s. ", 'docalist-data'), $database->settings()->label()) ?>
+        <?= __("Survolez les options pour obtenir une bulle d'aide avec des informations complémentaires. ", 'docalist-data') ?>
         <br />
-        <?= __("Choisissez le format d'export à utiliser pour sélectionner le format des notices que vous voulez obtenir et le type de fichier à générer puis cliquez sur l'un des boutons en bas de page. ", 'docalist-databases') ?>
+        <?= __("Choisissez le format d'export à utiliser pour sélectionner le format des notices que vous voulez obtenir et le type de fichier à générer puis cliquez sur l'un des boutons en bas de page. ", 'docalist-data') ?>
         <br />
-        <?= __("Remarque : le format choisi sera enregistré comme option par défaut pour la prochaine fois. ", 'docalist-databases') ?>
+        <?= __("Remarque : le format choisi sera enregistré comme option par défaut pour la prochaine fois. ", 'docalist-data') ?>
     </p>
 
     <form action="" method="post">
         <table class="widefat export-formats">
             <tr>
-                <th><?= __("Format des notices", 'docalist-databases') ?></th>
-                <th><?= __("Fichier généré", 'docalist-databases') ?></th>
-                <th><?= __("Format d'export", 'docalist-databases') ?></th>
+                <th><?= __("Format des notices", 'docalist-data') ?></th>
+                <th><?= __("Fichier généré", 'docalist-data') ?></th>
+                <th><?= __("Format d'export", 'docalist-data') ?></th>
             </tr>
             <?php $i = 0; foreach($converters as $converter => $exporters): ?>
                 <?php $export = 0; foreach($exporters as $exporter => $options): ?>
@@ -105,13 +105,13 @@ foreach($formats as $name => $format) {
 
         <div class="submit buttons"> <!-- button-group -->
             <button name="mode" value="download" type="submit" class="button button-primary">
-                <?=__("Enregistrer le fichier...", 'docalist-databases') ?>
+                <?=__("Enregistrer le fichier...", 'docalist-data') ?>
             </button>
             <button name="mode" value="display" type="submit" class="button button-secondary">
-                <?=__("Afficher les notices...", 'docalist-databases') ?>
+                <?=__("Afficher les notices...", 'docalist-data') ?>
             </button>
             <button name="mode" value="mail" type="submit" class="button button-secondary">
-                <?=__("Envoyer dans ma messagerie...", 'docalist-databases') ?>
+                <?=__("Envoyer dans ma messagerie...", 'docalist-data') ?>
             </button>
         </div>
 

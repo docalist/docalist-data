@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Database;
+use Docalist\Data\Database;
 use Docalist\Forms\Container;
-use Docalist\Databases\Pages\ImportPage;
+use Docalist\Data\Pages\ImportPage;
 
 /**
  * Export de notices : choix des notices à exporter.
@@ -79,10 +79,10 @@ $form->render('bootstrap');
 */
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__('Export %s', 'docalist-databases'), $database->settings()->label) ?></h2>
+    <h2><?= sprintf(__('Export %s', 'docalist-data'), $database->settings()->label) ?></h2>
 
     <p class="description">
-        <?= __("Choisissez les notices à exporter.", 'docalist-databases') ?>
+        <?= __("Choisissez les notices à exporter.", 'docalist-data') ?>
     </p>
 
     <?php if (isset($error)): ?>
@@ -99,7 +99,7 @@ $form->render('bootstrap');
 
         <div class="submit buttons">
             <button type="submit" class="run-export">
-                <?=__("Lancer l'export...", 'docalist-databases') ?>
+                <?=__("Lancer l'export...", 'docalist-data') ?>
             </button>
         </div>
         <?php if(!empty($exporter)): ?>

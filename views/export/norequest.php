@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export\Views;
+namespace Docalist\Data\Export\Views;
 
-use Docalist\Databases\Export\Plugin;
+use Docalist\Data\Export\Plugin;
 
 /**
  * Affiche le message "aucune requête en cours".

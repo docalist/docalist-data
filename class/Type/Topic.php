@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\TypedText;
 use Docalist\Type\Text;
@@ -30,19 +30,19 @@ class Topic extends TypedText
     {
         return [
 
-            'label' => __('Indexation', 'docalist-databases'),
+            'label' => __('Indexation', 'docalist-data'),
             'description' => __(
                 'Mots-clés, tags et étiquettes permettant de classer le document et de décrire son contenu.',
-                'docalist-databases'
+                'docalist-data'
             ),
             'fields' => [
                 'type' => [
-                    'label' => __('Vocabulaire', 'docalist-databases'),
+                    'label' => __('Vocabulaire', 'docalist-data'),
                     'table' => 'table:topics',
                 ],
                 'value' => [
                     'type' => 'Docalist\Type\Text*', // Monovalué dans TypedText, on le rend répétable
-                    'label' => __('Termes', 'docalist-databases'),
+                    'label' => __('Termes', 'docalist-data'),
                 ],
             ],
             'key' => 'type', // La collection indexe les éléments par type de topic
@@ -51,7 +51,7 @@ class Topic extends TypedText
 
     public static function getCollectionClass()
     {
-        return 'Docalist\Databases\Type\Topics';
+        return 'Docalist\Data\Type\Topics';
     }
 
     /* ------------------------------------------------------------------------------------------------------------

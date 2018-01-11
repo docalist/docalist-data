@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Text;
 
@@ -21,8 +21,8 @@ class PostParent extends Text
     public static function loadSchema()
     {
         return [
-            'label' => __('Notice parent', 'docalist-databases'),
-            'description' => __('ID WordPress du post parent de la notice.', 'docalist-databases'),
+            'label' => __('Notice parent', 'docalist-data'),
+            'description' => __('ID WordPress du post parent de la notice.', 'docalist-data'),
         ];
     }
 }

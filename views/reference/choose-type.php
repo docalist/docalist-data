@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\EditReference;
-use Docalist\Databases\Database;
+use Docalist\Data\Pages\EditReference;
+use Docalist\Data\Database;
 
 /**
  * Permet à l'utilisateur de choisir le type de notice à créer.
@@ -31,7 +31,7 @@ use Docalist\Databases\Database;
     <h1><?= $title ?></h1>
 
     <p class="description">
-        <?= __("Choisissez le type de notice à créer.", 'docalist-databases') ?>
+        <?= __("Choisissez le type de notice à créer.", 'docalist-data') ?>
     </p>
     <table class="widefat">
         <?php $nb = 0 ?>
@@ -51,7 +51,7 @@ use Docalist\Databases\Database;
         <?php if ($nb === 0): ?>
             <tr>
                 <td class="desc" colspan="2">
-                    <?= __('Aucun type disponible dans cette base.', 'docalist-databases') ?>
+                    <?= __('Aucun type disponible dans cette base.', 'docalist-data') ?>
                 </td>
             </tr>
         <?php endif ?>

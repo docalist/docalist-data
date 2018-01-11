@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export\Views;
+namespace Docalist\Data\Export\Views;
 
-use Docalist\Databases\Export\Plugin;
+use Docalist\Data\Export\Plugin;
 
 /**
  * Affiche le message "aucune réponse".
@@ -22,7 +22,7 @@ use Docalist\Databases\Export\Plugin;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-echo $this->view('docalist-databases-export:norequest');
+echo $this->view('docalist-data-export:norequest');
 ?>
 
 <small>La dernière requête exécutée ne donne aucune réponse.</small>

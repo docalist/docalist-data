@@ -1,6 +1,6 @@
 {
 	"type": "wordpress-plugin",
-	"name": "docalist/docalist-databases",
+	"name": "docalist/docalist-data",
 	"description": "Docalist: gestion des bases.",
     "homepage": "http://docalist.org/",
 	"license": "GPL-2.0",

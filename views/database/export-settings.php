@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
 
 /**
  * Exporte (affiche) les paramètres d'une base.
@@ -24,15 +24,15 @@ use Docalist\Databases\Settings\DatabaseSettings;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - exporter les paramètres de la base', 'docalist-databases'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s - exporter les paramètres de la base', 'docalist-data'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Recopiez le code ci-dessous pour faire une sauvegarde des paramètres de la base ou transférer les paramètres vers une autre base.', 'docalist-databases') ?>
+        <?= __('Recopiez le code ci-dessous pour faire une sauvegarde des paramètres de la base ou transférer les paramètres vers une autre base.', 'docalist-data') ?>
         <br />
-        <?= __('Le code JSON affiché contient les paramètres de la base, les paramètres des types et les paramètres des grilles.', 'docalist-databases') ?>
+        <?= __('Le code JSON affiché contient les paramètres de la base, les paramètres des types et les paramètres des grilles.', 'docalist-data') ?>
         <br />
-        <?= __('Veillez à copier <b>la totalité du code</b> du, premier "{" au dernier "}", sinon cela ne fonctionnera pas.', 'docalist-databases') ?>
-        <?= __('Par exemple, cliquez dans la zone de texte et tapez Ctrl+A puis Ctrl+C.', 'docalist-databases') ?>
+        <?= __('Veillez à copier <b>la totalité du code</b> du, premier "{" au dernier "}", sinon cela ne fonctionnera pas.', 'docalist-data') ?>
+        <?= __('Par exemple, cliquez dans la zone de texte et tapez Ctrl+A puis Ctrl+C.', 'docalist-data') ?>
     </p>
 
     <textarea class="code large-text" style="height: 80vh" readonly><?php

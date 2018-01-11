@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Database;
+use Docalist\Data\Database;
 
 /**
  * Cette vue est affichée lorsqu'on lance l'import d'un ou plusieurs fichiers
@@ -57,16 +57,16 @@ $startTime = microtime(true);
 add_action('docalist_databases_before_import', function(array $files, Database $database, array $options) { ?>
     <?php
         if ($options['simulate']) {
-            $h2 = __("Simulation de l'import de fichiers", 'docalist-databases');
+            $h2 = __("Simulation de l'import de fichiers", 'docalist-data');
             $desc = __(
                 "Vous avez lancé une simulation d'import de fichiers dans la base <strong>%s</strong>.",
-                 'docalist-databases'
+                 'docalist-data'
              );
         } else {
-            $h2 = __("Import de fichiers", 'docalist-databases');
+            $h2 = __("Import de fichiers", 'docalist-data');
             $desc = __(
                 'Vous avez lancé un import de fichiers dans la base <strong>%s</strong>.',
-                 'docalist-databases'
+                 'docalist-data'
              );
         }
     ?>
@@ -81,7 +81,7 @@ add_action('docalist_databases_before_import', function(array $files, Database $
             );
             echo '<br />';
             _e('La page affichera des informations supplémentaires au fur
-                et à mesure de l\'avancement. Veuillez patienter.', 'docalist-databases'
+                et à mesure de l\'avancement. Veuillez patienter.', 'docalist-data'
             );
             // @formatter:on
             ?>
@@ -102,9 +102,9 @@ add_action('docalist_databases_before_import', function(array $files, Database $
 add_action('docalist_databases_import_start', function($file, $options) { ?>
     <?php
         if ($options['simulate']) {
-            $h3 = __('Test du fichier %s', 'docalist-databases');
+            $h3 = __('Test du fichier %s', 'docalist-data');
         } else {
-            $h3 = __('Import du fichier %s', 'docalist-databases');
+            $h3 = __('Import du fichier %s', 'docalist-data');
         }
     ?>
 
@@ -164,19 +164,19 @@ add_action('docalist_databases_import_done', function($file, $options) { ?>
  * @param Database $database La base de données destination
  */
 add_action('docalist_databases_after_import', function(array $files, Database $database, array $options) use ($startTime) { ?>
-        <h3><?= __('Terminé !', 'docalist-databases') ?></h3>
+        <h3><?= __('Terminé !', 'docalist-data') ?></h3>
     </div>
     <?php
     if ($options['simulate']) {
         $msg = _n(
             'La simulation d\'import est terminée : le fichier %2$s a été testé.',
             'La simulation d\'import est terminée : %d fichiers ont été testés (%2$s).',
-            count($files), 'docalist-databases');
+            count($files), 'docalist-data');
     } else {
         $msg = _n(
             'L\'import est terminé : le fichier %2$s a été importé dans %3$s.',
             'L\'import est terminé : %d fichiers ont été importés dans %3$s (%2$s).',
-            count($files), 'docalist-databases');
+            count($files), 'docalist-data');
     }
 
     printf("<p>$msg</p>",
@@ -185,7 +185,7 @@ add_action('docalist_databases_after_import', function(array $files, Database $d
         $database->settings()->label
     );
 
-    $msg = __('Temps écoulé : %.2f secondes.', 'docalist-databases');
+    $msg = __('Temps écoulé : %.2f secondes.', 'docalist-data');
     printf("<p>$msg</p>", (microtime(true) - $startTime));
 
     flush();

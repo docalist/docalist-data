@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use WP_Widget;
 use Docalist\Search\SearchRequest;
@@ -22,12 +22,12 @@ class ExportWidget extends WP_Widget
 {
     public function __construct()
     {
-        $id = 'docalist-databases-export';
+        $id = 'docalist-data-export';
         parent::__construct(
             $id,    // Base ID. Inutile de préfixer avec "widget", WordPress le fait
-            __('Export de notices', 'docalist-databases'),  // Titre (nom) du widget affiché en back office
+            __('Export de notices', 'docalist-data'),  // Titre (nom) du widget affiché en back office
             [   // Args
-                'description' => __('Export de notices', 'docalist-databases'),
+                'description' => __('Export de notices', 'docalist-data'),
                 'classname' => $id, // par défaut, WordPress met 'widget_'.$id
                 'customize_selective_refresh' => true,
             ]
@@ -92,7 +92,7 @@ class ExportWidget extends WP_Widget
         echo '<ul>';
 
         // Détermine l'url de la page "export"
-        $exportPage = get_permalink(docalist('docalist-databases-export')->exportpage());
+        $exportPage = get_permalink(docalist('docalist-data-export')->exportpage());
 
         // Lien "Exporter"
         $label = $settings['file'];
@@ -100,7 +100,7 @@ class ExportWidget extends WP_Widget
             $link,
             'export-file',
             '',
-            __("Génére un fichier d'export", 'docalist-databases'),
+            __("Génére un fichier d'export", 'docalist-data'),
             $exportPage,
             $label
         );
@@ -111,7 +111,7 @@ class ExportWidget extends WP_Widget
             $link,
             'export-print',
             '',
-            __('Génére une bibliographie', 'docalist-databases'),
+            __('Génére une bibliographie', 'docalist-data'),
             $exportPage,
             $label
         );
@@ -122,7 +122,7 @@ class ExportWidget extends WP_Widget
             $link,
             'export-mail',
             '',
-            __("Génère un fichier d'export et l'envoie par messagerie", 'docalist-databases'),
+            __("Génère un fichier d'export et l'envoie par messagerie", 'docalist-data'),
             $exportPage,
             $label
         );
@@ -146,19 +146,19 @@ class ExportWidget extends WP_Widget
         $form->input('title')
             ->setAttribute('id', $this->get_field_id('title'))
             // id pour que le widget affiche le bon titre. cf widgets.dev.js, fonction appendTitle(), L250
-            ->setLabel(__('<b>Titre du widget</b>', 'docalist-databases'))
+            ->setLabel(__('<b>Titre du widget</b>', 'docalist-data'))
             ->addClass('widefat');
 
         $form->input('file')
-            ->setLabel(__('<b>Exporter</b>', 'docalist-databases'))
+            ->setLabel(__('<b>Exporter</b>', 'docalist-data'))
             ->addClass('widefat');
 
         $form->input('print')
-            ->setLabel(__('<b>Créer une bibliographie</b>', 'docalist-databases'))
+            ->setLabel(__('<b>Créer une bibliographie</b>', 'docalist-data'))
             ->addClass('widefat');
 
         $form->input('mail')
-            ->setLabel(__('<b>Envoyer par messagerie</b>', 'docalist-databases'))
+            ->setLabel(__('<b>Envoyer par messagerie</b>', 'docalist-data'))
             ->addClass('widefat');
 
         return $form;
@@ -172,10 +172,10 @@ class ExportWidget extends WP_Widget
     protected function defaultSettings()
     {
         return [
-            'title' => __('Export', 'docalist-databases'),
-            'file' => __('Générer un fichier', 'docalist-databases'),
-            'print' => __('Créer une bibliographie', 'docalist-databases'),
-            'mail' => __('Envoyer par messagerie', 'docalist-databases'),
+            'title' => __('Export', 'docalist-data'),
+            'file' => __('Générer un fichier', 'docalist-data'),
+            'print' => __('Créer une bibliographie', 'docalist-data'),
+            'mail' => __('Envoyer par messagerie', 'docalist-data'),
         ];
     }
 

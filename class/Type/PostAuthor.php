@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Text;
 use WP_User;
@@ -22,8 +22,8 @@ class PostAuthor extends Text
     public static function loadSchema()
     {
         return [
-            'label' => __('Créé par', 'docalist-databases'),
-            'description' => __("Nom de login de l'utilisateur WordPress qui a créé la fiche.", 'docalist-databases'),
+            'label' => __('Créé par', 'docalist-data'),
+            'description' => __("Nom de login de l'utilisateur WordPress qui a créé la fiche.", 'docalist-data'),
         ];
     }
 

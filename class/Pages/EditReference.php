@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Pages;
+namespace Docalist\Data\Pages;
 
-use Docalist\Databases\Database;
-use Docalist\Databases\Record;
+use Docalist\Data\Database;
+use Docalist\Data\Record;
 use WP_Post;
 use WP_Screen;
 use Exception;
@@ -118,10 +118,10 @@ class EditReference
         // Le titre de la page "edit-post" est stocké dans une variable globale "title" qui est définie dans
         // post-new.php (entres autres) et affichée dans edit-form-advanced...
         $GLOBALS['title'] = sprintf(
-            __('%s » %s » %s', 'docalist-databases'),
+            __('%s » %s » %s', 'docalist-data'),
             $this->database->settings()->label(),
             $this->database->settings()->types[$type]->label(),
-            $creation ? __('Création', 'docalist-databases') : __('Modification', 'docalist-databases')
+            $creation ? __('Création', 'docalist-data') : __('Modification', 'docalist-data')
         );
     }
 
@@ -184,7 +184,7 @@ class EditReference
 
         // Affiche la page "Choix du type de notice à créer"
         require_once('./admin-header.php');
-        $view = new ViewResponse('docalist-databases:reference/choose-type', [
+        $view = new ViewResponse('docalist-data:reference/choose-type', [
             'database' => $this->database,
         ]);
         $view->sendContent();
@@ -250,7 +250,7 @@ class EditReference
         $this->setPageTitle($ref->type(), false);
 
         // Insère notre feuille de style
-        wp_styles()->enqueue('docalist-databases-edit-reference');
+        wp_styles()->enqueue('docalist-data-edit-reference');
 
         // Crée un nonce
         add_action('edit_form_after_title', function () {
@@ -520,7 +520,7 @@ class EditReference
         $fields = $schema->getFields();
 
         // Crée un groupe par défaut si la liste ne commence pas par un groupe
-        if (reset($fields)->type() !== 'Docalist\Databases\Type\Group') {
+        if (reset($fields)->type() !== 'Docalist\Data\Type\Group') {
             $box = new Container();
             $box->setLabel('')->setAttribute('id', 'defaultgroup');
             $hasBoxCap = true;
@@ -530,7 +530,7 @@ class EditReference
         $metaboxes = [];
         foreach ($fields as $name => $field) {
             // Nouveau champ
-            if ($field->type() !== 'Docalist\Databases\Type\Group') {
+            if ($field->type() !== 'Docalist\Data\Type\Group') {
                 // Si on n'a pas la cap de la boite en cours, inutile de créer le champ
                 if (! $hasBoxCap) {
                     continue;
@@ -613,11 +613,11 @@ class EditReference
 //             // Table incorrecte, affiche une admin notice
 //             $msg = __(
 //                 "La table <code>%s</code> indiquée pour le champ <code>%s</code> n'est pas valide.",
-//                 'docalist-databases'
+//                 'docalist-data'
 //             );
 //             $msg = sprintf($msg, $def->$table() ?: ' ', $def->name());
 //             $msg .= '<br />';
-//             $msg .= __('Vous devez corriger la grille de saisie', 'docalist-databases');
+//             $msg .= __('Vous devez corriger la grille de saisie', 'docalist-data');
 //             add_action('admin_notices', function () use ($msg) {
 //                 printf('<div class="error"><p>%s</p></div>', $msg);
 //             });

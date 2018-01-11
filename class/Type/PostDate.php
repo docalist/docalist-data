@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\DateTime;
 
@@ -21,8 +21,8 @@ class PostDate extends DateTime
     public static function loadSchema()
     {
         return [
-            'label' => __('Création', 'docalist-databases'),
-            'description' => __('Date/heure de création de la fiche.', 'docalist-databases'),
+            'label' => __('Création', 'docalist-data'),
+            'description' => __('Date/heure de création de la fiche.', 'docalist-data'),
         ];
     }
 }

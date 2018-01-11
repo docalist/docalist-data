@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\TypedText;
 use Docalist\Type\TableEntry;
-use Docalist\Databases\Type\Relation;
+use Docalist\Data\Type\Relation;
 
 /**
  * Une relation typée : un type composite associant un type provenant d'une table d'autorité à un champ de type
@@ -27,17 +27,17 @@ class TypedRelation extends TypedText
     public static function loadSchema()
     {
         return [
-            'label' => __('Relation', 'docalist-databases'),
-            'description' => __('Relation vers une autre fiche et type de relation.', 'docalist-databases'),
+            'label' => __('Relation', 'docalist-data'),
+            'description' => __('Relation vers une autre fiche et type de relation.', 'docalist-data'),
             'fields' => [
                 'type' => [
                     'table' => 'table:relations',
-                    'description' => __('Type de relation', 'docalist-databases'),
+                    'description' => __('Type de relation', 'docalist-data'),
                 ],
                 'value' => [
-                    'type' => 'Docalist\Databases\Type\Relation',
-                    'label' => __('Fiche liée', 'docalist-databases'),
-                    'description' => __('Post ID de la fiche liée', 'docalist-databases'),
+                    'type' => 'Docalist\Data\Type\Relation',
+                    'label' => __('Fiche liée', 'docalist-data'),
+                    'description' => __('Post ID de la fiche liée', 'docalist-data'),
                 ],
             ],
         ];

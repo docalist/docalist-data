@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Pages;
+namespace Docalist\Data\Pages;
 
-use Docalist\Databases\Database;
-use Docalist\Databases\Record;
+use Docalist\Data\Database;
+use Docalist\Data\Record;
 use WP_Post;
 use DateTime;
 use DateInterval;
@@ -78,10 +78,10 @@ class ListReferences
                 $customColumns = [
                     'cb' => $columns['cb'],
                     'title' => $columns['title'],
-                    'type' => __('Type', 'docalist-databases'),
-                    'ref' => __('Ref', 'docalist-databases'),
-                    'creation' => __('Création', 'docalist-databases'),
-                    'lastupdate' => __('Mise à jour', 'docalist-databases'),
+                    'type' => __('Type', 'docalist-data'),
+                    'ref' => __('Ref', 'docalist-data'),
+                    'creation' => __('Création', 'docalist-data'),
+                    'lastupdate' => __('Mise à jour', 'docalist-data'),
     //                 'author' => $columns['author'],
     //                 'date' => $columns['date'],
                 ];
@@ -216,7 +216,7 @@ class ListReferences
         for ($i = 0; $i < 6; $i++) {
             $now->sub($oneDay);
             if ($date->format('Ymd') === $now->format('Ymd')) {
-                $day = $i ? $wp_locale->get_weekday($date->format('w')) : __('hier', 'docalist-databases');
+                $day = $i ? $wp_locale->get_weekday($date->format('w')) : __('hier', 'docalist-data');
                 $format = $excerpt ? '%s %s' : '<abbr title="%2$s">%1$s</abbr>';
                 return sprintf($format, $day, $date->format('H:i:s'));
             }
@@ -274,7 +274,7 @@ class ListReferences
             printf(
                 "<option%s value=''>%s</option>",
                 selected($current, '', false),
-                __('Filtrer par année', 'docalist-databases')
+                __('Filtrer par année', 'docalist-data')
             );
 
             foreach ($years as $year) {
@@ -295,7 +295,7 @@ class ListReferences
             printf(
                 "<option%s value=''>%s</option>",
                 selected($current, '', false),
-                __('Filtrer par type', 'docalist-databases')
+                __('Filtrer par type', 'docalist-data')
             );
 
             foreach ($types as $type) {

@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Settings;
+namespace Docalist\Data\Settings;
 
 /**
  * Config de Docalist Databases.
@@ -18,16 +18,16 @@ namespace Docalist\Databases\Settings;
  */
 class Settings extends \Docalist\Type\Settings
 {
-    protected $id = 'docalist-databases-settings';
+    protected $id = 'docalist-data-settings';
 
     public static function loadSchema()
     {
         return [
             'fields' => [
                 'databases' => [
-                    'type' => 'Docalist\Databases\Settings\DatabaseSettings*',
+                    'type' => 'Docalist\Data\Settings\DatabaseSettings*',
                     'key' => 'name',
-                    'label' => __('Liste des bases de données docalist', 'docalist-databases'),
+                    'label' => __('Liste des bases de données docalist', 'docalist-data'),
                 ],
             ],
         ];

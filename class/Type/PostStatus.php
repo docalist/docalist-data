@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Text;
 
@@ -21,8 +21,8 @@ class PostStatus extends Text
     public static function loadSchema()
     {
         return [
-            'label' => __('Statut WordPress', 'docalist-databases'),
-            'description' => __('Statut de la fiche.', 'docalist-databases'),
+            'label' => __('Statut WordPress', 'docalist-data'),
+            'description' => __('Statut de la fiche.', 'docalist-data'),
         ];
     }
 }

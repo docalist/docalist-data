@@ -7,13 +7,13 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases;
+namespace Docalist\Data;
 
 use Docalist\Repository\PostTypeRepository;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Pages\ListReferences;
-use Docalist\Databases\Pages\EditReference;
-use Docalist\Databases\Pages\ImportPage;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Pages\ListReferences;
+use Docalist\Data\Pages\EditReference;
+use Docalist\Data\Pages\ImportPage;
 use Docalist\Search\SearchUrl;
 use Docalist\Search\SearchRequest;
 use WP_Post;
@@ -68,7 +68,7 @@ class Database extends PostTypeRepository
         $type = $settings->postType();
 
         // Construit le dépôt
-        parent::__construct($type, 'Docalist\Databases\Type');
+        parent::__construct($type, 'Docalist\Data\Type');
 
         // Stocke nos paramètres
         $this->settings = $settings;
@@ -206,13 +206,13 @@ class Database extends PostTypeRepository
 
         // Vérifie que ce type de notice figure dans la base
         if (! isset($this->settings->types[$type])) {
-            $msg = __('Le type "%s" n\'existe pas dans la base "%s".', 'docalist-databases');
+            $msg = __('Le type "%s" n\'existe pas dans la base "%s".', 'docalist-data');
             throw new InvalidArgumentException(sprintf($msg, $type, $this->label()));
         }
 
         // Debug - vérifie que la grille 'base' existe
         if (! isset($this->settings->types[$type]->grids['base'])) {
-            $msg = __("La grille de base n'existe pas pour le type %s.", 'docalist-databases');
+            $msg = __("La grille de base n'existe pas pour le type %s.", 'docalist-data');
             throw new InvalidArgumentException(sprintf($msg, $type));
         }
 
@@ -568,26 +568,26 @@ class Database extends PostTypeRepository
         $label = $this->settings->label();
 
         // translators: une notice bibliographique unique
-        $singular = __('Notice %s', 'docalist-databases');
+        $singular = __('Notice %s', 'docalist-data');
         $singular = sprintf($singular, $label);
 
         // translators: une liste de notices bibliographiques
-        $all = __('Liste des notices', 'docalist-databases');
+        $all = __('Liste des notices', 'docalist-data');
 
         // translators: créer une notice
-        $new = __('Créer une notice', 'docalist-databases');
+        $new = __('Créer une notice', 'docalist-data');
 
         // translators: modifier une notice
-        $edit = __('Modifier', 'docalist-databases');
+        $edit = __('Modifier', 'docalist-data');
 
         // translators: afficher une notice
-        $view = __('Afficher', 'docalist-databases');
+        $view = __('Afficher', 'docalist-data');
 
         // translators: rechercher des notices
-        $search = __('Rechercher', 'docalist-databases');
+        $search = __('Rechercher', 'docalist-data');
 
         // translators: aucune notice trouvée
-        $notfound = __('Aucune notice trouvée dans la base %s.', 'docalist-databases');
+        $notfound = __('Aucune notice trouvée dans la base %s.', 'docalist-data');
         $notfound = sprintf($notfound, $label);
 
         // @formatter:off
@@ -656,45 +656,45 @@ class Database extends PostTypeRepository
         add_filter('docalist_search_get_facets', function ($facets) {
             $facets += [
                 'ref.status' => [
-                    'label' => __('Statut', 'docalist-databases'),
+                    'label' => __('Statut', 'docalist-data'),
                     'facet' => [
                         'field' => 'status.filter',
                     ],
                 ],
                 'ref.type' => [
-                    'label' => __('Type de document', 'docalist-databases'),
+                    'label' => __('Type de document', 'docalist-data'),
                     'facet' => [
                         'field' => 'type.filter',
                         // 'order' => 'term',
                     ],
                 ],
                 'ref.genre' => [
-                    'label' => __('Genre de document', 'docalist-databases'),
+                    'label' => __('Genre de document', 'docalist-data'),
                     'facet' => [
                         'field' => 'genre.filter',
                     ],
                 ],
                 'ref.media' => [
-                    'label' => __('Support de document', 'docalist-databases'),
+                    'label' => __('Support de document', 'docalist-data'),
                     'facet' => [
                         'field' => 'media.filter',
                     ],
                 ],
                 'ref.author' => [
-                    'label' => __('Auteur', 'docalist-databases'),
+                    'label' => __('Auteur', 'docalist-data'),
                     'facet' => [
                         'field' => 'author.filter',
                         'exclude' => ['et al.¤'],
                     ],
                 ],
                 'ref.organisation' => [
-                    'label' => __('Organisme', 'docalist-databases'),
+                    'label' => __('Organisme', 'docalist-data'),
                     'facet' => [
                         'field' => 'organisation.filter',
                     ],
                 ],
                 'ref.date' => [
-                    'label' => __('Année du document', 'docalist-databases'),
+                    'label' => __('Année du document', 'docalist-data'),
                     'type' => 'date_histogram',
                     'facet' => [
                         'field' => 'date',
@@ -702,32 +702,32 @@ class Database extends PostTypeRepository
                     ],
                 ],
                 'ref.journal' => [
-                    'label' => __('Revue', 'docalist-databases'),
+                    'label' => __('Revue', 'docalist-data'),
                     'facet' => [
                         'field' => 'journal.filter',
                     ],
                 ],
                 'ref.editor' => [
-                    'label' => __('Editeur', 'docalist-databases'),
+                    'label' => __('Editeur', 'docalist-data'),
                     'facet' => [
                         'field' => 'editor.filter',
                     ],
                 ],
                 'ref.event' => [
-                    'label' => __('Evénement', 'docalist-databases'),
+                    'label' => __('Evénement', 'docalist-data'),
                     'facet' => [
                         'field' => 'event.filter',
                     ],
                 ],
                 'ref.degree' => [
-                    'label' => __('Diplôme', 'docalist-databases'),
+                    'label' => __('Diplôme', 'docalist-data'),
                     'facet' => [
                         'field' => 'degree.filter',
                     ],
                 ],
                 /*//@todo : pas trouvé comment
                 'ref.abstract' => array(
-                    'label' => __('Résumé', 'docalist-databases'),
+                    'label' => __('Résumé', 'docalist-data'),
                     'type' => 'range',
                     'facet' => array(
                         'abstract' => array(
@@ -738,7 +738,7 @@ class Database extends PostTypeRepository
                 ),
                 */
                 'ref.topic' => [
-                    'label' => __('Mot-clé', 'docalist-databases'),
+                    'label' => __('Mot-clé', 'docalist-data'),
                     'facet' => [
                         'field' => 'topic.filter',
                         'size' => 10,
@@ -746,14 +746,14 @@ class Database extends PostTypeRepository
                     ],
                 ],
                 'ref.owner' => [
-                    'label' => __('Producteur de la notice', 'docalist-databases'),
+                    'label' => __('Producteur de la notice', 'docalist-data'),
                     'facet' => [
                         'field' => 'owner.filter',
                     ],
                 ],
 
                 'ref.creation' => [
-                    'label' => __('Année de création de la notice', 'docalist-databases'),
+                    'label' => __('Année de création de la notice', 'docalist-data'),
                     'type' => 'date_histogram',
                     'facet' => [
                         'field' => 'creation',
@@ -762,7 +762,7 @@ class Database extends PostTypeRepository
                 ],
 
                 'ref.lastupdate' => [
-                    'label' => __('Année de mise à jour de la notice', 'docalist-databases'),
+                    'label' => __('Année de mise à jour de la notice', 'docalist-data'),
                     'type' => 'date_histogram',
                     'facet' => [
                         'field' => 'lastupdate',
@@ -772,7 +772,7 @@ class Database extends PostTypeRepository
 
                 'ref.error' => [
                     //'state' => 'closed',
-                    'label' => __('Erreurs détectées', 'docalist-databases'),
+                    'label' => __('Erreurs détectées', 'docalist-data'),
                     'facet' => [
                         'field' => 'error.filter',
                     ],

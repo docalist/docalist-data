@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use XMLWriter;
 
@@ -97,7 +97,7 @@ class Xml extends Exporter
         return sprintf(
             __(
                 '<a href="%s">Extensible Markup Language</a> : fichier texte contenant des &lt;balises&gt;.',
-                'docalist-databases'
+                'docalist-data'
             ),
             'https://fr.wikipedia.org/wiki/Extensible_Markup_Language'
         );

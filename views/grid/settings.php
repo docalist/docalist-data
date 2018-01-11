@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 use Docalist\Forms\Form;
 
@@ -30,10 +30,10 @@ use Docalist\Forms\Form;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - %s - %s - paramètres', 'docalist-databases'), $database->label(), $type->name(), $grid->label()) ?></h1>
+    <h1><?= sprintf(__('%s - %s - %s - paramètres', 'docalist-data'), $database->label(), $type->name(), $grid->label()) ?></h1>
 
     <p class="description">
-        <?= __('Utilisez le formulaire ci-dessous pour modifier les paramètres généraux de la grille.', 'docalist-databases') ?>
+        <?= __('Utilisez le formulaire ci-dessous pour modifier les paramètres généraux de la grille.', 'docalist-data') ?>
     </p>
 
     <?php
@@ -42,18 +42,18 @@ use Docalist\Forms\Form;
         $form->input('name')
              ->addClass('regular-text')
              ->setAttribute('disabled')
-             ->setLabel(__('Nom', 'docalist-databases'))
-             ->setDescription(__('Nom interne de la grille (non modifiable).', 'docalist-databases'));
+             ->setLabel(__('Nom', 'docalist-data'))
+             ->setDescription(__('Nom interne de la grille (non modifiable).', 'docalist-data'));
         $form->input('label')
              ->addClass('regular-text')
-             ->setLabel(__('Libellé', 'docalist-databases'))
-             ->setDescription(__('Libellé utilisé pour désigner cette grille.', 'docalist-databases'));
+             ->setLabel(__('Libellé', 'docalist-data'))
+             ->setDescription(__('Libellé utilisé pour désigner cette grille.', 'docalist-data'));
         $form->textarea('description')
              ->setAttribute('rows', 2)
              ->addClass('large-text')
-             ->setLabel(__('Description', 'docalist-databases'))
-             ->setDescription(__('Description libre.', 'docalist-databases'));
-        $form->submit(__('Enregistrer les modifications', 'docalist-databases'));
+             ->setLabel(__('Description', 'docalist-data'))
+             ->setDescription(__('Description libre.', 'docalist-data'));
+        $form->submit(__('Enregistrer les modifications', 'docalist-data'));
 
         $form->bind($grid)->display();
     ?>

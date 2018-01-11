@@ -99,7 +99,7 @@ class RecordIterator implements Iterator, Countable
 
     public function current()
     {
-        return docalist('docalist-biblio')->getReference($this->key());
+        return docalist('docalist-data')->getReference($this->key());
     }
 
     public function key()

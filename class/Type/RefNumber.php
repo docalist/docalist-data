@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Integer;
 
@@ -21,10 +21,10 @@ class RefNumber extends Integer
     public static function loadSchema()
     {
         return [
-            'label' => __('Numéro de fiche', 'docalist-databases'),
+            'label' => __('Numéro de fiche', 'docalist-data'),
             'description' => __(
                 'Numéro unique attribué par docalist pour identifier la fiche au sein de la collection.',
-                'docalist-databases'
+                'docalist-data'
             ),
         ];
     }

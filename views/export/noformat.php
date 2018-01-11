@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export\Views;
+namespace Docalist\Data\Export\Views;
 
-use Docalist\Databases\Export\Plugin;
+use Docalist\Data\Export\Plugin;
 
 /**
  * Affiche un message "aucun format disponible"
@@ -28,7 +28,7 @@ if (count($types) === 1) {
 } else {
     $detail = [];
     foreach ($types as $label => $count) {
-        $detail[] = sprintf(__('%s : %d', 'docalist-databases'), lcfirst($label), $count);
+        $detail[] = sprintf(__('%s : %d', 'docalist-data'), lcfirst($label), $count);
     }
     $detail = implode(', ', $detail);
 }

@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Import;
+namespace Docalist\Data\Import;
 
 use Iterator;
 use stdClass;

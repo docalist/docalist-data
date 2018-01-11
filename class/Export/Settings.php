@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use Docalist\Type\Settings as TypeSettings;
 use Docalist\Type\Integer;
@@ -22,7 +22,7 @@ use Docalist\Type\Integer;
  */
 class Settings extends TypeSettings
 {
-    protected $id = 'docalist-databases-export';
+    protected $id = 'docalist-data-export';
 
     public static function loadSchema()
     {
@@ -30,19 +30,19 @@ class Settings extends TypeSettings
             'fields' => [
                 'exportpage' => [
                     'type' => 'Docalist\Type\Integer',
-                    'label' => __("Page pour l'export", 'docalist-databases'),
+                    'label' => __("Page pour l'export", 'docalist-data'),
                     'description' => __(
                         "Page WordPress sur laquelle l'export sera disponible.",
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                     'default' => 0,
                 ],
                 'limit' => [
-                    'type' => 'Docalist\Databases\Export\LimitSetting*',
-                    'label' => __("Limites de l'export", 'docalist-databases'),
+                    'type' => 'Docalist\Data\Export\LimitSetting*',
+                    'label' => __("Limites de l'export", 'docalist-data'),
                     'description' => __(
                         'Liste des rôles autorisés à exporter des notices et nombre maximum de notices par rôle.',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                     'key' => 'role',
                 ],

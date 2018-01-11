@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\MultiField;
 use Docalist\Type\TableEntry;
@@ -40,32 +40,32 @@ class Link extends MultiField
     public static function loadSchema()
     {
         return [
-            'label' => __('Liens internet', 'docalist-databases'),
+            'label' => __('Liens internet', 'docalist-data'),
             'description' => __(
                 "Liens associés au document : texte intégral du document, site de l'auteur, bande annonce...",
-                'docalist-databases'
+                'docalist-data'
             ),
             'fields' => [
                 'type' => [
                     'type' => 'Docalist\Type\TableEntry',
-                    'label' => __('Type', 'docalist-databases'),
-                    'description' => __('Type de lien', 'docalist-databases'),
+                    'label' => __('Type', 'docalist-data'),
+                    'description' => __('Type de lien', 'docalist-data'),
                     'table' => 'table:links',
                 ],
                 'url' => [
                     'type' => 'Docalist\Type\Url',
-                    'label' => __('Adresse', 'docalist-databases'),
-                    'description' => __('Url complète du lien', 'docalist-databases'),
+                    'label' => __('Adresse', 'docalist-data'),
+                    'description' => __('Url complète du lien', 'docalist-data'),
                 ],
                 'label' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Libellé', 'docalist-databases'),
-                    'description' => __('Texte à afficher', 'docalist-databases'),
+                    'label' => __('Libellé', 'docalist-data'),
+                    'description' => __('Texte à afficher', 'docalist-data'),
                 ],
                 'date' => [
                     'type' => 'Docalist\Type\DateTime',
-                    'label' => __('Accédé le', 'docalist-databases'),
-                    'description' => __('Date', 'docalist-databases'),
+                    'label' => __('Accédé le', 'docalist-data'),
+                    'description' => __('Date', 'docalist-data'),
                 ],
             ]
         ];
@@ -171,7 +171,7 @@ class Link extends MultiField
     private function formatLink($options = null)
     {
         if (isset($this->date)) {
-            $title = sprintf(__('Lien consulté le %s', 'docalist-databases'), $this->formatField('date', $options));
+            $title = sprintf(__('Lien consulté le %s', 'docalist-data'), $this->formatField('date', $options));
             $format = '<a href="%1$s" title="%3$s">%2$s</a>';
         } else {
             $title = '';
@@ -203,7 +203,7 @@ class Link extends MultiField
         $title = $this->formatLabel($options);
         if (isset($this->date)) {
             $title .= ' ';
-            $title .= sprintf(__('(lien consulté le %s)', 'docalist-databases'), $this->formatField('date', $options));
+            $title .= sprintf(__('(lien consulté le %s)', 'docalist-data'), $this->formatField('date', $options));
         }
 
         return sprintf(

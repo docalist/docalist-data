@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Forms\Form;
 
 /**
@@ -24,20 +24,20 @@ use Docalist\Forms\Form;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - importer des paramètres', 'docalist-databases'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s - importer des paramètres', 'docalist-data'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Collez le code contenant les paramètres à importer dans la zone de texte ci-dessous.', 'docalist-databases') ?>
+        <?= __('Collez le code contenant les paramètres à importer dans la zone de texte ci-dessous.', 'docalist-data') ?>
     </p>
 
     <?php
         $form = new Form();
         $form->textarea('settings')
-             ->setLabel(__('Paramètres à importer', 'docalist-databases'))
-             ->setDescription(__("Collez le code que vous avez copié en utilisant l'option 'exporter paramètres'. Le code commence par { et se termine par }, veillez à tout inclure.", 'docalist-databases'))
+             ->setLabel(__('Paramètres à importer', 'docalist-data'))
+             ->setDescription(__("Collez le code que vous avez copié en utilisant l'option 'exporter paramètres'. Le code commence par { et se termine par }, veillez à tout inclure.", 'docalist-data'))
              ->addClass('code large-text')
              ->setAttribute('style', 'height: 70vh');
-        $form->submit(__('Importer...', 'docalist-databases'));
+        $form->submit(__('Importer...', 'docalist-data'));
 
         $form->display();
     ?>

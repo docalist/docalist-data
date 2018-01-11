@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Settings\TypeSettings;
 
 /**
  * Liste des types d'une base de données.
@@ -24,18 +24,18 @@ use Docalist\Databases\Settings\TypeSettings;
  */
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s : types de notices', 'docalist-databases'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s : types de notices', 'docalist-data'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Votre base de données contient les types de notices suivants :', 'docalist-databases') ?>
+        <?= __('Votre base de données contient les types de notices suivants :', 'docalist-data') ?>
     </p>
 
     <table class="widefat fixed">
 
     <thead>
         <tr>
-            <th><?= __('Type', 'docalist-databases') ?></th>
-            <th><?= __('Description', 'docalist-databases') ?></th>
+            <th><?= __('Type', 'docalist-data') ?></th>
+            <th><?= __('Description', 'docalist-data') ?></th>
         </tr>
     </thead>
 
@@ -59,25 +59,25 @@ use Docalist\Databases\Settings\TypeSettings;
             <div class="row-actions">
                 <span class="edit">
                     <a href="<?= $edit ?>">
-                        <?= __('Paramètres', 'docalist-databases') ?>
+                        <?= __('Paramètres', 'docalist-data') ?>
                     </a>
                 </span>
                 |
                 <span class="fields">
                     <a href="<?= $listGrids ?>">
-                        <?= __('Grilles et formulaires', 'docalist-databases') ?>
+                        <?= __('Grilles et formulaires', 'docalist-data') ?>
                     </a>
                 </span>
                 |
                 <span class="delete">
                     <a href="<?= $delete ?>">
-                        <?= __('Supprimer ce type', 'docalist-databases') ?>
+                        <?= __('Supprimer ce type', 'docalist-data') ?>
                     </a>
                 </span>
                 |
                 <span class="recreate">
                     <a href="<?= $recreate ?>">
-                        <?= __('debug : recréer', 'docalist-databases') ?>
+                        <?= __('debug : recréer', 'docalist-data') ?>
                     </a>
                 </span>
             </div>
@@ -91,7 +91,7 @@ use Docalist\Databases\Settings\TypeSettings;
     if ($nb === 0) : ?>
         <tr>
             <td colspan="2">
-                <em><?= __('Aucun type de notices dans cette base.', 'docalist-databases') ?></em>
+                <em><?= __('Aucun type de notices dans cette base.', 'docalist-data') ?></em>
             </td>
         </tr>
     <?php endif; ?>
@@ -100,7 +100,7 @@ use Docalist\Databases\Settings\TypeSettings;
 
     <p>
         <a href="<?= esc_url($addType) ?>" class="button button-primary">
-            <?= __('Ajouter un type de notices...', 'docalist-databases') ?>
+            <?= __('Ajouter un type de notices...', 'docalist-data') ?>
         </a>
     </p>
 </div>

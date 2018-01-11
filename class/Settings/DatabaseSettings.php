@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Settings;
+namespace Docalist\Data\Settings;
 
 use Docalist\Type\Composite;
 use Docalist\Type\Text;
@@ -46,20 +46,20 @@ class DatabaseSettings extends Composite
             'fields' => [
                 'name' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Nom de la base', 'docalist-databases'),
-                    'description' => __('Nom de code interne de la base de données.', 'docalist-databases'),
+                    'label' => __('Nom de la base', 'docalist-data'),
+                    'description' => __('Nom de code interne de la base de données.', 'docalist-data'),
                 ],
 
                 'homepage' => [
                     'type' => 'Docalist\Type\Integer',
-                    'label' => __("Page d'accueil", 'docalist-databases'),
-                    'description' => __("Page d'accueil de la base.", 'docalist-databases'),
+                    'label' => __("Page d'accueil", 'docalist-data'),
+                    'description' => __("Page d'accueil de la base.", 'docalist-data'),
                 ],
 
                 'homemode' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Mode accueil', 'docalist-databases'),
-                    'description' => __("Mode de fonctionnement de la page d'accueil.", 'docalist-databases'),
+                    'label' => __('Mode accueil', 'docalist-data'),
+                    'description' => __("Mode de fonctionnement de la page d'accueil.", 'docalist-data'),
                 ],
 
                 'searchpage' => [
@@ -73,83 +73,83 @@ class DatabaseSettings extends Composite
 
                 'label' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Libellé à afficher', 'docalist-databases'),
+                    'label' => __('Libellé à afficher', 'docalist-data'),
                     'description' => __(
                         'Libellé affiché dans les menus et dans les pages du back-office.',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                 ],
 
                 'description' => [
                     'type' => 'Docalist\Type\LargeText',
-                    'label' => __('Description', 'docalist-databases'),
-                    'description' => __('Description de la base.', 'docalist-databases'),
+                    'label' => __('Description', 'docalist-data'),
+                    'description' => __('Description de la base.', 'docalist-data'),
                 ],
 
                 'stemming' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Stemming', 'docalist-databases'),
+                    'label' => __('Stemming', 'docalist-data'),
                     'description' => __(
                         'Stemming qui sera appliqué aux champs textes des notices.',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                     'default' => 'fr',
                 ],
                 'types' => [
-                    'type' => 'Docalist\Databases\Settings\TypeSettings*',
+                    'type' => 'Docalist\Data\Settings\TypeSettings*',
                     'key' => 'name',
-                    'label' => __('Types de notices gérés dans cette base', 'docalist-databases'),
+                    'label' => __('Types de notices gérés dans cette base', 'docalist-data'),
                 ],
                 'creation' => [
                     'type' => 'Docalist\Type\DateTime',
-                    'label' => __('Date de création', 'docalist-databases'),
-                    'description' => __('Date/heure de création de la base.', 'docalist-databases'),
+                    'label' => __('Date de création', 'docalist-data'),
+                    'description' => __('Date/heure de création de la base.', 'docalist-data'),
                 ],
 
                 'lastupdate' => [
                     'type' => 'Docalist\Type\DateTime',
-                    'label' => __('Dernière modification', 'docalist-databases'),
+                    'label' => __('Dernière modification', 'docalist-data'),
                     'description' => __(
                         'Date/heure de dernière modification des paramètres de la base.',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                 ],
 
                 'icon' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Icône', 'docalist-databases'),
+                    'label' => __('Icône', 'docalist-data'),
                     'default' => 'dashicons-feedback',
                     'description' => __(
                         'Nom de la dashicon affichée dans les menus WordPress.',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                 ],
 
                 'notes' => [
                     'type' => 'Docalist\Type\LargeText',
-                    'label' => __('Notes et historique', 'docalist-databases'),
-                    'description' => __('Notes pour les administrateurs.', 'docalist-databases'),
+                    'label' => __('Notes et historique', 'docalist-data'),
+                    'description' => __('Notes pour les administrateurs.', 'docalist-data'),
                 ],
 
                 'thumbnail' => [
                     'type' => 'Docalist\Type\Boolean',
-                    'label' => __('Image à la une', 'docalist-databases'),
-                    'description' => __('Les références peuvent avoir une image à la une.', 'docalist-databases'),
+                    'label' => __('Image à la une', 'docalist-data'),
+                    'description' => __('Les références peuvent avoir une image à la une.', 'docalist-data'),
                 ],
 
                 'revisions' => [
                     'type' => 'Docalist\Type\Boolean',
-                    'label' => __('Activer les révisions', 'docalist-databases'),
+                    'label' => __('Activer les révisions', 'docalist-data'),
                     'description' => __(
                         'Journaliser les modifications apportées aux références.',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                 ],
 
                 'comments' => [
                     'type' => 'Docalist\Type\Boolean',
-                    'label' => __('Activer les commentaires', 'docalist-databases'),
-                    'description' => __('Les références peuvent avoir des commentaires.', 'docalist-databases'),
+                    'label' => __('Activer les commentaires', 'docalist-data'),
+                    'description' => __('Les références peuvent avoir des commentaires.', 'docalist-data'),
                 ],
             ],
         ];
@@ -167,7 +167,7 @@ class DatabaseSettings extends Composite
     public function validate()
     {
         if (!preg_match('~^[a-z][a-z0-9-]{1,13}$~', $this->name())) {
-            throw new Exception(__('Le nom de la base est invalide.', 'docalist-databases'));
+            throw new Exception(__('Le nom de la base est invalide.', 'docalist-data'));
         }
 
         $this->label = strip_tags($this->label());

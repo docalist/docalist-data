@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Text;
 
@@ -21,8 +21,8 @@ class PostPassword extends Text
     public static function loadSchema()
     {
         return [
-            'label' => __('Mot de passe', 'docalist-databases'),
-            'description' => __('Mot de passe WordPress requis pour consulter la fiche.', 'docalist-databases'),
+            'label' => __('Mot de passe', 'docalist-data'),
+            'description' => __('Mot de passe WordPress requis pour consulter la fiche.', 'docalist-data'),
         ];
     }
 }

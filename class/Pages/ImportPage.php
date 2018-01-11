@@ -7,18 +7,18 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Pages;
+namespace Docalist\Data\Pages;
 
-use Docalist\Databases\Database;
-use Docalist\Databases\Record;
+use Docalist\Data\Database;
+use Docalist\Data\Record;
 use Docalist\AdminPage;
 use Docalist\Schema\Schema;
 use Docalist\Http\ViewResponse;
 use Docalist\Http\CallbackResponse;
 use Docalist\Search\SearchRequest;
-use Docalist\Databases\Reference\ReferenceIterator;
-use Docalist\Databases\Export\Converter;
-use Docalist\Databases\Export\Exporter;
+use Docalist\Data\Reference\ReferenceIterator;
+use Docalist\Data\Export\Converter;
+use Docalist\Data\Export\Exporter;
 
 /**
  * Page "Importer" d'une base
@@ -43,7 +43,7 @@ class ImportPage extends AdminPage
         parent::__construct(
             'import-' . $database->postType(),              // ID
             'edit.php?post_type=' . $database->postType(),  // Page parent
-            __('Gérer', 'docalist-databases')                  // Libellé du menu
+            __('Gérer', 'docalist-data')                  // Libellé du menu
         );
         $this->database = $database;
     }
@@ -76,15 +76,15 @@ class ImportPage extends AdminPage
         $importers = apply_filters('docalist_databases_get_importers', [], $this->database);
         if (empty($importers)) {
             return $this->view('docalist-core:error', [
-                'h2' => __('Importer un fichier', 'docalist-databases'),
-                'h3' => __("Aucun importeur disponible", 'docalist-databases'),
-                'message' => sprintf(__("Aucun format d'import n'est disponible.", 'docalist-databases')),
+                'h2' => __('Importer un fichier', 'docalist-data'),
+                'h3' => __("Aucun importeur disponible", 'docalist-data'),
+                'message' => sprintf(__("Aucun format d'import n'est disponible.", 'docalist-data')),
             ]);
         }
 
         // Permet à l'utilisateur d'uploader et de choisir les fichiers à charger
         if (empty($ids)) {
-            return $this->view('docalist-databases:import/choose', [
+            return $this->view('docalist-data:import/choose', [
                 'database' => $this->database,
                 'settings' => $this->database->settings(),
                 'converters' => $importers,
@@ -98,19 +98,19 @@ class ImportPage extends AdminPage
             $path = get_attached_file($id);
             if (empty($path) || ! file_exists($path)) {
                 return $this->view('docalist-core:error', [
-                    'h2' => __('Importer un fichier', 'docalist-databases'),
-                    'h3' => __("Fichier non trouvé", 'docalist-databases'),
-                    'message' => sprintf(__("Le fichier %s n'existe pas.", 'docalist-databases'), $id),
+                    'h2' => __('Importer un fichier', 'docalist-data'),
+                    'h3' => __("Fichier non trouvé", 'docalist-data'),
+                    'message' => sprintf(__("Le fichier %s n'existe pas.", 'docalist-data'), $id),
                 ]);
             }
 
             // Vérifie le format indiqué
             if (empty($formats[$index]) || !isset($importers[$formats[$index]])) {
                 return $this->view('docalist-core:error', [
-                    'h2' => __('Importer un fichier', 'docalist-databases'),
-                    'h3' => __("Convertisseur incorrect", 'docalist-databases'),
+                    'h2' => __('Importer un fichier', 'docalist-data'),
+                    'h3' => __("Convertisseur incorrect", 'docalist-data'),
                     'message' => sprintf(
-                        __("Le convertisseur indiqué pour le fichier %s n'est pas valide.", 'docalist-databases'),
+                        __("Le convertisseur indiqué pour le fichier %s n'est pas valide.", 'docalist-data'),
                         $id
                     ),
                 ]);
@@ -148,7 +148,7 @@ class ImportPage extends AdminPage
             // Pour suivre le déroulement de l'import, on affiche une vue qui
             // installe différents filtres sur les événements déclenchés
             // pendant l'import.
-            $this->view('docalist-databases:import/import')->sendContent();
+            $this->view('docalist-data:import/import')->sendContent();
 
             // Début de l'import
             do_action('docalist_databases_before_import', $files, $this->database, $options);
@@ -165,7 +165,7 @@ class ImportPage extends AdminPage
                 if (! has_action($tag)) {
                     $msg = __(
                         "L'importeur %s n'est pas installé correctement, impossible d'importer le fichier.",
-                        'docalist-databases'
+                        'docalist-data'
                     );
                     do_action('docalist_databases_import_error', sprintf($msg, $importer));
                 }
@@ -194,7 +194,7 @@ class ImportPage extends AdminPage
     {
         if (! $confirm) {
             return $this->view(
-                'docalist-databases:delete-all/confirm',
+                'docalist-data:delete-all/confirm',
                 [ 'database' => $this->database ]
             );
         }
@@ -214,7 +214,7 @@ class ImportPage extends AdminPage
             // Pour suivre le déroulement, on affiche une vue qui installe
             // différents filtres sur les événements déclenchés pendant la
             // suppression.
-            $this->view('docalist-databases:delete-all/delete-all')->sendContent();
+            $this->view('docalist-data:delete-all/delete-all')->sendContent();
 
             // Lance la suppression
             $this->database->deleteAll();
@@ -280,11 +280,11 @@ class ImportPage extends AdminPage
         printf(
             $msg,
             $maxlevel,
-            __('Nom du champ', 'docalist-databases'),
-            __('Libellé', 'docalist-databases'),
-            __('Description', 'docalist-databases'),
-            __('Type', 'docalist-databases'),
-            __('Répétable', 'docalist-databases')
+            __('Nom du champ', 'docalist-data'),
+            __('Libellé', 'docalist-data'),
+            __('Description', 'docalist-data'),
+            __('Type', 'docalist-data'),
+            __('Répétable', 'docalist-data')
         );
 
         $this->doc($schema->getFields(), 0, $maxlevel);
@@ -304,8 +304,8 @@ class ImportPage extends AdminPage
             }
 
             $repeat = $field->repeatable()
-                ? __('<b>Répétable</b>', 'docalist-databases')
-                : __('Monovalué', 'docalist-databases');
+                ? __('<b>Répétable</b>', 'docalist-data')
+                : __('Monovalué', 'docalist-data');
             $msg = '<th colspan="%1$d"><h%2$d style="margin: 0">%3$s</h%2$d></th>';
             $msg .= '<td class="row-title">%4$s</td><td><i>%5$s</i></td><td>%6$s</td><td>%7$s</td>';
 
@@ -349,7 +349,7 @@ class ImportPage extends AdminPage
 
         // Si la requête est vide, demande à l'utilisateur de saisir une équation
         if (empty($args)) {
-            return $this->view('docalist-databases:export/choose-refs', [
+            return $this->view('docalist-data:export/choose-refs', [
                 'database' => $this->database,
                 'format' => $format,
             ]);
@@ -367,12 +367,12 @@ class ImportPage extends AdminPage
 
         // Si on a zéro réponses, corrige l'équation de recherche
         if (0 === $results->getHitsCount()) {
-            return $this->view('docalist-databases:export/choose-refs', [
+            return $this->view('docalist-data:export/choose-refs', [
                 'database' => $this->database,
                 'format' => $format,
                 'error' => __(
                     "Aucune notice ne correspond aux critères de recherche indiqués.",
-                    'docalist-databases'
+                    'docalist-data'
                 )
             ]);
         }
@@ -381,15 +381,15 @@ class ImportPage extends AdminPage
         $formats = apply_filters('docalist_databases_get_export_formats', [], $this->database);
         if (empty($formats)) {
             return $this->view('docalist-core:error', [
-                'h2' => __('Exporter des notices', 'docalist-databases'),
-                'h3' => __("Aucun format d'export disponible", 'docalist-databases'),
-                'message' => sprintf(__("Aucun format d'export n'est disponible.", 'docalist-databases')),
+                'h2' => __('Exporter des notices', 'docalist-data'),
+                'h3' => __("Aucun format d'export disponible", 'docalist-data'),
+                'message' => sprintf(__("Aucun format d'export n'est disponible.", 'docalist-data')),
             ]);
         }
 
         // Permet à l'utilisateur de choisir le format d'export
         if (empty($format)) {
-            return $this->view('docalist-databases:export/choose-exporter', [
+            return $this->view('docalist-data:export/choose-exporter', [
                 'database' => $this->database,
                 'formats' => $formats,
                 'args' => $args,
@@ -399,10 +399,10 @@ class ImportPage extends AdminPage
         // Vérifie que le format d'export indiqué existe
         if (!isset($formats[$format])) {
             return $this->view('docalist-core:error', [
-                'h2' => __('Exporter des notices', 'docalist-databases'),
-                'h3' => __("Format d'export incorrect", 'docalist-databases'),
+                'h2' => __('Exporter des notices', 'docalist-data'),
+                'h3' => __("Format d'export incorrect", 'docalist-data'),
                 'message' => sprintf(
-                    __("Le format d'export indiqué (%s) n'est pas valide.", 'docalist-databases'),
+                    __("Le format d'export indiqué (%s) n'est pas valide.", 'docalist-data'),
                     $format
                 ),
             ]);
@@ -413,9 +413,9 @@ class ImportPage extends AdminPage
         // Vérifie que le format indique le nom du convertisseur à utiliser
         if (!isset($format['converter'])) {
             return $this->view('docalist-core:error', [
-                'h2' => __('Exporter des notices', 'docalist-databases'),
-                'h3' => __("Format d'export incorrect", 'docalist-databases'),
-                'message' => sprintf(__("Aucun convertisseur indiqué dans le format %s.", 'docalist-databases'), $name),
+                'h2' => __('Exporter des notices', 'docalist-data'),
+                'h3' => __("Format d'export incorrect", 'docalist-data'),
+                'message' => sprintf(__("Aucun convertisseur indiqué dans le format %s.", 'docalist-data'), $name),
             ]);
         }
         $converter = $format['converter'];
@@ -423,9 +423,9 @@ class ImportPage extends AdminPage
         // Vérifie que le format indique le nom de l'exporter à utiliser
         if (!isset($format['exporter'])) {
             return $this->view('docalist-core:error', [
-                'h2' => __('Exporter des notices', 'docalist-databases'),
-                'h3' => __("Format d'export incorrect", 'docalist-databases'),
-                'message' => sprintf(__("Aucune exporteur indiqué dans le format %s.", 'docalist-databases'), $name),
+                'h2' => __('Exporter des notices', 'docalist-data'),
+                'h3' => __("Format d'export incorrect", 'docalist-data'),
+                'message' => sprintf(__("Aucune exporteur indiqué dans le format %s.", 'docalist-data'), $name),
             ]);
         }
         $exporter = $format['exporter'];
@@ -462,7 +462,7 @@ class ImportPage extends AdminPage
     public function actionShowSettings()
     {
         return $this->view('docalist-core:info', [
-            'h2' => __('Settings', 'docalist-databases'),
+            'h2' => __('Settings', 'docalist-data'),
 //            'message' => '<pre>' . (string)$this->database->settings() . '</pre>',
             'message' => '<pre>' . var_export($this->database->settings(), true) . '</pre>',
         ]);

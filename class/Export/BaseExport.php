@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 /**
  * Classe de base pour les convertisseurs et les exporteurs.
@@ -43,7 +43,7 @@ namespace Docalist\Databases\Export;
  *       'converter' => 'Prisme\Export\Prisme2014',
  *
  *       // Nom de classe complet de l'exporteur à utiliser
- *       'exporter' => 'Docalist\Databases\Export\Json',
+ *       'exporter' => 'Docalist\Data\Export\Json',
  *
  *       // Paramétres éventuels du convertisseur
  *       'converter-settings' => [
@@ -75,7 +75,7 @@ namespace Docalist\Databases\Export;
  * les paramètres obtenus sont enregistrés.
  *
  * Par la suite, lorsqu'un exporteur ou un convertisseur est créé,
- * docalist-databases lui fournit les paramètres enregistrés et il peut accéder
+ * docalist-data lui fournit les paramètres enregistrés et il peut accéder
  * à ses paramètres en utilisant la méthode get() qui permet de récupérer une
  * option de configuration.
  *
@@ -192,8 +192,8 @@ abstract class BaseExport
      * Retourne l'identifiant unique de l'objet.
      *
      * L'identifiant est généré à partir du nom complet de la classe PHP. Les antislashs sont remplacés par un tiret
-     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-databases-export-xml" pour la classe
-     * "Docalist\Databases\Export\Xml".
+     * et l'ensemble est converti en minuscules. Exemple : retourne "docalist-data-export-xml" pour la classe
+     * "Docalist\Data\Export\Xml".
      *
      * Remarque : Le résultat obtenu est utilisable comme nom de classe CSS ou comme id dans du code html.
      *
@@ -208,7 +208,7 @@ abstract class BaseExport
      * Retourne le nom usuel utilisé pour identifier l'objet.
      *
      * Par défaut, le nom usuel correspond à la version en minuscules du nom court (sans namespace) de la classe PHP.
-     * Par Exemple : retourne "xml" pour la classe "Docalist\Databases\Export\Xml".
+     * Par Exemple : retourne "xml" pour la classe "Docalist\Data\Export\Xml".
      *
      * Les classes descendantes peuvent surcharger la méthode pour retourner un nom plus approprié.
      *

@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Forms\Form;
 
 /**
@@ -25,10 +25,10 @@ use Docalist\Forms\Form;
  */
 ?>
 <div class="wrap">
-    <h1><?= __('Paramètres de la base', 'docalist-databases') ?></h1>
+    <h1><?= __('Paramètres de la base', 'docalist-data') ?></h1>
 
     <p class="description">
-        <?= __('Utilisez le formulaire ci-dessous pour modifier les paramètres de votre base de données :', 'docalist-databases') ?>
+        <?= __('Utilisez le formulaire ci-dessous pour modifier les paramètres de votre base de données :', 'docalist-data') ?>
     </p>
 
     <?php if ($error) :?>
@@ -51,50 +51,50 @@ use Docalist\Forms\Form;
 
         $form = new Form();
 
-        $form->tag('h2.title', __('Paramètres généraux', 'docalist-databases'));
-        $form->tag('p', __('Options de publication de votre base de données.', 'docalist-databases'));
+        $form->tag('h2.title', __('Paramètres généraux', 'docalist-data'));
+        $form->tag('p', __('Options de publication de votre base de données.', 'docalist-data'));
         $form->input('name')
              ->addClass('regular-text')
-             ->setDescription(__('Nom de code interne de la base de données, de 1 à 14 caractères, lettres minuscules, chiffres et tiret autorisés.', 'docalist-databases'));
+             ->setDescription(__('Nom de code interne de la base de données, de 1 à 14 caractères, lettres minuscules, chiffres et tiret autorisés.', 'docalist-data'));
         $form->select('homepage')
              ->setOptions(pagesList())
              ->setFirstOption(false)
-             ->setDescription(__("Choisissez la page d'accueil de votre base. Les références auront un permalien de la forme <code>/votre/page/12345/</code>.", 'docalist-databases'));
+             ->setDescription(__("Choisissez la page d'accueil de votre base. Les références auront un permalien de la forme <code>/votre/page/12345/</code>.", 'docalist-data'));
         $form->select('homemode')
-             ->setLabel(__("La page d'accueil affiche", 'docalist-databases'))
+             ->setLabel(__("La page d'accueil affiche", 'docalist-data'))
              ->setOptions([
-                 'page'     => __('Le contenu de la page WordPress', 'docalist-databases'),
-                 'archive'  => __('Une archive WordPress de toutes les références', 'docalist-databases'),
-                 'search'   => __('Une recherche docalist-search "*"', 'docalist-databases')
+                 'page'     => __('Le contenu de la page WordPress', 'docalist-data'),
+                 'archive'  => __('Une archive WordPress de toutes les références', 'docalist-data'),
+                 'search'   => __('Une recherche docalist-search "*"', 'docalist-data')
              ])
              ->setFirstOption(false)
-             ->setDescription(__("Choisissez ce qui doit être affiché lorsque vous visitez la page d'accueil de votre base.", 'docalist-databases'));
+             ->setDescription(__("Choisissez ce qui doit être affiché lorsque vous visitez la page d'accueil de votre base.", 'docalist-data'));
         $form->select('searchpage')
              ->setOptions(pagesList())
              ->setFirstOption(false);
 
-        $form->tag('h2.title', __('Fonctionnalités', 'docalist-databases'));
-        $form->tag('p', __('Options et fonctionnalités disponibles pour cette base.', 'docalist-databases'));
+        $form->tag('h2.title', __('Fonctionnalités', 'docalist-data'));
+        $form->tag('p', __('Options et fonctionnalités disponibles pour cette base.', 'docalist-data'));
         $form->checkbox('thumbnail');
         $form->checkbox('revisions');
         $form->checkbox('comments');
 
-        $form->tag('h2.title', __('Indexation docalist-search', 'docalist-databases'));
-        $form->tag('p', __("Options d'indexation dans le moteur de recherche.", 'docalist-databases'));
+        $form->tag('h2.title', __('Indexation docalist-search', 'docalist-data'));
+        $form->tag('p', __("Options d'indexation dans le moteur de recherche.", 'docalist-data'));
         $form->select('stemming')
              ->addClass('regular-text')
-             ->setFirstOption(__('(Pas de stemming)', 'docalist-databases'))
+             ->setFirstOption(__('(Pas de stemming)', 'docalist-data'))
              ->setOptions($analyzers);
 
-        $form->tag('h2.title', __('Intégration dans WordPress', 'docalist-databases'));
-        $form->tag('p', __("Apparence de cette base dans le back-office de WordPress.", 'docalist-databases'));
+        $form->tag('h2.title', __('Intégration dans WordPress', 'docalist-data'));
+        $form->tag('p', __("Apparence de cette base dans le back-office de WordPress.", 'docalist-data'));
         $form->input('icon')
              ->addClass('medium-text')
              ->setDescription(sprintf(
                 __('Icône à utiliser dans le menu de WordPress. Par exemple %s pour obtenir l\'icône %s.<br />
                     Pour choisir une icône, allez sur le site %s, faites votre voix et recopiez le nom de l\'icône.<br />
                     Remarque : vous pouvez également indiquer l\'url complète d\'une image, mais dans ce cas celle-ci ne s\'adaptera pas automatiquement au back-office de WordPress.',
-                    'docalist-databases'),
+                    'docalist-data'),
                 '<code>dashicons-book</code>',
                 '<span class="dashicons dashicons-book"></span>',
                 '<a href="https://developer.wordpress.org/resource/dashicons/#book" target="_blank">WordPress dashicons</a>'
@@ -105,8 +105,8 @@ use Docalist\Forms\Form;
              ->setAttribute('rows', 2)
              ->addClass('large-text');
 
-        $form->tag('h2.title', __('Autres informations', 'docalist-databases'));
-        $form->tag('p', __('Informations pour vous.', 'docalist-databases'));
+        $form->tag('h2.title', __('Autres informations', 'docalist-data'));
+        $form->tag('p', __('Informations pour vous.', 'docalist-data'));
         $form->input('creation')
              ->setAttribute('disabled');
         $form->input('lastupdate')
@@ -114,9 +114,9 @@ use Docalist\Forms\Form;
         $form->textarea('notes')
              ->setAttribute('rows', 10)
              ->addClass('large-text')
-             ->setDescription(__("Vous pouvez utiliser cette zone pour stocker toute information qui vous est utile : historique, modifications apportées, etc.", 'docalist-databases'));
+             ->setDescription(__("Vous pouvez utiliser cette zone pour stocker toute information qui vous est utile : historique, modifications apportées, etc.", 'docalist-data'));
 
-        $form->submit(__('Enregistrer les modifications', 'docalist-databases'))
+        $form->submit(__('Enregistrer les modifications', 'docalist-data'))
             ->addClass('button button-primary');
 
         !isset($database->creation) && $database->creation = date_i18n('Y/m/d H:i:s');

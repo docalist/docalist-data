@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use Docalist\Type\Composite;
 use Docalist\Type\Text;
@@ -29,15 +29,15 @@ class LimitSetting extends Composite
             'fields' => [
                 'role' => [
                     'type' => 'Docalist\Type\Text',
-                    'label' => __('Rôle WordPress', 'docalist-databases'),
-                    'description' => __("Nom du groupe d'utilisateurs", 'docalist-databases'),
+                    'label' => __('Rôle WordPress', 'docalist-data'),
+                    'description' => __("Nom du groupe d'utilisateurs", 'docalist-data'),
                 ],
                 'limit' => [
                     'type' => 'Docalist\Type\Integer',
-                    'label' => __('Limite pour ce rôle', 'docalist-databases'),
+                    'label' => __('Limite pour ce rôle', 'docalist-data'),
                     'description' => __(
                         'Nombre maximum de notices exportables pour ce rôle (0 = pas de limite).',
-                        'docalist-databases'
+                        'docalist-data'
                     ),
                 ],
             ],

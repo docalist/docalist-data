@@ -7,15 +7,15 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 use Docalist\Forms\Metabox;
 use Docalist\Forms\Container;
-use Docalist\Databases\Type\Group;
+use Docalist\Data\Type\Group;
 
 /**
  * Edite une grille.
@@ -66,7 +66,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $label = $prefix ?: $grid->label();
     $label = sprintf('%s - <span class="label">%s</span>', $prefix, $grid->label() ?: $schema->label());
     $label = sprintf('<span>%s</span>', $grid->label() ?: $schema->label());
-    $prefix && ($grid->type() !== 'Docalist\Databases\Type\Group') && $label .= " <small>($prefix)</small>";
+    $prefix && ($grid->type() !== 'Docalist\Data\Type\Group') && $label .= " <small>($prefix)</small>";
 
     // Détermine les classes CSS à appliquer à la metabox
     $type = $schema->type() ?: 'Docalist\Type\Composite';
@@ -78,10 +78,10 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $metabox->setLabel($label)->setAttribute('class', $class)->addItems($form->getItems());
 
     // Valeur par défaut
-    if ($level > 1 && $method !== 'getFormatSettingsForm' && $schema->type() !== 'Docalist\Databases\Type\Group') {
+    if ($level > 1 && $method !== 'getFormatSettingsForm' && $schema->type() !== 'Docalist\Data\Type\Group') {
         $default = $fieldType->getEditorForm($grid)
             ->setName('default')
-            ->setLabel(__('Valeur par défaut', 'docalist-databases'));
+            ->setLabel(__('Valeur par défaut', 'docalist-data'));
         $metabox->add($default);
     }
     // TODO : ça devrait être getSettingsForm/getEditorSettingsForm qui se charge d'insérer l'éditeur
@@ -93,7 +93,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $fields = $grid->getFields();
     if ($fields) {
         $form = $metabox->container('fields')
-            ->setLabel(__('Champs', 'docalist-databases'))
+            ->setLabel(__('Champs', 'docalist-data'))
             ->addClass('meta-box-sortables');
         foreach($fields as $name => $field) {
             // si c'est un groupe, il n'est que dans la grille, pas dans le schéma, on prend le schéma du groupe
@@ -119,17 +119,17 @@ $methods = [
 $form = createForm($type->grids['base'], $grid, $methods[$grid->gridtype()]);
 $form->bind($grid->getPhpValue());
 
-wp_styles()->enqueue(['docalist-databases-edit-reference', 'docalist-databases-grid-edit']);
-wp_scripts()->enqueue(['docalist-databases-grid-edit']);
+wp_styles()->enqueue(['docalist-data-edit-reference', 'docalist-data-grid-edit']);
+wp_scripts()->enqueue(['docalist-data-grid-edit']);
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s - %s - %s', 'docalist-databases'), $database->label(), $type->label(), $grid->label()) ?></h1>
+    <h1><?= sprintf(__('%s - %s - %s', 'docalist-data'), $database->label(), $type->label(), $grid->label()) ?></h1>
 
     <p class="description">
-        <?= __('L\'écran ci-dessous vous permet de personnaliser la grille.', 'docalist-databases') ?>
-        <?= __('Cliquez sur un champ pour afficher et modifier ses propriétés.', 'docalist-databases') ?>
-        <?= __('Utilisez le bouton "Ajouter un groupe" pour créer un nouveau groupe de champs.', 'docalist-databases') ?>
-        <?= __('Vous pouvez également modifier l\'ordre des champs et les déplacer d\'un groupe à un autre en faisant un glisser/déposer.', 'docalist-databases') ?>
+        <?= __('L\'écran ci-dessous vous permet de personnaliser la grille.', 'docalist-data') ?>
+        <?= __('Cliquez sur un champ pour afficher et modifier ses propriétés.', 'docalist-data') ?>
+        <?= __('Utilisez le bouton "Ajouter un groupe" pour créer un nouveau groupe de champs.', 'docalist-data') ?>
+        <?= __('Vous pouvez également modifier l\'ordre des champs et les déplacer d\'un groupe à un autre en faisant un glisser/déposer.', 'docalist-data') ?>
     </p>
     <form action ="" method="post">
         <div id="poststuff">
@@ -147,7 +147,7 @@ wp_scripts()->enqueue(['docalist-databases-grid-edit']);
                         <div class="inside">
                             <p class="buttons">
                                 <button type="submit" class="button button-primary">
-                                    <?= __('Enregistrer les modifications', 'docalist-databases') ?>
+                                    <?= __('Enregistrer les modifications', 'docalist-data') ?>
                                 </button>
                             </p>
                         </div>
@@ -157,7 +157,7 @@ wp_scripts()->enqueue(['docalist-databases-grid-edit']);
                             <h3 class="hndle">Outils</h3>
                             <div class="inside">
                                 <button type="button" class="button add-group">
-                                    <?= __('Ajouter un groupe de champs', 'docalist-databases') ?>
+                                    <?= __('Ajouter un groupe de champs', 'docalist-data') ?>
                                 </button>
                             </div>
                         </div>
@@ -171,9 +171,9 @@ wp_scripts()->enqueue(['docalist-databases-grid-edit']);
     <script type="text/html" id="group-template"><?php // Pas d'espace avant le début du formulaire sinon on a un warning jqueryMigrate "$.html() must start with '<'"
             $schema = new Schema([
                 // Valeurs par défaut communes
-                'type' => 'Docalist\Databases\Type\Group',
+                'type' => 'Docalist\Data\Type\Group',
                 'name' => 'group{group-number}',
-                'label' => __('Nouveau groupe de champs', 'docalist-databases'),
+                'label' => __('Nouveau groupe de champs', 'docalist-data'),
 
                 // Valeurs par défaut pour grille de saisie
                 'state' => '', // = normal

@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 /**
  * Convertisseur "Docalist".
@@ -20,11 +20,11 @@ class Docalist extends Converter
 {
     public function getLabel()
     {
-        return __('Format docalist', 'docalist-databases');
+        return __('Format docalist', 'docalist-data');
     }
 
     public function getDescription()
     {
-        return __('Notices au format natif de Docalist-Databases.', 'docalist-databases');
+        return __('Notices au format natif de Docalist-Databases.', 'docalist-data');
     }
 }

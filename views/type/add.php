@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Schema\Schema;
 
 /**
@@ -27,10 +27,10 @@ use Docalist\Schema\Schema;
 $back = $this->url('TypesList', $dbindex);
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('%s : ajouter un type de notice', 'docalist-databases'), $database->label()) ?></h1>
+    <h1><?= sprintf(__('%s : ajouter un type de notice', 'docalist-data'), $database->label()) ?></h1>
 
     <p class="description">
-        <?= __('Sélectionnez les types de notice à ajouter dans la base :', 'docalist-databases') ?>
+        <?= __('Sélectionnez les types de notice à ajouter dans la base :', 'docalist-data') ?>
     </p>
 
     <form method="POST" action="<?=$this->url('TypeAdd', $dbindex) ?>">
@@ -50,11 +50,11 @@ $back = $this->url('TypesList', $dbindex);
 
         <p>
             <button type="submit" class="button-primary ">
-                <?= __('Ajouter les types sélectionnés', 'docalist-databases') ?>
+                <?= __('Ajouter les types sélectionnés', 'docalist-data') ?>
             </button>
 
             <a href="<?= esc_url($back) ?>" class="button">
-                <?= __('Annuler', 'docalist-databases') ?>
+                <?= __('Annuler', 'docalist-data') ?>
             </a>
         </p>
     </form>

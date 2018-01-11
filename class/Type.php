@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases;
+namespace Docalist\Data;
 
-use Docalist\Databases\Record;
+use Docalist\Data\Record;
 
 /**
  * Compatibilité ascendante : ancien nom de la classe Record.

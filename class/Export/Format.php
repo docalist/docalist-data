@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use InvalidArgumentException;
-use Docalist\Databases\Reference\ReferenceIterator;
+use Docalist\Data\Reference\ReferenceIterator;
 use Docalist\Search\SearchRequest;
 
 /**
@@ -67,7 +67,7 @@ class Format
         foreach (['converter', 'exporter'] as $key) {
             if (!isset($format[$key])) {
                 $msg = sprintf(
-                    __('La clé %s doit être définie pour le le format %s.', 'docalist-databases'),
+                    __('La clé %s doit être définie pour le le format %s.', 'docalist-data'),
                     $key,
                     $name
                 );

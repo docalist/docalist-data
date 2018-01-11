@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
-use Docalist\Databases\Record;
+use Docalist\Data\Record;
 
 /**
  * Classe de base pour les convertisseurs.

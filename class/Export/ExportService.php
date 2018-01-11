@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 use WP_Query;
 use Docalist\Search\SearchRequest;
@@ -17,7 +17,7 @@ use RuntimeException;
 use Docalist\Search\Aggregation\Standard\TermsIn;
 
 /**
- * Service docalist-databases-export  : génère des fichiers d'export et des bibliographies.
+ * Service docalist-data-export  : génère des fichiers d'export et des bibliographies.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -36,7 +36,7 @@ class ExportService
      *
      * @var string
      */
-    const TRANSIENT = 'docalist-databases-export-last-request-%d';
+    const TRANSIENT = 'docalist-data-export-last-request-%d';
 
     /**
      * La requête docalist-search contenant les notices à exporter.
@@ -90,7 +90,7 @@ class ExportService
 
         // Déclare le widget "Export notices"
         add_action('widgets_init', function () {
-            register_widget('Docalist\Databases\Export\ExportWidget');
+            register_widget('Docalist\Data\Export\ExportWidget');
         });
 
         // Stocke la dernière requête exécutée par docalist-search dans un transient.
@@ -160,7 +160,7 @@ class ExportService
         // Affiche un message si on n'a aucune requête en cours
         $request = get_transient($this->transient()); /** @var SearchRequest $request */
         if ($request === false) {
-            return $this->view('docalist-databases:export/norequest');
+            return $this->view('docalist-data:export/norequest');
         }
 
         // Exécute la requête
@@ -171,7 +171,7 @@ class ExportService
 
         // Affiche un message si on a aucune réponse
         if ($searchResponse->getHitsCount() === 0) {
-            return $this->view('docalist-databases:export/nohits');
+            return $this->view('docalist-data:export/nohits');
         }
 
         // Détermine la liste des types de notices qu'on va exporter
@@ -185,7 +185,7 @@ class ExportService
         // Récupère la liste des formats d'export possibles
         $formats = $this->formats($types);
         if (empty($formats)) {
-            return $this->view('docalist-databases:export/noformat', [
+            return $this->view('docalist-data:export/noformat', [
                 'types' => $countByType,
                 'total' => $searchResponse->getHitsCount(),
                 'max' => 100,
@@ -212,7 +212,7 @@ class ExportService
         }
 
         // Sinon, affiche le formulaire "choix du format"
-        return $this->view('docalist-databases:export/form', [
+        return $this->view('docalist-data:export/form', [
             'types' => $countByType,
             'total' => $searchResponse->getHitsCount(),
             'max' => 100,
@@ -337,7 +337,7 @@ class ExportService
         // TODO : depuis la table
         $allFormats = apply_filters('docalist_databases_get_export_formats', []);
         if (empty($allFormats)) {
-            throw new RuntimeException(__("Aucun format d'export disponible", 'docalist-databases'));
+            throw new RuntimeException(__("Aucun format d'export disponible", 'docalist-data'));
         }
         // on récupère un tableau de la forme 'format' => params
 

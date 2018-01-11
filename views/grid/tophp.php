@@ -7,11 +7,11 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Pages\AdminDatabases;
-use Docalist\Databases\Settings\DatabaseSettings;
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Pages\AdminDatabases;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Settings\TypeSettings;
 use Docalist\Schema\Schema;
 
 /**
@@ -38,10 +38,10 @@ echo '<pre>', htmlspecialchars(json_encode($grid, JSON_UNESCAPED_SLASHES | JSON_
 die();
 ?>
 <div class="wrap">
-    <h1><?= sprintf(__('Code PHP de la grille "%s" pour le type "%s"', 'docalist-databases'), $gridname, $typeindex) ?></h1>
+    <h1><?= sprintf(__('Code PHP de la grille "%s" pour le type "%s"', 'docalist-data'), $gridname, $typeindex) ?></h1>
 
 	<p class="description">
-        <?= __("Le code PHP ci-dessous peut être utilisé pour générer une grille identique.", 'docalist-databases') ?>
+        <?= __("Le code PHP ci-dessous peut être utilisé pour générer une grille identique.", 'docalist-data') ?>
     </p>
 
     <p>
@@ -83,7 +83,7 @@ echo "return new Schema([\n";
         unset($properties['name']);
 
         // Si c'est un groupe, passe une ligne et génère un commentaire
-        if ($field->type() === 'Docalist\Databases\Type\Group') {
+        if ($field->type() === 'Docalist\Data\Type\Group') {
             echo "\n        // ", $field->label(), "\n";
             $properties = ['type' => $field->type()] + $properties; // type en premier
             $format = $field->format();
@@ -102,7 +102,7 @@ echo "return new Schema([\n";
         }
 
         // Si c'est un champ dans un groupe sans format (i.e. non affiché)
-        if (($gridname !== 'base') && empty($format) && $field->type() !== 'Docalist\Databases\Type\Group') {
+        if (($gridname !== 'base') && empty($format) && $field->type() !== 'Docalist\Data\Type\Group') {
             $properties = [];
         }
 
@@ -163,7 +163,7 @@ function varExport($value, $key = '') {
     }
 
     if ($key === 'label' || $key ==='description' || $key === 'labelspec' || $key ==='descriptionspec') {
-        $value = "__($value, 'docalist-databases')";
+        $value = "__($value, 'docalist-data')";
     }
 	return $value;
 }

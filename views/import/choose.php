@@ -7,12 +7,12 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Database;
-use Docalist\Databases\Settings\DatabaseSettings;
+use Docalist\Data\Database;
+use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Forms\Form;
-use Docalist\Databases\Pages\ImportPage;
+use Docalist\Data\Pages\ImportPage;
 
 /**
  * Import de fichier dans une base : choix des fichiers.
@@ -26,14 +26,14 @@ use Docalist\Databases\Pages\ImportPage;
  */
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__('Import %s', 'docalist-databases'), $settings->label) ?></h2>
+    <h2><?= sprintf(__('Import %s', 'docalist-data'), $settings->label) ?></h2>
 
     <p class="description">
-        <?= __("Ajoutez les fichiers à importer, choisissez l'ordre en déplaçant l'icone, indiquez le format de chacun des fichiers puis cliquez sur le bouton lancer l'import.", 'docalist-databases') ?>
+        <?= __("Ajoutez les fichiers à importer, choisissez l'ordre en déplaçant l'icone, indiquez le format de chacun des fichiers puis cliquez sur le bouton lancer l'import.", 'docalist-data') ?>
     </p>
 
     <form action="" method="post">
-        <h3 class="title"><?=__('Liste des fichiers à importer', 'docalist-databases') ?></h3>
+        <h3 class="title"><?=__('Liste des fichiers à importer', 'docalist-data') ?></h3>
 
         <ul id="file-list"></ul>
 
@@ -43,15 +43,15 @@ use Docalist\Databases\Pages\ImportPage;
                 <img class="file-icon" src="{icon}" title="Type {mime}, id {id}">
                 <div class="file-info">
                     <h4>{filename} <span class="file-date">({dateFormatted})</span>
-                        - <a class="remove-file" href="#"><?=__('Retirer ce fichier', 'docalist-databases') ?></a>
+                        - <a class="remove-file" href="#"><?=__('Retirer ce fichier', 'docalist-data') ?></a>
                     </h4>
                     <p class="file-description">
                         <i>{caption} {description}</i><br />
                     </p>
                     <label>
-                        <?=__('Format : ', 'docalist-databases') ?>
+                        <?=__('Format : ', 'docalist-data') ?>
                         <select name="formats[]">
-                            <option value=""><?=__('Indiquez le format', 'docalist-databases')?></option>
+                            <option value=""><?=__('Indiquez le format', 'docalist-data')?></option>
                             <?php foreach($converters as $name => $label): ?>
                             <option value="<?=esc_attr($name)?>" selected="selected"><?=esc_html($label)?></option>
                             <?php endforeach; ?>
@@ -64,44 +64,44 @@ use Docalist\Databases\Pages\ImportPage;
 
         <button type="button"
             class="add-file button button-secondary">
-            <?=__('Ajouter un fichier...', 'docalist-databases') ?>
+            <?=__('Ajouter un fichier...', 'docalist-data') ?>
         </button>
 
-        <h3 class="title"><?=__('Options', 'docalist-databases') ?></h3>
+        <h3 class="title"><?=__('Options', 'docalist-data') ?></h3>
 
         <table class="form-table">
             <tr>
                 <th scope="row">
-                    <label for="simulate"><?=__("Simuler l'import", 'docalist-databases')?></label>
+                    <label for="simulate"><?=__("Simuler l'import", 'docalist-data')?></label>
                 </th>
                 <td>
                     <input type="checkbox" name="options[simulate]" value="1" checked="checked" id="simulate" />
-                    <label for="simulate"><?=__("Ne pas créer de notices", 'docalist-databases') ?></label>
+                    <label for="simulate"><?=__("Ne pas créer de notices", 'docalist-data') ?></label>
                     <p class="description">
-                        <?=__('Utilisez cette option pour valider votre fichier et vérifier que les notices peuvent être converties au format docalist.', 'docalist-databases')?>
-                        <?=__('Décochez la case pour lancer réellement l\'import.', 'docalist-databases')?>
+                        <?=__('Utilisez cette option pour valider votre fichier et vérifier que les notices peuvent être converties au format docalist.', 'docalist-data')?>
+                        <?=__('Décochez la case pour lancer réellement l\'import.', 'docalist-data')?>
                     </p>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
-                    <label for="limit"><?=__('Limite de l\'import', 'docalist-databases')?></label>
+                    <label for="limit"><?=__('Limite de l\'import', 'docalist-data')?></label>
                 </th>
                 <td>
-                    <input name="options[limit]" type="number" min="0" id="limit" placeholder="<?=__('Toutes les', 'docalist-databases')?>" />
-                    <?=__('notices.', 'docalist-databases')?>
+                    <input name="options[limit]" type="number" min="0" id="limit" placeholder="<?=__('Toutes les', 'docalist-data')?>" />
+                    <?=__('notices.', 'docalist-data')?>
                     <p class="description">
-                        <?=__('Utilisez cette option pour limiter le nombre de notices importées.', 'docalist-databases')?>
-                        <?=__('Par défaut, toutes les notices présentes dans le fichier seront importées.', 'docalist-databases')?>
-                        <?=__('Si vous souhaitez faire un test d\'import (par exemple pour valider le fichier à importer), indiquez un nombre pour traiter seulement les n premières notices du fichier.', 'docalist-databases')?>
+                        <?=__('Utilisez cette option pour limiter le nombre de notices importées.', 'docalist-data')?>
+                        <?=__('Par défaut, toutes les notices présentes dans le fichier seront importées.', 'docalist-data')?>
+                        <?=__('Si vous souhaitez faire un test d\'import (par exemple pour valider le fichier à importer), indiquez un nombre pour traiter seulement les n premières notices du fichier.', 'docalist-data')?>
                     </p>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
-                    <label for="status"><?=__('Statut des notices', 'docalist-databases')?></label>
+                    <label for="status"><?=__('Statut des notices', 'docalist-data')?></label>
                 </th>
                 <td>
                     <select name="options[status]" id="status">
@@ -114,28 +114,28 @@ use Docalist\Databases\Pages\ImportPage;
                     <?php endforeach; ?>
                     </select>
                     <p class="description">
-                        <?=__('Par défaut, les notices importées seront créées avec le statut "en attente".', 'docalist-databases')?>
-                        <?=__('Choisissez l\'une des options proposées dans la liste pour leur affecter un statut différent.', 'docalist-databases')?>
+                        <?=__('Par défaut, les notices importées seront créées avec le statut "en attente".', 'docalist-data')?>
+                        <?=__('Choisissez l\'une des options proposées dans la liste pour leur affecter un statut différent.', 'docalist-data')?>
                     </p>
                 </td>
             </tr>
 
             <tr>
                 <th scope="row">
-                    <label for="importref"><?=__('N° de référence existant', 'docalist-databases')?></label>
+                    <label for="importref"><?=__('N° de référence existant', 'docalist-data')?></label>
                 </th>
                 <td>
                     <select name="options[importref]" id="importref">
                         <option value="0" selected="selected">
-                            <?=__('Ignorer', 'docalist-databases')?>
+                            <?=__('Ignorer', 'docalist-data')?>
                         </option>
                         <option value="1">
-                            <?=__('Importer', 'docalist-databases')?>
+                            <?=__('Importer', 'docalist-data')?>
                         </option>
                     </select>
                     <p class="description">
-                        <?=__('Par défaut, docalist ne tient pas compte du numéro de référence éventuel (REF) qui figurent dans les notices importées et un nouveau numéro de référence sera attribué aux notices lorsque celles-ci seront publiées.', 'docalist-databases')?>
-                        <?=__('Choisissez l\'option "importer" si vous souhaitez conserver tel quel le numéro de référence qui figure dans le fichier d\'import.', 'docalist-databases')?>
+                        <?=__('Par défaut, docalist ne tient pas compte du numéro de référence éventuel (REF) qui figurent dans les notices importées et un nouveau numéro de référence sera attribué aux notices lorsque celles-ci seront publiées.', 'docalist-data')?>
+                        <?=__('Choisissez l\'option "importer" si vous souhaitez conserver tel quel le numéro de référence qui figure dans le fichier d\'import.', 'docalist-data')?>
                     </p>
                 </td>
             </tr>
@@ -145,7 +145,7 @@ use Docalist\Databases\Pages\ImportPage;
             <button type="submit"
                 class="run-import button button-primary"
                 disabled="disabled">
-                <?=__("Lancer l'import...", 'docalist-databases') ?>
+                <?=__("Lancer l'import...", 'docalist-data') ?>
             </button>
         </div>
     </form>
@@ -192,8 +192,8 @@ use Docalist\Databases\Pages\ImportPage;
 wp_enqueue_media();
 
 wp_enqueue_script(
-    'docalist-databases-import-choose',
-    DOCALIST_DATABASES_URL . '/views/import/choose.js',
+    'docalist-data-import-choose',
+    DOCALIST_DATA_URL . '/views/import/choose.js',
     ['jquery-ui-sortable'],
     20140417,
     true

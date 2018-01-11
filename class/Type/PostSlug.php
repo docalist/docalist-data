@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Type;
+namespace Docalist\Data\Type;
 
 use Docalist\Type\Text;
 
@@ -21,8 +21,8 @@ class PostSlug extends Text
     public static function loadSchema()
     {
         return [
-            'label' => __('Slug de la fiche', 'docalist-databases'),
-            'description' => __('Slug utilisé pour construire le permalien de la fiche', 'docalist-databases'),
+            'label' => __('Slug de la fiche', 'docalist-data'),
+            'description' => __('Slug utilisé pour construire le permalien de la fiche', 'docalist-data'),
         ];
     }
 }

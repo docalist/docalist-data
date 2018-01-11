@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Export;
+namespace Docalist\Data\Export;
 
 /**
  * Un exporteur au format JSON.
@@ -68,7 +68,7 @@ class Json extends Exporter
         return sprintf(
             __(
                 'Fichier texte contenant des données au format <a href="%s">Javascript Object Notation</a>.',
-                'docalist-databases'
+                'docalist-data'
             ),
             'https://fr.wikipedia.org/wiki/JavaScript_Object_Notation'
         );

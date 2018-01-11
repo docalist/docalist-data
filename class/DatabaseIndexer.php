@@ -7,12 +7,12 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases;
+namespace Docalist\Data;
 
-use Docalist\Databases\Settings\TypeSettings;
+use Docalist\Data\Settings\TypeSettings;
 use Docalist\Search\IndexManager;
 use Docalist\Search\Indexer\CustomPostTypeIndexer;
-use Docalist\Databases\Record;
+use Docalist\Data\Record;
 
 /**
  * Un indexeur pour les notices d'une base.
@@ -39,7 +39,7 @@ class DatabaseIndexer extends CustomPostTypeIndexer
         parent::__construct(
             $database->postType(),                  // Nom du post type
             $this->database->settings()->name(),    // collection (in:) = nom de la base
-            __('Bases Docalist', 'docalist-databases') // Catégorie
+            __('Bases Docalist', 'docalist-data') // Catégorie
         );
     }
 

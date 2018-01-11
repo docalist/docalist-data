@@ -7,10 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Databases\Views;
+namespace Docalist\Data\Views;
 
-use Docalist\Databases\Database;
-use Docalist\Databases\Pages\ImportPage;
+use Docalist\Data\Database;
+use Docalist\Data\Pages\ImportPage;
 
 /**
  * Cette vue est affichée lorsqu'on lance l'option "vider la base".
@@ -38,11 +38,11 @@ $startTime = microtime(true);
  */
 add_action('docalist_databases_deleteall_start', function(Database $database, $count) { ?>
     <div class="wrap">
-        <h2><?= __("Vider la base", 'docalist-databases') ?></h2>
+        <h2><?= __("Vider la base", 'docalist-data') ?></h2>
 
         <p class="description"><?php
             printf(
-                __("Il y a %d notices à supprimer", 'docalist-databases'),
+                __("Il y a %d notices à supprimer", 'docalist-data'),
                 $count
             );
             ?>
@@ -78,7 +78,7 @@ add_action('docalist_databases_deleteall_progress', function($message) {
  */
 add_action('docalist_databases_deleteall_done', function(Database $database, $count) use ($startTime) { ?>
         </ul> <?php
-            $msg = __('%d notices supprimées. Temps écoulé : %.2f secondes', 'docalist-databases');
+            $msg = __('%d notices supprimées. Temps écoulé : %.2f secondes', 'docalist-data');
             printf("<p>$msg</p>", $count, (microtime(true) - $startTime)); ?>
     </div> <?php
     flush();
