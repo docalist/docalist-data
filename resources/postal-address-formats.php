@@ -21,42 +21,42 @@ namespace Docalist\Data\Scripts\PostalAddressFormat;
 
 return [
     'AC' => [
-        'zipex' => 'ASCN 1ZZ',
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'zip' => 'ASCN 1ZZ',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => 'ASCN 1ZZ'
     ],
     'AD' => [
-        'zipex' => 'AD100,AD501,AD700',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => 'AD[1-7]0\\d',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => 'AD100,AD501,AD700'
     ],
     'AE' => [
         'fmt' => '%N%n%O%n%A%n%S',
-        'state_name_type' => 'emirate',
-        'require' => 'AS'
+        'require' => 'AS',
+        'state_name_type' => 'emirate'
     ],
     'AF' => [
-        'zipex' => '1001,2601,3801',
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => '1001,2601,3801'
     ],
     'AG' => [
         'require' => 'A'
     ],
     'AI' => [
-        'zipex' => '2640',
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'zip' => '(?:AI-)?2640',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => '2640'
     ],
     'AL' => [
-        'zipex' => '1001,1017,3501',
+        'fmt' => '%N%n%O%n%A%n%Z%n%C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z%n%C'
+        'zipex' => '1001,1017,3501'
     ],
     'AM' => [
-        'zipex' => '375010,0002,0010',
+        'fmt' => '%N%n%O%n%A%n%Z%n%C%n%S',
         'zip' => '(?:37)?\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z%n%C%n%S'
+        'zipex' => '375010,0002,0010'
     ],
     'AO' => [
 
@@ -65,83 +65,83 @@ return [
 
     ],
     'AR' => [
+        'fmt' => '%N%n%O%n%A%n%Z %C%n%S',
         'upper' => 'ACZ',
-        'zipex' => 'C1070AAM,C1000WAM,B1000TBU,X5187XAB',
         'zip' => '((?:[A-HJ-NP-Z])?\\d{4})([A-Z]{3})?',
-        'fmt' => '%N%n%O%n%A%n%Z %C%n%S'
+        'zipex' => 'C1070AAM,C1000WAM,B1000TBU,X5187XAB'
     ],
     'AS' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACSZ',
-        'zipex' => '96799',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '(96799)(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '96799'
     ],
     'AT' => [
-        'zipex' => '1010,3741',
-        'zip' => '\\d{4}',
         'fmt' => '%O%n%N%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}',
+        'zipex' => '1010,3741'
     ],
     'AU' => [
-        'upper' => 'CS',
-        'zipex' => '2060,3171,6430,4000,4006,3001',
-        'zip' => '\\d{4}',
         'fmt' => '%O%n%N%n%A%n%C %S %Z',
-        'state_name_type' => 'state',
         'locality_name_type' => 'suburb',
-        'require' => 'ACSZ'
+        'require' => 'ACSZ',
+        'state_name_type' => 'state',
+        'upper' => 'CS',
+        'zip' => '\\d{4}',
+        'zipex' => '2060,3171,6430,4000,4006,3001'
     ],
     'AW' => [
 
     ],
     'AX' => [
-        'zipex' => '22150,22550,22240,22710,22270,22730,22430',
-        'zip' => '22\\d{3}',
         'fmt' => '%O%n%N%n%A%nAX-%Z %C%nÅLAND',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '22\\d{3}',
+        'zipex' => '22150,22550,22240,22710,22270,22730,22430'
     ],
     'AZ' => [
-        'zipex' => '1000',
+        'fmt' => '%N%n%O%n%A%nAZ %Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%nAZ %Z %C'
+        'zipex' => '1000'
     ],
     'BA' => [
-        'zipex' => '71000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '71000'
     ],
     'BB' => [
-        'zipex' => 'BB23026,BB22025',
-        'zip' => 'BB\\d{5}',
         'fmt' => '%N%n%O%n%A%n%C, %S %Z',
-        'state_name_type' => 'parish'
+        'state_name_type' => 'parish',
+        'zip' => 'BB\\d{5}',
+        'zipex' => 'BB23026,BB22025'
     ],
     'BD' => [
-        'zipex' => '1340,1000',
+        'fmt' => '%N%n%O%n%A%n%C - %Z',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%C - %Z'
+        'zipex' => '1340,1000'
     ],
     'BE' => [
-        'zipex' => '4000,1000',
-        'zip' => '\\d{4}',
         'fmt' => '%O%n%N%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}',
+        'zipex' => '4000,1000'
     ],
     'BF' => [
         'fmt' => '%N%n%O%n%A%n%C %X'
     ],
     'BG' => [
-        'zipex' => '1000,1700',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1000,1700'
     ],
     'BH' => [
-        'zipex' => '317',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '(?:\\d|1[0-2])\\d{2}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '317'
     ],
     'BI' => [
 
@@ -150,21 +150,21 @@ return [
         'upper' => 'AC'
     ],
     'BL' => [
-        'upper' => 'ACX',
-        'zipex' => '97100',
-        'zip' => '9[78][01]\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78][01]\\d{2}',
+        'zipex' => '97100'
     ],
     'BM' => [
-        'zipex' => 'FL 07,HM GX,HM 12',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '[A-Z]{2} ?[A-Z0-9]{2}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => 'FL 07,HM GX,HM 12'
     ],
     'BN' => [
-        'zipex' => 'BT2328,KA1131,BA1511',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '[A-Z]{2} ?\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => 'BT2328,KA1131,BA1511'
     ],
     'BO' => [
         'upper' => 'AC'
@@ -173,22 +173,22 @@ return [
 
     ],
     'BR' => [
-        'upper' => 'CS',
-        'zipex' => '40301-110,70002-900',
-        'zip' => '\\d{5}-?\\d{3}',
-        'sublocality_name_type' => 'neighborhood',
         'fmt' => '%O%n%N%n%A%n%D%n%C-%S%n%Z',
+        'require' => 'ASCZ',
         'state_name_type' => 'state',
-        'require' => 'ASCZ'
+        'sublocality_name_type' => 'neighborhood',
+        'upper' => 'CS',
+        'zip' => '\\d{5}-?\\d{3}',
+        'zipex' => '40301-110,70002-900'
     ],
     'BS' => [
         'fmt' => '%N%n%O%n%A%n%C, %S',
         'state_name_type' => 'island'
     ],
     'BT' => [
-        'zipex' => '11001,31101,35003',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '11001,31101,35003'
     ],
     'BV' => [
 
@@ -197,25 +197,25 @@ return [
 
     ],
     'BY' => [
-        'zipex' => '223016,225860,220050',
+        'fmt' => '%S%n%Z %C%n%A%n%O%n%N',
         'zip' => '\\d{6}',
-        'fmt' => '%S%n%Z %C%n%A%n%O%n%N'
+        'zipex' => '223016,225860,220050'
     ],
     'BZ' => [
 
     ],
     'CA' => [
-        'upper' => 'ACNOSZ',
-        'zipex' => 'H3Z 2Y7,V8X 3X4,T0L 1K0,T0H 1A0,K1A 0B1',
-        'zip' => '[ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z] ?\\d[ABCEGHJ-NPRSTV-Z]\\d',
         'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'require' => 'ACSZ'
+        'require' => 'ACSZ',
+        'upper' => 'ACNOSZ',
+        'zip' => '[ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z] ?\\d[ABCEGHJ-NPRSTV-Z]\\d',
+        'zipex' => 'H3Z 2Y7,V8X 3X4,T0L 1K0,T0H 1A0,K1A 0B1'
     ],
     'CC' => [
+        'fmt' => '%O%n%N%n%A%n%C %S %Z',
         'upper' => 'CS',
-        'zipex' => '6799',
         'zip' => '6799',
-        'fmt' => '%O%n%N%n%A%n%C %S %Z'
+        'zipex' => '6799'
     ],
     'CD' => [
 
@@ -227,11 +227,11 @@ return [
 
     ],
     'CH' => [
-        'upper' => '',
-        'zipex' => '2544,1211,1556,3030',
-        'zip' => '\\d{4}',
         'fmt' => '%O%n%N%n%A%nCH-%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => '',
+        'zip' => '\\d{4}',
+        'zipex' => '2544,1211,1556,3030'
     ],
     'CI' => [
         'fmt' => '%N%n%O%n%X %A %C %X'
@@ -240,578 +240,578 @@ return [
 
     ],
     'CL' => [
-        'zipex' => '8340457,8720019,1230000,8329100',
+        'fmt' => '%N%n%O%n%A%n%Z %C%n%S',
         'zip' => '\\d{7}',
-        'fmt' => '%N%n%O%n%A%n%Z %C%n%S'
+        'zipex' => '8340457,8720019,1230000,8329100'
     ],
     'CM' => [
 
     ],
     'CN' => [
-        'upper' => 'S',
-        'zipex' => '266033,317204,100096,100808',
-        'zip' => '\\d{6}',
-        'sublocality_name_type' => 'district',
         'fmt' => '%Z%n%S%C%D%n%A%n%O%n%N',
-        'require' => 'ACSZ'
+        'require' => 'ACSZ',
+        'sublocality_name_type' => 'district',
+        'upper' => 'S',
+        'zip' => '\\d{6}',
+        'zipex' => '266033,317204,100096,100808'
     ],
     'CO' => [
-        'require' => 'AS',
-        'zipex' => '111221,130001,760011',
-        'zip' => '\\d{6}',
         'fmt' => '%N%n%O%n%A%n%C, %S, %Z',
-        'state_name_type' => 'department'
+        'require' => 'AS',
+        'state_name_type' => 'department',
+        'zip' => '\\d{6}',
+        'zipex' => '111221,130001,760011'
     ],
     'CR' => [
-        'zipex' => '1000,2010,1001',
-        'zip' => '\\d{4,5}|\\d{3}-\\d{4}',
         'fmt' => '%N%n%O%n%A%n%S, %C%n%Z',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'zip' => '\\d{4,5}|\\d{3}-\\d{4}',
+        'zipex' => '1000,2010,1001'
     ],
     'CV' => [
-        'zipex' => '7600',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%Z %C%n%S',
-        'state_name_type' => 'island'
+        'state_name_type' => 'island',
+        'zip' => '\\d{4}',
+        'zipex' => '7600'
     ],
     'CW' => [
 
     ],
     'CX' => [
+        'fmt' => '%O%n%N%n%A%n%C %S %Z',
         'upper' => 'CS',
-        'zipex' => '6798',
         'zip' => '6798',
-        'fmt' => '%O%n%N%n%A%n%C %S %Z'
+        'zipex' => '6798'
     ],
     'CY' => [
-        'zipex' => '2008,3304,1900',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '2008,3304,1900'
     ],
     'CZ' => [
-        'zipex' => '100 00,251 66,530 87,110 00,225 99',
-        'zip' => '\\d{3} ?\\d{2}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
+        'zip' => '\\d{3} ?\\d{2}',
+        'zipex' => '100 00,251 66,530 87,110 00,225 99',
         'require' => 'ACZ'
     ],
     'DE' => [
-        'zipex' => '26133,53225',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{5}',
+        'zipex' => '26133,53225'
     ],
     'DJ' => [
 
     ],
     'DK' => [
-        'zipex' => '8660,1566',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}',
+        'zipex' => '8660,1566'
     ],
     'DM' => [
 
     ],
     'DO' => [
-        'zipex' => '11903,10101',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '11903,10101'
     ],
     'DZ' => [
-        'zipex' => '40304,16027',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '40304,16027'
     ],
     'EC' => [
+        'fmt' => '%N%n%O%n%A%n%Z%n%C',
         'upper' => 'CZ',
-        'zipex' => '090105,092301',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%Z%n%C'
+        'zipex' => '090105,092301'
     ],
     'EE' => [
-        'zipex' => '69501,11212',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%Z %C %S',
+        'zip' => '\\d{5}',
+        'zipex' => '69501,11212',
         'require' => 'ACZ',
         'state_name_type' => 'county'
     ],
     'EG' => [
-        'zipex' => '12411,11599',
+        'fmt' => '%N%n%O%n%A%n%C%n%S%n%Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C%n%S%n%Z'
+        'zipex' => '12411,11599'
     ],
     'EH' => [
-        'zipex' => '70000,72000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '70000,72000'
     ],
     'ER' => [
 
     ],
     'ES' => [
-        'upper' => 'CS',
-        'zipex' => '28039,28300,28070',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%Z %C %S',
-        'require' => 'ACSZ'
+        'require' => 'ACSZ',
+        'upper' => 'CS',
+        'zip' => '\\d{5}',
+        'zipex' => '28039,28300,28070'
     ],
     'ET' => [
-        'zipex' => '1000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1000'
     ],
     'FI' => [
-        'zipex' => '00550,00011',
-        'zip' => '\\d{5}',
         'fmt' => '%O%n%N%n%A%nFI-%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{5}',
+        'zipex' => '00550,00011'
     ],
     'FJ' => [
 
     ],
     'FK' => [
-        'upper' => 'CZ',
-        'zipex' => 'FIQQ 1ZZ',
-        'zip' => 'FIQQ 1ZZ',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'FIQQ 1ZZ',
+        'zipex' => 'FIQQ 1ZZ'
     ],
     'FM' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACSZ',
-        'zipex' => '96941,96944',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '(9694[1-4])(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '96941,96944'
     ],
     'FO' => [
-        'zipex' => '100',
+        'fmt' => '%N%n%O%n%A%nFO%Z %C',
         'zip' => '\\d{3}',
-        'fmt' => '%N%n%O%n%A%nFO%Z %C'
+        'zipex' => '100'
     ],
     'FR' => [
-        'upper' => 'CX',
-        'zipex' => '33380,34092,33506',
-        'zip' => '\\d{2} ?\\d{3}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CX',
+        'zip' => '\\d{2} ?\\d{3}',
+        'zipex' => '33380,34092,33506'
     ],
     'GA' => [
 
     ],
     'GB' => [
-        'upper' => 'CZ',
-        'zipex' => 'EC1Y 8SY,GIR 0AA,M2 5BQ,M34 4AB,CR0 2YR,DN16 9AA,W1A 4ZZ,EC1A 1HQ,OX14 4PG,BS18 8HF,NR25 7HG,RH6 0NP,BH23 6AA,B6 5BA,SO23 9AP,PO1 3AX,BFPO 61',
-        'zip' => 'GIR ?0AA|(?:(?:AB|AL|B|BA|BB|BD|BF|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)(?:\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}))|BFPO ?\\d{1,4}',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
+        'locality_name_type' => 'post_town',
         'require' => 'ACZ',
-        'locality_name_type' => 'post_town'
+        'upper' => 'CZ',
+        'zip' => 'GIR ?0AA|(?:(?:AB|AL|B|BA|BB|BD|BF|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)(?:\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}))|BFPO ?\\d{1,4}',
+        'zipex' => 'EC1Y 8SY,GIR 0AA,M2 5BQ,M34 4AB,CR0 2YR,DN16 9AA,W1A 4ZZ,EC1A 1HQ,OX14 4PG,BS18 8HF,NR25 7HG,RH6 0NP,BH23 6AA,B6 5BA,SO23 9AP,PO1 3AX,BFPO 61'
     ],
     'GD' => [
 
     ],
     'GE' => [
-        'zipex' => '0101',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '0101'
     ],
     'GF' => [
-        'upper' => 'ACX',
-        'zipex' => '97300',
-        'zip' => '9[78]3\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78]3\\d{2}',
+        'zipex' => '97300'
     ],
     'GG' => [
-        'upper' => 'CZ',
-        'zipex' => 'GY1 1AA,GY2 2BT',
-        'zip' => 'GY\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}',
         'fmt' => '%N%n%O%n%A%n%C%nGUERNSEY%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'GY\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}',
+        'zipex' => 'GY1 1AA,GY2 2BT'
     ],
     'GH' => [
 
     ],
     'GI' => [
-        'zipex' => 'GX11 1AA',
-        'zip' => 'GX11 1AA',
         'fmt' => '%N%n%O%n%A%nGIBRALTAR%n%Z',
-        'require' => 'A'
+        'require' => 'A',
+        'zip' => 'GX11 1AA',
+        'zipex' => 'GX11 1AA'
     ],
     'GL' => [
-        'zipex' => '3900,3950,3911',
-        'zip' => '39\\d{2}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '39\\d{2}',
+        'zipex' => '3900,3950,3911'
     ],
     'GM' => [
 
     ],
     'GN' => [
-        'zipex' => '001,200,100',
+        'fmt' => '%N%n%O%n%Z %A %C',
         'zip' => '\\d{3}',
-        'fmt' => '%N%n%O%n%Z %A %C'
+        'zipex' => '001,200,100'
     ],
     'GP' => [
-        'upper' => 'ACX',
-        'zipex' => '97100',
-        'zip' => '9[78][01]\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78][01]\\d{2}',
+        'zipex' => '97100'
     ],
     'GQ' => [
 
     ],
     'GR' => [
-        'zipex' => '151 24,151 10,101 88',
-        'zip' => '\\d{3} ?\\d{2}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{3} ?\\d{2}',
+        'zipex' => '151 24,151 10,101 88'
     ],
     'GS' => [
-        'upper' => 'CZ',
-        'zipex' => 'SIQQ 1ZZ',
-        'zip' => 'SIQQ 1ZZ',
         'fmt' => '%N%n%O%n%A%n%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'SIQQ 1ZZ',
+        'zipex' => 'SIQQ 1ZZ'
     ],
     'GT' => [
-        'zipex' => '09001,01501',
+        'fmt' => '%N%n%O%n%A%n%Z- %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z- %C'
+        'zipex' => '09001,01501'
     ],
     'GU' => [
+        'fmt' => '%N%n%O%n%A%n%C %Z',
+        'require' => 'ACZ',
         'upper' => 'ACNO',
-        'zipex' => '96910,96931',
         'zip' => '(969(?:[12]\\d|3[12]))(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %Z',
-        'require' => 'ACZ'
+        'zipex' => '96910,96931'
     ],
     'GW' => [
-        'zipex' => '1000,1011',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1000,1011'
     ],
     'GY' => [
 
     ],
     'HK' => [
-        'upper' => 'S',
         'fmt' => '%S%n%C%n%A%n%O%n%N',
-        'state_name_type' => 'area',
         'locality_name_type' => 'district',
-        'require' => 'AS'
+        'require' => 'AS',
+        'state_name_type' => 'area',
+        'upper' => 'S'
     ],
     'HM' => [
+        'fmt' => '%O%n%N%n%A%n%C %S %Z',
         'upper' => 'CS',
-        'zipex' => '7050',
         'zip' => '\\d{4}',
-        'fmt' => '%O%n%N%n%A%n%C %S %Z'
+        'zipex' => '7050'
     ],
     'HN' => [
-        'zipex' => '31301',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%C, %S%n%Z',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'zip' => '\\d{5}',
+        'zipex' => '31301'
     ],
     'HR' => [
-        'zipex' => '10000,21001,10002',
+        'fmt' => '%N%n%O%n%A%nHR-%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%nHR-%Z %C'
+        'zipex' => '10000,21001,10002'
     ],
     'HT' => [
-        'zipex' => '6120,5310,6110,8510',
+        'fmt' => '%N%n%O%n%A%nHT%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%nHT%Z %C'
+        'zipex' => '6120,5310,6110,8510'
     ],
     'HU' => [
-        'upper' => 'ACNO',
-        'zipex' => '1037,2380,1540',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%C%n%A%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACNO',
+        'zip' => '\\d{4}',
+        'zipex' => '1037,2380,1540'
     ],
     'ID' => [
-        'zipex' => '40115',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%C%n%S %Z',
-        'require' => 'AS'
+        'require' => 'AS',
+        'zip' => '\\d{5}',
+        'zipex' => '40115'
     ],
     'IE' => [
+        'fmt' => '%N%n%O%n%A%n%D%n%C%n%S %Z',
+        'state_name_type' => 'county',
         'sublocality_name_type' => 'townland',
-        'zipex' => 'A65 F4E2',
         'zip' => '[\\dA-Z]{3} ?[\\dA-Z]{4}',
         'zip_name_type' => 'eircode',
-        'fmt' => '%N%n%O%n%A%n%D%n%C%n%S %Z',
-        'state_name_type' => 'county'
+        'zipex' => 'A65 F4E2'
     ],
     'IL' => [
-        'zipex' => '9614303',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}(?:\\d{2})?',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '9614303'
     ],
     'IM' => [
-        'upper' => 'CZ',
-        'zipex' => 'IM2 1AA,IM99 1PS',
-        'zip' => 'IM\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'IM\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}',
+        'zipex' => 'IM2 1AA,IM99 1PS'
     ],
     'IN' => [
-        'zipex' => '110034,110001',
+        'fmt' => '%N%n%O%n%A%n%C %Z%n%S',
+        'require' => 'ACSZ',
+        'state_name_type' => 'state',
         'zip' => '\\d{6}',
         'zip_name_type' => 'pin',
-        'fmt' => '%N%n%O%n%A%n%C %Z%n%S',
-        'state_name_type' => 'state',
-        'require' => 'ACSZ'
+        'zipex' => '110034,110001'
     ],
     'IO' => [
-        'upper' => 'CZ',
-        'zipex' => 'BBND 1ZZ',
-        'zip' => 'BBND 1ZZ',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'BBND 1ZZ',
+        'zipex' => 'BBND 1ZZ'
     ],
     'IQ' => [
-        'upper' => 'CS',
-        'zipex' => '31001',
-        'zip' => '\\d{5}',
         'fmt' => '%O%n%N%n%A%n%C, %S%n%Z',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'upper' => 'CS',
+        'zip' => '\\d{5}',
+        'zipex' => '31001'
     ],
     'IR' => [
+        'fmt' => '%O%n%N%n%S%n%C, %D%n%A%n%Z',
         'sublocality_name_type' => 'neighborhood',
-        'zipex' => '11936-12345',
         'zip' => '\\d{5}-?\\d{5}',
-        'fmt' => '%O%n%N%n%S%n%C, %D%n%A%n%Z'
+        'zipex' => '11936-12345'
     ],
     'IS' => [
-        'zipex' => '320,121,220,110',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{3}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '320,121,220,110'
     ],
     'IT' => [
-        'upper' => 'CS',
-        'zipex' => '00144,47037,39049',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%Z %C %S',
-        'require' => 'ACSZ'
+        'require' => 'ACSZ',
+        'upper' => 'CS',
+        'zip' => '\\d{5}',
+        'zipex' => '00144,47037,39049'
     ],
     'JE' => [
-        'upper' => 'CZ',
-        'zipex' => 'JE1 1AA,JE2 2BT',
-        'zip' => 'JE\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}',
         'fmt' => '%N%n%O%n%A%n%C%nJERSEY%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'JE\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}',
+        'zipex' => 'JE1 1AA,JE2 2BT'
     ],
     'JM' => [
         'fmt' => '%N%n%O%n%A%n%C%n%S %X',
-        'state_name_type' => 'parish',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'state_name_type' => 'parish'
     ],
     'JO' => [
-        'zipex' => '11937,11190',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '11937,11190'
     ],
     'JP' => [
-        'upper' => 'S',
-        'zipex' => '154-0023,350-1106,951-8073,112-0001,208-0032,231-0012',
-        'zip' => '\\d{3}-?\\d{4}',
         'fmt' => '〒%Z%n%S%C%n%A%n%O%n%N',
+        'require' => 'ACSZ',
         'state_name_type' => 'prefecture',
-        'require' => 'ACSZ'
+        'upper' => 'S',
+        'zip' => '\\d{3}-?\\d{4}',
+        'zipex' => '154-0023,350-1106,951-8073,112-0001,208-0032,231-0012'
     ],
     'KE' => [
-        'zipex' => '20100,00100',
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => '20100,00100'
     ],
     'KG' => [
-        'zipex' => '720001',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '720001'
     ],
     'KH' => [
-        'zipex' => '12203,14206,12000',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '12203,14206,12000'
     ],
     'KI' => [
-        'upper' => 'ACNOS',
         'fmt' => '%N%n%O%n%A%n%S%n%C',
-        'state_name_type' => 'island'
+        'state_name_type' => 'island',
+        'upper' => 'ACNOS'
     ],
     'KM' => [
         'upper' => 'AC'
     ],
     'KN' => [
         'fmt' => '%N%n%O%n%A%n%C, %S',
-        'state_name_type' => 'island',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'state_name_type' => 'island'
     ],
     'KR' => [
-        'upper' => 'Z',
-        'zipex' => '03051',
-        'zip' => '\\d{5}',
-        'sublocality_name_type' => 'district',
         'fmt' => '%S %C%D%n%A%n%O%n%N%n%Z',
         'require' => 'ACSZ',
-        'state_name_type' => 'do_si'
+        'state_name_type' => 'do_si',
+        'sublocality_name_type' => 'district',
+        'upper' => 'Z',
+        'zip' => '\\d{5}',
+        'zipex' => '03051'
     ],
     'KW' => [
-        'zipex' => '54541,54551,54404,13009',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '54541,54551,54404,13009'
     ],
     'KY' => [
-        'zipex' => 'KY1-1100,KY1-1702,KY2-2101',
-        'zip' => 'KY\\d-\\d{4}',
         'fmt' => '%N%n%O%n%A%n%S %Z',
+        'require' => 'AS',
         'state_name_type' => 'island',
-        'require' => 'AS'
+        'zip' => 'KY\\d-\\d{4}',
+        'zipex' => 'KY1-1100,KY1-1702,KY2-2101'
     ],
     'KZ' => [
-        'zipex' => '040900,050012',
+        'fmt' => '%Z%n%S%n%C%n%A%n%O%n%N',
         'zip' => '\\d{6}',
-        'fmt' => '%Z%n%S%n%C%n%A%n%O%n%N'
+        'zipex' => '040900,050012'
     ],
     'LA' => [
-        'zipex' => '01160,01000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '01160,01000'
     ],
     'LB' => [
-        'zipex' => '2038 3054,1107 2810,1000',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '(?:\\d{4})(?: ?(?:\\d{4}))?',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '2038 3054,1107 2810,1000'
     ],
     'LC' => [
 
     ],
     'LI' => [
-        'zipex' => '9496,9491,9490,9485',
-        'zip' => '948[5-9]|949[0-8]',
         'fmt' => '%O%n%N%n%A%nFL-%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '948[5-9]|949[0-8]',
+        'zipex' => '9496,9491,9490,9485'
     ],
     'LK' => [
-        'zipex' => '20000,00100',
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => '20000,00100'
     ],
     'LR' => [
-        'zipex' => '1000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1000'
     ],
     'LS' => [
-        'zipex' => '100',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{3}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '100'
     ],
     'LT' => [
-        'zipex' => '04340,03500',
-        'zip' => '\\d{5}',
         'fmt' => '%O%n%N%n%A%nLT-%Z %C %S',
+        'zip' => '\\d{5}',
+        'zipex' => '04340,03500',
         'require' => 'ACZ',
         'state_name_type' => 'county'
     ],
     'LU' => [
-        'zipex' => '4750,2998',
-        'zip' => '\\d{4}',
         'fmt' => '%O%n%N%n%A%nL-%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}',
+        'zipex' => '4750,2998'
     ],
     'LV' => [
-        'zipex' => 'LV-1073,LV-1000',
-        'zip' => 'LV-\\d{4}',
         'fmt' => '%N%n%O%n%A%n%C, %Z',
+        'zip' => 'LV-\\d{4}',
+        'zipex' => 'LV-1073,LV-1000',
         'require' => 'ACZ'
     ],
     'LY' => [
 
     ],
     'MA' => [
-        'zipex' => '53000,10000,20050,16052',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '53000,10000,20050,16052'
     ],
     'MC' => [
-        'zipex' => '98000,98020,98011,98001',
+        'fmt' => '%N%n%O%n%A%nMC-%Z %C %X',
         'zip' => '980\\d{2}',
-        'fmt' => '%N%n%O%n%A%nMC-%Z %C %X'
+        'zipex' => '98000,98020,98011,98001'
     ],
     'MD' => [
-        'zipex' => '2012,2019',
+        'fmt' => '%N%n%O%n%A%nMD-%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%nMD-%Z %C'
+        'zipex' => '2012,2019'
     ],
     'ME' => [
-        'zipex' => '81257,81258,81217,84314,85366',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '8\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '81257,81258,81217,84314,85366'
     ],
     'MF' => [
-        'upper' => 'ACX',
-        'zipex' => '97100',
-        'zip' => '9[78][01]\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78][01]\\d{2}',
+        'zipex' => '97100'
     ],
     'MG' => [
-        'zipex' => '501,101',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{3}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '501,101'
     ],
     'MH' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACSZ',
-        'zipex' => '96960,96970',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '(969[67]\\d)(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '96960,96970'
     ],
     'MK' => [
-        'zipex' => '1314,1321,1443,1062',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1314,1321,1443,1062'
     ],
     'ML' => [
 
     ],
     'MM' => [
-        'zipex' => '11181',
+        'fmt' => '%N%n%O%n%A%n%C, %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C, %Z'
+        'zipex' => '11181'
     ],
     'MN' => [
-        'zipex' => '65030,65270',
+        'fmt' => '%N%n%O%n%A%n%C%n%S %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C%n%S %Z'
+        'zipex' => '65030,65270'
     ],
     'MO' => [
         'fmt' => '%A%n%O%n%N',
         'require' => 'A'
     ],
     'MP' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACSZ',
-        'zipex' => '96950,96951,96952',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '(9695[012])(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '96950,96951,96952'
     ],
     'MQ' => [
-        'upper' => 'ACX',
-        'zipex' => '97220',
-        'zip' => '9[78]2\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78]2\\d{2}',
+        'zipex' => '97220'
     ],
     'MR' => [
         'upper' => 'AC'
@@ -820,311 +820,311 @@ return [
 
     ],
     'MT' => [
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'upper' => 'CZ',
-        'zipex' => 'NXR 01,ZTN 05,GPO 01,BZN 1130,SPB 6031,VCT 1753',
         'zip' => '[A-Z]{3} ?\\d{2,4}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => 'NXR 01,ZTN 05,GPO 01,BZN 1130,SPB 6031,VCT 1753'
     ],
     'MU' => [
+        'fmt' => '%N%n%O%n%A%n%Z%n%C',
         'upper' => 'CZ',
-        'zipex' => '42602',
         'zip' => '\\d{3}(?:\\d{2}|[A-Z]{2}\\d{3})',
-        'fmt' => '%N%n%O%n%A%n%Z%n%C'
+        'zipex' => '42602'
     ],
     'MV' => [
-        'zipex' => '20026',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '20026'
     ],
     'MW' => [
         'fmt' => '%N%n%O%n%A%n%C %X'
     ],
     'MX' => [
-        'upper' => 'CSZ',
-        'zipex' => '02860,77520,06082',
-        'zip' => '\\d{5}',
-        'sublocality_name_type' => 'neighborhood',
         'fmt' => '%N%n%O%n%A%n%D%n%Z %C, %S',
+        'require' => 'ACZ',
         'state_name_type' => 'state',
-        'require' => 'ACZ'
+        'sublocality_name_type' => 'neighborhood',
+        'upper' => 'CSZ',
+        'zip' => '\\d{5}',
+        'zipex' => '02860,77520,06082'
     ],
     'MY' => [
-        'upper' => 'CS',
-        'zipex' => '43000,50754,88990,50670',
-        'zip' => '\\d{5}',
-        'sublocality_name_type' => 'village_township',
         'fmt' => '%N%n%O%n%A%n%D%n%Z %C%n%S',
         'require' => 'ACZ',
-        'state_name_type' => 'state'
+        'state_name_type' => 'state',
+        'sublocality_name_type' => 'village_township',
+        'upper' => 'CS',
+        'zip' => '\\d{5}',
+        'zipex' => '43000,50754,88990,50670'
     ],
     'MZ' => [
-        'zipex' => '1102,1119,3212',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1102,1119,3212'
     ],
     'NA' => [
 
     ],
     'NC' => [
-        'upper' => 'ACX',
-        'zipex' => '98814,98800,98810',
-        'zip' => '988\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '988\\d{2}',
+        'zipex' => '98814,98800,98810'
     ],
     'NE' => [
-        'zipex' => '8001',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '8001'
     ],
     'NF' => [
+        'fmt' => '%O%n%N%n%A%n%C %S %Z',
         'upper' => 'CS',
-        'zipex' => '2899',
         'zip' => '2899',
-        'fmt' => '%O%n%N%n%A%n%C %S %Z'
+        'zipex' => '2899'
     ],
     'NG' => [
-        'upper' => 'CS',
-        'zipex' => '930283,300001,931104',
-        'zip' => '\\d{6}',
         'fmt' => '%N%n%O%n%A%n%D%n%C %Z%n%S',
-        'state_name_type' => 'state'
+        'state_name_type' => 'state',
+        'upper' => 'CS',
+        'zip' => '\\d{6}',
+        'zipex' => '930283,300001,931104'
     ],
     'NI' => [
-        'upper' => 'CS',
-        'zipex' => '52000',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%Z%n%C, %S',
-        'state_name_type' => 'department'
+        'state_name_type' => 'department',
+        'upper' => 'CS',
+        'zip' => '\\d{5}',
+        'zipex' => '52000'
     ],
     'NL' => [
-        'zipex' => '1234 AB,2490 AA',
-        'zip' => '\\d{4} ?[A-Z]{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4} ?[A-Z]{2}',
+        'zipex' => '1234 AB,2490 AA'
     ],
     'NO' => [
-        'zipex' => '0025,0107,6631',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
+        'locality_name_type' => 'post_town',
         'require' => 'ACZ',
-        'locality_name_type' => 'post_town'
+        'zip' => '\\d{4}',
+        'zipex' => '0025,0107,6631'
     ],
     'NP' => [
-        'zipex' => '44601',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '44601'
     ],
     'NR' => [
         'fmt' => '%N%n%O%n%A%n%S',
-        'state_name_type' => 'district',
-        'require' => 'AS'
+        'require' => 'AS',
+        'state_name_type' => 'district'
     ],
     'NU' => [
 
     ],
     'NZ' => [
-        'zipex' => '6001,6015,6332,8252,1030',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%D%n%C %Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}',
+        'zipex' => '6001,6015,6332,8252,1030'
     ],
     'OM' => [
-        'zipex' => '133,112,111',
+        'fmt' => '%N%n%O%n%A%n%Z%n%C',
         'zip' => '(?:PC )?\\d{3}',
-        'fmt' => '%N%n%O%n%A%n%Z%n%C'
+        'zipex' => '133,112,111'
     ],
     'PA' => [
-        'upper' => 'CS',
-        'fmt' => '%N%n%O%n%A%n%C%n%S'
+        'fmt' => '%N%n%O%n%A%n%C%n%S',
+        'upper' => 'CS'
     ],
     'PE' => [
-        'zipex' => 'LIMA 23,LIMA 42,CALLAO 2,02001',
+        'fmt' => '%N%n%O%n%A%n%C %Z%n%S',
         'zip' => '(?:LIMA \\d{1,2}|CALLAO 0?\\d)|[0-2]\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%C %Z%n%S'
+        'zipex' => 'LIMA 23,LIMA 42,CALLAO 2,02001'
     ],
     'PF' => [
-        'upper' => 'CS',
-        'zipex' => '98709',
-        'zip' => '987\\d{2}',
         'fmt' => '%N%n%O%n%A%n%Z %C %S',
+        'require' => 'ACSZ',
         'state_name_type' => 'island',
-        'require' => 'ACSZ'
+        'upper' => 'CS',
+        'zip' => '987\\d{2}',
+        'zipex' => '98709'
     ],
     'PG' => [
-        'zipex' => '111',
-        'zip' => '\\d{3}',
         'fmt' => '%N%n%O%n%A%n%C %Z %S',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'zip' => '\\d{3}',
+        'zipex' => '111'
     ],
     'PH' => [
-        'zipex' => '1008,1050,1135,1207,2000,1000',
+        'fmt' => '%N%n%O%n%A%n%D, %C%n%Z %S',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%D, %C%n%Z %S'
+        'zipex' => '1008,1050,1135,1207,2000,1000'
     ],
     'PK' => [
-        'zipex' => '44000',
+        'fmt' => '%N%n%O%n%A%n%C-%Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C-%Z'
+        'zipex' => '44000'
     ],
     'PL' => [
-        'zipex' => '00-950,05-470,48-300,32-015,00-940',
-        'zip' => '\\d{2}-\\d{3}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{2}-\\d{3}',
+        'zipex' => '00-950,05-470,48-300,32-015,00-940'
     ],
     'PM' => [
-        'upper' => 'ACX',
-        'zipex' => '97500',
-        'zip' => '9[78]5\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78]5\\d{2}',
+        'zipex' => '97500'
     ],
     'PN' => [
-        'upper' => 'CZ',
-        'zipex' => 'PCRN 1ZZ',
-        'zip' => 'PCRN 1ZZ',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'PCRN 1ZZ',
+        'zipex' => 'PCRN 1ZZ'
     ],
     'PR' => [
+        'fmt' => '%N%n%O%n%A%n%C PR %Z',
+        'require' => 'ACZ',
         'upper' => 'ACNO',
-        'zipex' => '00930',
         'zip' => '(00[679]\\d{2})(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C PR %Z',
-        'require' => 'ACZ'
+        'zipex' => '00930'
     ],
     'PS' => [
 
     ],
     'PT' => [
-        'zipex' => '2725-079,1250-096,1201-950,2860-571,1208-148',
-        'zip' => '\\d{4}-\\d{3}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}-\\d{3}',
+        'zipex' => '2725-079,1250-096,1201-950,2860-571,1208-148'
     ],
     'PW' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACSZ',
-        'zipex' => '96940',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '(969(?:39|40))(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '96940'
     ],
     'PY' => [
-        'zipex' => '1536,1538,1209',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1536,1538,1209'
     ],
     'QA' => [
         'upper' => 'AC'
     ],
     'RE' => [
-        'upper' => 'ACX',
-        'zipex' => '97400',
-        'zip' => '9[78]4\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '9[78]4\\d{2}',
+        'zipex' => '97400'
     ],
     'RO' => [
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'upper' => 'AC',
-        'zipex' => '060274,061357,200716',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '060274,061357,200716'
     ],
     'RS' => [
-        'zipex' => '106314',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5,6}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '106314'
     ],
     'RU' => [
-        'upper' => 'AC',
-        'zipex' => '247112,103375,188300',
-        'zip' => '\\d{6}',
         'fmt' => '%N%n%O%n%A%n%C%n%S%n%Z',
+        'require' => 'ACSZ',
         'state_name_type' => 'oblast',
-        'require' => 'ACSZ'
+        'upper' => 'AC',
+        'zip' => '\\d{6}',
+        'zipex' => '247112,103375,188300'
     ],
     'RW' => [
         'upper' => 'AC'
     ],
     'SA' => [
-        'zipex' => '11564,11187,11142',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => '11564,11187,11142'
     ],
     'SB' => [
 
     ],
     'SC' => [
-        'upper' => 'S',
         'fmt' => '%N%n%O%n%A%n%C%n%S',
-        'state_name_type' => 'island'
+        'state_name_type' => 'island',
+        'upper' => 'S'
     ],
     'SE' => [
-        'zipex' => '11455,12345,10500',
-        'zip' => '\\d{3} ?\\d{2}',
         'fmt' => '%O%n%N%n%A%nSE-%Z %C',
+        'locality_name_type' => 'post_town',
         'require' => 'ACZ',
-        'locality_name_type' => 'post_town'
+        'zip' => '\\d{3} ?\\d{2}',
+        'zipex' => '11455,12345,10500'
     ],
     'SG' => [
-        'zipex' => '546080,308125,408600',
-        'zip' => '\\d{6}',
         'fmt' => '%N%n%O%n%A%nSINGAPORE %Z',
-        'require' => 'AZ'
+        'require' => 'AZ',
+        'zip' => '\\d{6}',
+        'zipex' => '546080,308125,408600'
     ],
     'SH' => [
-        'upper' => 'CZ',
-        'zipex' => 'STHL 1ZZ',
-        'zip' => '(?:ASCN|STHL) 1ZZ',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => '(?:ASCN|STHL) 1ZZ',
+        'zipex' => 'STHL 1ZZ'
     ],
     'SI' => [
-        'zipex' => '4000,1001,2500',
+        'fmt' => '%N%n%O%n%A%nSI- %Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%nSI- %Z %C'
+        'zipex' => '4000,1001,2500'
     ],
     'SJ' => [
-        'zipex' => '9170',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
+        'locality_name_type' => 'post_town',
         'require' => 'ACZ',
-        'locality_name_type' => 'post_town'
+        'zip' => '\\d{4}',
+        'zipex' => '9170'
     ],
     'SK' => [
-        'zipex' => '010 01,023 14,972 48,921 01,975 99',
-        'zip' => '\\d{3} ?\\d{2}',
         'fmt' => '%N%n%O%n%A%n%Z %C',
+        'zip' => '\\d{3} ?\\d{2}',
+        'zipex' => '010 01,023 14,972 48,921 01,975 99',
         'require' => 'ACZ'
     ],
     'SL' => [
 
     ],
     'SM' => [
-        'zipex' => '47890,47891,47895,47899',
-        'zip' => '4789\\d',
         'fmt' => '%N%n%O%n%A%n%Z %C',
-        'require' => 'AZ'
+        'require' => 'AZ',
+        'zip' => '4789\\d',
+        'zipex' => '47890,47891,47895,47899'
     ],
     'SN' => [
-        'zipex' => '12500,46024,16556,10000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '12500,46024,16556,10000'
     ],
     'SO' => [
-        'upper' => 'ACS',
-        'zipex' => 'JH 09010,AD 11010',
-        'zip' => '[A-Z]{2} ?\\d{5}',
         'fmt' => '%N%n%O%n%A%n%C, %S %Z',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'upper' => 'ACS',
+        'zip' => '[A-Z]{2} ?\\d{5}',
+        'zipex' => 'JH 09010,AD 11010'
     ],
     'SR' => [
-        'upper' => 'AS',
-        'fmt' => '%N%n%O%n%A%n%C%n%S'
+        'fmt' => '%N%n%O%n%A%n%C%n%S',
+        'upper' => 'AS'
     ],
     'SS' => [
 
@@ -1133,32 +1133,32 @@ return [
 
     ],
     'SV' => [
-        'upper' => 'CSZ',
-        'zipex' => 'CP 1101',
-        'zip' => 'CP [1-3][1-7][0-2]\\d',
         'fmt' => '%N%n%O%n%A%n%Z-%C%n%S',
-        'require' => 'ACS'
+        'require' => 'ACS',
+        'upper' => 'CSZ',
+        'zip' => 'CP [1-3][1-7][0-2]\\d',
+        'zipex' => 'CP 1101'
     ],
     'SX' => [
 
     ],
     'SZ' => [
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'upper' => 'ACZ',
-        'zipex' => 'H100',
         'zip' => '[HLMS]\\d{3}',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => 'H100'
     ],
     'TA' => [
-        'zipex' => 'TDCU 1ZZ',
+        'fmt' => '%N%n%O%n%A%n%C%n%Z',
         'zip' => 'TDCU 1ZZ',
-        'fmt' => '%N%n%O%n%A%n%C%n%Z'
+        'zipex' => 'TDCU 1ZZ'
     ],
     'TC' => [
-        'upper' => 'CZ',
-        'zipex' => 'TKCA 1ZZ',
-        'zip' => 'TKCA 1ZZ',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'CZ',
+        'zip' => 'TKCA 1ZZ',
+        'zipex' => 'TKCA 1ZZ'
     ],
     'TD' => [
 
@@ -1170,15 +1170,15 @@ return [
 
     ],
     'TH' => [
+        'fmt' => '%N%n%O%n%A%n%D %C%n%S %Z',
         'upper' => 'S',
-        'zipex' => '10150,10210',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%D %C%n%S %Z'
+        'zipex' => '10150,10210'
     ],
     'TJ' => [
-        'zipex' => '735450,734025',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '735450,734025'
     ],
     'TK' => [
 
@@ -1187,172 +1187,172 @@ return [
 
     ],
     'TM' => [
-        'zipex' => '744000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '744000'
     ],
     'TN' => [
-        'zipex' => '1002,8129,3100,1030',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '1002,8129,3100,1030'
     ],
     'TO' => [
 
     ],
     'TR' => [
-        'zipex' => '01960,06101',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%Z %C/%S',
+        'locality_name_type' => 'district',
         'require' => 'ACZ',
-        'locality_name_type' => 'district'
+        'zip' => '\\d{5}',
+        'zipex' => '01960,06101'
     ],
     'TT' => [
 
     ],
     'TV' => [
-        'upper' => 'ACS',
         'fmt' => '%N%n%O%n%A%n%C%n%S',
-        'state_name_type' => 'island'
+        'state_name_type' => 'island',
+        'upper' => 'ACS'
     ],
     'TW' => [
-        'zipex' => '104,106,10603,40867',
-        'zip' => '\\d{3}(?:\\d{2})?',
         'fmt' => '%Z%n%S%C%n%A%n%O%n%N',
         'require' => 'ACSZ',
-        'state_name_type' => 'county'
+        'state_name_type' => 'county',
+        'zip' => '\\d{3}(?:\\d{2})?',
+        'zipex' => '104,106,10603,40867'
     ],
     'TZ' => [
-        'zipex' => '6090,34413',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{4,5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '6090,34413'
     ],
     'UA' => [
-        'zipex' => '15432,01055,01001',
-        'zip' => '\\d{5}',
         'fmt' => '%N%n%O%n%A%n%C%n%S%n%Z',
         'require' => 'ACSZ',
-        'state_name_type' => 'oblast'
+        'state_name_type' => 'oblast',
+        'zip' => '\\d{5}',
+        'zipex' => '15432,01055,01001'
     ],
     'UG' => [
 
     ],
     'UM' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACS',
-        'zipex' => '96898',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '96898',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '96898'
     ],
     'US' => [
+        'fmt' => '%N%n%O%n%A%n%C, %S %Z',
+        'require' => 'ACSZ',
+        'state_name_type' => 'state',
         'upper' => 'CS',
-        'zipex' => '95014,22162-1010',
         'zip' => '(\\d{5})(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C, %S %Z',
-        'state_name_type' => 'state',
-        'require' => 'ACSZ'
+        'zipex' => '95014,22162-1010'
     ],
     'UY' => [
+        'fmt' => '%N%n%O%n%A%n%Z %C %S',
         'upper' => 'CS',
-        'zipex' => '11600',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C %S'
+        'zipex' => '11600'
     ],
     'UZ' => [
+        'fmt' => '%N%n%O%n%A%n%Z %C%n%S',
         'upper' => 'CS',
-        'zipex' => '702100,700000',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%Z %C%n%S'
+        'zipex' => '702100,700000'
     ],
     'VA' => [
-        'zipex' => '00120',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '00120',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '00120'
     ],
     'VC' => [
-        'zipex' => 'VC0100,VC0110,VC0400',
+        'fmt' => '%N%n%O%n%A%n%C %Z',
         'zip' => 'VC\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%C %Z'
+        'zipex' => 'VC0100,VC0110,VC0400'
     ],
     'VE' => [
-        'upper' => 'CS',
-        'zipex' => '1010,3001,8011,1020',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%C %Z, %S',
+        'require' => 'ACS',
         'state_name_type' => 'state',
-        'require' => 'ACS'
+        'upper' => 'CS',
+        'zip' => '\\d{4}',
+        'zipex' => '1010,3001,8011,1020'
     ],
     'VG' => [
-        'zipex' => 'VG1110,VG1150,VG1160',
-        'zip' => 'VG\\d{4}',
         'fmt' => '%N%n%O%n%A%n%C%n%Z',
-        'require' => 'A'
+        'require' => 'A',
+        'zip' => 'VG\\d{4}',
+        'zipex' => 'VG1110,VG1150,VG1160'
     ],
     'VI' => [
-        'upper' => 'ACNOS',
+        'fmt' => '%N%n%O%n%A%n%C %S %Z',
         'require' => 'ACSZ',
-        'zipex' => '00802-1222,00850-9802',
+        'state_name_type' => 'state',
+        'upper' => 'ACNOS',
         'zip' => '(008(?:(?:[0-4]\\d)|(?:5[01])))(?:[ \\-](\\d{4}))?',
         'zip_name_type' => 'zip',
-        'fmt' => '%N%n%O%n%A%n%C %S %Z',
-        'state_name_type' => 'state'
+        'zipex' => '00802-1222,00850-9802'
     ],
     'VN' => [
-        'zipex' => '119415,136065,720344',
+        'fmt' => '%N%n%O%n%A%n%C%n%S %Z',
         'zip' => '\\d{6}',
-        'fmt' => '%N%n%O%n%A%n%C%n%S %Z'
+        'zipex' => '119415,136065,720344'
     ],
     'VU' => [
 
     ],
     'WF' => [
-        'upper' => 'ACX',
-        'zipex' => '98600',
-        'zip' => '986\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '986\\d{2}',
+        'zipex' => '98600'
     ],
     'WS' => [
 
     ],
     'XK' => [
-        'zipex' => '10000',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '[1-7]\\d{4}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '10000'
     ],
     'YE' => [
 
     ],
     'YT' => [
-        'upper' => 'ACX',
-        'zipex' => '97600',
-        'zip' => '976\\d{2}',
         'fmt' => '%O%n%N%n%A%n%Z %C %X',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'upper' => 'ACX',
+        'zip' => '976\\d{2}',
+        'zipex' => '97600'
     ],
     'ZA' => [
-        'zipex' => '0083,1451,0001',
-        'zip' => '\\d{4}',
         'fmt' => '%N%n%O%n%A%n%D%n%C%n%Z',
-        'require' => 'ACZ'
+        'require' => 'ACZ',
+        'zip' => '\\d{4}',
+        'zipex' => '0083,1451,0001'
     ],
     'ZM' => [
-        'zipex' => '50100,50101',
+        'fmt' => '%N%n%O%n%A%n%Z %C',
         'zip' => '\\d{5}',
-        'fmt' => '%N%n%O%n%A%n%Z %C'
+        'zipex' => '50100,50101'
     ],
     'ZW' => [
 
     ],
     'ZZ' => [
-        'upper' => 'C',
-        'sublocality_name_type' => 'suburb',
-        'zip_name_type' => 'postal',
         'fmt' => '%O%n%N%n%A%n%D%n%Z %C %X%n%S',
-        'state_name_type' => 'province',
         'locality_name_type' => 'city',
-        'require' => 'AC'
+        'require' => 'AC',
+        'state_name_type' => 'province',
+        'sublocality_name_type' => 'suburb',
+        'upper' => 'C',
+        'zip_name_type' => 'postal'
     ]
 ];

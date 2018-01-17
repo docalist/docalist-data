@@ -179,6 +179,9 @@ class PostalAddressFormatsHelper
         // Supprime les champs qu'on ne veut pas conserver
         $data = array_intersect_key($data, $keep);
 
+        // Trie les champs pour qu'ils soient toujours dans le même ordre
+        ksort($data);
+
         // Ok
         return $data;
     }
