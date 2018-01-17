@@ -62,10 +62,19 @@ echo ' : ', count($countries), " countries\n";
 // Charge tous les pays
 echo "- Getting country data:\n";
 $data = [];
+$fields = [];
+$facets = ['locality_name_type' => [], 'state_name_type' => [], 'sublocality_name_type' => [], 'zip_name_type' => []];
 foreach($countries as $i => $country) {
     echo '  ', $country;
     if ($i % 20 === 19) echo "\n";
     $data[$country] = $helper->getDataFor($country);
+    $fields += $data[$country];
+    foreach($facets as $field => &$values) {
+        if (isset($data[$country][$field])) {
+            $value = $data[$country][$field];
+            (isset($values[$value])) ? (++$values[$value]) : ($values[$value] = 1);
+        }
+    }
 }
 echo "\n";
 
@@ -111,6 +120,21 @@ echo '- Generating file ~', $file, "\n";
 $handle = fopen($path, 'w');
 fputs($handle, $content);
 fclose($handle);
+
+// Affiche la liste des champs possibles
+ksort($fields);
+echo '- Fields list: ', implode(', ', array_keys($fields)), "\n";
+
+// Affiche la liste des valeurs possibles pour différents champs
+foreach($facets as $field => $values) {
+    echo '- Values for field "', $field, '": ';
+    ksort($values);
+    $t = [];
+    foreach($values as $value => $count) {
+        $t[] = $value . '(' . $count . ')';
+    }
+    echo implode(', ', $t), "\n";
+}
 
 // Terminé
 echo '- Done';
