@@ -15,7 +15,7 @@ namespace Docalist\Data\Scripts\PostalAddressFormat;
  *
  * (cf. https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata)
  */
-class PostalAddressFormatsHelper
+class PostalAddressMetadataHelper
 {
     /*
      * Les données Google contiennent les champs suivants (exemples pour la france) :
@@ -77,7 +77,6 @@ class PostalAddressFormatsHelper
      *
      * @var string
      */
-//    const API = 'http://i18napis.appspot.com/address';
     const API = 'https://chromium-i18n.appspot.com/ssl-address';
 
     protected $cacheDirectory = false;

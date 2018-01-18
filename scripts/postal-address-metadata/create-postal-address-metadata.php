@@ -25,13 +25,14 @@ if (php_sapi_name() !== 'cli') {
 }
 
 // Charge le helper
-require __DIR__ . '/PostalAddressFormatsHelper.php';
-$helper = new PostalAddressFormatsHelper();
+require __DIR__ . '/PostalAddressMetadataHelper.php';
+$helper = new PostalAddressMetadataHelper();
+echo "\n", 'Generating Postal Address Metadata:', "\n";
 echo '- Google API: ', $helper::API, "\n";
 
 // Détermine le path du fichier résultat
 $dir = __DIR__ . '/../..';
-$file = '/resources/postal-address-formats.php';
+$file = '/resources/postal-address-metadata.php';
 $path = $dir . $file;
 echo '- Destination file: ~', $file, "\n";
 
@@ -47,7 +48,7 @@ if (file_exists($path)) {
 }
 
 // Utilise ou non le cache
-if (false) {
+if (true) {
     $helper->setCacheDirectory(__DIR__ . '/cache/');
     echo "- Cache is enabled\n";
 } else {
@@ -126,6 +127,12 @@ foreach($data as $format) {
     unset($values);
 }
 
+// Validation
+echo "\n", 'Check the generated file whith PHPUnit:', "\n";
+echo '$ phpunit tests/PostalAddressFormatterTest.php --filter testMetadata', "\n";
+
+// Stats
+echo "\nStats:\n";
 // Affiche la liste des champs possibles
 ksort($fields);
 echo '- Fields list: ', implode(', ', array_keys($fields)), "\n";
@@ -142,4 +149,4 @@ foreach($facets as $field => $values) {
 }
 
 // Terminé
-echo '- Done';
+echo "\n", 'Done!', "\n";
