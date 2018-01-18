@@ -62,19 +62,10 @@ echo ' : ', count($countries), " countries\n";
 // Charge tous les pays
 echo "- Getting country data:\n";
 $data = [];
-$fields = [];
-$facets = ['locality_name_type' => [], 'state_name_type' => [], 'sublocality_name_type' => [], 'zip_name_type' => []];
 foreach($countries as $i => $country) {
     echo '  ', $country;
     if ($i % 20 === 19) echo "\n";
     $data[$country] = $helper->getDataFor($country);
-    $fields += $data[$country];
-    foreach($facets as $field => &$values) {
-        if (isset($data[$country][$field])) {
-            $value = $data[$country][$field];
-            (isset($values[$value])) ? (++$values[$value]) : ($values[$value] = 1);
-        }
-    }
 }
 echo "\n";
 
@@ -88,7 +79,7 @@ $data = $helper->applyCorrections($data);
 // Génère le contenu du fichier
 $year = date('Y');
 $date = date('Y/m/d');
-$data = $helper->prettyVarExport($data);
+$array = $helper->prettyVarExport($data);
 $content = <<<EOT
 <?php
 /**
@@ -111,7 +102,7 @@ namespace Docalist\Data\Scripts\PostalAddressFormat;
  * phpcs:disable Generic.Files.LineLength.TooLong
  */
 
-return $data;
+return $array;
 
 EOT;
 
@@ -120,6 +111,20 @@ echo '- Generating file ~', $file, "\n";
 $handle = fopen($path, 'w');
 fputs($handle, $content);
 fclose($handle);
+
+// Génère des statistiques
+$fields = [];
+$facets = ['locality_name_type' => [], 'state_name_type' => [], 'sublocality_name_type' => [], 'zip_name_type' => []];
+foreach($data as $format) {
+    $fields += $format;
+    foreach($facets as $field => &$values) {
+        if (isset($format[$field])) {
+            $value = $format[$field];
+            (isset($values[$value])) ? (++$values[$value]) : ($values[$value] = 1);
+        }
+    }
+    unset($values);
+}
 
 // Affiche la liste des champs possibles
 ksort($fields);
