@@ -10,7 +10,7 @@
 namespace Docalist\Data\Scripts\PostalAddressFormat;
 
 /**
- * Ce script génère le fichier de ressources postal-address-formats.php qui est utilisé par la classe
+ * Ce script génère le fichier de ressources postal-address-metadata.php qui est utilisé par la classe
  * PostalAddressFormatter pour gérer l'affichage et la saisie des adresses postales.
  *
  * Il utilise les données de la librairie googlei18n/libaddressinput.
