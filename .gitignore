@@ -1,5 +1,4 @@
 # From https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
-scripts/postal-address-metadata/cache/
 
 *.pydevproject
 .metadata
