@@ -253,7 +253,7 @@ class Record extends Entity
         if ($specific) {
             $fields['group' . $groupNumber] = [
                 'type' => 'Docalist\Data\Type\Group',
-                'label' => __('Champs de gestion', 'docalist-core'),
+                'label' => __('Champs de gestion', 'docalist-data'),
                 'state' => 'collapsed',
             ];
             $fields = array_merge($fields, $specific);
@@ -508,15 +508,15 @@ class Record extends Entity
         $form->input('label')
             ->setAttribute('id', $name . '-label')
             ->addClass('label regular-text')
-            ->setLabel(__('Libellé', 'docalist-core'))
-            ->setDescription(__('Libellé utilisé pour désigner ce type.', 'docalist-core'));
+            ->setLabel(__('Libellé', 'docalist-data'))
+            ->setDescription(__('Libellé utilisé pour désigner ce type.', 'docalist-data'));
 
         $form->textarea('description')
             ->setAttribute('id', $name . '-description')
             ->addClass('description large-text autosize')
             ->setAttribute('rows', 1)
-            ->setLabel(__('Description', 'docalist-core'))
-            ->setDescription(__('Description du type.', 'docalist-core'));
+            ->setLabel(__('Description', 'docalist-data'))
+            ->setDescription(__('Description du type.', 'docalist-data'));
 
         return $form;
     }
@@ -533,11 +533,11 @@ class Record extends Entity
             ->setAttribute('id', $name . '-label')
             ->addClass('label regular-text')
             ->setAttribute('placeholder', $this->schema->label())
-            ->setLabel(__('Titre', 'docalist-core'))
+            ->setLabel(__('Titre', 'docalist-data'))
             ->setDescription(
-                __('Titre du formulaire.', 'docalist-core') .
+                __('Titre du formulaire.', 'docalist-data') .
                 ' ' .
-                __("Par défaut, c'est le nom du type qui est utilisé.", 'docalist-core')
+                __("Par défaut, c'est le nom du type qui est utilisé.", 'docalist-data')
             );
 
         $form->textarea('description')
@@ -545,13 +545,13 @@ class Record extends Entity
             ->addClass('description large-text autosize')
             ->setAttribute('rows', 1)
             ->setAttribute('placeholder', $this->schema->description())
-            ->setLabel(__('Introduction', 'docalist-core'))
+            ->setLabel(__('Introduction', 'docalist-data'))
             ->setDescription(
-                __("Texte d'introduction qui sera affiché pour présenter le formulaire.", 'docalist-core') .
+                __("Texte d'introduction qui sera affiché pour présenter le formulaire.", 'docalist-data') .
                 ' ' .
-                __("Par défaut, c'est la description du type qui est utilisée.", 'docalist-core') .
+                __("Par défaut, c'est la description du type qui est utilisée.", 'docalist-data') .
                 ' ' .
-                __("Indiquez '-' pour ne rien afficher.", 'docalist-core')
+                __("Indiquez '-' pour ne rien afficher.", 'docalist-data')
             );
 
         return $form;
@@ -567,27 +567,27 @@ class Record extends Entity
         $form->input('label')
             ->setAttribute('id', $name . '-label')
             ->addClass('label regular-text')
-            ->setLabel(__('Nom du format', 'docalist-core'))
-            ->setDescription(__("Libellé utilisé pour désigner ce format d'affichage.", 'docalist-core'));
+            ->setLabel(__('Nom du format', 'docalist-data'))
+            ->setDescription(__("Libellé utilisé pour désigner ce format d'affichage.", 'docalist-data'));
 
         $form->textarea('description')
             ->setAttribute('id', $name . '-description')
             ->addClass('description large-text autosize')
             ->setAttribute('rows', 1)
-            ->setLabel(__('Description', 'docalist-core'))
-            ->setDescription(__("Description du format, notes, remarques... (champ de gestion)", 'docalist-core'));
+            ->setLabel(__('Description', 'docalist-data'))
+            ->setDescription(__("Description du format, notes, remarques... (champ de gestion)", 'docalist-data'));
 
         $form->input('before')
             ->setAttribute('id', $name . '-before')
             ->addClass('before regular-text')
-            ->setLabel(__('Texte avant', 'docalist-core'))
-            ->setDescription(__('Texte ou code html à afficher avant les données de la fiche.', 'docalist-core'));
+            ->setLabel(__('Texte avant', 'docalist-data'))
+            ->setDescription(__('Texte ou code html à afficher avant les données de la fiche.', 'docalist-data'));
 
         $form->input('after')
             ->setAttribute('id', $name . '-after')
             ->addClass('after regular-text')
-            ->setLabel(__('Texte après', 'docalist-core'))
-            ->setDescription(__('Texte ou code html à afficher les données de la fiche.', 'docalist-core'));
+            ->setLabel(__('Texte après', 'docalist-data'))
+            ->setDescription(__('Texte ou code html à afficher les données de la fiche.', 'docalist-data'));
 
         return $form;
     }
