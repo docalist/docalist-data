@@ -7,13 +7,15 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Text;
 use WP_User;
 
 /**
- * L'auteur WordPress de la notice (login).
+ * Champ standard "createdBy" : login de l'utilisateur WordPress qui a créé l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_author".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
