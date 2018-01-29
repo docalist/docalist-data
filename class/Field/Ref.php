@@ -7,16 +7,16 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Integer;
 
 /**
- * Le numéro de référence de la notice.
+ * Champ docalist standard "ref" : numéro de l'enregistrement.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class RefNumber extends Integer
+class Ref extends Integer
 {
     public static function loadSchema()
     {
