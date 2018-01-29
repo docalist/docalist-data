@@ -1,0 +1,10 @@
+# ------------------------------------------------------------------------------
+# Adresse postale : types d'adresses.
+#
+# 11/01/16, DM : Version initiale.
+# 29/01/18, DM : clean-up pour intégration dans docalist-data.
+# ------------------------------------------------------------------------------
+code;label;description
+main;adresse principale;
+secondary;adresse secondaire;
+other;Autre;Autre type d'adresse.
