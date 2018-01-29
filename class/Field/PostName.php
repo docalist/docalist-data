@@ -7,16 +7,18 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Text;
 
 /**
- * Le slug WordPress de la notice.
+ * Champ standard "slug" : permalien de l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_name".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostSlug extends Text
+class PostName extends Text
 {
     public static function loadSchema()
     {
