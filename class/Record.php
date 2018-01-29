@@ -12,17 +12,17 @@ namespace Docalist\Data;
 use Docalist\Type\Entity;
 use Docalist\Schema\Schema;
 
-use Docalist\Data\Type\PostType;
-use Docalist\Data\Type\PostStatus;
-use Docalist\Data\Type\PostTitle;
-use Docalist\Data\Type\PostDate;
-use Docalist\Data\Type\PostAuthor;
-use Docalist\Data\Type\PostModified;
-use Docalist\Data\Type\PostPassword;
-use Docalist\Data\Type\PostParent;
-use Docalist\Data\Type\PostSlug;
-use Docalist\Data\Type\RefNumber;
-use Docalist\Data\Type\RefType;
+use Docalist\Data\Field\PostType;
+use Docalist\Data\Field\PostStatus;
+use Docalist\Data\Field\PostTitle;
+use Docalist\Data\Field\PostDate;
+use Docalist\Data\Field\PostAuthor;
+use Docalist\Data\Field\PostModified;
+use Docalist\Data\Field\PostPassword;
+use Docalist\Data\Field\PostParent;
+use Docalist\Data\Field\PostName;
+use Docalist\Data\Field\Ref;
+use Docalist\Data\Field\Type;
 
 use Docalist\Repository\Repository;
 
@@ -42,14 +42,14 @@ use InvalidArgumentException;
  * @property PostType       $posttype   Post Type
  * @property PostStatus     $status     Statut de la fiche
  * @property PostTitle      $posttitle  Titre de la fiche
- * @property PostDate       $creation   Date/heure de création de la fiche
- * @property PostAuthor     $createdBy  Auteur de la fiche
+ * @property PostDate       $creation   Date/heure de création de la fiche.
+ * @property PostAuthor     $createdBy  Auteur de la fiche.
  * @property PostModified   $lastupdate Date/heure de dernière modification
  * @property PostPassword   $password   Mot de passe de la fiche
  * @property PostParent     $parent     Post ID de la fiche parent
- * @property PostSlug       $slug       Slug de la fiche
- * @property RefNumber      $ref        Numéro unique identifiant la fiche
- * @property RefType        $type       Type de fiche
+ * @property PostName       $slug       Slug de la fiche
+ * @property Ref            $ref        Numéro unique identifiant la fiche
+ * @property Type           $type       Type de fiche
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -59,20 +59,23 @@ class Record extends Entity
     {
         return [
             'name' => 'type',
-            'label' => __('Type de base (thing ?)', 'docalist-data'),
+            'label' => __('Type de base Docalist', 'docalist-data'),
             'description' => __('Type de base docalist-data.', 'docalist-data'),
             'fields' => [
-                'posttype'      => 'Docalist\Data\Type\PostType',
-                'status'        => 'Docalist\Data\Type\PostStatus',
-                'posttitle'     => 'Docalist\Data\Type\PostTitle',
-                'creation'      => 'Docalist\Data\Type\PostDate',
-                'createdBy'     => 'Docalist\Data\Type\PostAuthor',
-                'lastupdate'    => 'Docalist\Data\Type\PostModified',
-                'password'      => 'Docalist\Data\Type\PostPassword',
-                'parent'        => 'Docalist\Data\Type\PostParent',
-                'slug'          => 'Docalist\Data\Type\PostSlug',
-                'ref'           => 'Docalist\Data\Type\RefNumber',
-                'type'          => 'Docalist\Data\Type\RefType',
+                // Champs WordPress
+                'posttype'      => 'Docalist\Data\Field\PostType',
+                'status'        => 'Docalist\Data\Field\PostStatus',
+                'posttitle'     => 'Docalist\Data\Field\PostTitle',
+                'creation'      => 'Docalist\Data\Field\PostDate',
+                'createdBy'     => 'Docalist\Data\Field\PostAuthor',
+                'lastupdate'    => 'Docalist\Data\Field\PostModified',
+                'password'      => 'Docalist\Data\Field\PostPassword',
+                'parent'        => 'Docalist\Data\Field\PostParent',
+                'slug'          => 'Docalist\Data\Field\PostName',
+
+                // Champs docalist communs à tous les types d'entité
+                'ref'           => 'Docalist\Data\Field\Ref',
+                'type'          => 'Docalist\Data\Field\Type',
             ],
         ];
     }
