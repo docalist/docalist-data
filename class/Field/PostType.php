@@ -7,12 +7,14 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Text;
 
 /**
- * Le PostType WordPress de la notice.
+ * Champ standard "posttype" : nom de code de la base docalist où est stocké l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_type".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
