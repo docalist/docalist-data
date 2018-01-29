@@ -1,0 +1,50 @@
+# ------------------------------------------------------------------------------
+# Téléphone : types de numéros.
+#
+# 16/12/15, DM Version initiale
+# cf. :
+# - https://www.drupal.org/node/849006
+# - https://github.com/giggsey/libphonenumber-for-php
+# - https://www.maxmind.com/en/telephone-number-identification-phone-type-codes
+# 26/01/18, DM, clean-up pour intégration dans docalist-data
+# ------------------------------------------------------------------------------
+code;type;format;label;description
+#
+# ------------------------------------------------------------------------------
+# Personnes
+# ------------------------------------------------------------------------------
+work;;%s;Professionnel;Numéro de téléphone professionnel.
+work-fax;;%s;Fax (professionnel);Numéro de fax professionnel.
+home;;%s;Domicile;Numéro de téléphone domicile.
+home-fax;;%s;Fax (personnel);Numéro de fax personnel.
+mobile;;%s;Mobile;Numéro de portable personnel.
+mobile-work;;%s;Mobile pro;Numéro de portable professionnel.
+#
+# ------------------------------------------------------------------------------
+# Entreprises
+# ------------------------------------------------------------------------------
+switchboard;;%s;Standard;Numéro du standard pour une entreprise.
+direct;;%s;Ligne directe;Numéro de ligne directe au sein d'une organisation.
+contact;;%s;Contact;Numéro générique de contact.
+#
+# ------------------------------------------------------------------------------
+# Services
+# ------------------------------------------------------------------------------
+management;;%s;Direction;Direction / administration.
+commercial;;%s;Service commercial;
+diffusion;;%s;Service diffusion;
+distribution;;%s;Service distribution;
+hotline;;%s;Support technique;Hotline / service d'assistance...
+#
+# ------------------------------------------------------------------------------
+# Numéros spéciaux
+# ------------------------------------------------------------------------------
+toll-free;;%s;Numéro vert;Numéros gratuits style (0800, 0808...)
+premium-rate;;%s;Numéro surtaxé;Numéros surtaxés à tarification majorée.
+short;;%s;Numéro court;Numéro abrégé de 3 à 5 chiffres.
+#
+# ------------------------------------------------------------------------------
+# Catégories
+# ------------------------------------------------------------------------------
+main;;%s;Numéro principal;
+other;;%s;Autre type;
