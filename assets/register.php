@@ -38,4 +38,27 @@ add_action('admin_init', function () {
         [],
         '20150510'
     );
+
+    // Adresse Postale
+    wp_register_style(
+        'docalist-postal-address',
+        "$url/assets/postal-address/postal-address.css",
+        ['wp-admin'],
+        '151229'
+    );
+    wp_register_script(
+        'google-maps-places',
+        '//maps.googleapis.com/maps/api/js?libraries=places',
+        [],
+        '20151229',
+        true
+    );
+    wp_register_script(
+        'docalist-postal-address',
+        "$url/assets/postal-address/postal-address.js",
+        ['jquery', 'google-maps-places'],
+        '20151229',
+        true
+    );
+
 });
