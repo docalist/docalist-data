@@ -1,0 +1,10 @@
+# ------------------------------------------------------------------------------
+# Content : types de contenus.
+#
+# 25/01/18, DM Version initiale.
+# ------------------------------------------------------------------------------
+code;label;description
+content;Contenu;Contenu principal.
+excerpt;Extrait;Extrait du contenu.
+internal;Note interne;Remarques/notes réservées à l'usage interne.
+other;Autre;Autre type de contenu.
