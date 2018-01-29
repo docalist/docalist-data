@@ -1,0 +1,82 @@
+# ------------------------------------------------------------------------------
+# Types de liens
+#
+# 16/12/15, DM : Version initiale.
+# 06/01/15, DM : correction hashtag.
+# 01/04/16, DM : Ajout de plusieurs entrées (vimeo, dalymotion, myspace, etc.) 
+# 05/04/16, DM : Ajout de l'entrée pdf. 
+# 22/06/16, DM : Ajout de plusieurs entrées (pinterest, scoopit, diigo, viadeo...) 
+# 15/12/16, DM : Ajout de des entrées blog et flick. 
+# 26/01/18, DM : Réorganisation pour intégratino dans docalist-data.
+# ------------------------------------------------------------------------------
+code;label;description
+#
+# ------------------------------------------------------------------------------
+# Mail
+# ------------------------------------------------------------------------------
+mail;Courriel;Adresse e-mail
+#
+# ------------------------------------------------------------------------------
+# Liens génériques
+# ------------------------------------------------------------------------------
+site;Site web;"Adresse de la page d'accueil d'un site."
+blog;Blog;"Adresse de la page d'accueil d'un blog."
+webpage;"Page web";"Page spécifique sur un site."
+internal;Lien privé;Ne sera visible que par les personnes qui ont le droit requis.
+other;Autre;Autre type de lien.
+#
+# ------------------------------------------------------------------------------
+# Nature du site ou du document lié
+# ------------------------------------------------------------------------------
+photos;Gallerie photo;
+music;Gallerie musicale;
+sound;son;"Lien direct vers un fichier contenant du son."
+video;Vidéo;"Lien direct vers un fichier contenant une vidéo."
+videos;Gallerie vidéo;
+agenda;Agenda;
+portfolio;portfolio;Site présentant des réalisations
+cv;CV;Curriculum vitæ
+register;Site d'inscription;
+collab;Espace collaboratif;
+intranet;Intranet;
+extranet;Extranet;
+shop;Boutique en ligne;
+pdf;"Fichier PDF";"Lien direct ver un fichier PDF"
+#
+# ------------------------------------------------------------------------------
+# Liens vers des sites spécifiques
+# ------------------------------------------------------------------------------
+facebook;Facebook;
+facebook-profile;"Facebook (profil)";"lien vers 1 profil (amis limités à 5000)"
+facebook-group;"Facebook (groupe)";"lien vers 1 groupe, 1 communauté Facebook"
+facebook-event;"Facebook (Event)";"gestion des inscriptions via Facebook"
+twitter;Twitter;Désigne une page Twitter
+twitter-hashtag;Hashtag Twitter;Désigne un mot-clé (une recherche) sur Twitter
+googleplus;Google+;
+instagram;Instagram;
+youtube;Vidéo YouTube;
+youtube-channel;Chaîne YouTube;
+soundcloud;SoundCloud;Page SoundCloud 
+soundcloud-channel;"SoundCloud (page)";"lien vers 1 page dédiée avec plusieurs sons"
+calameo;Publication Calaméo;Publication hébergée sur calameo.com
+issuu;Publication Issu;Publication hébergée sur issuu.com
+scribd;Publication Scribd;Publication hébergée sur scribd.com
+wikipedia;Page Wikipédia;
+calameo;"Publication Calaméo";"Publication hébergée sur calameo.com"
+issuu;"Publication Issuu";"Publication hébergée sur issuu.com"
+scribd;"publication Scribd";"Publication hébergée sur scribd.com"
+vimeo-channel;"Viméo  (Chaîne)";"chaine Vimeo"
+dailymotion-channel;"Dailymotion  (Chaîne)";"chaine Dailymotion"
+myspace-channel;"Myspace (page)";"lien vers 1 page dédiée avec plusieurs médias (vidéo, sons, photos)"
+deezer-channel;"Deezer (page)";"lien vers 1 page dédiée avec plusieurs albums ou morceaux"
+spotify-channel;"Spotify (Page)";"lien vers 1 page dédiée avec plusieurs albums ou morceaux"
+pinterest;Pinterest;"lien vers 1 album photo"
+scoopit-channel;"Scoop-it (page)";"lien vers un espace de curation scoop-it"
+diigo;Diigo;"lien vers un espace de curation diigo"
+openagenda;Openagenda;"lien vers un agenda personnel OpenAgenda"
+eventBrite;EventBrite;"gestion des inscriptions via eventbrite"
+weezevent;Weezevent;"gestion des inscriptions via Weezevent"
+viadeo;Viadeo;"Lien vers profil Viadeo"
+linkedin;LinkedIn;"Lien vers profil Linkedin"
+vine;Vine;"Lien vers page Vine"
+flickr;Flickr;"Lien vers page Flickr"
