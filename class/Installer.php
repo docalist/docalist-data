@@ -56,7 +56,7 @@ class Installer
     protected function getTables()
     {
         return
-            $this->getGenericTables()() +
+            $this->getGenericTables() +
             $this->getLanguagesTables() +
             $this->getCountriesTables() +
             $this->getContinentsTables();
