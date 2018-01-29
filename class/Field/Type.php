@@ -7,17 +7,17 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\ListEntry;
 use Docalist\Data\Database;
 
 /**
- * Le type docalist de la notice.
+ * Champ docalist standard "type" : type de l'enregistrement.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class RefType extends ListEntry
+class Type extends ListEntry
 {
     public static function loadSchema()
     {
