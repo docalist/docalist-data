@@ -7,12 +7,14 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Text;
 
 /**
- * ID WordPress du post parent de la notice.
+ * Champ standard "parent" : ID de l'enregistrement parent.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_parent".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
