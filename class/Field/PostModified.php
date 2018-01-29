@@ -7,12 +7,14 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\DateTime;
 
 /**
- * La date de dernière modification de la notice.
+ * Champ standard "lastupdate" : date/heure de dernière modification de l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_modified".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
