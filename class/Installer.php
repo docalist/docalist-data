@@ -56,9 +56,51 @@ class Installer
     protected function getTables()
     {
         return
+            $this->getGenericTables()() +
             $this->getLanguagesTables() +
             $this->getCountriesTables() +
             $this->getContinentsTables();
+    }
+
+    /**
+     * Tables génériques (indépendantes ou utilisées par plusieurs entités).
+     *
+     * @return array
+     */
+    protected function getGenericTables()
+    {
+        $dir = DOCALIST_DATA_DIR . '/tables/';
+
+        return [
+            'content-type' => [
+                'path' => $dir . 'content-type.txt',
+                'label' => __("Contenu - Types de contenus", 'docalist-data'),
+                'format' => 'table',
+                'type' => 'content-type',
+                'creation' => '2018-01-25 17:02:23',
+            ],
+            'phone-number-type' => [
+                'path' => $dir . 'phone-number-type.txt',
+                'label' => __('Téléphone - Types de numéros', 'docalist-data'),
+                'format' => 'table',
+                'type' => 'phone-number-type',
+                'creation' => '2015-12-16 17:16:19',
+            ],
+            'postal-address-type' => [
+                'path' => $dir . 'postal-address-type.txt',
+                'label' => __("Adresse postale - Types d'adresses", 'docalist-data'),
+                'format' => 'table',
+                'type' => 'postal-address-type',
+                'creation' => '2016-01-11 16:31:37',
+            ],
+            'link-type' => [
+                'path' => $dir . 'link-type.txt',
+                'label' => __("Lien - Types de liens", 'docalist-data'),
+                'format' => 'table',
+                'type' => 'link-type',
+                'creation' => '2015-12-16 08:15:50',
+            ],
+        ];
     }
 
     /**
