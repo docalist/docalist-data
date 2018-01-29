@@ -7,12 +7,14 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Text;
 
 /**
- * Le statut wordpress de la notice.
+ * Champ standard "status" : statut de visibilité de l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_status".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
