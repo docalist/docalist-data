@@ -70,7 +70,8 @@ add_action('plugins_loaded', function () {
     // Ok
     docalist('autoloader')
         ->add(__NAMESPACE__, __DIR__ . '/class')
-        ->add(__NAMESPACE__ . '\Tests', __DIR__ . '/tests');
+        ->add(__NAMESPACE__ . '\Tests', __DIR__ . '/tests')
+        ->add('Docalist\PostalAddressMetadata', __DIR__ . '/lib/docalist/postal-address-metadata/class');
 
     docalist('services')->add('docalist-data', new Plugin());
 });
@@ -78,7 +79,7 @@ add_action('plugins_loaded', function () {
 /*
  * Activation du plugin.
  */
-    register_activation_hook(DOCALIST_DATA, function () {
+register_activation_hook(DOCALIST_DATA, function () {
     // Si docalist-core n'est pas dispo, on ne peut rien faire
     if (defined('DOCALIST_CORE')) {
         // plugins_loaded n'a pas encore été lancé, donc il faut initialiser notre autoloader
