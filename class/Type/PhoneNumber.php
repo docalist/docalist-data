@@ -25,6 +25,7 @@ class PhoneNumber extends Text
      * - Normaliser le stockage des numéros de téléphones (format E164)
      * - Gérer le formattage (ajout ou pas du +33 selon que c'est un numéro à l'étranger ou pas)
      * - Générer un input tél pour la saisie.
+     * cf. aussi rfc3966 : https://tools.ietf.org/html/rfc3966
      */
 
     public static function loadSchema()
