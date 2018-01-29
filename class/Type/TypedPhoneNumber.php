@@ -36,10 +36,14 @@ class TypedPhoneNumber extends TypedText
             'label' => __('Téléphone', 'docalist-data'),
             'description' => __('Numéros de téléphone.', 'docalist-data'),
             'fields' => [
+                'type' => [
+                    'table' => 'table:phone-number-type',
+                ],
                 'value' => [
                     'type' => 'Docalist\Data\Type\PhoneNumber',
                 ],
             ],
+            'default' => [['type' => 'work'],['type' => 'mobile']],
         ];
     }
 }
