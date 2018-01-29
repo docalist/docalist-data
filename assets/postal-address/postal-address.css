@@ -1,0 +1,35 @@
+.postal-address {
+   width: 100%;
+/*   background: #cde; */
+}
+
+.postal-address .zone {
+   display: table-cell;
+}
+
+.postal-address .line {
+   display: table;
+   width: 100%;
+   border-collapse: separate;
+   border-spacing: 4px;
+}
+
+.postal-address .zone textarea, 
+.postal-address .zone input[type=text], 
+.postal-address .zone input[type=search] 
+{
+   display: block;
+   width: 100%;
+   box-sizing: border-box;
+}
+
+.postal-address .map-container {
+   width: 49%; 
+   height: 200px;
+}
+
+.postal-address .form-container {
+/*    background: #edf; */
+   width: 49%; 
+   height: 200px;
+}
