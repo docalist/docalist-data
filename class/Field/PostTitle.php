@@ -7,12 +7,14 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Field;
 
 use Docalist\Type\Text;
 
 /**
- * Le titre WordPress de la fiche.
+ * Champ standard "posttitle" : titre de l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_title".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
