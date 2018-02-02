@@ -58,7 +58,7 @@ class Record extends Entity
     public static function loadSchema()
     {
         return [
-            'name' => 'type',
+            'name' => 'record',
             'label' => __('Type de base Docalist', 'docalist-data'),
             'description' => __('Type de base docalist-data.', 'docalist-data'),
             'fields' => [
