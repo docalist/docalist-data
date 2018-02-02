@@ -9,6 +9,12 @@
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 
+/* Pour le moment, le clonage d'adresse ne marche pas, on masque le bouton "clone"  */
+.address .cloner 
+{
+    display: none;
+}
+
 .postal-address
 {
 }
