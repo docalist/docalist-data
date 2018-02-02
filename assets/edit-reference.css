@@ -86,9 +86,3 @@
 	right: 320px;
 }
 */
-
-/* Masque temporairement le bouton "clone" pour address */
-.address .cloner 
-{
-    display: none;
-}
