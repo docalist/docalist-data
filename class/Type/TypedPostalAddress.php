@@ -29,12 +29,14 @@ class TypedPostalAddress extends TypedText
         return [
             'label' => __('Adresse', 'docalist-data'),
             'description' => __("Adresse et type d'adresse.", 'docalist-data'),
+            'editor' => 'container',
             'fields' => [
                 'type' => [
                     'table' => 'table:postal-address-type',
                 ],
                 'value' => [
                     'type' => 'Docalist\Data\Type\PostalAddress',
+                    'label' => __('Adresse', 'docalist-data'),
                 ],
             ],
             'default' => [['type' => 'main']],
