@@ -1,35 +1,87 @@
-.postal-address {
-   width: 100%;
-/*   background: #cde; */
-}
+/**
+ * This file is part of Docalist Data.
+ *
+ * Copyright (C) 2012-2018 Daniel Ménard
+ *
+ * For copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
 
-.postal-address .zone {
-   display: table-cell;
-}
+ * @author Daniel Ménard <daniel.menard@laposte.net>
+ */
 
-.postal-address .line {
-   display: table;
-   width: 100%;
-   border-collapse: separate;
-   border-spacing: 4px;
-}
-
-.postal-address .zone textarea, 
-.postal-address .zone input[type=text], 
-.postal-address .zone input[type=search] 
+.postal-address
 {
-   display: block;
-   width: 100%;
-   box-sizing: border-box;
 }
 
-.postal-address .map-container {
-   width: 49%; 
-   height: 200px;
+.postal-address * 
+{
 }
 
-.postal-address .form-container {
-/*    background: #edf; */
-   width: 49%; 
-   height: 200px;
+.postal-address input,
+.postal-address textarea,
+.postal-address select 
+{
+    width: 100%;
+    margin:0;
+    padding: 3px 5px;
 }
+
+.postal-address-row 
+{
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+    /* border-color: #444; */
+}
+
+.postal-address-col 
+{
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+}
+
+.postal-address-map 
+{
+    background: #eee;
+    height: 200px;
+}
+.postal-address .form-table 
+{
+    display: table;
+    width: 100%;
+    margin-top: 0;
+}
+
+.postal-address .form-table th 
+{
+    padding: 0 0 1px 0;
+    width: auto;
+    min-width: auto;
+}
+
+.postal-address .form-table td {
+    padding: 0 0 1px 0;
+}
+
+.postal-address .form-table label 
+{
+    font-weight: normal;
+    padding-right: .5em;
+}
+
+.administrativeArea2-group, .administrativeArea3-group, .administrativeArea4-group, .administrativeArea5-group,
+.location-group 
+{
+    display: none;
+}  
+
+@media screen and (max-width: 600px) 
+{
+    .postal-address-col 
+    {
+        display: table-row;
+    }
+}
+
