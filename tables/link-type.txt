@@ -62,9 +62,6 @@ calameo;Publication Calaméo;Publication hébergée sur calameo.com
 issuu;Publication Issu;Publication hébergée sur issuu.com
 scribd;Publication Scribd;Publication hébergée sur scribd.com
 wikipedia;Page Wikipédia;
-calameo;"Publication Calaméo";"Publication hébergée sur calameo.com"
-issuu;"Publication Issuu";"Publication hébergée sur issuu.com"
-scribd;"publication Scribd";"Publication hébergée sur scribd.com"
 vimeo-channel;"Viméo  (Chaîne)";"chaine Vimeo"
 dailymotion-channel;"Dailymotion  (Chaîne)";"chaine Dailymotion"
 myspace-channel;"Myspace (page)";"lien vers 1 page dédiée avec plusieurs médias (vidéo, sons, photos)"
