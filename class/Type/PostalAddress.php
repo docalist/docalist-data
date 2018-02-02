@@ -14,23 +14,28 @@ use Docalist\Type\LargeText;
 use Docalist\Type\Text;
 use Docalist\Type\TableEntry;
 use Docalist\Type\GeoPoint;
-use Docalist\Schema\Schema;
 use Docalist\Forms\Container;
 use Docalist\PostalAddressMetadata\PostalAddressMetadata;
 use InvalidArgumentException;
+use Docalist\Forms\Div;
+use Docalist\Forms\Input;
 
 /**
  * PostalAddress : un type composite comprenant les différentes informations nécessaires pour envoyer un courrier
  * postal (adresse, code postal, ville, pays...)
  *
- * @property LargeText  $address            Addresse
- * @property Text       $subLocality        Quartier
- * @property Text       $locality           Ville
- * @property Text       $postalCode         Code postal
- * @property Text       $sortingCode        Cedex
- * @property Text[]     $administrativeArea Région/département/etc.
- * @property TableEntry $country            Code pays
- * @property GeoPoint   $location           Localisation (lat/lon)
+ * @property LargeText  $address                Lignes d'adresse (rue, numéro de rue, lieu-dit).
+ * @property Text       $subLocality            Quartier, banlieue, zone résidentielle.
+ * @property Text       $postalCode             Code postal.
+ * @property Text       $locality               Ville/commune.
+ * @property Text       $sortingCode            Clé de tri postal (cedex, boite postale...)
+ * @property TableEntry $country                Code ISO du pays.
+ * @property Text       $administrativeArea     État, région, province (États-Unis, Canada, Brésil).
+ * @property Text       $administrativeArea2    Division administrative de niveau 2 (e.g. département pour la france).
+ * @property Text       $administrativeArea3    Division administrative de niveau 3.
+ * @property Text       $administrativeArea4    Division administrative de niveau 4.
+ * @property Text       $administrativeArea5    Division administrative de niveau 5.
+ * @property GeoPoint   $location               Localisation (lat/lon)
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -55,10 +60,14 @@ class PostalAddress extends Composite
      *   http://www.uxmatters.com/mt/archives/2008/06/international-address-fields-in-web-forms.php
      * - GPX (GPS eXchange Format) :
      *   https://fr.wikipedia.org/wiki/GPX_(format_de_fichier)
-     * - Exemple de formulaire dont les champs s'adaptent selon pays (faire "checkout") :
-     *   https://995d1d846ff2ec4fd846220368e80c16471c764d.googledrive.com/host/0B28BnxIvH5DuWGc3Mm5sZE9DekE/
      * - Formattage d'adresse (data from google) :
      *   https://github.com/adamlc/address-format
+     */
+
+    /*
+     * A voir :
+     * - vérifier qu'on a tout ce qu'il faut pour créer la facette hiérarchique
+     * - faut-il ajouter des champs supplémentaires pour colloquial_area, premise, subpremise, etc. ?
      */
 
     public static function loadSchema()
@@ -75,26 +84,44 @@ class PostalAddress extends Composite
                     'type' => 'Docalist\Type\Text',
                     'label' => __('Quartier', 'docalist-data'),
                 ],
-                'locality' => [
-                    'type' => 'Docalist\Type\Text',
-                    'label' => __('Ville', 'docalist-data'),
-                ],
                 'postalCode' => [
                     'type' => 'Docalist\Type\Text',
                     'label' => __('Code postal', 'docalist-data'),
+                ],
+                'locality' => [
+                    'type' => 'Docalist\Type\Text',
+                    'label' => __('Ville', 'docalist-data'),
                 ],
                 'sortingCode' => [ // cedex
                     'type' => 'Docalist\Type\Text',
                     'label' => __('Cedex', 'docalist-data'),
                 ],
                 'administrativeArea' => [
-                    'type' => 'Docalist\Type\Text*',
-                    'label' => __('Région', 'docalist-data'),
+                    'type' => 'Docalist\Type\Text',
+                    'label' => __('État', 'docalist-data'),
                 ],
                 'country' => [
                     'type' => 'Docalist\Type\TableEntry',
                     'table' => 'table:ISO-3166-1_alpha2_fr',
                     'label' => __('Pays', 'docalist-data'),
+                    'default' => 'FR',
+                    'description' => false,
+                ],
+                'administrativeArea2' => [
+                    'type' => 'Docalist\Type\Text',
+                    'label' => __('Niveau 2', 'docalist-data'),
+                ],
+                'administrativeArea3' => [
+                    'type' => 'Docalist\Type\Text',
+                    'label' => __('Niveau 3', 'docalist-data'),
+                ],
+                'administrativeArea4' => [
+                    'type' => 'Docalist\Type\Text',
+                    'label' => __('Niveau 4', 'docalist-data'),
+                ],
+                'administrativeArea5' => [
+                    'type' => 'Docalist\Type\Text',
+                    'label' => __('Niveau 5', 'docalist-data'),
                 ],
                 'location' => [
                     'type' => 'Docalist\Type\GeoPoint',
@@ -152,7 +179,7 @@ class PostalAddress extends Composite
     public function getAvailableEditors()
     {
         return [
-            'default' => __('Par défaut', 'docalist-data'),
+            'default' => __('Par défaut (autocomplet Google Maps API + formualire + carte)', 'docalist-data'),
         ];
     }
 
@@ -176,214 +203,191 @@ class PostalAddress extends Composite
             ->addClass('postal-address');
 
         // Chaque adresse est dans une div à part
-        $container = $editor->div()->addClass('line');
+        $container = $editor->div()->addClass('postal-address-container');
 
-        // L'adresse comprend deux zones : la carte et le formulaire
-        $container->div()->addClass('zone map-container');
-        $address = $container->div()->addClass('zone form-container');
+        // L'adresse comprend deux lignes : l'autocomplete et une div qui contient la carte et le formulaire
+        $container
+            ->add($this->editorAutocomplete($options))
+            ->add($this->editorMapAndForm($options));
 
-        // On a également un input, initialement caché, qui sert à l'autocomplete
-        $container->input()
-            ->setAttribute('type', 'search')
-            ->addClass('search')
-            ->setAttribute('placeholder', 'Rechercher...')
-            ->setAttribute('style', 'display:none');
-
-        // Construit le formulaire qui contient les différents champs qui composent l'adresse
-        $metadata = new PostalAddressMetadata($this->country());
-        foreach($metadata->getAddressStructure() as $fields) {
-            $group = $address->div()->addClass('line');
-            foreach($fields as $name) {
-                $fieldOptions = $this->getFieldOptions($name, $options);
-                $field = $this->__get($name)->getEditorForm($fieldOptions);
-                switch ($name) {
-                    case 'address':
-                        $label = $field->getLabel();
-                        $field->setAttribute('placeholder', $label)
-                              ->setAttribute('rows', 1);
-                        break;
-
-                    case 'subLocality':
-                        $label = $this->getSubLocalityLabel($metadata->getSubLocalityType());
-                        $field->setAttribute('placeholder', $label);
-                        break ;
-
-                    case 'locality':
-                        $label = $this->getLocalityLabel($metadata->getLocalityType());
-                        $field->setAttribute('placeholder', $label);
-                        break ;
-
-                    case 'postalCode':
-                        $label = $this->getPostalCodeLabel($metadata->getPostalCodeType());
-                        $field->setAttribute('placeholder', $label);
-                        break ;
-
-                    case 'sortingCode':
-                        $label = $field->getLabel();
-                        $field->setAttribute('placeholder', $label);
-                        break;
-
-                    case 'administrativeArea':
-                        $label = $this->getAdministrativeAreaLabel($metadata->getAdministrativeAreaType());
-                        $field->setAttribute('placeholder', $label);
-                        break ;
-
-                    case 'country':
-                        $field->setFirstOption(__('Pays', 'docalist-data'));
-                        break;
-                }
-                $field
-                    ->setLabel('-')
-                    ->setDescription('-')
-                    ->addClass($name);
-
-                $field = $group->div()
-                    ->addClass('zone')
-                    ->add($field);
-            }
-        }
-
-        // Ajoute la latitude et la longitude
-//        $fieldOptions = $this->getFieldOptions('location', $options);
-        $location = $this->__get('location')->getEditorForm(new Schema(['editor' =>'hidden'])); /** @var Container $location */
-        $location->setLabel('-')->setDescription('-')->addClass('location')->setAttribute('style', 'display: none');
-        $container->add($location);
-
+        // Enqueue le JS et la CSS qu'on utilise
         wp_styles()->enqueue('docalist-postal-address');
         wp_scripts()->enqueue('docalist-postal-address');
 
+        // Ok
         return $editor;
     }
 
     /**
-     * Retourne le libellé à utiliser pour désigner le type de zone géographique indiqué.
+     * Construit la partie "autocomplete" de l'éditeur.
      *
-     * @param string $administrativeAreaType Le type de zone géographique recherché.
+     * <div class='postal-address-row'>
+     *     <input type="search" class="postal-address-autocomplete" placeholder="Tapez le début de l'adresse" />
+     * </div>
      *
-     * @return string Le libellé correspondant
+     * @return Div
      */
-    protected function getAdministrativeAreaLabel($administrativeAreaType)
+    protected function editorAutocomplete($options)
     {
-        switch($administrativeAreaType) {
+        $container = Div::create()->addClass('postal-address-row');
+
+        Input::create()
+            ->setAttribute('type', 'search')
+            ->addClass('postal-address-autocomplete')
+            ->setAttribute('placeholder', __(
+                "Tapez le début de l'adresse et choisissez dans la liste pour remplir le formulaire.",
+                'docalist-data'
+            ))
+            ->setParent($container);
+
+        return $container;
+    }
+
+    /**
+     * Construit la partie de l'éditeur qui contient la carte et le formulaire.
+     *
+     * <div class='postal-address-row'>
+     *     <carte>
+     *     <formulaire>
+     * </div>
+     *
+     * @return Div
+     */
+    protected function editorMapAndForm($options)
+    {
+        $container = Div::create()->addClass('postal-address-row');
+
+        $container->add($this->editorForm($options));
+        $container->add($this->editorMap($options));
+
+        return $container;
+    }
+
+    /**
+     * Construit la partie de l'éditeur qui contient la carte.
+     *
+     * <div class='postal-address-col'>
+     *     <div class="postal-address-map"></div>
+     * </div>
+     *
+     * @return Div
+     */
+    protected function editorMap($options)
+    {
+        $container = Div::create()->addClass('postal-address-col');
+
+        $container->div()->addClass('postal-address-map');
+
+        return $container;
+    }
+
+    /**
+     * Construit la partie de l'éditeur qui contient le formulaire de saisie d'adresse.
+     *
+     * @return Container
+     */
+    protected function editorForm($options)
+    {
+        // Crée le container
+        $container = Container::create()->addClass('postal-address-col postal-address-form');
+
+        // Récupère la liste des champs
+        $fields = $this->getOption('fields');
+
+        // Ajoute les éditeurs des champs dans le container
+        foreach($fields as $name => $options) {
+            $field = $this->__get($name)->getEditorForm($options);
+            $field->addClass($name);
+
+            $container->add($field);
+        }
+
+        // Ok
+        return $container;
+    }
+
+    /**
+     * Retourne le libellé à utiliser pour le code passé en paramètre.
+     *
+     * @param string $code Le code recherché (zone géographique, localité, sous-localité, code postal).
+     *
+     * @return string Le libellé à utiliser.
+     */
+    protected function getLabel($code)
+    {
+        // https://github.com/googlei18n/libaddressinput/blob/master/android/src/main/res/values/address_strings.xml
+        switch($code) {
+            // administrative area type
             case 'area':
-                return __('District', 'docalist-data');
+                return _x('District',  'Administrative Area for Hong Kong (e.g. Kowloon)', 'docalist-data');
 
             case 'county':
-                return __('Comté', 'docalist-data');
+                return _x('Comté', 'Administrative Area for the United Kingdom (e.g. Yorkshire)', 'docalist-data');
 
             case 'department':
-                return __('Département', 'docalist-data');
+                return _x('Département', 'Administrative Area (e.g. Boaco in Nicaragua).', 'docalist-data');
 
             case 'district':
-                return __('District', 'docalist-data');
+                return _x('District', 'Administrative Area (e.g. Nauru) or suburb (Korea, China)', 'docalist-data');
 
             case 'do_si':
-                return __('Do/Si', 'docalist-data');
+                return _x('Do/Si', 'Administrative Area (e.g. Gyeonggi-do or Busan-si in Korea)', 'docalist-data');
 
             case 'emirate':
-                return __('Émirat', 'docalist-data');
+                return _x('Émirat', 'Administrative Area for United Arab Emirates (e.g. Abu Dhabi)', 'docalist-data');
 
             case 'island':
-                return __('Île', 'docalist-data');
+                return _x('Île', 'Administrative Area (e.g. Cat Island in Bahamas).', 'docalist-data');
 
             case 'oblast':
-                return __('Oblast', 'docalist-data');
+                return _x('Oblast', 'Administrative Area (e.g. Leningrad in Russia)', 'docalist-data');
 
             case 'parish':
-                return __('Paroisse', 'docalist-data');
+                return _x('Paroisse', 'Administrative Area (e.g. Canillo in Andorra)', 'docalist-data');
 
             case 'prefecture':
-                return __('Préfecture', 'docalist-data');
+                return _x('Préfecture', 'Administrative Area (e.g. Hokkaido in Japan)', 'docalist-data');
 
             case 'province':
-                return __('Province', 'docalist-data');
+                return _x('Province', "Administrative Area (e.g. Ontario in Canada)", 'docalist-data');
 
             case 'state':
-                return __('État', 'docalist-data');
-        }
+                return _x('État', 'Administrative Area (e.g. California in the USA)', 'docalist-data');
 
-        return $administrativeAreaType;
-    }
-
-    /**
-     * Retourne le libellé à utiliser pour désigner le type "locality" indiqué.
-     *
-     * @param string $localityType Le type de localité recherché.
-     *
-     * @return string Le libellé correspondant.
-     */
-    protected function getLocalityLabel($localityType)
-    {
-        switch($localityType) {
+            // locality type
             case 'city':
-                return __('Ville', 'docalist-data');
-
-            case 'district':
-                return __('District', 'docalist-data');
+                return _x('Ville', 'A city or town, such as New York City', 'docalist-data');
 
             case 'post_town':
-                return __('Ville postale', 'docalist-data');
+                return _x('Ville postale', 'A town which routes postal deliveries (UK addresses)', 'docalist-data');
 
             case 'suburb':
-                return __('Banlieue', 'docalist-data');
-        }
+                return _x('Banlieue', 'Smaller part of a city in some countries (e.g. New Zealand)', 'docalist-data');
 
-        return $localityType;
-    }
-
-    /**
-     * Retourne le libellé à utiliser pour désigner le type de sous-localité indiqué.
-     *
-     * @param string $subLocalityType Le type de sous-localité recherché.
-     *
-     * @return string Le libellé correspondant.
-     */
-    protected function getSubLocalityLabel($subLocalityType)
-    {
-        switch($subLocalityType) {
-            case 'district':
-                return __('District', 'docalist-data');
-
+            // subLocality type
             case 'neighborhood':
-                return __('Quartier', 'docalist-data');
-
-            case 'suburb':
-                return __('Banlieue', 'docalist-data');
+                return _x('Quartier', 'Label for a neighborhood, shown in an address input', 'docalist-data');
 
             case 'townland':
-                return __('Lieu-dit', 'docalist-data');
+                return _x('Lieu-dit', 'A division of land in Ireland, shown in an address input', 'docalist-data');
 
             case 'village_township':
-                return __('Canton', 'docalist-data');
-        }
+                return _x('Canton', 'A village, township, or precinct in Malaysia', 'docalist-data');
 
-        return $subLocalityType;
-    }
-
-
-    /**
-     * Retourne le libellé à utiliser pour désigner le type de code postal indiqué.
-     *
-     * @param string Le type de code postal recherché.
-     *
-     * @return string Le libellé correspondant.
-     */
-    protected function getPostalCodeLabel($postalCodeType)
-    {
-        switch($postalCodeType) {
+            // postal code type
             case 'eircode':
-                return __('Eircode', 'docalist-data');
+                return _x('Eircode', 'A code used by the postcode system in Ireland', 'docalist-data');
 
             case 'postal':
-                return __('Code postal', 'docalist-data');
+                return _x('Code postal', 'Postal Code used in countries such as Switzerland', 'docalist-data');
 
             case 'zip':
-                return __('Code ZIP', 'docalist-data');
+                return _x('Code ZIP', 'ZIP code used in countries like the US', 'docalist-data');
 
             case 'pin':
-                return __('Code PIN', 'docalist-data');
+                return _x('Code PIN', 'PIN (Postal Index Number) Code used in India',  'docalist-data');
         }
 
-        return $postalCodeType;
+        return $code;
     }
 }
