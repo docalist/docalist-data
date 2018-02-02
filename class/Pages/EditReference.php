@@ -276,17 +276,11 @@ class EditReference
         // Génère les metabox
         foreach ($this->metaboxes($ref, ! $this->isNewPost) as $form) {
             $id = $form->getAttribute('id');
-            $title = $form->getLabel() ?: $ref->getSchema()->label(); // wp n'aime pas les metabox sans titre
+            $title = $form->getLabel();
             $description = $form->getDescription();
 
             // Binde le formulaire
             $form->bind($ref);
-
-            // Supprime le libellé de la metabox (affiché comme titre par wp)
-            $form->setLabel(null);
-
-            // Définit la description (le bind prend automatiquement la description de la ref sinon)
-            $form->setDescription($description);
 
             // Regroupe tous les champs dans un champ parent 'dbref' (cf. #250, #335 par exemple)
             $form->setName(self::FORM_NAME);
@@ -301,7 +295,10 @@ class EditReference
             add_meta_box(
                 $id,
                 $title,
-                function () use ($form) {
+                function () use ($form, $description) {
+                    if ($description) {
+                        echo '<p class="description">', $description, '</p>';
+                    }
                     echo $form;
                 },
                 $this->postType,
@@ -522,7 +519,7 @@ class EditReference
         // Crée un groupe par défaut si la liste ne commence pas par un groupe
         if (reset($fields)->type() !== 'Docalist\Data\Type\Group') {
             $box = new Container();
-            $box->setLabel('')->setAttribute('id', 'defaultgroup');
+            $box->setLabel(__('Groupe de champs par défaut', 'docalist-data'))->setAttribute('id', 'defaultgroup');
             $hasBoxCap = true;
         }
 
@@ -569,7 +566,7 @@ class EditReference
             // Ok, on a les droits, crée la nouvelle boite
             $hasBoxCap = true;
             $box = new Container();
-            $box->setLabel($field->label())
+            $box->setLabel($field->label() ?: __('Groupe de champs sans titre', 'docalist-data'))
                 ->setDescription($field->description())
                 ->setAttribute('id', $name)
                 ->setAttribute('state', $field->state());
