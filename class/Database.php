@@ -68,7 +68,7 @@ class Database extends PostTypeRepository
         $type = $settings->postType();
 
         // Construit le dépôt
-        parent::__construct($type, 'Docalist\Data\Type');
+        parent::__construct($type, 'Docalist\Data\Record');
 
         // Stocke nos paramètres
         $this->settings = $settings;
