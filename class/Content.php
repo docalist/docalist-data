@@ -9,9 +9,9 @@
  */
 namespace Docalist\Data;
 
-use Docalist\Data\Field\Title;
-use Docalist\Data\Field\Content as ContentField;
-use Docalist\Data\Field\Topic;
+use Docalist\Data\Field\TitleField;
+use Docalist\Data\Field\ContentField;
+use Docalist\Data\Field\TopicField;
 
 /**
  * Un contenu simple dans une base docalist.
@@ -21,9 +21,9 @@ use Docalist\Data\Field\Topic;
  *
  * Chaque enregistrement dispose d'un titre, d'un champ content (multivalué) et d'un champ topic (multivalué).
  *
- * @property Title          $title      Titre.
+ * @property TitleField     $title      Titre.
  * @property ContentField[] $content    Contenus.
- * @property Topic[]        $topic      Mots-clés.
+ * @property TopicField[]   $topic      Mots-clés.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -36,9 +36,9 @@ class Content extends Record
             'label' => __('Contenu de base', 'docalist-data'),
             'description' => __('Un contenu de base (titre, texte et mots-clés).', 'docalist-data'),
             'fields' => [
-                'posttitle' => 'Docalist\Data\Field\PostTitle',
-                'content'   => 'Docalist\Data\Field\Content*',
-                'topic'     => 'Docalist\Data\Field\Topic*',
+                'posttitle' => 'Docalist\Data\Field\PostTitleField',
+                'content'   => 'Docalist\Data\Field\ContentField*',
+                'topic'     => 'Docalist\Data\Field\TopicField*',
             ],
         ];
     }
