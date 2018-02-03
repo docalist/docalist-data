@@ -47,6 +47,17 @@ class Plugin
         // Charge les fichiers de traduction du plugin
         load_plugin_textdomain('docalist-data', false, 'docalist-data/languages');
 
+        // Debug - permet de réinstaller les tables SVB
+        if (isset($_GET['reinstall-tables']) && $_GET['reinstall-tables'] === 'docalist-data') {
+            $installer = new Installer();
+            echo 'Uninstall docalist-data tables...<br />';
+            $installer->deactivate();
+            echo 'Reinstall docalist-data tables...<br />';
+            $installer->activate();
+            echo 'Done.';
+            die();
+        }
+
         // Ajoute notre répertoire "views" au service "docalist-views"
         add_filter('docalist_service_views', function (Views $views) {
             return $views->addDirectory('docalist-data', DOCALIST_DATA_DIR . '/views');
@@ -75,6 +86,10 @@ class Plugin
 
         // Déclare la liste des types définis dans ce plugin
         add_filter('docalist_databases_get_types', function (array $types) {
+            $types += [
+                'content' => 'Docalist\Data\Content',
+            ];
+
             return $types;
         });
 
