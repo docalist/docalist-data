@@ -36,18 +36,10 @@ class Content extends Record
             'label' => __('Contenu de base', 'docalist-data'),
             'description' => __('Un contenu de base (titre, texte et mots-clés).', 'docalist-data'),
             'fields' => [
-                'title'     => 'Docalist\Data\Field\Title',
+                'posttitle' => 'Docalist\Data\Field\PostTitle',
                 'content'   => 'Docalist\Data\Field\Content*',
                 'topic'     => 'Docalist\Data\Field\Topic*',
             ],
         ];
-    }
-
-    /**
-     * Initialise le champ post_title à partir du champ title lorsque la notice est enregistrée.
-     */
-    protected function initPostTitle()
-    {
-        isset($this->title) && $this->posttitle = $this->title->getPhpValue();
     }
 }
