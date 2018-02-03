@@ -86,3 +86,7 @@
 	right: 320px;
 }
 */
+
+.composite-integrated + .composite-integrated {
+    margin-top: 0.5em;
+}
