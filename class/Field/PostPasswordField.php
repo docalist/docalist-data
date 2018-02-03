@@ -9,22 +9,22 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\DateTime;
+use Docalist\Type\Text;
 
 /**
- * Champ standard "creation" : date/heure de création de l'enregistrement.
+ * Champ standard "password" : mot de passe pour consulter l'enregistrement.
  *
- * Ce champ Docalist correspond au champ WordPress "post_date".
+ * Ce champ Docalist correspond au champ WordPress "post_password".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostDate extends DateTime
+class PostPasswordField extends Text
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Création', 'docalist-data'),
-            'description' => __('Date/heure de création de la fiche.', 'docalist-data'),
+            'label' => __('Mot de passe', 'docalist-data'),
+            'description' => __('Mot de passe WordPress requis pour consulter la fiche.', 'docalist-data'),
         ];
     }
 }

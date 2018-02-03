@@ -32,7 +32,7 @@ use InvalidArgumentException;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Link extends MultiField
+class LinkField extends MultiField
 {
     public static function loadSchema()
     {

@@ -25,6 +25,6 @@ use Docalist\Data\Type\TypedPhoneNumber;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Phone extends TypedPhoneNumber
+class PhoneField extends TypedPhoneNumber
 {
 }

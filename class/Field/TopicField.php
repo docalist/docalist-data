@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Data\Type\Topic as BaseTopic;
+use Docalist\Data\Type\Topic as Topic;
 
 /**
  * Champ standard "topic" : Une liste de mots-clés d'un certain type.
@@ -25,6 +25,6 @@ use Docalist\Data\Type\Topic as BaseTopic;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Topic extends BaseTopic
+class TopicField extends Topic
 {
 }

@@ -12,24 +12,19 @@ namespace Docalist\Data\Field;
 use Docalist\Type\Text;
 
 /**
- * Champ standard "posttitle" : titre de l'enregistrement.
+ * Champ standard "parent" : ID de l'enregistrement parent.
  *
- * Ce champ Docalist correspond au champ WordPress "post_title".
+ * Ce champ Docalist correspond au champ WordPress "post_parent".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostTitle extends Text
+class PostParentField extends Text
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Titre du post', 'docalist-data'),
-            'description' => __('Titre du post WordPress.', 'docalist-data'),
+            'label' => __('Notice parent', 'docalist-data'),
+            'description' => __('ID WordPress du post parent de la notice.', 'docalist-data'),
         ];
-    }
-
-    public function getDefaultEditor()
-    {
-        return 'input-large';
     }
 }

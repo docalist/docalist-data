@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Data\Field\PostTitle;
+use Docalist\Data\Field\PostTitleField;
 
 /**
  * Champ standard "title" : le titre d'un contenu.
@@ -25,7 +25,7 @@ use Docalist\Data\Field\PostTitle;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Title extends PostTitle
+class TitleField extends PostTitleField
 {
     public static function loadSchema()
     {

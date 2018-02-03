@@ -17,7 +17,7 @@ use Docalist\Data\Database;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Type extends ListEntry
+class TypeField extends ListEntry
 {
     public static function loadSchema()
     {

@@ -12,19 +12,19 @@ namespace Docalist\Data\Field;
 use Docalist\Type\Text;
 
 /**
- * Champ standard "slug" : permalien de l'enregistrement.
+ * Champ standard "status" : statut de visibilité de l'enregistrement.
  *
- * Ce champ Docalist correspond au champ WordPress "post_name".
+ * Ce champ Docalist correspond au champ WordPress "post_status".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostName extends Text
+class PostStatusField extends Text
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Slug de la fiche', 'docalist-data'),
-            'description' => __('Slug utilisé pour construire le permalien de la fiche', 'docalist-data'),
+            'label' => __('Statut WordPress', 'docalist-data'),
+            'description' => __('Statut de la fiche.', 'docalist-data'),
         ];
     }
 }

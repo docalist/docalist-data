@@ -25,6 +25,6 @@ use Docalist\Data\Type\TypedPostalAddress;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Address extends TypedPostalAddress
+class AddressField extends TypedPostalAddress
 {
 }

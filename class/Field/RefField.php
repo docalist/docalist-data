@@ -9,22 +9,23 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\DateTime;
+use Docalist\Type\Integer;
 
 /**
- * Champ standard "lastupdate" : date/heure de dernière modification de l'enregistrement.
- *
- * Ce champ Docalist correspond au champ WordPress "post_modified".
+ * Champ docalist standard "ref" : numéro de l'enregistrement.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostModified extends DateTime
+class RefField extends Integer
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Dernière modification', 'docalist-data'),
-            'description' => __('Date/heure de dernière modification de la fiche.', 'docalist-data'),
+            'label' => __('Numéro de fiche', 'docalist-data'),
+            'description' => __(
+                'Numéro unique attribué par docalist pour identifier la fiche au sein de la collection.',
+                'docalist-data'
+            ),
         ];
     }
 }

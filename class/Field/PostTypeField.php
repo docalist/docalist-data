@@ -9,23 +9,22 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\Integer;
+use Docalist\Type\Text;
 
 /**
- * Champ docalist standard "ref" : numéro de l'enregistrement.
+ * Champ standard "posttype" : nom de code de la base docalist où est stocké l'enregistrement.
+ *
+ * Ce champ Docalist correspond au champ WordPress "post_type".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Ref extends Integer
+class PostTypeField extends Text
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Numéro de fiche', 'docalist-data'),
-            'description' => __(
-                'Numéro unique attribué par docalist pour identifier la fiche au sein de la collection.',
-                'docalist-data'
-            ),
+            'label' => __('Type de post WordPress', 'docalist-data'),
+            'description' => __('Nom de code interne du type de post WordPress', 'docalist-data'),
         ];
     }
 }

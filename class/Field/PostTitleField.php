@@ -12,19 +12,24 @@ namespace Docalist\Data\Field;
 use Docalist\Type\Text;
 
 /**
- * Champ standard "password" : mot de passe pour consulter l'enregistrement.
+ * Champ standard "posttitle" : titre de l'enregistrement.
  *
- * Ce champ Docalist correspond au champ WordPress "post_password".
+ * Ce champ Docalist correspond au champ WordPress "post_title".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostPassword extends Text
+class PostTitleField extends Text
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Mot de passe', 'docalist-data'),
-            'description' => __('Mot de passe WordPress requis pour consulter la fiche.', 'docalist-data'),
+            'label' => __('Titre du post', 'docalist-data'),
+            'description' => __('Titre du post WordPress.', 'docalist-data'),
         ];
+    }
+
+    public function getDefaultEditor()
+    {
+        return 'input-large';
     }
 }

@@ -25,7 +25,7 @@ use Docalist\Type\TypedLargeText;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Content extends TypedLargeText
+class ContentField extends TypedLargeText
 {
     public static function loadSchema()
     {

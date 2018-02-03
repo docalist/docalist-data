@@ -9,22 +9,22 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\Text;
+use Docalist\Type\DateTime;
 
 /**
- * Champ standard "posttype" : nom de code de la base docalist où est stocké l'enregistrement.
+ * Champ standard "creation" : date/heure de création de l'enregistrement.
  *
- * Ce champ Docalist correspond au champ WordPress "post_type".
+ * Ce champ Docalist correspond au champ WordPress "post_date".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostType extends Text
+class PostDateField extends DateTime
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Type de post WordPress', 'docalist-data'),
-            'description' => __('Nom de code interne du type de post WordPress', 'docalist-data'),
+            'label' => __('Création', 'docalist-data'),
+            'description' => __('Date/heure de création de la fiche.', 'docalist-data'),
         ];
     }
 }

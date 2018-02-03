@@ -9,22 +9,22 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\Text;
+use Docalist\Type\DateTime;
 
 /**
- * Champ standard "parent" : ID de l'enregistrement parent.
+ * Champ standard "lastupdate" : date/heure de dernière modification de l'enregistrement.
  *
- * Ce champ Docalist correspond au champ WordPress "post_parent".
+ * Ce champ Docalist correspond au champ WordPress "post_modified".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostParent extends Text
+class PostModifiedField extends DateTime
 {
     public static function loadSchema()
     {
         return [
-            'label' => __('Notice parent', 'docalist-data'),
-            'description' => __('ID WordPress du post parent de la notice.', 'docalist-data'),
+            'label' => __('Dernière modification', 'docalist-data'),
+            'description' => __('Date/heure de dernière modification de la fiche.', 'docalist-data'),
         ];
     }
 }

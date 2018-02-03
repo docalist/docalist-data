@@ -19,7 +19,7 @@ use WP_User;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostAuthor extends Text
+class PostAuthorField extends Text
 {
     public static function loadSchema()
     {
