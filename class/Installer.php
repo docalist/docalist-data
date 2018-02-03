@@ -79,6 +79,13 @@ class Installer
                 'type' => 'content-type',
                 'creation' => '2018-01-25 17:02:23',
             ],
+            'topic-type' => [
+                'path' => $dir . 'topic-type.txt',
+                'label' => __('Topics - Exemple de table', 'svb'),
+                'format' => 'table',
+                'type' => 'topics',
+                'creation' => '2014-02-05 08:38:11',
+            ],
             'phone-number-type' => [
                 'path' => $dir . 'phone-number-type.txt',
                 'label' => __('Téléphone - Types de numéros', 'docalist-data'),
