@@ -34,7 +34,7 @@ class Content extends Record
         return [
             'name' => 'content',
             'label' => __('Contenu de base', 'docalist-data'),
-            'description' => __('Contenu simple.', 'docalist-data'),
+            'description' => __('Un contenu de base (titre, texte et mots-clés).', 'docalist-data'),
             'fields' => [
                 'title'     => 'Docalist\Data\Field\Title',
                 'content'   => 'Docalist\Data\Field\Content*',
