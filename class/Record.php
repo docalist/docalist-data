@@ -202,6 +202,9 @@ class Record extends Entity
         // On part du type en cours
         $class = get_called_class();
 
+        // Récupère la liste des champs de gestion (ceux définis par la classe Record)
+        $recordFields = self::loadSchema()['fields'];
+
         // On construit le formulaire de saisie par défaut en regroupant les champs par niveau de hiérarchie
         $seen = $fields = [];
         $groupNumber = 1;
@@ -220,6 +223,14 @@ class Record extends Entity
                 if (isset($seen[$name])) {
                     continue;
                 }
+                if ($groupNumber > 1 && isset($recordFields[$name])) {
+                    // Les champs de gestion (ceux qui sont déclarés dans Record) ne sont pas hérités automatiquement :
+                    // si un type veut inclure un champ de gestion dans son formulaire de saisie, il doit le
+                    // redéclarer explicitement dans son schéma. C'est ce que fait par exemple le type "Content", il
+                    // redéclare le champ "posttitle" hérité de record.
+                    continue;
+                }
+
                 $seen[$name] = true;
                 if (isset($field['unused']) && $field['unused']) {
                     continue;
