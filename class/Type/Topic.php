@@ -32,13 +32,13 @@ class Topic extends TypedText
 
             'label' => __('Indexation', 'docalist-data'),
             'description' => __(
-                'Mots-clés, tags et étiquettes permettant de classer le document et de décrire son contenu.',
+                'Mots-clés, tags et étiquettes permettant de classer le contenu.',
                 'docalist-data'
             ),
             'fields' => [
                 'type' => [
                     'label' => __('Vocabulaire', 'docalist-data'),
-                    'table' => 'table:topics',
+                    'table' => 'table:topic-type',
                 ],
                 'value' => [
                     'type' => 'Docalist\Type\Text*', // Monovalué dans TypedText, on le rend répétable
@@ -46,6 +46,7 @@ class Topic extends TypedText
                 ],
             ],
             'key' => 'type', // La collection indexe les éléments par type de topic
+            'editor' => 'integrated',
         ];
     }
 
