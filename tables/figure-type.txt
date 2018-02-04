@@ -1,0 +1,13 @@
+# ------------------------------------------------------------------------------
+# Types de chiffres clés.
+#
+# 04/02/18, DM : Version initiale.
+# ------------------------------------------------------------------------------
+code;type;format;label;description
+staff;;"%s personnes";Effectifs (nombre de personnes);"Les effectifs d'une structure, le nombre de personnes qui composent un groupe, etc."
+duration;;"%s min.";"Durée (en minutes)";"La durée (en minutes) d'un spectacle, d'un film, d'une formation, d'une réunion, etc."
+audience;;"%s personnes";"Nombre de participants";"Le nombre de personnes présentes ou attendues."
+price;;"%s €";"Tarif (en euros)";"Le tarif (en euros) d'un bien ou d'une prestation."
+awarded;;%s €;"Montant alloué (en euros)";"Le montant prévisionnel (en euros) qui a été alloué dans le cadre d'une aide ou d'une subvention."
+paid;;%s €;"Montant versé (en euros)";"Le montant effectivement versé (en euros) dans le cadre d'une aide ou d'une subvention."
+area;;%s m²;"Surface (en m²)";"Surface (en m²) d'une salle, d'un bâtiment, etc."
