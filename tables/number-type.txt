@@ -1,0 +1,8 @@
+# ------------------------------------------------------------------------------
+# Types de numéros.
+#
+# 06/01/16, DM Version initiale
+# ------------------------------------------------------------------------------
+code;type;format;label;description
+internal;;"Nº interne %s";"Numéro interne";"Un numéro ou une référence qui vous est propre (interne)."
+other;;Nº%s;"Autre numéro";
