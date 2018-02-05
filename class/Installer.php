@@ -84,7 +84,14 @@ class Installer
                 'label' => __('Date - Types de dates', 'docalist-data'),
                 'format' => 'table',
                 'type' => 'dates',
-                'creation' => '2016-01-06 21:56:52',
+                'creation' => '2018-02-05 10:52:12',
+            ],
+            'number-type' => [
+                'path' => $dir . 'number-type.txt',
+                'label' => __('Number - Types de numéros', 'docalist-data'),
+                'format' => 'table',
+                'type' => 'numbers',
+                'creation' => '2018-02-05 11:08:59',
             ],
             'figure-type' => [
                 'path' => $dir . 'figure-type.txt',
