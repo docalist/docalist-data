@@ -79,9 +79,16 @@ class Installer
                 'type' => 'content-type',
                 'creation' => '2018-01-25 17:02:23',
             ],
+            'date-type' => [
+                'path' => $dir . 'date-type.txt',
+                'label' => __('Date - Types de dates', 'docalist-data'),
+                'format' => 'table',
+                'type' => 'dates',
+                'creation' => '2016-01-06 21:56:52',
+            ],
             'figure-type' => [
                 'path' => $dir . 'figure-type.txt',
-                'label' => __('Figure - Types de chiffres clés', 'docalist-people'),
+                'label' => __('Figure - Types de chiffres clés', 'docalist-data'),
                 'format' => 'table',
                 'type' => 'figures',
                 'creation' => '2016-02-22 14:57:49',
