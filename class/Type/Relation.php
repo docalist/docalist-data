@@ -80,13 +80,13 @@ class Relation extends Integer
              ->setDescription(__('Pour info, nom de classe des entités liées à ce champ.', 'docalist-data'));
 */
         $form->input('relfilter')
-             ->addClass('code large-text')
-             ->setLabel(__('Filtre de recherche', 'docalist-data'))
-             ->setDescription(__(
-                 'Equation utilisée pour filtrer les suggestions (lookups) en saisie.
-                  Exemple : <code>type:mytype</code> ou <code>+type:mytype +database:mybase</code>.',
-                 'docalist-data'
-             ));
+            ->addClass('code large-text')
+            ->setLabel(__('Filtre de recherche', 'docalist-data'))
+            ->setDescription(__(
+                'Equation utilisée pour filtrer les suggestions (lookups) en saisie.
+                 Exemple : <code>type:mytype</code> ou <code>+type:mytype +database:mybase</code>.',
+                'docalist-data'
+            ));
 
         return $form;
     }
