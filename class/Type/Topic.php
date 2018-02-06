@@ -29,7 +29,6 @@ class Topic extends TypedText
     public static function loadSchema()
     {
         return [
-
             'label' => __('Indexation', 'docalist-data'),
             'description' => __(
                 'Mots-clés, tags et étiquettes permettant de classer le contenu.',
