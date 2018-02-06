@@ -7,8 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data;
+namespace Docalist\Data\Entity;
 
+use Docalist\Data\Record;
 use Docalist\Data\Field\PostTitleField;
 use Docalist\Data\Field\ContentField;
 use Docalist\Data\Field\TopicField;
