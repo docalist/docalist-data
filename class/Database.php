@@ -322,10 +322,8 @@ class Database extends PostTypeRepository
             }
 
             // Si on n'a pas de données, on utilise la valeur par défaut du formulaire
-            // if (is_null($data)) {
-                $data = $grid->getDefaultValue();   // peut retourner []
-                empty($data) && $data = null;       // dans ce cas, utilise la valeur par défaut du schéma
-            //}
+            $data = $grid->getDefaultValue();   // peut retourner []
+            empty($data) && $data = null;       // dans ce cas, utilise la valeur par défaut du schéma
         }
 
         // Détermine le nom de la classe php correspondant au type de notice
