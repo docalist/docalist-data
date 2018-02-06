@@ -295,7 +295,7 @@ class PostalAddress extends Composite
         $fields = $this->getOption('fields');
 
         // Ajoute les éditeurs des champs dans le container
-        foreach($fields as $name => $options) {
+        foreach ($fields as $name => $options) {
             $field = $this->__get($name)->getEditorForm($options);
             $field->addClass($name);
 
@@ -316,10 +316,10 @@ class PostalAddress extends Composite
     protected function getLabel($code)
     {
         // https://github.com/googlei18n/libaddressinput/blob/master/android/src/main/res/values/address_strings.xml
-        switch($code) {
+        switch ($code) {
             // administrative area type
             case 'area':
-                return _x('District',  'Administrative Area for Hong Kong (e.g. Kowloon)', 'docalist-data');
+                return _x('District', 'Administrative Area for Hong Kong (e.g. Kowloon)', 'docalist-data');
 
             case 'county':
                 return _x('Comté', 'Administrative Area for the United Kingdom (e.g. Yorkshire)', 'docalist-data');
@@ -385,7 +385,7 @@ class PostalAddress extends Composite
                 return _x('Code ZIP', 'ZIP code used in countries like the US', 'docalist-data');
 
             case 'pin':
-                return _x('Code PIN', 'PIN (Postal Index Number) Code used in India',  'docalist-data');
+                return _x('Code PIN', 'PIN (Postal Index Number) Code used in India', 'docalist-data');
         }
 
         return $code;
