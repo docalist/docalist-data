@@ -27,4 +27,10 @@ use Docalist\Data\Type\TypedPostalAddress;
  */
 class AddressField extends TypedPostalAddress
 {
+    public static function loadSchema()
+    {
+        return [
+            'repeatable' => true,
+        ];
+    }
 }

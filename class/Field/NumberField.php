@@ -32,6 +32,7 @@ class NumberField extends TypedNumber
         return [
             'label' => __('Numéros', 'docalist-people'),
             'description' => __('Numéros officiels.', 'docalist-people'),
+            'repeatable' => true,
             'fields' => [
                 'type' => [
                     'table' => 'table:number-type',

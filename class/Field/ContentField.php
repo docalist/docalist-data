@@ -32,6 +32,7 @@ class ContentField extends TypedLargeText
         return [
             'label' => __('Contenu', 'docalist-data'),
             'description' => __('Contenus textuels.', 'docalist-data'),
+            'repeatable' => true,
             'fields' => [
                 'type' => [
                     'table' => 'table:content-type',

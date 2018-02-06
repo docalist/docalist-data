@@ -27,4 +27,10 @@ use Docalist\Data\Type\TypedPhoneNumber;
  */
 class PhoneField extends TypedPhoneNumber
 {
+    public static function loadSchema()
+    {
+        return [
+            'repeatable' => true,
+        ];
+    }
 }

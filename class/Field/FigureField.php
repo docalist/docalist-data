@@ -33,6 +33,7 @@ class FigureField extends TypedDecimal
         return [
             'label' => __('Chiffres clés', 'docalist-data'),
             'description' => __("Chiffres clés et données factuelles.", 'docalist-data'),
+            'repeatable' => true,
             'fields' => [
                 'type' => [
                     'table' => 'table:figure-type',

@@ -32,10 +32,10 @@ class DateField extends TypedFuzzyDate
         return [
             'label' => __('Dates', 'docalist-data'),
             'description' => __('Dates.', 'docalist-data'),
+            'repeatable' => true,
             'fields' => [
                 'type' => [
                     'table' => 'table:date-type',
-                    'editor' => 'select',
                 ],
                 'value' => [
                     'label' => __('Date', 'docalist-data'),

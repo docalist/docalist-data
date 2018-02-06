@@ -27,4 +27,10 @@ use Docalist\Data\Type\Topic as Topic;
  */
 class TopicField extends Topic
 {
+    public static function loadSchema()
+    {
+        return [
+            'repeatable' => true,
+        ];
+    }
 }
