@@ -38,14 +38,14 @@ class Group extends Any
         $form->hidden('type');
 
         $form->input('label')
-             ->setAttribute('id', $name . '-label')
-             ->addClass('label regular-text')
-             ->setLabel(__('Libellé de la boite', 'docalist-data'))
-             ->setDescription(__(
-                 "Libellé qui sera affiché dans la barre de titre du groupe (metabox)
-                 et dans les options de l'écran de saisie.",
-                 'docalist-data'
-             ));
+            ->setAttribute('id', $name . '-label')
+            ->addClass('label regular-text')
+            ->setLabel(__('Libellé de la boite', 'docalist-data'))
+            ->setDescription(__(
+                "Libellé qui sera affiché dans la barre de titre du groupe (metabox)
+                et dans les options de l'écran de saisie.",
+                'docalist-data'
+            ));
 
         $form->input('capability')
             ->setAttribute('id', $name . '-capability')
@@ -59,16 +59,16 @@ class Group extends Any
             ));
 
         $form->textarea('description')
-             ->setAttribute('id', $name . '-description')
-             ->addClass('description large-text autosize')
-             ->setAttribute('rows', 1)
-             ->setLabel(__('Introduction', 'docalist-data'))
-             ->setDescription(__(
-                 "Texte d'introduction affiché entre la barre de titre et le premier champ du groupe.
-                 Vous pouvez utiliser cette zone pour donner des consignes de saisie ou toute autre
-                 information utile aux utilisateurs.",
-                 'docalist-data'
-             ));
+            ->setAttribute('id', $name . '-description')
+            ->addClass('description large-text autosize')
+            ->setAttribute('rows', 1)
+            ->setLabel(__('Introduction', 'docalist-data'))
+            ->setDescription(__(
+                "Texte d'introduction affiché entre la barre de titre et le premier champ du groupe.
+                Vous pouvez utiliser cette zone pour donner des consignes de saisie ou toute autre
+                information utile aux utilisateurs.",
+                'docalist-data'
+            ));
 
         $form->select('state')
             ->setAttribute('id', $name . '-state')
@@ -103,12 +103,12 @@ class Group extends Any
         $form->hidden('type');
 
         $form->input('label')
-             ->addClass('label regular-text')
-             ->setLabel(__('Nom du groupe', 'docalist-data'))
-             ->setDescription(__(
-                 'Ce texte ne sera pas affiché, il sert uniquement à distinguer les différents groupes de champs.',
-                 'docalist-data'
-             ));
+            ->addClass('label regular-text')
+            ->setLabel(__('Nom du groupe', 'docalist-data'))
+            ->setDescription(__(
+                'Ce texte ne sera pas affiché, il sert uniquement à distinguer les différents groupes de champs.',
+                'docalist-data'
+            ));
 
         $form->input('capability')
             ->setAttribute('id', $name . '-capability')
@@ -122,50 +122,50 @@ class Group extends Any
             ));
 
         $form->textarea('before')
-             ->addClass('before code large-text')
-             ->setAttribute('rows', 2)
-             ->setLabel(__('Avant la liste des champs', 'docalist-data'))
-             ->setDescription(__(
-                 'Code html à insérer avant la liste des champs de ce groupe.',
-                 'docalist-data'
-             ));
+            ->addClass('before code large-text')
+            ->setAttribute('rows', 2)
+            ->setLabel(__('Avant la liste des champs', 'docalist-data'))
+            ->setDescription(__(
+                'Code html à insérer avant la liste des champs de ce groupe.',
+                'docalist-data'
+            ));
 
         $form->textarea('format')
-             ->addClass('format code large-text')
-             ->setAttribute('rows', 2)
-             ->setLabel(__('Format des champs', 'docalist-data'))
-             ->setDescription(sprintf(
-                 __(
-                     "Code html utilisé comme modèle pour afficher chacun des champs de ce groupe.
-                     Utilisez %s pour désigner le libellé du champ et %s pour désigner son contenu.
-                     Exemple : %s. Laissez vide pour créer un groupe qui n'affichera aucun champ.",
-                     'docalist-data'
-                 ),
-                 '<code>%label</code>',
-                 '<code>%content</code>',
-                 '<code>' . htmlspecialchars('<p> <b>%label</b> : %content </p>') . '</code>'
-             ));
+            ->addClass('format code large-text')
+            ->setAttribute('rows', 2)
+            ->setLabel(__('Format des champs', 'docalist-data'))
+            ->setDescription(sprintf(
+                __(
+                    "Code html utilisé comme modèle pour afficher chacun des champs de ce groupe.
+                    Utilisez %s pour désigner le libellé du champ et %s pour désigner son contenu.
+                    Exemple : %s. Laissez vide pour créer un groupe qui n'affichera aucun champ.",
+                    'docalist-data'
+                ),
+                '<code>%label</code>',
+                '<code>%content</code>',
+                '<code>' . htmlspecialchars('<p> <b>%label</b> : %content </p>') . '</code>'
+            ));
 
         $form->textarea('after')
-             ->addClass('after code large-text')
-             ->setAttribute('rows', 2)
-             ->setLabel(__('Après la liste des champs', 'docalist-data'))
-             ->setDescription(__(
-                 'Code html à insérer après la liste des champs de ce groupe.',
-                 'docalist-data'
-             ));
+            ->addClass('after code large-text')
+            ->setAttribute('rows', 2)
+            ->setLabel(__('Après la liste des champs', 'docalist-data'))
+            ->setDescription(__(
+                'Code html à insérer après la liste des champs de ce groupe.',
+                'docalist-data'
+            ));
 
         $form->textarea('sep')
-             ->addClass('sep code large-text')
-             ->setAttribute('rows', 2)
-             ->setLabel(__('Entre les champs', 'docalist-data'))
-             ->setDescription(__(
-                 'Code html à insérer entre les champs de ce groupe.',
-                 'docalist-data'
-             ));
+            ->addClass('sep code large-text')
+            ->setAttribute('rows', 2)
+            ->setLabel(__('Entre les champs', 'docalist-data'))
+            ->setDescription(__(
+                'Code html à insérer entre les champs de ce groupe.',
+                'docalist-data'
+            ));
 
         $form->button(__('Supprimer ce groupe', 'docalist-data'))
-             ->addClass('delete-group button button-secondary button-small right');
+            ->addClass('delete-group button button-secondary button-small right');
 
         return $form;
     }
