@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data;
 
-use Docalist\Data\Field\TitleField;
+use Docalist\Data\Field\PostTitleField;
 use Docalist\Data\Field\ContentField;
 use Docalist\Data\Field\TopicField;
 
@@ -21,7 +21,7 @@ use Docalist\Data\Field\TopicField;
  *
  * Chaque enregistrement dispose d'un titre, d'un champ content (multivalué) et d'un champ topic (multivalué).
  *
- * @property TitleField     $title      Titre.
+ * @property PostTitleField $posttitle  Titre.
  * @property ContentField[] $content    Contenus.
  * @property TopicField[]   $topic      Mots-clés.
  *
@@ -36,9 +36,9 @@ class Content extends Record
             'label' => __('Contenu de base', 'docalist-data'),
             'description' => __('Un contenu de base (titre, texte et mots-clés).', 'docalist-data'),
             'fields' => [
-                'posttitle' => 'Docalist\Data\Field\PostTitleField',
-                'content'   => 'Docalist\Data\Field\ContentField*',
-                'topic'     => 'Docalist\Data\Field\TopicField*',
+                'posttitle' => PostTitleField::class,
+                'content'   => ContentField::class,
+                'topic'     => TopicField::class,
             ],
         ];
     }
