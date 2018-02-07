@@ -30,6 +30,11 @@ use InvalidArgumentException;
  * Le sous-champ type est associé à une table d'autorité qui contient les types de liens disponibles
  * ('table:links'par défaut).
  *
+ * @property TableEntry     $type   Type de lien.
+ * @property Url            $url    Adresse.
+ * @property Text           $label  Libellé.
+ * @property DateTime       $date   Accédé le.
+ *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class LinkField extends MultiField
@@ -43,23 +48,23 @@ class LinkField extends MultiField
             'repeatable' => true,
             'fields' => [
                 'type' => [
-                    'type' => 'Docalist\Type\TableEntry',
+                    'type' => TableEntry::class,
                     'label' => __('Type', 'docalist-data'),
                     'description' => __('Type de lien', 'docalist-data'),
                     'table' => 'table:link-type',
                 ],
                 'url' => [
-                    'type' => 'Docalist\Type\Url',
+                    'type' => Url::class,
                     'label' => __('Adresse', 'docalist-data'),
                     'description' => __('Url complète du lien', 'docalist-data'),
                 ],
                 'label' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Libellé', 'docalist-data'),
                     'description' => __('Texte à afficher', 'docalist-data'),
                 ],
                 'date' => [
-                    'type' => 'Docalist\Type\DateTime',
+                    'type' => DateTime::class,
                     'label' => __('Accédé le', 'docalist-data'),
                     'description' => __('Date', 'docalist-data'),
                 ],
