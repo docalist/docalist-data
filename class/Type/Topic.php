@@ -40,7 +40,7 @@ class Topic extends TypedText
                     'table' => 'table:topic-type',
                 ],
                 'value' => [
-                    'type' => 'Docalist\Type\Text*', // Monovalué dans TypedText, on le rend répétable
+                    'repeatable' => true, // Monovalué dans TypedText, on le rend répétable
                     'label' => __('Termes', 'docalist-data'),
                 ],
             ],
@@ -51,7 +51,7 @@ class Topic extends TypedText
 
     public static function getCollectionClass()
     {
-        return 'Docalist\Data\Type\Topics';
+        return Topics::class;
     }
 
     /* ------------------------------------------------------------------------------------------------------------
