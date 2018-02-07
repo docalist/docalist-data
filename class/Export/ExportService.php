@@ -10,6 +10,7 @@
 namespace Docalist\Data\Export;
 
 use WP_Query;
+use Docalist\Search\SearchUrl;
 use Docalist\Search\SearchRequest;
 use Docalist\Http\ViewResponse;
 use Docalist\Search\SearchResponse;
@@ -99,10 +100,11 @@ class ExportService
         // On en profite pour tester si on est sur la page "export" (c'est plus simple de le faire içi plutôt que
         // d'intercepter parse_query et ça fait un filtre en moins) et si c'est le cas, on vérifie les paramètres
         // indiqués et on déclenche l'export.
-        add_filter('ZZZZdocalist_search_create_request', function (SearchRequest $request = null, WP_Query $query) {
+        add_filter('docalist_search_create_request', function (SearchRequest $request = null, WP_Query $query) {
             // Stocke la SearchRequest
             if ($request && is_user_logged_in()) {
-                set_transient($this->transient(), $request, 24 * HOUR_IN_SECONDS);
+                $url = $request->getSearchUrl()->getUrl();
+                set_transient($this->transient(), $url, 24 * HOUR_IN_SECONDS);
             }
 
             // Déclenche l'export si on est sur la page "export"
@@ -159,10 +161,14 @@ class ExportService
     protected function checkParams()
     {
         // Affiche un message si on n'a aucune requête en cours
-        $request = get_transient($this->transient()); /** @var SearchRequest $request */
-        if ($request === false) {
+        $url = get_transient($this->transient());
+        if ($url === false) {
             return $this->view('docalist-data:export/norequest');
         }
+
+        // Crée la requête
+        $url = new SearchUrl($url);
+        $request = $url->getSearchRequest();
 
         // Exécute la requête
         $agg = new TermsIn();
