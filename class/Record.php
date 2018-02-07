@@ -32,6 +32,8 @@ use Docalist\Search\MappingBuilder;
 use Docalist\Tokenizer;
 use ReflectionMethod;
 use Docalist\Type\MultiField;
+use Docalist\Data\Type\Group;
+
 use Closure;
 
 use InvalidArgumentException;
@@ -63,19 +65,19 @@ class Record extends Entity
             'description' => __('Type de base docalist-data.', 'docalist-data'),
             'fields' => [
                 // Champs WordPress
-                'posttype'      => 'Docalist\Data\Field\PostTypeField',
-                'status'        => 'Docalist\Data\Field\PostStatusField',
-                'posttitle'     => 'Docalist\Data\Field\PostTitleField',
-                'creation'      => 'Docalist\Data\Field\PostDateField',
-                'createdBy'     => 'Docalist\Data\Field\PostAuthorField',
-                'lastupdate'    => 'Docalist\Data\Field\PostModifiedField',
-                'password'      => 'Docalist\Data\Field\PostPasswordField',
-                'parent'        => 'Docalist\Data\Field\PostParentField',
-                'slug'          => 'Docalist\Data\Field\PostNameField',
+                'posttype'      => PostTypeField::class,
+                'status'        => PostStatusField::class,
+                'posttitle'     => PostTitleField::class,
+                'creation'      => PostDateField::class,
+                'createdBy'     => PostAuthorField::class,
+                'lastupdate'    => PostModifiedField::class,
+                'password'      => PostPasswordField::class,
+                'parent'        => PostParentField::class,
+                'slug'          => PostNameField::class,
 
                 // Champs docalist communs à tous les types d'entité
-                'ref'           => 'Docalist\Data\Field\RefField',
-                'type'          => 'Docalist\Data\Field\TypeField',
+                'ref'           => RefField::class,
+                'type'          => TypeField::class,
             ],
         ];
     }
@@ -246,7 +248,7 @@ class Record extends Entity
 
             // Crée un groupe pour ce niveau
             $fields['group' . $groupNumber] = [
-                'type' => 'Docalist\Data\Type\Group',
+                'type' => Group::class,
                 'label' => $schema['label'],
             ];
             ++$groupNumber;
@@ -266,7 +268,7 @@ class Record extends Entity
 
         if ($specific) {
             $fields['group' . $groupNumber] = [
-                'type' => 'Docalist\Data\Type\Group',
+                'type' => Group::class,
                 'label' => __('Champs de gestion', 'docalist-data'),
                 'state' => 'collapsed',
             ];
@@ -311,7 +313,7 @@ class Record extends Entity
             // Crée un groupe pour ce niveau
             $level = $class::getDefaultSchema();
             $fields['group' . $groupNumber] = [
-                'type' => 'Docalist\Data\Type\Group',
+                'type' => Group::class,
                 'label' => $level->label(),
             ];
             ++$groupNumber;
@@ -325,7 +327,7 @@ class Record extends Entity
 
         // Ajoute un groupe pour les champs de gestion (type et ref uniquement, les autres sont gérés par wordpress)
         $fields['group' . $groupNumber] = [
-            'type' => 'Docalist\Data\Type\Group',
+            'type' => Group::class,
             'label' => 'Champs de gestion',
             'state' => 'collapsed',
         ];
@@ -361,7 +363,7 @@ class Record extends Entity
         // Groupe 1 : champs de l'entité + champ ref
         $fields = [];
         $fields['group1'] = [
-            'type' => 'Docalist\Data\Type\Group',
+            'type' => Group::class,
             'label' => __('Champs affichés', 'docalist-data'),
             'before' => '<dl>',
             'format' => '<dt>%label</dt><dd>%content</dd>',
@@ -377,7 +379,7 @@ class Record extends Entity
 
         // Groupe 2 : champs de gestion
         $fields['group2'] = [
-            'type' => 'Docalist\Data\Type\Group',
+            'type' => Group::class,
             'label' => __('Champs non affichés', 'docalist-data'),
         ];
 
@@ -410,7 +412,7 @@ class Record extends Entity
         // Groupe 1 : champs affichés (aucun)
         $fields = [];
         $fields['group1'] = [
-            'type' => 'Docalist\Data\Type\Group',
+            'type' => Group::class,
             'label' => __('Champs affichés', 'docalist-data'),
             'before' => '<dl>',
             'format' => '<dt>%label</dt><dd>%content</dd>',
@@ -419,7 +421,7 @@ class Record extends Entity
 
         // Groupe 2 : champs masqués (tous)
         $fields['group2'] = [
-            'type' => 'Docalist\Data\Type\Group',
+            'type' => Group::class,
             'label' => __('Champs non affichés', 'docalist-data'),
         ];
 
@@ -648,7 +650,7 @@ class Record extends Entity
         // Formatte la notice
         foreach ($fields as $name => $field) {
             // Si c'est un groupe, cela devient le nouveau groupe courant
-            if ($field->type() === 'Docalist\Data\Type\Group') {
+            if ($field->type() === Group::class) {
                 // Génère le groupe précédent si on a des items
                 if ($items) {
                     $result .= $before . implode($sep, $items) . $after;
