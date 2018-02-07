@@ -35,7 +35,7 @@ class TypedPostalAddress extends TypedText
                     'table' => 'table:postal-address-type',
                 ],
                 'value' => [
-                    'type' => 'Docalist\Data\Type\PostalAddress',
+                    'type' => PostalAddress::class,
                     'label' => __('Adresse', 'docalist-data'),
                 ],
             ],
