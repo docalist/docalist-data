@@ -11,6 +11,7 @@ namespace Docalist\Data\Export;
 
 use Docalist\Type\Settings as TypeSettings;
 use Docalist\Type\Integer;
+use Docalist\Data\Export\LimitSetting;
 
 /**
  * Options de configuration du plugin.
@@ -29,7 +30,7 @@ class Settings extends TypeSettings
         return [
             'fields' => [
                 'exportpage' => [
-                    'type' => 'Docalist\Type\Integer',
+                    'type' => Integer::class,
                     'label' => __("Page pour l'export", 'docalist-data'),
                     'description' => __(
                         "Page WordPress sur laquelle l'export sera disponible.",
@@ -38,7 +39,8 @@ class Settings extends TypeSettings
                     'default' => 0,
                 ],
                 'limit' => [
-                    'type' => 'Docalist\Data\Export\LimitSetting*',
+                    'type' => LimitSetting::class,
+                    'repeatable' => true,
                     'label' => __("Limites de l'export", 'docalist-data'),
                     'description' => __(
                         'Liste des rôles autorisés à exporter des notices et nombre maximum de notices par rôle.',
