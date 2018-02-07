@@ -40,7 +40,7 @@ class TypedPhoneNumber extends TypedText
                     'table' => 'table:phone-number-type',
                 ],
                 'value' => [
-                    'type' => 'Docalist\Data\Type\PhoneNumber',
+                    'type' => PhoneNumber::class,
                 ],
             ],
             'default' => [['type' => 'work'],['type' => 'mobile']],
