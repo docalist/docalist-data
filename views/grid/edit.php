@@ -16,6 +16,7 @@ use Docalist\Schema\Schema;
 use Docalist\Forms\Metabox;
 use Docalist\Forms\Container;
 use Docalist\Data\Type\Group;
+use Docalist\Type\Composite;
 
 /**
  * Edite une grille.
@@ -51,7 +52,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $savPrefix = $prefix;
 
     // Récupère le formulaire de saisie des propriétés du champ
-    $type = $schema->collection() ?: $schema->type() ?: 'Docalist\Type\Composite';
+    $type = $schema->collection() ?: $schema->type() ?: Composite::class;
     $fieldType = new $type($type::getClassDefault(), $schema);
     $form = $fieldType->$method(); /** @var Container $form */
 
@@ -66,10 +67,10 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $label = $prefix ?: $grid->label();
     $label = sprintf('%s - <span class="label">%s</span>', $prefix, $grid->label() ?: $schema->label());
     $label = sprintf('<span>%s</span>', $grid->label() ?: $schema->label());
-    $prefix && ($grid->type() !== 'Docalist\Data\Type\Group') && $label .= " <small>($prefix)</small>";
+    $prefix && ($grid->type() !== Group::class) && $label .= " <small>($prefix)</small>";
 
     // Détermine les classes CSS à appliquer à la metabox
-    $type = $schema->type() ?: 'Docalist\Type\Composite';
+    $type = $schema->type() ?: Composite::class;
     $type = strtolower(substr($type, strrpos($type, '\\') + 1));
     $class = $type . ' ' . $grid->name() . ' level' . $level . ($level > 1 ? ' closed' : '');
 
@@ -78,7 +79,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $metabox->setLabel($label)->setAttribute('class', $class)->addItems($form->getItems());
 
     // Valeur par défaut
-    if ($level > 1 && $method !== 'getFormatSettingsForm' && $schema->type() !== 'Docalist\Data\Type\Group') {
+    if ($level > 1 && $method !== 'getFormatSettingsForm' && $schema->type() !== Group::class) {
         $default = $fieldType->getEditorForm($grid)
             ->setName('default')
             ->setLabel(__('Valeur par défaut', 'docalist-data'));
@@ -171,7 +172,7 @@ wp_scripts()->enqueue(['docalist-data-grid-edit']);
     <script type="text/html" id="group-template"><?php // Pas d'espace avant le début du formulaire sinon on a un warning jqueryMigrate "$.html() must start with '<'"
             $schema = new Schema([
                 // Valeurs par défaut communes
-                'type' => 'Docalist\Data\Type\Group',
+                'type' => Group::class,
                 'name' => 'group{group-number}',
                 'label' => __('Nouveau groupe de champs', 'docalist-data'),
 
