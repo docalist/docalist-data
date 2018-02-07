@@ -43,4 +43,11 @@ class ContentEntity extends Record
             ],
         ];
     }
+
+    protected function initPostTitle()
+    {
+        if (empty($this->posttitle)) {
+            $this->posttitle = __('contenu sans titre)', 'docalist-data');
+        }
+    }
 }
