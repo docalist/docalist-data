@@ -11,7 +11,8 @@ namespace Docalist\Data\Settings;
 
 use Docalist\Type\Composite;
 use Docalist\Type\Text;
-use Docalist\Schema\Schema;
+use Docalist\Type\LargeText;
+use Docalist\Data\Grid;
 
 /**
  * Les paramètres d'un type au sein d'une base de données.
@@ -23,10 +24,10 @@ use Docalist\Schema\Schema;
  * La grille de saisie a un nom particulier 'edit'. Toutes les autres
  * grilles sont des formats d'affichage.
  *
- * @property Text $name Nom du type (article, book, degree...)
- * @property Text $label Libellé.
- * @property Text $description Description.
- * @property Schema[] $grids Grilles de saisie et d'affichage.
+ * @property Text       $name           Nom du type (article, book, degree...)
+ * @property Text       $label          Libellé.
+ * @property LargeText  $description    Description.
+ * @property Grid[]     $grids          Grilles de saisie et d'affichage.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -37,19 +38,19 @@ class TypeSettings extends Composite
         return [
             'fields' => [
                 'name' => [ // article, book, etc.
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Nom du type', 'docalist-data'),
                     'description' => __('Nom de code utilisé en interne pour désigner le type.', 'docalist-data'),
                 ],
 
                 'label' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Libellé du type', 'docalist-data'),
                     'description' => __('Libellé utilisé pour désigner ce type.', 'docalist-data'),
                 ],
 
                 'description' => [
-                    'type' => 'Docalist\Type\LargeText',
+                    'type' => LargeText::class,
                     'label' => __('Description', 'docalist-data'),
                     'description' => __('Description du type.', 'docalist-data'),
                 ],
@@ -58,7 +59,8 @@ class TypeSettings extends Composite
                 // droits ?
 
                 'grids' => [
-                    'type' => 'Docalist\Data\Grid*',
+                    'type' => Grid::class,
+                    'repeatable' => true,
                     'key' => 'name', // edit, display-full, display-short, ...
                     'label' => __('Grilles et formulaires', 'docalist-data'),
                     'description' => __("Grilles de saisie et d'affichage pour ce type.", 'docalist-data'),
