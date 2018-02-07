@@ -20,8 +20,6 @@ use Docalist\Data\Type\Topic;
  */
 class Topics extends Collection
 {
-//     protected static $type = 'Docalist\Data\Type\Topic';
-
     public function getEditorForm($options = null)
     {
         return new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
