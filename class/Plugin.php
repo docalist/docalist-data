@@ -16,7 +16,7 @@ use Docalist\Data\Settings\Settings;
 use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Data\Pages\AdminDatabases;
 use Docalist\Data\Export\ExportService;
-use Docalist\Data\Entity\Content;
+use Docalist\Data\Entity\ContentEntity;
 use Exception;
 
 /**
@@ -88,7 +88,7 @@ class Plugin
         // Déclare la liste des types définis dans ce plugin
         add_filter('docalist_databases_get_types', function (array $types) {
             $types += [
-                'content' => Content::class,
+                'content' => ContentEntity::class,
             ];
 
             return $types;
