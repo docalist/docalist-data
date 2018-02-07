@@ -19,6 +19,7 @@ use Docalist\Schema\Schema;
 use WP_Role;
 use Docalist\Data\Record;
 use Docalist\Data\Grid;
+use Docalist\Data\Type\Group;
 
 /**
  * Gestion des bases de données.
@@ -708,7 +709,7 @@ class AdminDatabases extends AdminPage
             $fields = [];
             $groupNumber = 1;
             foreach ($data['fields'] as $name => $field) {
-                if (isset($field['type']) && $field['type'] === 'Docalist\Data\Type\Group') {
+                if (isset($field['type']) && $field['type'] === Group::class) {
                     $name = 'group' . $groupNumber;
                     $groupNumber++;
                 }
