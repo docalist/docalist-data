@@ -505,13 +505,16 @@ class Record extends Entity
     /**
      * Initialise le champ post_title de la notice.
      *
-     * Par défaut, le champ post_title est initialisé en recopiant le contenu du champ ref (si la notice a un numéro).
-     * Les classes descendantes surchargent cette méthode pour définir un post_title plus adéquat (par exemple, la
-     * classe Reference récupère le contenu du champ title).
+     * Si aucun post_title n'a été indiqué dans le record, la méthode l'initialise avec la chaine "(sans titre)".
+     * Les classes descendantes peuvent surcharger la méthode pour initialiser le champ post_title à partir des
+     * informations qui figurent dans les autres champs de la notice (par exemple, la classe Organization récupère
+     * le contenu du champ name).
      */
     protected function initPostTitle()
     {
-        isset($this->ref) && $this->posttitle = $this->ref->getPhpValue();
+        if (empty($this->posttitle)) {
+            $this->posttitle = __('record sans titre)', 'docalist-data');
+        }
     }
 
     public function getSettingsForm()
