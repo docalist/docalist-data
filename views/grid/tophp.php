@@ -13,6 +13,7 @@ use Docalist\Data\Pages\AdminDatabases;
 use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Data\Settings\TypeSettings;
 use Docalist\Schema\Schema;
+use Docalist\Data\Type\Group;
 
 /**
  * grid to php
@@ -83,7 +84,7 @@ echo "return new Schema([\n";
         unset($properties['name']);
 
         // Si c'est un groupe, passe une ligne et génère un commentaire
-        if ($field->type() === 'Docalist\Data\Type\Group') {
+        if ($field->type() === Group::class) {
             echo "\n        // ", $field->label(), "\n";
             $properties = ['type' => $field->type()] + $properties; // type en premier
             $format = $field->format();
@@ -102,7 +103,7 @@ echo "return new Schema([\n";
         }
 
         // Si c'est un champ dans un groupe sans format (i.e. non affiché)
-        if (($gridname !== 'base') && empty($format) && $field->type() !== 'Docalist\Data\Type\Group') {
+        if (($gridname !== 'base') && empty($format) && $field->type() !== Group::class) {
             $properties = [];
         }
 
