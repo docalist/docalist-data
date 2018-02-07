@@ -17,6 +17,7 @@ use Exception;
 
 use Docalist\Http\ViewResponse;
 use Docalist\Forms\Container;
+use Docalist\Data\Type\Group;
 
 /**
  * Gère la page "création/modification d'une notice" d'une base docalist.
@@ -517,7 +518,7 @@ class EditReference
         $fields = $schema->getFields();
 
         // Crée un groupe par défaut si la liste ne commence pas par un groupe
-        if (reset($fields)->type() !== 'Docalist\Data\Type\Group') {
+        if (reset($fields)->type() !== Group::class) {
             $box = new Container();
             $box->setLabel(__('Groupe de champs par défaut', 'docalist-data'))->setAttribute('id', 'defaultgroup');
             $hasBoxCap = true;
@@ -527,7 +528,7 @@ class EditReference
         $metaboxes = [];
         foreach ($fields as $name => $field) {
             // Nouveau champ
-            if ($field->type() !== 'Docalist\Data\Type\Group') {
+            if ($field->type() !== Group::class) {
                 // Si on n'a pas la cap de la boite en cours, inutile de créer le champ
                 if (! $hasBoxCap) {
                     continue;
