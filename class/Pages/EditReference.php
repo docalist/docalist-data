@@ -155,7 +155,7 @@ class EditReference
                 $ref = $this->database->createReference($_REQUEST['ref_type'], null, 'edit');
 
                 // Evite le titre wp "brouillon auto"
-                $ref->getSchema()->hasField('title') && $ref->title = '';
+                $ref->getSchema()->hasField('posttitle') && $ref->posttitle = '';
 
                 // Génère les données du post wp à créer
                 $value = $this->database->encode($ref->getPhpValue());
