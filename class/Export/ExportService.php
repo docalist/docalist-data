@@ -13,8 +13,9 @@ use WP_Query;
 use Docalist\Search\SearchRequest;
 use Docalist\Http\ViewResponse;
 use Docalist\Search\SearchResponse;
-use RuntimeException;
+use Docalist\Data\Export\ExportWidget;
 use Docalist\Search\Aggregation\Standard\TermsIn;
+use RuntimeException;
 
 /**
  * Service docalist-data-export  : génère des fichiers d'export et des bibliographies.
@@ -90,7 +91,7 @@ class ExportService
 
         // Déclare le widget "Export notices"
         add_action('widgets_init', function () {
-            register_widget('Docalist\Data\Export\ExportWidget');
+            register_widget(ExportWidget::class);
         });
 
         // Stocke la dernière requête exécutée par docalist-search dans un transient.
