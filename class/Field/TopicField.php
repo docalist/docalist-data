@@ -30,6 +30,7 @@ class TopicField extends Topic
     public static function loadSchema()
     {
         return [
+            'name' => 'topic',
             'repeatable' => true,
         ];
     }

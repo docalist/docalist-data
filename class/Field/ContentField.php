@@ -30,6 +30,7 @@ class ContentField extends TypedLargeText
     public static function loadSchema()
     {
         return [
+            'name' => 'content',
             'label' => __('Contenu', 'docalist-data'),
             'description' => __('Contenus textuels.', 'docalist-data'),
             'repeatable' => true,

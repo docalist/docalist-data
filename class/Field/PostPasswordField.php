@@ -23,6 +23,7 @@ class PostPasswordField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'password',
             'label' => __('Mot de passe', 'docalist-data'),
             'description' => __('Mot de passe WordPress requis pour consulter la fiche.', 'docalist-data'),
         ];

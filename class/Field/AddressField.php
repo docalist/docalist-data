@@ -30,6 +30,7 @@ class AddressField extends TypedPostalAddress
     public static function loadSchema()
     {
         return [
+            'name' => 'address',
             'repeatable' => true,
         ];
     }

@@ -23,6 +23,7 @@ class PostModifiedField extends DateTime
     public static function loadSchema()
     {
         return [
+            'name' => 'lastupdate',
             'label' => __('Dernière modification', 'docalist-data'),
             'description' => __('Date/heure de dernière modification de la fiche.', 'docalist-data'),
         ];

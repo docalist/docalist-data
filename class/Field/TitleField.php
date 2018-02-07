@@ -30,6 +30,7 @@ class TitleField extends PostTitleField
     public static function loadSchema()
     {
         return [
+            'name' => 'title',
             'label' => __('Titre', 'docalist-data'),
             'description' => __('-', 'docalist-data'),
         ];

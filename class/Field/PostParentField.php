@@ -23,6 +23,7 @@ class PostParentField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'parent',
             'label' => __('Notice parent', 'docalist-data'),
             'description' => __('ID WordPress du post parent de la notice.', 'docalist-data'),
         ];

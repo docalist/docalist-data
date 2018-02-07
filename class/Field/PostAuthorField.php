@@ -24,6 +24,7 @@ class PostAuthorField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'createdBy',
             'label' => __('Créé par', 'docalist-data'),
             'description' => __("Nom de login de l'utilisateur WordPress qui a créé la fiche.", 'docalist-data'),
         ];

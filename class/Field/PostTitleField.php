@@ -23,6 +23,7 @@ class PostTitleField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'posttitle',
             'label' => __('Titre du post', 'docalist-data'),
             'description' => __('Titre du post WordPress.', 'docalist-data'),
         ];

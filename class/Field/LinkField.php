@@ -37,6 +37,7 @@ class LinkField extends MultiField
     public static function loadSchema()
     {
         return [
+            'name' => 'link',
             'label' => __('Liens internet', 'docalist-data'),
             'description' => __("Courriel et iens internet : url, uri, e-mail, hashtag...", 'docalist-data'),
             'repeatable' => true,

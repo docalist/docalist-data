@@ -21,6 +21,7 @@ class RefField extends Integer
     public static function loadSchema()
     {
         return [
+            'name' => 'ref',
             'label' => __('Numéro de fiche', 'docalist-data'),
             'description' => __(
                 'Numéro unique attribué par docalist pour identifier la fiche au sein de la collection.',

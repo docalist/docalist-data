@@ -30,6 +30,7 @@ class PhoneField extends TypedPhoneNumber
     public static function loadSchema()
     {
         return [
+            'name' => 'phone',
             'repeatable' => true,
         ];
     }

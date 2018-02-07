@@ -30,6 +30,7 @@ class NumberField extends TypedNumber
     public static function loadSchema()
     {
         return [
+            'name' => 'number',
             'label' => __('Numéros', 'docalist-people'),
             'description' => __('Numéros officiels.', 'docalist-people'),
             'repeatable' => true,

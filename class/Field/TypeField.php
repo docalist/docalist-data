@@ -22,6 +22,7 @@ class TypeField extends ListEntry
     public static function loadSchema()
     {
         return [
+            'name' => 'type',
             'label' => __('Type de fiche', 'docalist-data'),
             'description' => __('Type docalist de la fiche.', 'docalist-data'),
         ];

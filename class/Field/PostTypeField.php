@@ -23,6 +23,7 @@ class PostTypeField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'posttype',
             'label' => __('Type de post WordPress', 'docalist-data'),
             'description' => __('Nom de code interne du type de post WordPress', 'docalist-data'),
         ];

@@ -23,6 +23,7 @@ class PostDateField extends DateTime
     public static function loadSchema()
     {
         return [
+            'name' => 'creation',
             'label' => __('Création', 'docalist-data'),
             'description' => __('Date/heure de création de la fiche.', 'docalist-data'),
         ];

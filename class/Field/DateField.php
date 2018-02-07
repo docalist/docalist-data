@@ -30,6 +30,7 @@ class DateField extends TypedFuzzyDate
     public static function loadSchema()
     {
         return [
+            'name' => 'date',
             'label' => __('Dates', 'docalist-data'),
             'description' => __('Dates.', 'docalist-data'),
             'repeatable' => true,

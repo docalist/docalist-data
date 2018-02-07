@@ -31,6 +31,7 @@ class FigureField extends TypedDecimal
     public static function loadSchema()
     {
         return [
+            'name' => 'figure',
             'label' => __('Chiffres clés', 'docalist-data'),
             'description' => __("Chiffres clés et données factuelles.", 'docalist-data'),
             'repeatable' => true,

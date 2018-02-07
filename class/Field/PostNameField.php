@@ -23,6 +23,7 @@ class PostNameField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'slug',
             'label' => __('Slug de la fiche', 'docalist-data'),
             'description' => __('Slug utilisé pour construire le permalien de la fiche', 'docalist-data'),
         ];

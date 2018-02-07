@@ -23,6 +23,7 @@ class PostStatusField extends Text
     public static function loadSchema()
     {
         return [
+            'name' => 'status',
             'label' => __('Statut WordPress', 'docalist-data'),
             'description' => __('Statut de la fiche.', 'docalist-data'),
         ];
