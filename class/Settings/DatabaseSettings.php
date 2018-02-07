@@ -12,7 +12,10 @@ namespace Docalist\Data\Settings;
 use Docalist\Type\Composite;
 use Docalist\Type\Text;
 use Docalist\Type\Integer;
+use Docalist\Type\LargeText;
 use Docalist\Type\Boolean;
+use Docalist\Data\Settings\TypeSettings;
+use Docalist\Type\DateTime;
 use Exception;
 
 /**
@@ -20,21 +23,21 @@ use Exception;
  *
  * Une base est essentiellement une liste de types.
  *
- * @property Text $name Nom de la base de données.
- * @property Integer $homepage ID de la page d'accueil de la base de données.
- * @property Text $homemode Mode de fonctionnement de la page d'accueil (page, archive ou search).
- * @property Integer $searchpage ID de la page liste des réponses.
- * @property Text $label Libellé de la base.
- * @property Text $description Description de la base.
- * @property Text $stemming Stemming / analyseur par défaut.
- * @property TypeSettings[] $types Types de notices gérés dans cette base, indexés par nom.
- * @property Text $creation Date de création de la base.
- * @property Text $lastupdate Date de dernière modification des paramètres de la base.
- * @property Text $icon Icône à utiliser pour cette base.
- * @property Text $notes Notes et historique de la base.
- * @property Boolean $thumbnail Indique si les notices peuvent avoir une image à la une.
- * @property Boolean $revisions Indique si les modifications des notices font l'objet de révisions.
- * @property Boolean $comments Indique si les notices peuvent avoir des commentaires.
+ * @property Text           $name           Nom de la base de données.
+ * @property Integer        $homepage       ID de la page d'accueil de la base de données.
+ * @property Text           $homemode       Mode de fonctionnement de la page d'accueil (page, archive ou search).
+ * @property Integer        $searchpage     ID de la page liste des réponses.
+ * @property Text           $label          Libellé de la base.
+ * @property LargeText      $description    Description de la base.
+ * @property Text           $stemming       Stemming / analyseur par défaut.
+ * @property TypeSettings[] $types          Types de notices gérés dans cette base, indexés par nom.
+ * @property DateTime       $creation       Date de création de la base.
+ * @property DateTime       $lastupdate     Date de dernière modification des paramètres de la base.
+ * @property Text           $icon           Icône à utiliser pour cette base.
+ * @property LargeText      $notes          Notes et historique de la base.
+ * @property Boolean        $thumbnail      Indique si les notices peuvent avoir une image à la une.
+ * @property Boolean        $revisions      Indique si les modifications des notices font l'objet de révisions.
+ * @property Boolean        $comments       Indique si les notices peuvent avoir des commentaires.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -45,49 +48,43 @@ class DatabaseSettings extends Composite
         return [
             'fields' => [
                 'name' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Nom de la base', 'docalist-data'),
                     'description' => __('Nom de code interne de la base de données.', 'docalist-data'),
                 ],
-
                 'homepage' => [
-                    'type' => 'Docalist\Type\Integer',
+                    'type' => Integer::class,
                     'label' => __("Page d'accueil", 'docalist-data'),
                     'description' => __("Page d'accueil de la base.", 'docalist-data'),
                 ],
-
                 'homemode' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Mode accueil', 'docalist-data'),
                     'description' => __("Mode de fonctionnement de la page d'accueil.", 'docalist-data'),
                 ],
-
                 'searchpage' => [
-                    'type' => 'Docalist\Type\Integer',
+                    'type' => Integer::class,
                     'label' => __('Page liste des réponses', 'docalist-search'),
                     'description' => __(
                         'Page WordPress sur laquelle sont affichées les recherches dans cette base.',
                         'docalist-search'
                     ),
                 ],
-
                 'label' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Libellé à afficher', 'docalist-data'),
                     'description' => __(
                         'Libellé affiché dans les menus et dans les pages du back-office.',
                         'docalist-data'
                     ),
                 ],
-
                 'description' => [
-                    'type' => 'Docalist\Type\LargeText',
+                    'type' => LargeText::class,
                     'label' => __('Description', 'docalist-data'),
                     'description' => __('Description de la base.', 'docalist-data'),
                 ],
-
                 'stemming' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Stemming', 'docalist-data'),
                     'description' => __(
                         'Stemming qui sera appliqué aux champs textes des notices.',
@@ -96,27 +93,26 @@ class DatabaseSettings extends Composite
                     'default' => 'fr',
                 ],
                 'types' => [
-                    'type' => 'Docalist\Data\Settings\TypeSettings*',
+                    'type' => TypeSettings::class,
+                    'repeatable' => true,
                     'key' => 'name',
                     'label' => __('Types de notices gérés dans cette base', 'docalist-data'),
                 ],
                 'creation' => [
-                    'type' => 'Docalist\Type\DateTime',
+                    'type' => DateTime::class,
                     'label' => __('Date de création', 'docalist-data'),
                     'description' => __('Date/heure de création de la base.', 'docalist-data'),
                 ],
-
                 'lastupdate' => [
-                    'type' => 'Docalist\Type\DateTime',
+                    'type' => DateTime::class,
                     'label' => __('Dernière modification', 'docalist-data'),
                     'description' => __(
                         'Date/heure de dernière modification des paramètres de la base.',
                         'docalist-data'
                     ),
                 ],
-
                 'icon' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Icône', 'docalist-data'),
                     'default' => 'dashicons-feedback',
                     'description' => __(
@@ -124,30 +120,26 @@ class DatabaseSettings extends Composite
                         'docalist-data'
                     ),
                 ],
-
                 'notes' => [
-                    'type' => 'Docalist\Type\LargeText',
+                    'type' => LargeText::class,
                     'label' => __('Notes et historique', 'docalist-data'),
                     'description' => __('Notes pour les administrateurs.', 'docalist-data'),
                 ],
-
                 'thumbnail' => [
-                    'type' => 'Docalist\Type\Boolean',
+                    'type' => Boolean::class,
                     'label' => __('Image à la une', 'docalist-data'),
                     'description' => __('Les références peuvent avoir une image à la une.', 'docalist-data'),
                 ],
-
                 'revisions' => [
-                    'type' => 'Docalist\Type\Boolean',
+                    'type' => Boolean::class,
                     'label' => __('Activer les révisions', 'docalist-data'),
                     'description' => __(
                         'Journaliser les modifications apportées aux références.',
                         'docalist-data'
                     ),
                 ],
-
                 'comments' => [
-                    'type' => 'Docalist\Type\Boolean',
+                    'type' => Boolean::class,
                     'label' => __('Activer les commentaires', 'docalist-data'),
                     'description' => __('Les références peuvent avoir des commentaires.', 'docalist-data'),
                 ],
