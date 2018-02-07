@@ -88,11 +88,9 @@ class Plugin
 
         // Déclare la liste des types définis dans ce plugin
         add_filter('docalist_databases_get_types', function (array $types) {
-            $types += [
+            return $types + [
                 'content' => ContentEntity::class,
             ];
-
-            return $types;
         });
 
         // Nos filtres
