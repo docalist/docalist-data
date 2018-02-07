@@ -28,7 +28,7 @@ use Docalist\Data\Field\TopicField;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Content extends Record
+class ContentEntity extends Record
 {
     public static function loadSchema()
     {
