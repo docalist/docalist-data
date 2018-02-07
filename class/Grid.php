@@ -10,6 +10,7 @@
 namespace Docalist\Data;
 
 use Docalist\Schema\Schema;
+use Docalist\Type\Collection;
 
 /**
  *
@@ -41,5 +42,10 @@ class Grid extends Schema
     public function mergeWith(array $data)
     {
         return new self($this->mergeProperties($this->value(), $data));
+    }
+
+    public static function getCollectionClass()
+    {
+        return Collection::class;
     }
 }
