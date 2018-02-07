@@ -77,54 +77,54 @@ class PostalAddress extends Composite
 
             'fields' => [
                 'address' => [
-                    'type' => 'Docalist\Type\LargeText',
+                    'type' => LargeText::class,
                     'label' => __('Adresse', 'docalist-data'),
                 ],
                 'subLocality' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Quartier', 'docalist-data'),
                 ],
                 'postalCode' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Code postal', 'docalist-data'),
                 ],
                 'locality' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Ville', 'docalist-data'),
                 ],
                 'sortingCode' => [ // cedex
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Cedex', 'docalist-data'),
                 ],
                 'administrativeArea' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('État', 'docalist-data'),
                 ],
                 'country' => [
-                    'type' => 'Docalist\Type\TableEntry',
+                    'type' => TableEntry::class,
                     'table' => 'table:ISO-3166-1_alpha2_fr',
                     'label' => __('Pays', 'docalist-data'),
                     'default' => 'FR',
                     'description' => false,
                 ],
                 'administrativeArea2' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Niveau 2', 'docalist-data'),
                 ],
                 'administrativeArea3' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Niveau 3', 'docalist-data'),
                 ],
                 'administrativeArea4' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Niveau 4', 'docalist-data'),
                 ],
                 'administrativeArea5' => [
-                    'type' => 'Docalist\Type\Text',
+                    'type' => Text::class,
                     'label' => __('Niveau 5', 'docalist-data'),
                 ],
                 'location' => [
-                    'type' => 'Docalist\Type\GeoPoint',
+                    'type' => GeoPoint::class,
                 ],
             ]
         ];
