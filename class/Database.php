@@ -11,6 +11,7 @@ namespace Docalist\Data;
 
 use Docalist\Repository\PostTypeRepository;
 use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Data\Record;
 use Docalist\Data\Pages\ListReferences;
 use Docalist\Data\Pages\EditReference;
 use Docalist\Data\Pages\ImportPage;
@@ -68,7 +69,7 @@ class Database extends PostTypeRepository
         $type = $settings->postType();
 
         // Construit le dépôt
-        parent::__construct($type, 'Docalist\Data\Record');
+        parent::__construct($type, Record::class);
 
         // Stocke nos paramètres
         $this->settings = $settings;
