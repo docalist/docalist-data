@@ -35,7 +35,7 @@ class TypedRelation extends TypedText
                     'description' => __('Type de relation', 'docalist-data'),
                 ],
                 'value' => [
-                    'type' => 'Docalist\Data\Type\Relation',
+                    'type' => Relation::class,
                     'label' => __('Fiche liée', 'docalist-data'),
                     'description' => __('Post ID de la fiche liée', 'docalist-data'),
                 ],
