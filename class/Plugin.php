@@ -18,6 +18,7 @@ use Docalist\Data\Pages\AdminDatabases;
 use Docalist\Data\Export\ExportService;
 use Docalist\Data\Entity\ContentEntity;
 use Exception;
+use Docalist\Data\Export\PredefinedExportFormats;
 
 /**
  * Plugin de gestion des bases docalist.
@@ -99,41 +100,7 @@ class Plugin
 
         // Liste des exporteurs définis dans ce plugin
         add_filter('docalist_databases_get_export_formats', function (array $formats) {
-            $formats['docalist-json'] = [
-                'label' => 'Docalist JSON',
-                'description' => 'Fichier JSON compact, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Data\Export\Docalist',
-                'exporter' => 'Docalist\Data\Export\Json',
-            ];
-
-            $formats['docalist-json-pretty'] = [
-                'label' => 'Docalist JSON formatté',
-                'description' => 'Fichier JSON formatté et indenté, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Data\Export\Docalist',
-                'exporter' => 'Docalist\Data\Export\Json',
-                'exporter-settings' => [
-                    'pretty' => true,
-                ],
-            ];
-
-            $formats['docalist-xml'] = [
-                'label' => 'Docalist XML',
-                'description' => 'Fichier XML compact, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Data\Export\Docalist',
-                'exporter' => 'Docalist\Data\Export\Xml',
-            ];
-
-            $formats['docalist-xml-pretty'] = [
-                'label' => 'Docalist XML formatté',
-                'description' => 'Fichier XML formatté et indenté, notices en format natif de Docalist.',
-                'converter' => 'Docalist\Data\Export\Docalist',
-                'exporter' => 'Docalist\Data\Export\Xml',
-                'exporter-settings' => [
-                    'indent' => 4,
-                ],
-            ];
-
-            return $formats;
+            return $formats + PredefinedExportFormats::getList();
         }, 10);
 
         // Déclare nos assets
