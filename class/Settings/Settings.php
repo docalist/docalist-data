@@ -9,6 +9,8 @@
  */
 namespace Docalist\Data\Settings;
 
+use Docalist\Data\Settings\DatabaseSettings;
+
 /**
  * Config de Docalist Databases.
  *
@@ -25,7 +27,8 @@ class Settings extends \Docalist\Type\Settings
         return [
             'fields' => [
                 'databases' => [
-                    'type' => 'Docalist\Data\Settings\DatabaseSettings*',
+                    'type' => DatabaseSettings::class,
+                    'repeatable' => true,
                     'key' => 'name',
                     'label' => __('Liste des bases de données docalist', 'docalist-data'),
                 ],
