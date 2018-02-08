@@ -309,9 +309,6 @@ class BdspCsv implements Iterator
         unset($data->AUT, $data->AUTS);
 
         // Terminé
-        if ($this->errors) {
-            $doc->errors = $this->errors;
-        }
 
         unset($data->SO, $data->DATRI, $data->NO);
 

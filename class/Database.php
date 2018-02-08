@@ -768,14 +768,6 @@ class Database extends PostTypeRepository
                         'interval' => 'year',
                     ],
                 ],
-
-                'ref.error' => [
-                    //'state' => 'closed',
-                    'label' => __('Erreurs détectées', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'error.filter',
-                    ],
-                ],
             ];
 
             return $facets;
