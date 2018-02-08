@@ -712,10 +712,10 @@ class Database extends PostTypeRepository
                         'field' => 'editor.filter',
                     ],
                 ],
-                'ref.event' => [
+                'ref.context' => [
                     'label' => __('Evénement', 'docalist-data'),
                     'facet' => [
-                        'field' => 'event.filter',
+                        'field' => 'context.filter',
                     ],
                 ],
                 'ref.degree' => [
