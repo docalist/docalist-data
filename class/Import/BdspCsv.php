@@ -253,12 +253,6 @@ class BdspCsv implements Iterator
         // Commence à créer l'enreg
         $doc = new StdClass;
 
-        // Stocke la notice d'origine
-        $imported = '';
-        foreach ($this->data as $key => $value) {
-            $imported .= "$key:$value\n";
-        }
-
         // Convertit les champs articles en tableaux de valeurs
         $fields = 'AUT AUTS AUTCOLL AUTCOLS ORGCOMM DATEDIT DATORIGI ISBN ISSN TYPDOC TYPDOCB PAYS ';
         $fields .= 'LANGUE VILED MOTSCLE1 NOUVDESC';
@@ -315,7 +309,6 @@ class BdspCsv implements Iterator
         unset($data->AUT, $data->AUTS);
 
         // Terminé
-        $doc->imported = $imported;
         if ($this->errors) {
             $doc->errors = $this->errors;
         }
