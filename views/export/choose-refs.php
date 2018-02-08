@@ -50,10 +50,10 @@ $form->input('author.filter')
 ->attribute('data-lookup', 'index:author.suggest')
 ->attribute('data-multiple', true);
 
-$form->input('organisation.filter')
+$form->input('corporation.filter')
 ->label('Organisme :')
 ->attribute('class', 'input-block-level')
-->attribute('data-lookup', 'index:organisation.suggest');
+->attribute('data-lookup', 'index:corporation.suggest');
 
 $form->input('journal.filter')
 ->label('Revue :')

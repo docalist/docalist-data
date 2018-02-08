@@ -53,11 +53,11 @@
 .field-table th.author-firstname        { width: 40%; }
 .field-table th.author-role             { width: 20%; }
 
-.field-table th.organisation-name       { width: 30%; }
-.field-table th.organisation-acronym    { width: 10%; }
-.field-table th.organisation-city       { width: 20%; }
-.field-table th.organisation-country    { width: 20%; }
-.field-table th.organisation-role       { width: 20%; }
+.field-table th.corporation-name       { width: 30%; }
+.field-table th.corporation-acronym    { width: 10%; }
+.field-table th.corporation-city       { width: 20%; }
+.field-table th.corporation-country    { width: 20%; }
+.field-table th.corporation-role       { width: 20%; }
 
 .field-table th.editor-name             { width: 40%; }
 .field-table th.editor-city             { width: 20%; }

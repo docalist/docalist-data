@@ -686,10 +686,10 @@ class Database extends PostTypeRepository
                         'exclude' => ['et al.¤'],
                     ],
                 ],
-                'ref.organisation' => [
+                'ref.corporation' => [
                     'label' => __('Organisme', 'docalist-data'),
                     'facet' => [
-                        'field' => 'organisation.filter',
+                        'field' => 'corporation.filter',
                     ],
                 ],
                 'ref.date' => [
