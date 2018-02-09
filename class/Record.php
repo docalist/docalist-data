@@ -446,11 +446,10 @@ class Record extends Entity
      *
      * Les champs suivants sont initialisés :
      *
-     * - ref : on attribue un numéro de référence à la notice si elle est en statut "publish" et qu'elle n'a pas
-     *   encore de numéro de référence.
-     * - slug : on attribue un slug à la notice si elle a un numéro de référence (ie si elle est publiée).
-     * - posttitle : on utilise le champ ref comme postitle par défaut de la notice. Les classes descendantes
-     *   définissent un meilleur titre (par exemple, Reference recopie le contenu du champ title).
+     * - ref : attribue un numéro de référence à la notice si elle est en statut "publish" et qu'elle n'a pas
+     *   encore de numéro de référence (cf. initRefNumber).
+     * - slug : attribue un slug à la notice si elle a un numéro de référence (cf. initSLug).
+     * - posttitle : attribue le titre "(sans titre)" à la notice si elle n'a pas de titre (cf. initPostTitle).
      *
      * @param Repository $repository Le dépôt dans lequel l'entité va être enregistrée.
      */
