@@ -40,15 +40,15 @@ use Docalist\Data\Settings\TypeSettings;
     </thead>
 
     <?php
-    $addType = $this->url('TypeAdd', $dbindex);
+    $addType = $this->getUrl('TypeAdd', $dbindex);
     $nb = 0;
     foreach($database->types as $typeindex => $type) {
         /** @var TypeSettings $type */
 
-        $edit = esc_url($this->url('TypeEdit', $dbindex, $typeindex));
-        $delete = esc_url($this->url('TypeDelete', $dbindex, $typeindex));
-        $listGrids = esc_url($this->url('GridList', $dbindex, $typeindex));
-        $recreate = esc_url($this->url('TypeRecreate', $dbindex, $typeindex));
+        $edit = esc_url($this->getUrl('TypeEdit', $dbindex, $typeindex));
+        $delete = esc_url($this->getUrl('TypeDelete', $dbindex, $typeindex));
+        $listGrids = esc_url($this->getUrl('GridList', $dbindex, $typeindex));
+        $recreate = esc_url($this->getUrl('TypeRecreate', $dbindex, $typeindex));
 
         $nb++;
     ?>

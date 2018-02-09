@@ -24,7 +24,7 @@ use Docalist\Schema\Schema;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-$back = $this->url('TypesList', $dbindex);
+$back = $this->getUrl('TypesList', $dbindex);
 ?>
 <div class="wrap">
     <h1><?= sprintf(__('%s : ajouter un type de notice', 'docalist-data'), $database->label()) ?></h1>
@@ -33,7 +33,7 @@ $back = $this->url('TypesList', $dbindex);
         <?= __('Sélectionnez les types de notice à ajouter dans la base :', 'docalist-data') ?>
     </p>
 
-    <form method="POST" action="<?=$this->url('TypeAdd', $dbindex) ?>">
+    <form method="POST" action="<?=$this->getUrl('TypeAdd', $dbindex) ?>">
         <ul>
             <?php foreach($types as $type) : /** @var Schema $type */ ?>
                 <li>

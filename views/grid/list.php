@@ -59,11 +59,11 @@ use Docalist\Data\Settings\TypeSettings;
     foreach($type->grids as $name => $grid) {
         /** @var TypeSettings $type */
 
-        $settings = esc_url($this->url('GridSettings', $dbindex, $typeindex, $name));
-        $edit = esc_url($this->url('GridEdit', $dbindex, $typeindex, $name));
-        $copy = esc_url($this->url('GridCopy', $dbindex, $typeindex, $name));
-        $delete = esc_url($this->url('GridDelete', $dbindex, $typeindex, $name));
-        $tophp = esc_url($this->url('GridToPhp', $dbindex, $typeindex, $name));
+        $settings = esc_url($this->getUrl('GridSettings', $dbindex, $typeindex, $name));
+        $edit = esc_url($this->getUrl('GridEdit', $dbindex, $typeindex, $name));
+        $copy = esc_url($this->getUrl('GridCopy', $dbindex, $typeindex, $name));
+        $delete = esc_url($this->getUrl('GridDelete', $dbindex, $typeindex, $name));
+        $tophp = esc_url($this->getUrl('GridToPhp', $dbindex, $typeindex, $name));
 
         $nb++;
     ?>

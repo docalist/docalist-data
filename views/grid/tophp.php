@@ -33,8 +33,8 @@ use Docalist\Data\Type\Group;
 
 echo '<pre>', htmlspecialchars(var_export($grid->getPhpValue(), true)), '</pre>';
 return;
-$urlfull = esc_url($this->url('GridToPhp', $dbindex, $typeindex, $gridname));
-$urldiff = esc_url($this->url('GridToPhp', $dbindex, $typeindex, $gridname, true));
+$urlfull = esc_url($this->getUrl('GridToPhp', $dbindex, $typeindex, $gridname));
+$urldiff = esc_url($this->getUrl('GridToPhp', $dbindex, $typeindex, $gridname, true));
 echo '<pre>', htmlspecialchars(json_encode($grid, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)), '</pre>';
 die();
 ?>

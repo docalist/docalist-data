@@ -51,11 +51,11 @@ div.dbdesc{
     <?php
     $nb = 0;
     foreach($databases as $dbindex => $database) { /** @var DatabaseSettings $database */
-        $edit = esc_url($this->url('DatabaseEdit', $dbindex));
-        $delete = esc_url($this->url('DatabaseDelete', $dbindex));
-        $listTypes = esc_url($this->url('TypesList', $dbindex));
-        $exportSettings = esc_url($this->url('DatabaseExportSettings', $dbindex));
-        $importSettings = esc_url($this->url('DatabaseImportSettings', $dbindex));
+        $edit = esc_url($this->getUrl('DatabaseEdit', $dbindex));
+        $delete = esc_url($this->getUrl('DatabaseDelete', $dbindex));
+        $listTypes = esc_url($this->getUrl('TypesList', $dbindex));
+        $exportSettings = esc_url($this->getUrl('DatabaseExportSettings', $dbindex));
+        $importSettings = esc_url($this->getUrl('DatabaseImportSettings', $dbindex));
 
         $count = wp_count_posts($database->postType())->publish;
         $listRefs = esc_url(admin_url('edit.php?post_type=' . $database->postType()));
@@ -102,12 +102,12 @@ div.dbdesc{
             <td><a href="<?= $database->url() ?>"><?= $database->slug() ?></a></td>
             <td>
                 <?php if (0 === count($database->types)): ?>
-                    <a href="<?= esc_url($this->url('TypeAdd', $dbindex)) ?>">
+                    <a href="<?= esc_url($this->getUrl('TypeAdd', $dbindex)) ?>">
                         <?= __('Ajouter un type...', 'docalist-data') ?>
                     </a>
                 <?php else: ?>
                     <?php foreach ($database->types as $typeindex => $type): /** @var TypeSettings $type */ ?>
-                        <a href="<?= esc_url($this->url('GridList', $dbindex, $typeindex)) ?>">
+                        <a href="<?= esc_url($this->getUrl('GridList', $dbindex, $typeindex)) ?>">
                             <?= $type->label() ?>
                         </a>
                         <br />
@@ -132,7 +132,7 @@ div.dbdesc{
     </table>
 
     <p>
-        <a href="<?= esc_url($this->url('DatabaseAdd')) ?>" class="button button-primary">
+        <a href="<?= esc_url($this->getUrl('DatabaseAdd')) ?>" class="button button-primary">
             <?= __('Créer une base...', 'docalist-data') ?>
         </a>
     </p>

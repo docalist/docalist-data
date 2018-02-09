@@ -63,7 +63,7 @@ class AdminDatabases extends AdminPage
         add_filter($filter, function ($actions) {
             $action = sprintf(
                 '<a href="%s" title="%s">%s</a>',
-                esc_attr($this->url()),
+                esc_attr($this->getUrl()),
                 $this->menuTitle(),
                 __('Réglages', 'docalist-data')
             );
@@ -151,7 +151,7 @@ class AdminDatabases extends AdminPage
     {
         flush_rewrite_rules(false);
 
-        return $this->redirect($this->url('DatabasesList'), 303);
+        return $this->redirect($this->getUrl('DatabasesList'), 303);
     }
 
     /**
@@ -254,10 +254,10 @@ class AdminDatabases extends AdminPage
 
                 // Met à jour les rewrite rules si la homepage a changé
                 if ($oldHome !== $database->homepage() || $oldMode != $database->homemode()) {
-                    return $this->redirect($this->url('RewriteRules'), 303);
+                    return $this->redirect($this->getUrl('RewriteRules'), 303);
                 }
 
-                return $this->redirect($this->url('DatabasesList'), 303);
+                return $this->redirect($this->getUrl('DatabasesList'), 303);
             } catch (Exception $e) {
                 $error = $e->getMessage();
             }
@@ -347,7 +347,7 @@ class AdminDatabases extends AdminPage
         $this->setupCapacities($database, false);
 
         // Met à jour les rewrite rules
-        return $this->redirect($this->url('RewriteRules'), 303);
+        return $this->redirect($this->getUrl('RewriteRules'), 303);
     }
 
     /**
@@ -432,7 +432,7 @@ class AdminDatabases extends AdminPage
 
             $this->settings->save();
 
-            return $this->redirect($this->url('DatabasesList'), 303);
+            return $this->redirect($this->getUrl('DatabasesList'), 303);
         }
 
         // Affiche le formulaire permettant de coller le code
@@ -542,7 +542,7 @@ class AdminDatabases extends AdminPage
 
         $this->settings->save();
 
-        return $this->redirect($this->url('TypesList', $dbindex), 303);
+        return $this->redirect($this->getUrl('TypesList', $dbindex), 303);
     }
 
     /**
@@ -564,7 +564,7 @@ class AdminDatabases extends AdminPage
 
             $this->settings->save();
 
-            return $this->redirect($this->url('TypesList', $dbindex), 303);
+            return $this->redirect($this->getUrl('TypesList', $dbindex), 303);
         }
 
         return $this->view('docalist-data:type/edit', [
@@ -605,7 +605,7 @@ class AdminDatabases extends AdminPage
         $this->settings->save();
 
         // Retourne à la liste des types
-        return $this->redirect($this->url('TypesList', $dbindex), 303);
+        return $this->redirect($this->getUrl('TypesList', $dbindex), 303);
     }
 
     public function actionTypeRecreate($dbindex, $typeindex, $confirm = false)
@@ -658,7 +658,7 @@ class AdminDatabases extends AdminPage
 
             $this->settings->save();
 
-            return $this->redirect($this->url('GridList', $dbindex, $typeindex), 303);
+            return $this->redirect($this->getUrl('GridList', $dbindex, $typeindex), 303);
         }
 
         return $this->view('docalist-data:grid/settings', [
@@ -721,7 +721,7 @@ class AdminDatabases extends AdminPage
             $type->grids[$gridname] = $grid->mergeWith($data);
             $this->settings->save();
 
-            return $this->redirect($this->url('GridList', $dbindex, $typeindex), 303);
+            return $this->redirect($this->getUrl('GridList', $dbindex, $typeindex), 303);
         }
 
         return $this->view('docalist-data:grid/edit', [

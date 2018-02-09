@@ -65,7 +65,7 @@ class SettingsPage extends AdminPage
                     __('Options enregistrées.', 'docalist-data')
                 );
 
-                return $this->redirect($this->url($this->getDefaultAction()), 303);
+                return $this->redirect($this->getUrl($this->getDefaultAction()), 303);
             } catch (Exception $e) {
                 docalist('admin-notices')->error($e->getMessage());
             }
