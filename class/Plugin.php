@@ -93,9 +93,6 @@ class Plugin
             ];
         });
 
-        // Nos filtres
-        add_filter('docalist_databases_get_reference', array($this, 'getReference'));
-
         // Liste des exporteurs définis dans ce plugin
         add_filter('docalist_databases_get_export_formats', function (array $formats) {
             return $formats + PredefinedExportFormats::getList();
@@ -129,24 +126,41 @@ class Plugin
     }
 
     /**
-     * Retourne l'objet référence dont l'id est passé en paramètre.
+     * Retourne l'enregistrement dont l'id est passé en paramètre.
      *
-     * Implémentation du filtre 'docalist_databases_get_reference'.
+     * @deprecated Utilisez getRecord() à la place
      *
      * @param string $id POST_ID de la référence à charger.
      *
-     * @return Type Retourne un objet Reference si une grille a été
-     * indiquée ; un tableau contenant les données de la notice sinon.
+     * @return Record
      *
      * @throws Exception
      */
     public function getReference($id = null)
     {
+        _deprecated_function(__METHOD__, '0.16', 'getRecord');
+
+        return $this->getRecord($id);
+    }
+
+    /**
+     * Retourne l'enregistrement dont l'id est passé en paramètre.
+     *
+     * Implémentation du filtre 'docalist_databases_get_reference'.
+     *
+     * @param string $id POST_ID de la référence à charger.
+     *
+     * @return Record
+     *
+     * @throws Exception
+     */
+    public function getRecord($id = null)
+    {
         is_null($id) && $id = get_the_ID();
         $type = get_post_type($id);
 
         if (! isset($this->databases[$type])) {
-            $msg = __("Le post %s n'est pas une référence docalist (postype=%s)");
+            $msg = __("Le post %s n'est pas un enregistrement docalist (postype=%s)");
             throw new Exception(sprintf($msg, $id, $type));
         }
 
