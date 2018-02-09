@@ -11,7 +11,7 @@
  * @subpackage  Biblio
  * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
-namespace Docalist\Biblio\Reference;
+namespace Docalist\Data;
 
 use Docalist\Search\SearchRequest;
 use Docalist\Search\SearchResponse;
@@ -99,7 +99,7 @@ class RecordIterator implements Iterator, Countable
 
     public function current()
     {
-        return docalist('docalist-data')->getReference($this->key());
+        return docalist('docalist-data')->getRecord($this->key());
     }
 
     public function key()
