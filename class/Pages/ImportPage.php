@@ -16,7 +16,7 @@ use Docalist\Schema\Schema;
 use Docalist\Http\ViewResponse;
 use Docalist\Http\CallbackResponse;
 use Docalist\Search\SearchRequest;
-use Docalist\Data\Reference\ReferenceIterator;
+use Docalist\Data\RecordIterator;
 use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\Exporter;
 
@@ -439,7 +439,7 @@ class ImportPage extends AdminPage
         $exporter = new $exporter($converter, $settings); /** @var Exporter $exporter */
 
         // Crée l'itérateur
-        $iterator = new ReferenceIterator($request);
+        $iterator = new RecordIterator($request);
 
         // Crée une réponse de type "callback" qui lancera l'export
         $response = new CallbackResponse(function () use ($exporter, $iterator) {

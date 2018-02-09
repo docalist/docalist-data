@@ -10,7 +10,7 @@
 namespace Docalist\Data\Export;
 
 use InvalidArgumentException;
-use Docalist\Data\Reference\ReferenceIterator;
+use Docalist\Data\RecordIterator;
 use Docalist\Search\SearchRequest;
 
 /**
@@ -157,7 +157,7 @@ class Format
     public function export(SearchRequest $request, $disposition = 'inline', $limit = null)
     {
         // Crée l'itérateur
-        $iterator = new ReferenceIterator($request, $limit);
+        $iterator = new RecordIterator($request, $limit);
 
         // Crée l'exporteur
         $exporter = $this->exporter();
