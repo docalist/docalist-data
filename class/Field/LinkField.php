@@ -14,7 +14,6 @@ use Docalist\Type\TableEntry;
 use Docalist\Type\Url;
 use Docalist\Type\Text;
 use Docalist\Type\DateTime;
-use InvalidArgumentException;
 
 /**
  * Champ standard "link" : un lien internet (url, uri, e-mail, hashtag...)
@@ -128,7 +127,7 @@ class LinkField extends MultiField
                 return $this->formatEmbed($options);
         }
 
-        throw new InvalidArgumentException("Invalid link format '$format'");
+        return parent::getFormattedValue($options);
     }
 
     /**
