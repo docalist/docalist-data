@@ -54,11 +54,6 @@ class EditReference
     protected $postType;
 
     /**
-     * @var Record L'enregistrement en cours d'édition.
-     */
-    protected $reference;
-
-    /**
      * @var bool Indique si on crée un nouveau post ou si on édite une notice existante.
      *
      * Cette propriété est initialisé par create() et elle est utilisée par edit() pour savoir s'il faut
