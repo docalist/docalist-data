@@ -28,7 +28,7 @@ use InvalidArgumentException;
  * - `date` : date à laquelle le lien a été consulté/vérifié.
  *
  * Le sous-champ type est associé à une table d'autorité qui contient les types de liens disponibles
- * ('table:links'par défaut).
+ * ('table:link-type'par défaut).
  *
  * @property TableEntry     $type   Type de lien.
  * @property Url            $url    Adresse.
