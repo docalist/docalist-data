@@ -38,7 +38,7 @@ class Xml extends Exporter
             $xml->setIndent(true);
         }
         $xml->startDocument('1.0', 'utf-8', 'yes');
-        $xml->startElement('references');
+        $xml->startElement('records');
         $xml->writeAttribute('count', $records->count());
         $xml->writeAttribute('datetime', date('Y-m-d H:i:s'));
         $xml->writeAttribute('query', $records->getSearchRequest()->getEquation());
@@ -47,7 +47,7 @@ class Xml extends Exporter
             if (empty($data)) {
                 continue;
             }
-            $xml->startElement('reference');
+            $xml->startElement('record');
             $this->outputArray($xml, $data);
             $xml->endElement();
         }
