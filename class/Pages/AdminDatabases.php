@@ -522,10 +522,21 @@ class AdminDatabases extends AdminPage
             // Initialise les différentes grilles du type
             $class = $types[$name]; /** @var Record $class */
 
-            $base    = new Grid($class::getBaseGrid());
-            $edit    = new Grid($class::getEditGrid());
-            $content = new Grid($class::getContentGrid());
-            $excerpt = new Grid($class::getExcerptGrid());
+            $base = $class::getBaseGrid();
+            $base = apply_filters('docalist_data_get_base_grid', $base, $name, $dbindex);
+            $base    = new Grid($base);
+
+            $edit = $class::getEditGrid();
+            $edit = apply_filters('docalist_data_get_edit_grid', $edit, $name, $dbindex);
+            $edit    = new Grid($edit);
+
+            $content = $class::getContentGrid();
+            $content = apply_filters('docalist_data_get_content_grid', $content, $name, $dbindex);
+            $content = new Grid($content);
+
+            $excerpt = $class::getExcerptGrid();
+            $excerpt = apply_filters('docalist_data_get_excerpt_grid', $excerpt, $name, $dbindex);
+            $excerpt = new Grid($excerpt);
 
             $edit->initSubfields($base);
             $content->initSubfields($base);
