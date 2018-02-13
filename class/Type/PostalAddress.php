@@ -179,7 +179,7 @@ class PostalAddress extends Composite
     public function getAvailableEditors()
     {
         return [
-            'default' => __('Par défaut (autocomplet Google Maps API + formualire + carte)', 'docalist-data'),
+            'default' => __('Par défaut (autocomplete Google Maps API + formualaire + carte)', 'docalist-data'),
         ];
     }
 
