@@ -130,50 +130,71 @@ class PostalAddress extends Composite
         ];
     }
 
-    public function format($lineSeparator = ', ', $addCountry = null, $uppercase = false)
+    public function getFormatSettingsForm()
     {
-        // Récupère le format des adresses pour le pays en cours (ZZ = par défaut)
-        $country = isset($this->country) ? $this->country() : 'ZZ';
-        $addressFormat = new PostalAddressMetadata($country);
+        $form = parent::getFormatSettingsForm();
+        $after = $form->get('after');
+        $form->remove($after);
 
-        // Détermine s'il faut afficher ou non le pays et si oui, dans quelle langue
-        if (is_null($addCountry)) {
-            $addCountry = ($country === $this->guessUserCountry()) ? false : $this->guessUserLanguage();
-        }
+        $form->input('sep')
+            ->addClass('small-text')
+            ->setLabel(__('Séparateur', 'docalist-data'))
+            ->setDescription(
+                __("Texte à insérer entre les différents éléments de l'adresse.", 'docalist-data') .
+                ' ' .
+                __("Laissez vide pour génèrer une adresse sur plusieurs lignes (par défaut).", 'docalist-data')
+            );
 
-        // Formatte l'adresse
-        return $addressFormat->format($this, $addCountry, $lineSeparator, $uppercase);
+        $form->checkbox('uppercase')
+            ->setLabel(__('Majuscules', 'docalist-data'))
+            ->setDescription(__("Mettre certains éléments en majuscules (selon la destination).", 'docalist-data'));
 
-        /*
-         * Remarque, affichage du pays :
-         * 1. On affiche le pays seulement si c'est une adresse à l'étranger
-         *    Pour cela, on essaie de deviner le pays de l'utilisateur à partir de l'entête http "accept-language".
-         *    Bien sur , ce n'est pas très fiable, mais c'est le moyen le plus simple si on ne veut pas faire de la
-         *    géolocalisation à partir de l'adresse IP. Si le pays obtenu est différent du pays qui figure dans
-         *    l'adresse (ou si on n'a pas réussi à deviner le pays de l'utilisateur), on affiche le pays.
-         * 2. On affiche le nom du pays dans la langue de l'utilisateur
-         *    Même principe : on extrait la langue de l'utilisateur à partir de de l'entête http "accept-language".
-         *    Si cela ne fonctionne pas, le nom du pays est affiché en anglais.
-         */
+        $form->add($after);
+
+        return $form;
     }
 
     public function getAvailableFormats()
     {
         return [
-            'default' => __('Par défaut', 'docalist-data'),
+            'text' => __('Texte', 'docalist-data'),
+            'html' => __('HTML', 'docalist-data'),
         ];
     }
 
     public function getFormattedValue($options = null)
     {
         $format = $this->getOption('format', $options, $this->getDefaultFormat());
+        $args = [];
 
         switch ($format) {
-            case 'default':
-                return $this->format();
+            case 'html':
+                $args['html'] = true;
+                break;
+
+            case 'text':
+                $args['html'] = false;
+                break;
+
+            default:
+                return parent::getFormattedValue($options);
         }
 
-        throw new InvalidArgumentException("Invalid PostalAddress format '$format'");
+        // Récupère les options d'affichage
+        $args['uppercase'] = (bool) $this->getOption('uppercase', $options, false);
+        $sep = $this->getOption('sep', $options, '');
+        !empty($sep) && $args['separator'] = $sep;
+
+        // Récupère le pays du site (constante DOCALIST_SITE_COUNTRY dans wp-config, 'FR' par défaut)
+        $country = defined('DOCALIST_SITE_COUNTRY') ? DOCALIST_SITE_COUNTRY : 'FR';
+        $formatter = new PostalAddressMetadata($country);
+
+        // Formatte l'adresse
+        return $formatter->format($this->getPhpValue(), $args);
+
+        // Comme les noms de nos champs correspondent aux noms attendus par le formatteur et qu'il ignore les
+        // champs en trop (adminarea2, location...), on peut lui passer directement getPhpValue(), ce qui évite
+        // de tout recopier dans un tableau intermédiaire.
     }
 
     public function getAvailableEditors()
