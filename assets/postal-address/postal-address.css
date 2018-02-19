@@ -10,29 +10,21 @@
  */
 
 /* Pour le moment, le clonage d'adresse ne marche pas, on masque le bouton "clone"  */
-.address .cloner 
+.type-address-field .cloner 
 {
     display: none;
 }
 
-.postal-address
-{
-}
-
-.postal-address * 
-{
-}
-
-.postal-address input,
-.postal-address textarea,
-.postal-address select 
+.type-postal-address input,
+.type-postal-address textarea,
+.type-postal-address select 
 {
     width: 100%;
     margin:0;
     padding: 3px 5px;
 }
 
-.postal-address-row 
+.type-postal-address-row 
 {
     display: table;
     width: 100%;
@@ -41,53 +33,55 @@
     /* border-color: #444; */
 }
 
-.postal-address-col 
+.type-postal-address-col 
 {
     display: table-cell;
     vertical-align: top;
     width: 50%;
 }
 
-.postal-address-map 
+.type-postal-address-map 
 {
     background: #eee;
     height: 200px;
 }
-.postal-address .form-table 
+.type-postal-address .form-table 
 {
     display: table;
     width: 100%;
     margin-top: 0;
 }
 
-.postal-address .form-table th 
+.type-postal-address .form-table th 
 {
     padding: 0 0 1px 0;
     width: auto;
     min-width: auto;
 }
 
-.postal-address .form-table td {
+.type-postal-address .form-table td {
     padding: 0 0 1px 0;
 }
 
-.postal-address .form-table label 
+.type-postal-address .form-table label 
 {
     font-weight: normal;
     padding-right: .5em;
 }
 
-.administrativeArea2-group, .administrativeArea3-group, .administrativeArea4-group, .administrativeArea5-group,
-.location-group 
+.type-postal-address .administrativeArea2-group, 
+.type-postal-address .administrativeArea3-group, 
+.type-postal-address .administrativeArea4-group, 
+.type-postal-address .administrativeArea5-group,
+.type-postal-address .location-group 
 {
     display: none;
 }  
 
 @media screen and (max-width: 600px) 
 {
-    .postal-address-col 
+    .type-postal-address-col 
     {
         display: table-row;
     }
 }
-

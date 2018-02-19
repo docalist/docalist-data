@@ -207,24 +207,23 @@ class PostalAddress extends Composite
     public function getEditorForm($options = null)
     {
         $editor = $this->getOption('editor', $options, $this->getDefaultEditor());
-
         switch ($editor) {
             case 'default':
-                $editor = new Container();
+                $form = new Container();
                 break;
 
             default:
                 throw new InvalidArgumentException("Invalid PostalAddress editor '$editor'");
         }
 
-        $editor
+        $form
             ->setName($this->schema->name())
             ->setLabel($this->getOption('label', $options))
             ->setDescription($this->getOption('description', $options))
-            ->addClass('postal-address');
+            ->addClass($this->getEditorClass($editor));
 
         // Chaque adresse est dans une div à part
-        $container = $editor->div()->addClass('postal-address-container');
+        $container = $form->div();
 
         // L'adresse comprend deux lignes : l'autocomplete et une div qui contient la carte et le formulaire
         $container
@@ -236,25 +235,25 @@ class PostalAddress extends Composite
         wp_scripts()->enqueue('docalist-postal-address');
 
         // Ok
-        return $editor;
+        return $form;
     }
 
     /**
      * Construit la partie "autocomplete" de l'éditeur.
      *
-     * <div class='postal-address-row'>
-     *     <input type="search" class="postal-address-autocomplete" placeholder="Tapez le début de l'adresse" />
+     * <div class='type-postal-address-row'>
+     *     <input type="search" class="type-postal-address-autocomplete" placeholder="Tapez le début de l'adresse" />
      * </div>
      *
      * @return Div
      */
     protected function editorAutocomplete($options)
     {
-        $container = Div::create()->addClass('postal-address-row');
+        $container = Div::create()->addClass('type-postal-address-row');
 
         Input::create()
             ->setAttribute('type', 'search')
-            ->addClass('postal-address-autocomplete')
+            ->addClass('type-postal-address-autocomplete')
             ->setAttribute('placeholder', __(
                 "Tapez le début de l'adresse et choisissez dans la liste pour remplir le formulaire.",
                 'docalist-data'
@@ -276,7 +275,7 @@ class PostalAddress extends Composite
      */
     protected function editorMapAndForm($options)
     {
-        $container = Div::create()->addClass('postal-address-row');
+        $container = Div::create()->addClass('type-postal-address-row');
 
         $container->add($this->editorForm($options));
         $container->add($this->editorMap($options));
@@ -295,9 +294,9 @@ class PostalAddress extends Composite
      */
     protected function editorMap($options)
     {
-        $container = Div::create()->addClass('postal-address-col');
+        $container = Div::create()->addClass('type-postal-address-col');
 
-        $container->div()->addClass('postal-address-map');
+        $container->div()->addClass('type-postal-address-map');
 
         return $container;
     }
@@ -310,7 +309,7 @@ class PostalAddress extends Composite
     protected function editorForm($options)
     {
         // Crée le container
-        $container = Container::create()->addClass('postal-address-col postal-address-form');
+        $container = Container::create()->addClass('type-postal-address-col type-postal-address-form');
 
         // Récupère la liste des champs
         $fields = $this->getOption('fields');
@@ -318,8 +317,6 @@ class PostalAddress extends Composite
         // Ajoute les éditeurs des champs dans le container
         foreach ($fields as $name => $options) {
             $field = $this->__get($name)->getEditorForm($options);
-            $field->addClass($name);
-
             $container->add($field);
         }
 

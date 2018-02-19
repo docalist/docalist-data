@@ -41,9 +41,8 @@
 
         this.options = $.extend(true, {}, defaults, options);
 
-        var location = $('.location', this.address)
-        var lat = Number.parseFloat($('input.latitude', location).val());
-        var lon = Number.parseFloat($('input.longitude', location).val());
+        var lat = Number.parseFloat($('input.field-latitude', this.address).val());
+        var lon = Number.parseFloat($('input.field-longitude', this.address).val());
         if (lat && lon) {
             this.options.mapOptions.center.lat = lat;
             this.options.mapOptions.center.lng = lon;
@@ -60,18 +59,11 @@
             this.initMap();
             this.initMarker();
             this.initAutocomplete();
-
-            var location = $('.location', this.address)
-            var lat = $('input.latitude', location).val();
-            var lon = $('input.longitude', location).val();
-            if (lat && lon) {
-                // this.updateMap(new google.maps.LatLng(lat, lon));
-            }
         },
 
         // Initialise la carte Google Maps
         initMap : function () {
-            var map = $('.postal-address-map', this.address);
+            var map = $('.type-postal-address-map', this.address);
             this.map = new google.maps.Map(map[0], this.options.mapOptions);
         },
 
@@ -93,7 +85,7 @@
         // Initialise l'autocomplete
         initAutocomplete : function () {
             // Récupère le input qui sert à rechercher une adresse
-            var search = $('.postal-address-autocomplete', this.address);
+            var search = $('.type-postal-address-autocomplete', this.address);
 
             // Installe l'autocomplete google
             this.autocomplete = new google.maps.places.Autocomplete(search[0], {  }); // geocode
@@ -114,7 +106,7 @@
                     that.updateMap(place.geometry.location);
                 }
                 that.updateForm(place);
-                $('.postal-address-autocomplete', this.address).val("");
+                $('.type-postal-address-autocomplete', this.address).val('');
             });
         },
 
@@ -129,9 +121,8 @@
             var lat = + latLng.lat().toFixed(6); // le '+' sert à l'arrondi : https://stackoverflow.com/a/12830454
             var lng = + latLng.lng().toFixed(6);
 
-            var location = $('.location', this.address);
-            $('input.latitude', location).val(lat);
-            $('input.longitude', location).val(lng);
+            $('input.field-latitude', this.address).val(lat);
+            $('input.field-longitude', this.address).val(lng);
 
             var value = lat + ',' + lng;
             this.marker.setTitle(value);
@@ -152,8 +143,6 @@
                 });
             });
 
-            var $form = $('.postal-address-form', this.address);
-
             var address = '';
             if (data.street_number) {
                 address = data.street_number;
@@ -170,26 +159,24 @@
                 address += (address ? "\n" : '') + data.locality;
             }
 
-            $('.address', this.address).val(address);
-            autosize && autosize.update($('.address', this.address)[0]);
+            $('.field-address', this.address).val(address);
+            autosize && autosize.update($('.field-address', this.address)[0]);
 
-            $('.subLocality', $form).val(data.sublocality || data.colloquial_area);
-            $('.postalCode', $form).val(data.postal_code);
-            $('.locality', $form).val(data.postal_town || data.locality);
-//          $('.sortingCode', $form).val(data.postal_code); // pas retourné par google places
-            $('.administrativeArea', $form).val(data.administrative_area_level_1);
+            $('.field-subLocality', this.address).val(data.sublocality || data.colloquial_area);
+            $('.field-postalCode', this.address).val(data.postal_code);
+            $('.field-locality', this.address).val(data.postal_town || data.locality);
+            $('.field-sortingCode', this.address).val(''); // pas retourné par google places
+            $('.field-administrativeArea', this.address).val(data.administrative_area_level_1);
 
-            var country = $('select.country', $form)[0].selectize;
+            var country = $('.field-country', this.address)[0].selectize;
             country.addOption({code:data.country_short, label:data.country})
             country.setValue(data.country_short);
 
             var hierarchy = data.country;
             for (var i=2; i <= 5; i++) {
                 var key = 'administrative_area_level_' + i;
-                if (data[key] === undefined) {
-                    break;
-                }
-                $('.administrativeArea' + i, $form).val(data[key]);
+                var value = (data[key] === undefined) ? '' : data[key];
+                $('.field-administrativeArea' + i, this.address).val(value);
             }
 
             if (place.geometry && place.geometry.location) {
@@ -212,5 +199,5 @@
 })(jQuery, window, document);
 
 jQuery(document).ready(function ($) {
-    $('.postal-address').postalAddress();
+    $('.type-postal-address').postalAddress();
 });
