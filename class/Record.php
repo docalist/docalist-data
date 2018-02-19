@@ -36,8 +36,6 @@ use Docalist\Data\Type\Group;
 
 use Closure;
 
-use InvalidArgumentException;
-
 /**
  * Un enregistrement dans une base docalist.
  *
@@ -610,17 +608,16 @@ class Record extends Entity
         return $form;
     }
 
-    protected function getFieldOption(Schema $field, $option, $default = null)
+    private function getFieldOption($field, $option, array $options, $default = null)
     {
-        $value = $field->__call($option);
-        if (! is_null($value)) {
-            return $value;
+        if (!empty($options['fields'][$field][$option])) {
+            return $options['fields'][$field][$option];
         }
 
-        $field = $this->schema->getField($field->name());
-        $value = $field->__call($option);
-        if (! is_null($value)) {
-            return $value;
+        if ($this->schema->hasField($field)) {
+            if (! empty($value = $this->schema->getField($field)->__call($option))) {
+                return $value;
+            }
         }
 
         return $default;
@@ -628,17 +625,11 @@ class Record extends Entity
 
     public function getFormattedValue($options = null)
     {
-        // Détermine les champs à afficher
-        // On ne peut pas utiliser getOption() car ça retourne un tableau à plat et non pas un tableau de Schemas
-        if (is_null($options)) {
-            $fields = $this->schema->getFields();
-        } elseif ($options instanceof Schema) {
-            $fields = $options->getFields();
-        } elseif (is_array($options)) {
-            $fields = isset($options['fields']) ? (new Schema($options))->getFields() : $this->schema->getFields();
-        } else {
-            throw new InvalidArgumentException('Invalid options, expected Schema or array');
-        }
+        // TEMP : pour le moment on peut nous passer une grille ou un schéma, à terme, on ne passera que des array
+        $options && is_object($options) && $options = $options->value();
+
+        // Récupère les noms des champs à afficher
+        $fields = array_keys(isset($options['fields']) ? $options['fields'] : $this->schema->getFields());
 
         // Initialise les variables pour que cela fonctionne quand la grille ne commence pas par un groupe
         $format = '<p><b>%label</b>: %content</p>'; // Le format du groupe en cours
@@ -650,9 +641,12 @@ class Record extends Entity
         $result = '';                               // Le résultat final qui sera retourné
 
         // Formatte la notice
-        foreach ($fields as $name => $field) {
+        foreach ($fields as $name) {
+            // Récupère les options pour ce champ
+            $field = isset($options['fields'][$name]) ? $options['fields'][$name] : [];
+
             // Si c'est un groupe, cela devient le nouveau groupe courant
-            if ($field->type() === Group::class) {
+            if (isset($field['type']) && $field['type'] === Group::class) {
                 // Génère le groupe précédent si on a des items
                 if ($items) {
                     $result .= $before . implode($sep, $items) . $after;
@@ -660,18 +654,18 @@ class Record extends Entity
                 }
 
                 // Si le groupe requiert une capacité que l'utilisateur n'a pas, inutile d'aller plus loin
-                $cap = $field->capability();
-                if ($cap && ! current_user_can($cap)) {
+                // (le groupe ne peut pas figurer dans notre schéma de base, donc on ne teste que $field)
+                if (isset($field['capability']) && ! current_user_can($field['capability'])) {
                     $hasCap = false;
                     continue;
                 }
 
                 // Stocke les propriétés du nouveau groupe en cours
                 $hasCap = true;
-                $format = $field->format();
-                $before = $field->before();
-                $sep = $field->sep();
-                $after = $field->after();
+                $format = isset($field['format']) ? $field['format'] : '';
+                $before = isset($field['before']) ? $field['before'] : null;
+                $sep = isset($field['sep']) ? $field['sep'] : null;
+                $after = isset($field['after']) ? $field['after'] : null;
                 continue;
             }
 
@@ -683,13 +677,13 @@ class Record extends Entity
             }
 
             // Si le champ requiert une capacité que l'utilisateur n'a pas, terminé
-            $cap = $this->getFieldOption($field, 'capability');
+            $cap = isset($field['capability']) ? $field['capability'] : $this->schema->getField($name)->capability();
             if ($cap && ! current_user_can($cap)) {
                 continue;
             }
 
             // Ok, formatte le contenu du champ
-            $content = $this->phpValue[$name]->getFormattedValue($this->getFieldOptions($name, $options));
+            $content = $this->phpValue[$name]->getFormattedValue($field);
 
             // Champ renseigné mais format() n'a rien retourné, passe au champ suivant
             if (empty($content)) {
@@ -700,14 +694,14 @@ class Record extends Entity
             // avec le contenu formatté du champ. Si c'est une chaine, on le gère comme un tableau en
             // utilisant le libellé du champ.
             if (! is_array($content)) {
-                $label = $this->getFieldOption($field, 'label');
+                $label = isset($field['label']) ? $field['label'] : $this->schema->getField($name)->label();
                 ($label === '-') && $label = '';
                 $content = [$label => $content];
             }
 
             // Stocke le champ (ou les champs en cas de vue éclatée)
-            $fieldBefore = $this->getFieldOption($field, 'before');
-            $fieldAfter  = $this->getFieldOption($field, 'after');
+            $fieldBefore = isset($field['before']) ? $field['before'] : $this->schema->getField($name)->before();
+            $fieldAfter = isset($field['after']) ? $field['after'] : $this->schema->getField($name)->after();
             foreach ($content as $label => $content) {
                 $content = $fieldBefore . $content . $fieldAfter;
                 $items[] = strtr($format, ['%label' => $label, '%content' => $content]);
