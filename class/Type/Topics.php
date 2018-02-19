@@ -22,7 +22,14 @@ class Topics extends Collection
 {
     public function getEditorForm($options = null)
     {
-        return new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
+        $form = new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
+
+        $form
+            ->addClass($this->getEditorClass())
+            ->setLabel($this->getOption('label', $options))
+            ->setDescription($this->getOption('description', $options));
+
+        return $form;
     }
 
     /**
