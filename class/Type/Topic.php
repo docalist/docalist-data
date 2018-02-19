@@ -115,6 +115,8 @@ class Topic extends TypedText
 
     public function getEditorForm($options = null)
     {
+        throw new InvalidArgumentException("Encore utilisée ? normallement c'est Topics qui fait le job");
+
         $editor = new TopicsInput($this->schema->name(), $this->schema->table());
 
         $editor
