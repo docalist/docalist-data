@@ -102,10 +102,9 @@ class Relation extends Integer
     public function getEditorForm($options = null)
     {
         $editor = $this->getOption('editor', $options, $this->getDefaultEditor());
-
         switch ($editor) {
             case 'lookup':
-                $editor = new EntryPicker();
+                $form = new EntryPicker();
                 break;
 
             case 'input':
@@ -113,11 +112,12 @@ class Relation extends Integer
 
 
             default:
-                throw new InvalidArgumentException("Invalid TableEntry editor '$editor'");
+                throw new InvalidArgumentException("Invalid Relation editor '$editor'");
         }
 
-        return $editor
+        return $form
             ->setName($this->schema->name())
+            ->addClass($this->getEditorClass($editor))
             ->setOptions('search:' . $this->schema->relfilter())
             ->setLabel($this->getOption('label', $options))
             ->setDescription($this->getOption('description', $options));
