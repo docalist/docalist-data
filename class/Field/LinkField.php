@@ -43,7 +43,7 @@ class LinkField extends MultiField
         return [
             'name' => 'link',
             'label' => __('Liens internet', 'docalist-data'),
-            'description' => __("Courriel et iens internet : url, uri, e-mail, hashtag...", 'docalist-data'),
+            'description' => __("Courriel et liens internet : e-mail, url, hashtag...", 'docalist-data'),
             'repeatable' => true,
             'fields' => [
                 'type' => [
