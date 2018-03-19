@@ -25,4 +25,9 @@ class DocalistConverter implements Converter
     {
         return $record->getPhpValue();
     }
+
+    public function suggestFilename()
+    {
+        return 'docalist';
+    }
 }
