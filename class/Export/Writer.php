@@ -50,4 +50,13 @@ interface Writer
      * @throw WriteError Si une erreur survient lors de l'écriture des données.
      */
     public function export($stream, Iterable $records);
+
+    /**
+     * Exporte les enregistrements passés en paramètre et retourne une chaine contenant le résultat.
+     *
+     * @param Iterable $records Les enregistrements à exporter.
+     *
+     * @throw WriteError Si une erreur survient lors de l'écriture des données.
+     */
+    public function exportToString(Iterable $records);
 }
