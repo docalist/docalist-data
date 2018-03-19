@@ -7,24 +7,22 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export;
+namespace Docalist\Data\Export\RecordConverter;
+
+use Docalist\Data\Export\RecordConverter;
+use Docalist\Data\Record;
 
 /**
- * Convertisseur "Docalist".
+ * Convertisseur Docalist pour l'export de données Docalist.
  *
- * Ne fait rien, retourne les notices au format natif de docalist.
+ * Retourne les données brutes présentes dans l'enregistrement Docalist.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Docalist extends Converter
+class Docalist implements RecordConverter
 {
-    public function getLabel()
+    public function convert(Record $record)
     {
-        return __('Format docalist', 'docalist-data');
-    }
-
-    public function getDescription()
-    {
-        return __('Notices au format natif de Docalist-Databases.', 'docalist-data');
+        return $record->getPhpValue();
     }
 }
