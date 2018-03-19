@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export\Converter;
+namespace Docalist\Data\Export\Exception;
 
 use Docalist\Data\Export\ExportException;
 
