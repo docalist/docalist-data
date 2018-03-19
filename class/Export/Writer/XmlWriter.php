@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Export\Writer;
 
-use Docalist\Data\Export\ExportWriter;
+use Docalist\Data\Export\Writer;
 use Docalist\Data\Export\Converter\WriteError;
 use XMLWriter;
 
@@ -18,7 +18,7 @@ use XMLWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Xml implements ExportWriter
+class XmlWriter implements Writer
 {
     protected static $defaultSettings = [
         // Surcharge les paramètres hérités

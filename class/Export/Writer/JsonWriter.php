@@ -9,14 +9,14 @@
  */
 namespace Docalist\Data\Export\Writer;
 
-use Docalist\Data\Export\ExportWriter;
+use Docalist\Data\Export\Writer;
 
 /**
  * Un exporteur au format JSON.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Json implements ExportWriter
+class JsonWriter implements Writer
 {
     protected static $defaultSettings = [
         // Surcharge les paramètres hérités
