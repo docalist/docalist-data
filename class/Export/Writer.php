@@ -18,7 +18,7 @@ use Docalist\Data\Export\Converter\WriteError;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-interface ExportWriter
+interface Writer
 {
     /**
      * Retourne le type MIME du contenu généré.
