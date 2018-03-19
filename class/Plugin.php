@@ -18,7 +18,7 @@ use Docalist\Data\Pages\AdminDatabases;
 use Docalist\Data\Export\ExportService;
 use Docalist\Data\Entity\ContentEntity;
 use Exception;
-use Docalist\Data\Export\PredefinedExportFormats;
+use Docalist\Data\Export\Exporter\StandardExporters;
 
 /**
  * Plugin de gestion des bases docalist.
@@ -95,7 +95,7 @@ class Plugin
 
         // Liste des exporteurs définis dans ce plugin
         add_filter('docalist_databases_get_export_formats', function (array $formats) {
-            return $formats + PredefinedExportFormats::getList();
+            return $formats + StandardExporters::getList();
         }, 10);
 
         // Déclare nos assets
