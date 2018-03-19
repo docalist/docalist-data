@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Export;
 
-use Docalist\Data\Export\ExportWriter;
+use Docalist\Data\Export\Writer;
 
 /**
  * Interface d'un exporteur Docalist.
@@ -18,7 +18,7 @@ use Docalist\Data\Export\ExportWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-interface Exporter extends ExportWriter
+interface Exporter extends Writer
 {
     /**
      * Retourne un identifiant unique pour l'exporteur.
