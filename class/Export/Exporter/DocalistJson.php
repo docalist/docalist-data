@@ -23,17 +23,6 @@ use Docalist\Data\Export\Writer\JsonWriter;
  */
 class DocalistJson extends StandardExporter
 {
-    /**
-     * Initialise l'exporteur.
-     */
-    public function __construct()
-    {
-        parent::__construct(new DocalistConverter(), new JsonWriter());
-        $this->addDataProcessor(new RemoveEmptyFields());
-        $this->addDataProcessor(new RemoveEmptyRecords());
-        $this->addDataProcessor(new SortFields());
-    }
-
     public static function getID()
     {
         return 'docalist-json';
@@ -47,5 +36,24 @@ class DocalistJson extends StandardExporter
     public static function getDescription()
     {
         return __('Fichier JSON contenant les données Docalist en format natif.', 'docalist-data');
+    }
+
+    protected function initDataProcessors()
+    {
+        return [
+            new RemoveEmptyFields(),
+            new RemoveEmptyRecords(),
+            new SortFields(),
+        ];
+    }
+
+    protected function initConverter()
+    {
+        return new DocalistConverter();
+    }
+
+    protected function initWriter()
+    {
+        return new JsonWriter();
     }
 }
