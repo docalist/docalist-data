@@ -16,7 +16,6 @@ use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\DataProcessor;
 use Docalist\Data\Export\Writer;
 use Docalist\Data\Record;
-//use Iterable;
 use Generator;
 
 /**
@@ -42,7 +41,7 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
      *
      * @var RecordProcessor[]
      */
-    protected $recordProcessors = [];
+    protected $recordProcessors;
 
     /**
      * L'objet Converter utilisé pour convertir les enregistrements Docalist.
@@ -56,44 +55,43 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
      *
      * @var DataProcessor[]
      */
-    protected $dataProcessors = [];
+    protected $dataProcessors;
 
     /**
-     * Le générateur à utiliser pour créer le fichier d'export.
+     * Le Writer à utiliser pour générer le fichier d'export.
      *
      * @var Writer
      */
     protected $writer;
 
     /**
-     * Initialise l'exporteur avec le convertisseur et le générateur passés en paramètres.
-     *
-     * @param Converter $converter  Le convertisseur à utiliser pour convertir les enregistrements Docalist.
-     * @param Writer    $writer     Le générateur à utiliser pour créer le fichier d'export.
+     * Initialise l'exporteur.
      */
-    public function __construct(Converter $converter, Writer $writer)
+    public function __construct()
     {
-        // Stocke le convertisseur
-        $this->converter = $converter;
+        // Initialise les RecordProcessors
+        $this->recordProcessors = $this->initRecordProcessors();
 
-        // Stocke le générateur
-        $this->writer = $writer;
+        // Initialise le convertisseur
+        $this->converter = $this->initConverter();
+
+        // Initialise les DataProcessors
+        $this->dataProcessors = $this->initDataProcessors();
+
+        // Initialise le Writer
+        $this->writer = $this->initWriter();
     }
 
     /**
-     * Ajoute un RecordProcessor à appliquer avant la conversion.
+     * Initialise et retourne les RecordProcessor à appliquer avant la conversion.
      *
-     * Les processeurs sont exécutés dans l'ordre où ils sont ajoutés.
-     *
-     * @param RecordProcessor $recordProcessor
+     * @return RecordProcessor[]
      *
      * @return self
      */
-    protected function addRecordProcessor(RecordProcessor $recordProcessor)
+    protected function initRecordProcessors()
     {
-        $this->recordProcessors[] = $recordProcessor;
-
-        return $this;
+        return [];
     }
 
     /**
@@ -107,6 +105,13 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
     }
 
     /**
+     * Initialise et retourne le Converter à utiliser.
+     *
+     * @return Converter
+     */
+    abstract protected function initConverter();
+
+    /**
      * Retourne le convertisseur utilisé.
      *
      * @return Converter
@@ -117,19 +122,13 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
     }
 
     /**
-     * Ajoute un DataProcessor à appliquer après la conversion.
+     * Retourne la liste des objets DataProcessor appliqués après la conversion.
      *
-     * Les filtres sont exécutés dans l'ordre où ils sont ajoutés.
-     *
-     * @param DataProcessor $dataProcessor
-     *
-     * @return self
+     * @return DataProcessor[] Un tableau d'objets DataProcessor.
      */
-    protected function addDataProcessor(DataProcessor $dataProcessor)
+    protected function initDataProcessors()
     {
-        $this->dataProcessors[] = $dataProcessor;
-
-        return $this;
+        return [];
     }
 
     /**
@@ -143,6 +142,13 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
     }
 
     /**
+     * Initialise et retourne le Writer à utiliser.
+     *
+     * @return Converter
+     */
+    abstract protected function initWriter();
+
+    /**
      * Retourne le Writer utilisé.
      *
      * @return Writer
@@ -150,21 +156,6 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
     public function getWriter()
     {
         return $this->writer;
-    }
-
-    public static function getID()
-    {
-        return strtolower(strtr(get_called_class(), '\\', '-'));
-    }
-
-    public static function getLabel()
-    {
-        return strtolower(substr(strrchr(get_called_class(), '\\'), 1));
-    }
-
-    public static function getDescription()
-    {
-        return '';
     }
 
     public function getContentType()
@@ -191,7 +182,7 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
         // Conversion
         $records = $this->convert($records);
 
-        // Traitement des enregistrements après conversion
+        // Traitement des données après conversion
         $processors = $this->getDataProcessors();
         !empty($processors) && $records = $this->process($records, $processors);
 
