@@ -170,7 +170,9 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
 
     public function suggestFilename()
     {
-        return $this->getWriter()->suggestFilename();
+        $format = pathinfo($this->getConverter()->suggestFilename(), PATHINFO_FILENAME);
+
+        return $format . '-' . $this->getWriter()->suggestFilename(); // exemple docalist-export.xml
     }
 
     public function export($stream, Iterable $records)
