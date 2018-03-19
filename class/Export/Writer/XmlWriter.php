@@ -32,6 +32,33 @@ class XmlWriter extends AbstractWriter
      */
     const BUFFER_COUNT = 10;
 
+    /**
+     * Taille de l'indentation (nombre d'espaces) ou zéro pour générer du code XML compact.
+     *
+     * @var int
+     */
+    protected $indent;
+
+    /**
+     * Initialise le générateur.
+     *
+     * @param int $indent Taille de l'indentation (nombre d'espaces) ou zéro pour générer du code XML compact.
+     */
+    public function __construct($indent = 0)
+    {
+        $this->indent = abs((int) $indent);
+    }
+
+    /**
+     * Indique la taille de l'indentation du code XML généré (ou zéro si le XML n'est pas formatté).
+     *
+     * @return int
+     */
+    public function getIndent()
+    {
+        return $this->indent;
+    }
+
     public function getContentType()
     {
         return 'application/xml; charset=utf-8';
@@ -52,8 +79,8 @@ class XmlWriter extends AbstractWriter
         $xml = new PhpXmlWriter();
         $xml->openMemory();
 
-        $indent=false;
-        if ($indent/* = $this->get('indent')*/) {
+        $indent = $this->getIndent();
+        if ($indent > 0) {
             $xml->setIndentString(str_repeat(' ', $indent));
             $xml->setIndent(true);
         }
