@@ -7,14 +7,16 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export;
+namespace Docalist\Data\Export\Writer;
+
+use Docalist\Data\Export\ExportWriter;
 
 /**
  * Un exporteur au format JSON.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Json extends Exporter
+class Json implements ExportWriter
 {
     protected static $defaultSettings = [
         // Surcharge les paramètres hérités
@@ -25,15 +27,30 @@ class Json extends Exporter
         'pretty' => false,
     ];
 
-    public function export($records)
+    public function getContentType()
     {
-        $pretty = $this->get('pretty');
+        return 'application/json; charset=utf-8';
+    }
+
+    public function isBinaryContent()
+    {
+        return false;
+    }
+
+    public function suggestFilename()
+    {
+        return 'export.json';
+    }
+
+    public function export($stream, Iterable $records)
+    {
+        $pretty = false; //$this->get('pretty');
         $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
         $pretty && $options |= JSON_PRETTY_PRINT;
 
         $first = true;
-        echo '[';
-        $pretty && print("\n");
+        fwrite($stream, '[');
+        $pretty && fwrite($stream, "\n");
         $comma = $pretty ? ",\n" : ',';
         foreach ($records as $record) {
             $data = $this->converter->convert($record);
@@ -42,11 +59,11 @@ class Json extends Exporter
                 continue;
             }
             $first ? ($first = false) : print($comma);
-            echo json_encode($data, $options);
-            $pretty && print("\n");
+            fwrite($stream, json_encode($data, $options));
+            $pretty && fwrite($stream, "\n");
         }
         echo ']';
-        $pretty && print("\n");
+        $pretty && fwrite($stream, "\n");
     }
 
     protected function removeEmpty($data)
@@ -56,21 +73,5 @@ class Json extends Exporter
 
             return ! ($value === '' | $value === null | $value === []);
         });
-    }
-
-    public function getLabel()
-    {
-        return 'JSON';
-    }
-
-    public function getDescription()
-    {
-        return sprintf(
-            __(
-                'Fichier texte contenant des données au format <a href="%s">Javascript Object Notation</a>.',
-                'docalist-data'
-            ),
-            'https://fr.wikipedia.org/wiki/JavaScript_Object_Notation'
-        );
     }
 }

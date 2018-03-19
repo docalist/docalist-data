@@ -7,16 +7,18 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export;
+namespace Docalist\Data\Export\Writer;
 
+use Docalist\Data\Export\ExportWriter;
+use Docalist\Data\Export\Converter\WriteError;
 use XMLWriter;
 
 /**
- * Un exporteur au format XML.
+ * Générateur XML pour l'export de données Docalist.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Xml extends Exporter
+class Xml implements ExportWriter
 {
     protected static $defaultSettings = [
         // Surcharge les paramètres hérités
@@ -28,33 +30,79 @@ class Xml extends Exporter
         'binary' => true,
     ];
 
-    public function export($records)
+    /**
+     * Nombre d'enregistrements conservés en mémoire avant que flushBuffer() ne soit appellé.
+     *
+     * @var integer
+     */
+    const BUFFER_COUNT = 10;
+
+    public function getContentType()
+    {
+        return 'application/xml; charset=utf-8';
+    }
+
+    public function isBinaryContent()
+    {
+        return false;
+    }
+
+    public function suggestFilename()
+    {
+        return 'export.xml';
+    }
+
+    public function export($stream, Iterable $records)
     {
         $xml = new XMLWriter();
-        $xml->openURI('php://output');
+        $xml->openMemory();
 
-        if ($indent = $this->get('indent')) {
+        $indent=4;
+        if ($indent/* = $this->get('indent')*/) {
             $xml->setIndentString(str_repeat(' ', $indent));
             $xml->setIndent(true);
         }
         $xml->startDocument('1.0', 'utf-8', 'yes');
         $xml->startElement('records');
-        $xml->writeAttribute('count', $records->count());
-        $xml->writeAttribute('datetime', date('Y-m-d H:i:s'));
-        $xml->writeAttribute('query', $records->getSearchRequest()->getEquation());
+        // $xml->writeAttribute('count', $records->count());
+        // $xml->writeAttribute('datetime', date('Y-m-d H:i:s'));
+        // $xml->writeAttribute('query', $records->getSearchRequest()->getEquation());
+        $nb = 0;
         foreach ($records as $record) {
-            $data = $this->converter->convert($record);
-            if (empty($data)) {
-                continue;
-            }
             $xml->startElement('record');
-            $this->outputArray($xml, $data);
+            $this->outputArray($xml, $record);
             $xml->endElement();
+            ++$nb;
+            if (0 === $nb % self::BUFFER_COUNT) {
+                $this->flushBuffer($stream, $xml);
+            }
         }
         $xml->endElement();
         $xml->endDocument();
 
-        $xml->flush();
+        $this->flushBuffer($stream, $xml);
+    }
+
+    /**
+     * Ecrit le buffer XML dans le flux de sortie passé en paramètre et vide le buffer.
+     *
+     * @param resource  $stream Flux de sortie.
+     * @param XMLWriter $xml    Objet XMLWriter à flusher.
+     *
+     * @throw WriteError Si une erreur survient lors de l'écriture des données.
+     */
+    protected function flushBuffer($stream, XMLWriter $xml)
+    {
+        // Récupère le buffer XML et vide le buffer de l'objet XMLWriter
+        $buffer = $xml->flush(true);
+        if (0 === strlen($buffer)) {
+            return;
+        }
+
+        $size = fwrite($stream, $buffer);
+        if ($size === false || $size !== strlen($buffer)) {
+            throw new WriteError('An error occured during export');
+        }
     }
 
     /**
@@ -78,28 +126,8 @@ class Xml extends Exporter
             }
             is_int($key) && $key = 'item';
             $xml->startElement($key);
-            if (is_scalar($value)) {
-                $xml->text($value);
-            } else {
-                $this->outputArray($xml, $value);
-            }
+            is_scalar($value) ? $xml->text($value) : $this->outputArray($xml, $value);
             $xml->endElement();
         }
-    }
-
-    public function getLabel()
-    {
-        return 'XML';
-    }
-
-    public function getDescription()
-    {
-        return sprintf(
-            __(
-                '<a href="%s">Extensible Markup Language</a> : fichier texte contenant des &lt;balises&gt;.',
-                'docalist-data'
-            ),
-            'https://fr.wikipedia.org/wiki/Extensible_Markup_Language'
-        );
     }
 }
