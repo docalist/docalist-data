@@ -62,7 +62,7 @@ class DocalistJsonTest extends WP_UnitTestCase
     }
 
     /**
-     * Teste la méthde getDescriptin().
+     * Teste la méthde getDescription().
      */
     public function testGetDescription()
     {
