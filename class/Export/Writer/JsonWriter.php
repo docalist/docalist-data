@@ -23,14 +23,14 @@ class JsonWriter extends AbstractWriter
      *
      * @var bool
      */
-    protected $pretty;
+    protected $pretty = false;
 
     /**
-     * Initialise le générateur.
+     * Modifie l'option "pretty" qui indique s'il faut génèrer ou non du JSON indenté et formatté.
      *
-     * @param bool $pretty Indique s'il faut génèrer ou non du JSON indenté et formatté (false par défaut).
+     * @param bool $pretty
      */
-    public function __construct($pretty = false)
+    public function setPretty($pretty)
     {
         $this->pretty = (bool) $pretty;
     }
