@@ -18,10 +18,32 @@ use Docalist\Data\Export\Writer;
  */
 class JsonWriter extends AbstractWriter
 {
-    protected static $defaultSettings = [
-        // Indique s'il faut générer du code lisible ou indenté
-        'pretty' => false,
-    ];
+    /**
+     * Génère ou non du JSON indenté et formatté.
+     *
+     * @var bool
+     */
+    protected $pretty;
+
+    /**
+     * Initialise le générateur.
+     *
+     * @param bool $pretty Indique s'il faut génèrer ou non du JSON indenté et formatté (false par défaut).
+     */
+    public function __construct($pretty = false)
+    {
+        $this->pretty = (bool) $pretty;
+    }
+
+    /**
+     * Indique si on génère ou non du JSON indenté et formatté.
+     *
+     * @return boolean
+     */
+    public function getPretty()
+    {
+        return $this->pretty;
+    }
 
     public function getContentType()
     {
@@ -40,7 +62,8 @@ class JsonWriter extends AbstractWriter
 
     public function export($stream, Iterable $records)
     {
-        $pretty = false; //$this->get('pretty');
+        $pretty = $this->getPretty();
+
         $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
         $pretty && $options |= JSON_PRETTY_PRINT;
 
