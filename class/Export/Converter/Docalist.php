@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export\RecordConverter;
+namespace Docalist\Data\Export\Converter;
 
-use Docalist\Data\Export\RecordConverter;
+use Docalist\Data\Export\Converter;
 use Docalist\Data\Record;
 
 /**
@@ -19,7 +19,7 @@ use Docalist\Data\Record;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Docalist implements RecordConverter
+class Docalist implements Converter
 {
     public function convert(Record $record)
     {

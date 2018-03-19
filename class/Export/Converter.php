@@ -12,23 +12,23 @@ namespace Docalist\Data\Export;
 use Docalist\Data\Record;
 
 /**
- * Classe de base pour les convertisseurs.
+ * Interface des convertisseurs utilisés pour l'export de données Docalist.
  *
- * Un convertisseur se charge de transformer un enregistrement Docalist dans un autre format.
+ * Un RecordConverter se charge de transformer un enregistrement Docalist dans un autre format.
+ *
+ * Il prend en paramètre un objet Record et retourne un tableau contenant les données à exporter.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Converter extends BaseExport
+interface RecordConverter
 {
     /**
      * Convertit un enregistrement Docalist.
      *
      * @param Record $record L'enregistrement Docalist à convertir.
      *
-     * @return array Un tableau contenant les données à exporter.
+     * @return array|null Un tableau contenant les données à exporter ou null si l'enregistrement ne peut pas
+     * être converti.
      */
-    public function convert(Record $record)
-    {
-        return $record->getPhpValue();
-    }
+    public function convert(Record $record);
 }
