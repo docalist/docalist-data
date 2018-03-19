@@ -19,7 +19,7 @@ use Docalist\Data\Record;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Docalist implements Converter
+class DocalistConverter implements Converter
 {
     public function convert(Record $record)
     {
