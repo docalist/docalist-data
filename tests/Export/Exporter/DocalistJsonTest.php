@@ -62,11 +62,20 @@ class DocalistJsonTest extends WP_UnitTestCase
     }
 
     /**
-     * Teste la méthde getDescription().
+     * Teste la méthode getDescription().
      */
     public function testGetDescription()
     {
         $this->assertNotEmpty(DocalistJson::getDescription());
+    }
+
+    /**
+     * Teste la méthode getDescription().
+     */
+    public function testSuggestFilename()
+    {
+        $exporter = new DocalistJson();
+        $this->assertSame('docalist-export.json', $exporter->suggestFilename());
     }
 
     /**
