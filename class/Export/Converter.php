@@ -31,4 +31,11 @@ interface Converter
      * être converti.
      */
     public function convert(Record $record);
+
+    /**
+     * Suggère un nom pour le fichier généré.
+     *
+     * @return string Un nom de fichier avec une extension (par exemple "export.txt").
+     */
+    public function suggestFilename();
 }
