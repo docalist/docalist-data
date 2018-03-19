@@ -20,13 +20,8 @@ use XMLWriter as PhpXmlWriter;
  */
 class XmlWriter extends AbstractWriter
 {
-    protected static $defaultSettings = [
-        // Taille de l'indentation ou zéro ou false pour générer un code compact
-        'indent' => 0,
-    ];
-
     /**
-     * Nombre d'enregistrements conservés en mémoire avant que flushBuffer() ne soit appellé.
+     * Nombre d'enregistrements générés en mémoire avant que flushBuffer() ne soit appellé.
      *
      * @var integer
      */
@@ -37,14 +32,14 @@ class XmlWriter extends AbstractWriter
      *
      * @var int
      */
-    protected $indent;
+    protected $indent = 0;
 
     /**
-     * Initialise le générateur.
+     * Modifie la taille de l'indentation du code XML généré.
      *
      * @param int $indent Taille de l'indentation (nombre d'espaces) ou zéro pour générer du code XML compact.
      */
-    public function __construct($indent = 0)
+    public function setIndent($indent)
     {
         $this->indent = abs((int) $indent);
     }
