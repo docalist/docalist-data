@@ -18,7 +18,7 @@ use XMLWriter as PhpXmlWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class XmlWriter implements Writer
+class XmlWriter extends AbstractWriter
 {
     protected static $defaultSettings = [
         // Surcharge les paramètres hérités
@@ -57,7 +57,7 @@ class XmlWriter implements Writer
         $xml = new PhpXmlWriter();
         $xml->openMemory();
 
-        $indent=4;
+        $indent=false;
         if ($indent/* = $this->get('indent')*/) {
             $xml->setIndentString(str_repeat(' ', $indent));
             $xml->setIndent(true);

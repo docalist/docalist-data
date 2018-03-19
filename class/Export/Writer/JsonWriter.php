@@ -16,7 +16,7 @@ use Docalist\Data\Export\Writer;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class JsonWriter implements Writer
+class JsonWriter extends AbstractWriter
 {
     protected static $defaultSettings = [
         // Surcharge les paramètres hérités
