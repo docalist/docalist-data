@@ -21,7 +21,7 @@ abstract class AbstractWriter implements Writer
     public function exportToString(Iterable $records)
     {
         // Ouvre un flux en mémoire mémoire
-        $stream = fopen('php://temp','r+');
+        $stream = fopen('php://temp', 'r+');
 
         // Exporte les enregistrements
         $this->export($stream, $records);
