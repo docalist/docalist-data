@@ -62,11 +62,20 @@ class DocalistXmlTest extends WP_UnitTestCase
     }
 
     /**
-     * Teste la méthde getDescription().
+     * Teste la méthode getDescription().
      */
     public function testGetDescription()
     {
         $this->assertNotEmpty(DocalistXml::getDescription());
+    }
+
+    /**
+     * Teste la méthode getDescription().
+     */
+    public function testSuggestFilename()
+    {
+        $exporter = new DocalistXml();
+        $this->assertSame('docalist-export.xml', $exporter->suggestFilename());
     }
 
     /**
