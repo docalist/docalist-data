@@ -12,7 +12,7 @@ namespace Docalist\Data\Export\Writer;
 use Docalist\Data\Export\Writer;
 
 /**
- * Un exporteur au format JSON.
+ * Générateur JSON pour l'export de données Docalist.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
