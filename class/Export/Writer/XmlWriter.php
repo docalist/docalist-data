@@ -11,7 +11,7 @@ namespace Docalist\Data\Export\Writer;
 
 use Docalist\Data\Export\Writer;
 use Docalist\Data\Export\Converter\WriteError;
-use XMLWriter;
+use XMLWriter as PhpXmlWriter;
 
 /**
  * Générateur XML pour l'export de données Docalist.
@@ -54,7 +54,7 @@ class XmlWriter implements Writer
 
     public function export($stream, Iterable $records)
     {
-        $xml = new XMLWriter();
+        $xml = new PhpXmlWriter();
         $xml->openMemory();
 
         $indent=4;
@@ -86,12 +86,12 @@ class XmlWriter implements Writer
     /**
      * Ecrit le buffer XML dans le flux de sortie passé en paramètre et vide le buffer.
      *
-     * @param resource  $stream Flux de sortie.
-     * @param XMLWriter $xml    Objet XMLWriter à flusher.
+     * @param resource      $stream     Flux de sortie.
+     * @param PhpXmlWriter  $xml        Objet PhpXmlWriter à flusher.
      *
      * @throw WriteError Si une erreur survient lors de l'écriture des données.
      */
-    protected function flushBuffer($stream, XMLWriter $xml)
+    protected function flushBuffer($stream, PhpXmlWriter $xml)
     {
         // Récupère le buffer XML et vide le buffer de l'objet XMLWriter
         $buffer = $xml->flush(true);
@@ -115,10 +115,10 @@ class XmlWriter implements Writer
      * - si l'élément du tableau est un scalaire, il est écrit tel quel
      * - si c'est un tableau, on récursive.
      *
-     * @param XMLWriter $xml
-     * @param array $data
+     * @param PhpXmlWriter  $xml
+     * @param array         $data
      */
-    protected function outputArray(XMLWriter $xml, array $data)
+    protected function outputArray(PhpXmlWriter $xml, array $data)
     {
         foreach ($data as $key => $value) {
             if (empty($value)) {
