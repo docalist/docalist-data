@@ -21,13 +21,8 @@ use XMLWriter as PhpXmlWriter;
 class XmlWriter extends AbstractWriter
 {
     protected static $defaultSettings = [
-        // Surcharge les paramètres hérités
-        'mime-type' => 'application/xml',
-        'extension' => '.xml',
-
         // Taille de l'indentation ou zéro ou false pour générer un code compact
         'indent' => 0,
-        'binary' => true,
     ];
 
     /**
