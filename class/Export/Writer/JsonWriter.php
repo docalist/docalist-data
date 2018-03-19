@@ -19,10 +19,6 @@ use Docalist\Data\Export\Writer;
 class JsonWriter extends AbstractWriter
 {
     protected static $defaultSettings = [
-        // Surcharge les paramètres hérités
-        'mime-type' => 'application/json',
-        'extension' => '.json',
-
         // Indique s'il faut générer du code lisible ou indenté
         'pretty' => false,
     ];
@@ -49,29 +45,13 @@ class JsonWriter extends AbstractWriter
         $pretty && $options |= JSON_PRETTY_PRINT;
 
         $first = true;
-        fwrite($stream, '[');
-        $pretty && fwrite($stream, "\n");
+        fwrite($stream, $pretty ? "[\n" : '[');
         $comma = $pretty ? ",\n" : ',';
         foreach ($records as $record) {
-            $data = $this->converter->convert($record);
-            $data = $this->removeEmpty($data);
-            if (empty($data)) {
-                continue;
-            }
-            $first ? ($first = false) : print($comma);
-            fwrite($stream, json_encode($data, $options));
+            $first ? ($first = false) : fwrite($stream, $comma);
+            fwrite($stream, json_encode($record, $options));
             $pretty && fwrite($stream, "\n");
         }
-        echo ']';
-        $pretty && fwrite($stream, "\n");
-    }
-
-    protected function removeEmpty($data)
-    {
-        return array_filter($data, function ($value) {
-            is_array($value) && $value = $this->removeEmpty($value);
-
-            return ! ($value === '' | $value === null | $value === []);
-        });
+        fwrite($stream, $pretty ? "]\n" : ']');
     }
 }
