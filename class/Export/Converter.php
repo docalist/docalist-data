@@ -14,13 +14,13 @@ use Docalist\Data\Record;
 /**
  * Interface des convertisseurs utilisés pour l'export de données Docalist.
  *
- * Un RecordConverter se charge de transformer un enregistrement Docalist dans un autre format.
+ * Un convertisseur se charge de transformer un enregistrement Docalist dans un autre format.
  *
  * Il prend en paramètre un objet Record et retourne un tableau contenant les données à exporter.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-interface RecordConverter
+interface Converter
 {
     /**
      * Convertit un enregistrement Docalist.
