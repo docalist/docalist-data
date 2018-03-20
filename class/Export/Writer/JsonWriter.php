@@ -29,10 +29,14 @@ class JsonWriter extends AbstractWriter
      * Modifie l'option "pretty" qui indique s'il faut génèrer ou non du JSON indenté et formatté.
      *
      * @param bool $pretty
+     *
+     * @return self
      */
     public function setPretty($pretty)
     {
         $this->pretty = (bool) $pretty;
+
+        return $this;
     }
 
     /**
@@ -73,8 +77,7 @@ class JsonWriter extends AbstractWriter
         foreach ($records as $record) {
             $first ? ($first = false) : fwrite($stream, $comma);
             fwrite($stream, json_encode($record, $options));
-            $pretty && fwrite($stream, "\n");
         }
-        fwrite($stream, $pretty ? "]\n" : ']');
+        fwrite($stream, $pretty ? "\n]" : ']');
     }
 }
