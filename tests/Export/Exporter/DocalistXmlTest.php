@@ -9,98 +9,27 @@
  */
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use WP_UnitTestCase;
+use Docalist\Data\Tests\Export\Exporter\DocalistJsonTest;
 use Docalist\Data\Export\Exporter\DocalistXml;
 use Docalist\Data\Export\Converter\DocalistConverter;
-use Docalist\Data\Export\DataProcessor\RemoveEmptyFields;
-use Docalist\Data\Export\DataProcessor\RemoveEmptyRecords;
-use Docalist\Data\Export\DataProcessor\SortFields;
 use Docalist\Data\Export\Writer\XmlWriter;
-use Docalist\Data\Entity\ContentEntity;
 
 /**
  * Teste l'export Docalist au format XML.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DocalistXmlTest extends WP_UnitTestCase
+class DocalistXmlTest extends DocalistJsonTest
 {
-    /**
-     * Teste que l'exporteur est correctement construit.
-     */
-    public function testConstruct()
+    const EXPORTER = DocalistXml::class;
+    const EXPECTED_ID = 'docalist-xml';
+    const EXPECTED_CONVERTER = DocalistConverter::class;
+    const EXPECTED_WRITER = XmlWriter::class;
+    const EXPECTED_FILENAME = 'docalist-export.xml';
+
+    protected function getExpectedExport1()
     {
-        $exporter = new DocalistXml();
-
-        $this->assertEmpty($exporter->getRecordProcessors());
-
-        $this->assertInstanceOf(DocalistConverter::class, $exporter->getConverter());
-
-        $processors = $exporter->getDataProcessors();
-        $this->assertCount(3, $processors);
-        $this->assertInstanceOf(RemoveEmptyFields::class, $processors[0]);
-        $this->assertInstanceOf(RemoveEmptyRecords::class, $processors[1]);
-        $this->assertInstanceOf(SortFields::class, $processors[2]);
-
-        $this->assertInstanceOf(XmlWriter::class, $exporter->getWriter());
-    }
-
-    /**
-     * Teste la méthode getID().
-     */
-    public function testGetID()
-    {
-        $this->assertSame('docalist-xml', DocalistXml::getID());
-    }
-
-    /**
-     * Teste la méthode getLabel().
-     */
-    public function testGetLabel()
-    {
-        $this->assertSame('Docalist XML', DocalistXml::getLabel());
-    }
-
-    /**
-     * Teste la méthode getDescription().
-     */
-    public function testGetDescription()
-    {
-        $this->assertNotEmpty(DocalistXml::getDescription());
-    }
-
-    /**
-     * Teste la méthode getDescription().
-     */
-    public function testSuggestFilename()
-    {
-        $exporter = new DocalistXml();
-        $this->assertSame('docalist-export.xml', $exporter->suggestFilename());
-    }
-
-    /**
-     * Teste la méthode exportToString() et, indirectement, la méthode export().
-     */
-    public function testExportToString()
-    {
-        // Enregistrement 1
-        $record1 = new ContentEntity([
-            'slug' => 'test',
-            'posttitle' => 'Welcome',
-            'content' => [ ['type' => 'content', 'value' => 'content'] ],
-        ]);
-
-        // Enregistrement vide
-        $empty = new ContentEntity();
-        unset($empty->content);
-
-        // Enregistrement 2
-        $record2 = new ContentEntity([
-            'slug' => 'test2',
-        ]);
-
-        // Détermine le résultat attendu
-        $expected = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n<records>" .
+        return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n<records>" .
             // Enregistrement 1
             '<record>'.
                 '<content><item><type>content</type><value>content</value></item></content>' .
@@ -115,9 +44,36 @@ class DocalistXmlTest extends WP_UnitTestCase
                 '<slug>test2</slug>' .
             '</record>' .
         "</records>\n";
-
-        // Exporte les enregistrements et vérifie qu'on a le résultat attendu
-        $exporter = new DocalistXml();
-        $this->assertSame($expected, $exporter->exportToString([$record1, $empty, $record2]));
     }
+    protected function getExpectedExport()
+    {
+        $lines = [
+            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
+            "\n",
+            '<records>',
+                // Enregistrement 1
+                '<record>',
+                    '<content>',
+                        '<item>',
+                            '<type>content</type>',
+                            '<value>content</value>',
+                        '</item>',
+                    '</content>',
+                    '<posttitle>Welcome</posttitle>',
+                    '<slug>test</slug>',
+                '</record>',
+
+                // L'enregistrement vide a été supprimé
+
+                // Enregistrement 2
+                '<record>',
+                    '<slug>test2</slug>',
+                '</record>',
+            '</records>',
+            "\n",
+        ];
+
+        return implode('', $lines);
+    }
+
 }
