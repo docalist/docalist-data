@@ -38,6 +38,11 @@ class DocalistJson extends StandardExporter
         return __('Fichier JSON contenant les données Docalist en format natif.', 'docalist-data');
     }
 
+    protected function initConverter()
+    {
+        return new DocalistConverter();
+    }
+
     protected function initDataProcessors()
     {
         return [
@@ -45,11 +50,6 @@ class DocalistJson extends StandardExporter
             new RemoveEmptyRecords(),
             new SortFields(),
         ];
-    }
-
-    protected function initConverter()
-    {
-        return new DocalistConverter();
     }
 
     protected function initWriter()
