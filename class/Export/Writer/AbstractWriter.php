@@ -18,7 +18,7 @@ use Docalist\Data\Export\Writer;
  */
 abstract class AbstractWriter implements Writer
 {
-    public final function exportToString(Iterable $records)
+    final public function exportToString(Iterable $records)
     {
         // Ouvre un flux en mémoire mémoire
         $stream = fopen('php://temp', 'r+');
