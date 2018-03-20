@@ -10,7 +10,7 @@
 namespace Docalist\Data\Export\Writer;
 
 use Docalist\Data\Export\Writer;
-use Docalist\Data\Export\Converter\WriteError;
+use Docalist\Data\Export\Exception\WriteError;
 use XMLWriter as PhpXmlWriter;
 
 /**
@@ -115,9 +115,13 @@ class XmlWriter extends AbstractWriter
     protected function flushBuffer($stream, PhpXmlWriter $xml)
     {
         $buffer = $xml->flush(true);
-        $size = fwrite($stream, $buffer);
+        error_clear_last();
+        $size = @fwrite($stream, $buffer);
         if ($size === false || $size !== strlen($buffer)) {
-            throw new WriteError('An error occured during export');
+            $message = 'An error occured during export';
+            $error = error_get_last();
+            isset($error['message']) && $message .= ': ' . $error['message'];
+            throw new WriteError($message);
         }
     }
 
