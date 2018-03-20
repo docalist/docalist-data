@@ -17,6 +17,7 @@ use Docalist\Data\Export\DataProcessor\RemoveEmptyRecords;
 use Docalist\Data\Export\DataProcessor\SortFields;
 use Docalist\Data\Export\Writer\JsonWriter;
 use Docalist\Data\Entity\ContentEntity;
+use Docalist\Data\Record;
 
 /**
  * Teste l'export Docalist au format JSON.
@@ -25,16 +26,33 @@ use Docalist\Data\Entity\ContentEntity;
  */
 class DocalistJsonTest extends WP_UnitTestCase
 {
+    const EXPORTER = DocalistJson::class;
+    const EXPECTED_ID = 'docalist-json';
+    const EXPECTED_CONVERTER = DocalistConverter::class;
+    const EXPECTED_WRITER = JsonWriter::class;
+    const EXPECTED_FILENAME = 'docalist-export.json';
+
+    /**
+     * Crée l'exporteur à tester.
+     *
+     * @return Exporter
+     */
+    protected function createExporter()
+    {
+        $class = static::EXPORTER;
+        return new $class();
+    }
+
     /**
      * Teste que l'exporteur est correctement construit.
      */
     public function testConstruct()
     {
-        $exporter = new DocalistJson();
+        $exporter = $this->createExporter();
 
         $this->assertEmpty($exporter->getRecordProcessors());
 
-        $this->assertInstanceOf(DocalistConverter::class, $exporter->getConverter());
+        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $exporter->getConverter());
 
         $processors = $exporter->getDataProcessors();
         $this->assertCount(3, $processors);
@@ -42,7 +60,7 @@ class DocalistJsonTest extends WP_UnitTestCase
         $this->assertInstanceOf(RemoveEmptyRecords::class, $processors[1]);
         $this->assertInstanceOf(SortFields::class, $processors[2]);
 
-        $this->assertInstanceOf(JsonWriter::class, $exporter->getWriter());
+        $this->assertInstanceOf(static::EXPECTED_WRITER, $exporter->getWriter());
     }
 
     /**
@@ -50,7 +68,8 @@ class DocalistJsonTest extends WP_UnitTestCase
      */
     public function testGetID()
     {
-        $this->assertSame('docalist-json', DocalistJson::getID());
+        $class = static::EXPORTER;
+        $this->assertSame(static::EXPECTED_ID, $class::getID());
     }
 
     /**
@@ -58,7 +77,8 @@ class DocalistJsonTest extends WP_UnitTestCase
      */
     public function testGetLabel()
     {
-        $this->assertSame('Docalist JSON', DocalistJson::getLabel());
+        $class = static::EXPORTER;
+        $this->assertNotEmpty($class::getLabel());
     }
 
     /**
@@ -66,7 +86,8 @@ class DocalistJsonTest extends WP_UnitTestCase
      */
     public function testGetDescription()
     {
-        $this->assertNotEmpty(DocalistJson::getDescription());
+        $class = static::EXPORTER;
+        $this->assertNotEmpty($class::getDescription());
     }
 
     /**
@@ -74,14 +95,16 @@ class DocalistJsonTest extends WP_UnitTestCase
      */
     public function testSuggestFilename()
     {
-        $exporter = new DocalistJson();
-        $this->assertSame('docalist-export.json', $exporter->suggestFilename());
+        $exporter = $this->createExporter();
+        $this->assertSame(static::EXPECTED_FILENAME, $exporter->suggestFilename());
     }
 
     /**
-     * Teste la méthode exportToString() et, indirectement, la méthode export().
+     * Retourne les enregsitrements à exporter.
+     *
+     * @return Record[]
      */
-    public function testExportToString()
+    protected function getRecordsToExport()
     {
         // Enregistrement 1
         $record1 = new ContentEntity([
@@ -99,8 +122,17 @@ class DocalistJsonTest extends WP_UnitTestCase
             'slug' => 'test2',
         ]);
 
-        // Détermine le résultat attendu
-        $expected = '[' .
+        return [$record1, $empty, $record2];
+    }
+
+    /**
+     * Retourne l'export que l'on doit obtenir.
+     *
+     * @return string
+     */
+    protected function getExpectedExport()
+    {
+        return '[' .
             // Enregistrement 1
             '{"content":[{"type":"content","value":"content"}],"posttitle":"Welcome","slug":"test"},' .
 
@@ -109,9 +141,14 @@ class DocalistJsonTest extends WP_UnitTestCase
             // Enregistrement 2
             '{"slug":"test2"}' .
         ']';
+    }
 
-        // Exporte les enregistrements et vérifie qu'on a le résultat attendu
-        $exporter = new DocalistJson();
-        $this->assertSame($expected, $exporter->exportToString([$record1, $empty, $record2]));
+    /**
+     * Teste la méthode exportToString() et, indirectement, la méthode export().
+     */
+    public function testExportToString()
+    {
+        $exporter = $this->createExporter();
+        $this->assertSame($this->getExpectedExport(), $exporter->exportToString($this->getRecordsToExport()));
     }
 }
