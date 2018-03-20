@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use WP_UnitTestCase;
+use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\StandardExporters;
 use Docalist\Data\Export\Exporter\DocalistJson;
 use Docalist\Data\Export\Exporter\DocalistJsonPretty;
@@ -21,7 +21,7 @@ use Docalist\Data\Export\Exporter\DocalistXmlPretty;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class StandardExportersTest extends WP_UnitTestCase
+class StandardExportersTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Teste la méthode getList()

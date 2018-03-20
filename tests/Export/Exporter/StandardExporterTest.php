@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use WP_UnitTestCase;
+use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\StandardExporter;
 use Docalist\Data\Export\DataProcessor;
 use Docalist\Data\Export\Converter;
@@ -22,7 +22,7 @@ use Docalist\Data\Export\Writer\AbstractWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class StandardExporterTest extends WP_UnitTestCase
+class StandardExporterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Crée un exporter de test.

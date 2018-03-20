@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use WP_UnitTestCase;
+use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Writer\XmlWriter;
 use Docalist\Data\Export\Exception\WriteError;
 
@@ -18,7 +18,7 @@ use Docalist\Data\Export\Exception\WriteError;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class XmlWriterTest extends WP_UnitTestCase
+class XmlWriterTest extends PHPUnit_Framework_TestCase
 {
     public function testIndent()
     {

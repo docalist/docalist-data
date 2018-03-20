@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use WP_UnitTestCase;
+use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Writer\JsonWriter;
 
 /**
@@ -17,7 +17,7 @@ use Docalist\Data\Export\Writer\JsonWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class JsonWriterTest extends WP_UnitTestCase
+class JsonWriterTest extends PHPUnit_Framework_TestCase
 {
     public function testPretty()
     {

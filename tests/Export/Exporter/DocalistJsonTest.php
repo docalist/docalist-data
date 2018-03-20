@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use WP_UnitTestCase;
+use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\DocalistJson;
 use Docalist\Data\Export\Converter\DocalistConverter;
 use Docalist\Data\Export\DataProcessor\RemoveEmptyFields;
@@ -24,7 +24,7 @@ use Docalist\Data\Record;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DocalistJsonTest extends WP_UnitTestCase
+class DocalistJsonTest extends PHPUnit_Framework_TestCase
 {
     const EXPORTER = DocalistJson::class;
     const EXPECTED_ID = 'docalist-json';
