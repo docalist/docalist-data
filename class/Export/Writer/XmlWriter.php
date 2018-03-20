@@ -38,10 +38,14 @@ class XmlWriter extends AbstractWriter
      * Modifie la taille de l'indentation du code XML généré.
      *
      * @param int $indent Taille de l'indentation (nombre d'espaces) ou zéro pour générer du code XML compact.
+     *
+     * @eturn self
      */
     public function setIndent($indent)
     {
         $this->indent = abs((int) $indent);
+
+        return $this;
     }
 
     /**
