@@ -23,6 +23,8 @@ class JsonWriterTest extends WP_UnitTestCase
     {
         $writer = new JsonWriter();
 
+        $this->assertFalse($writer->getPretty());
+
         $writer->setPretty(true);
         $this->assertTrue($writer->getPretty());
 
