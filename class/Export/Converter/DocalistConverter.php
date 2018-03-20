@@ -28,6 +28,6 @@ class DocalistConverter implements Converter
 
     public function suggestFilename()
     {
-        return 'docalist';
+        return 'docalist.txt';
     }
 }
