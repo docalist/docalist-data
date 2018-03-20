@@ -114,12 +114,7 @@ class XmlWriter extends AbstractWriter
      */
     protected function flushBuffer($stream, PhpXmlWriter $xml)
     {
-        // Récupère le buffer XML et vide le buffer de l'objet XMLWriter
         $buffer = $xml->flush(true);
-        if (0 === strlen($buffer)) {
-            return;
-        }
-
         $size = fwrite($stream, $buffer);
         if ($size === false || $size !== strlen($buffer)) {
             throw new WriteError('An error occured during export');
@@ -143,8 +138,10 @@ class XmlWriter extends AbstractWriter
     {
         foreach ($data as $key => $value) {
             if (empty($value)) {
+                $xml->writeElement($key);
                 continue;
             }
+
             is_int($key) && $key = 'item';
             $xml->startElement($key);
             is_scalar($value) ? $xml->text($value) : $this->outputArray($xml, $value);
