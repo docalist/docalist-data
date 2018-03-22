@@ -7,19 +7,21 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export\DataProcessor;
+namespace Docalist\Data\Transformer\ArrayTransformer;
 
-use Docalist\Data\Export\DataProcessor;
+use Docalist\Data\Transformer\ArrayTransformer;
 
 /**
- * Supprime de l'export les enregistrements complètement vides.
+ * Trie les tableaux par ordre alphabétique des clés.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class RemoveEmptyRecords implements DataProcessor
+class SortByKey implements ArrayTransformer
 {
-    public function process(array $data)
+    public function transform(array $data)
     {
-        return empty($data) ? null : $data;
+        ksort($data);
+
+        return $data;
     }
 }
