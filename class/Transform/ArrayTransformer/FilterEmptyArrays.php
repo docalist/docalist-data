@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Transformer\ArrayTransformer;
+namespace Docalist\Data\Transform\ArrayTransformer;
 
-use Docalist\Data\Transformer\ArrayTransformer;
+use Docalist\Data\Transform\ArrayTransformer;
 
 /**
  * Filtre les tableaux complètement vides.

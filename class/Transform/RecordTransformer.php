@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Transformer;
+namespace Docalist\Data\Transform;
 
-use Docalist\Data\Transformer\Transformer;
+use Docalist\Data\Transform\Transformer;
 use Docalist\Data\Record;
 
 /**
