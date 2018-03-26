@@ -27,7 +27,7 @@ class DocalistJson extends StandardExporter
     {
         $filters = [
             'converter' => new DocalistConverter(),
-            FilterEmptyArrayElements(),
+            new FilterEmptyArrayElements(),
             new FilterEmpty(),
             new SortArrayByKey(),
         ];
