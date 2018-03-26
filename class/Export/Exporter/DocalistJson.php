@@ -11,9 +11,9 @@ namespace Docalist\Data\Export\Exporter;
 
 use Docalist\Data\Export\Exporter\StandardExporter;
 use Docalist\Data\Export\Converter\DocalistConverter;
-use Docalist\Data\Export\DataProcessor\RemoveEmptyFields;
-use Docalist\Data\Export\DataProcessor\RemoveEmptyRecords;
-use Docalist\Data\Export\DataProcessor\SortFields;
+use Docalist\Data\Filter\FilterEmptyArrayElements;
+use Docalist\Data\Filter\FilterEmpty;
+use Docalist\Data\Filter\SortArrayByKey;
 use Docalist\Data\Export\Writer\JsonWriter;
 
 /**
@@ -23,6 +23,20 @@ use Docalist\Data\Export\Writer\JsonWriter;
  */
 class DocalistJson extends StandardExporter
 {
+    public function __construct()
+    {
+        $filters = [
+            'converter' => new DocalistConverter(),
+            FilterEmptyArrayElements(),
+            new FilterEmpty(),
+            new SortArrayByKey(),
+        ];
+
+        $writer = new JsonWriter();
+
+        parent::__construct($filters, $writer);
+    }
+
     public static function getID()
     {
         return 'docalist-json';
@@ -36,24 +50,5 @@ class DocalistJson extends StandardExporter
     public static function getDescription()
     {
         return __('Fichier JSON contenant les données Docalist en format natif.', 'docalist-data');
-    }
-
-    protected function initConverter()
-    {
-        return new DocalistConverter();
-    }
-
-    protected function initDataProcessors()
-    {
-        return [
-            new RemoveEmptyFields(),
-            new RemoveEmptyRecords(),
-            new SortFields(),
-        ];
-    }
-
-    protected function initWriter()
-    {
-        return new JsonWriter();
     }
 }

@@ -9,7 +9,11 @@
  */
 namespace Docalist\Data\Export\Exporter;
 
-use Docalist\Data\Export\Exporter\DocalistJson;
+use Docalist\Data\Export\Exporter\StandardExporter;
+use Docalist\Data\Export\Converter\DocalistConverter;
+use Docalist\Data\Filter\FilterEmptyArrayElements;
+use Docalist\Data\Filter\FilterEmpty;
+use Docalist\Data\Filter\SortArrayByKey;
 use Docalist\Data\Export\Writer\XmlWriter;
 
 /**
@@ -17,8 +21,22 @@ use Docalist\Data\Export\Writer\XmlWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DocalistXml extends DocalistJson
+class DocalistXml extends StandardExporter
 {
+    public function __construct()
+    {
+        $filters = [
+            'converter' => new DocalistConverter(),
+            new FilterEmptyArrayElements(),
+            new FilterEmpty(),
+            new SortArrayByKey(),
+        ];
+
+        $writer = new XmlWriter();
+
+        parent::__construct($filters, $writer);
+    }
+
     public static function getID()
     {
         return 'docalist-xml';
@@ -32,10 +50,5 @@ class DocalistXml extends DocalistJson
     public static function getDescription()
     {
         return __('Fichier XML contenant les données Docalist en format natif.', 'docalist-data');
-    }
-
-    protected function initWriter()
-    {
-        return new XmlWriter();
     }
 }

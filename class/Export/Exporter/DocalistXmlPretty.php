@@ -18,6 +18,12 @@ use Docalist\Data\Export\Exporter\DocalistXml;
  */
 class DocalistXmlPretty extends DocalistXml
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->getWriter()->setIndent(4);
+    }
+
     public static function getID()
     {
         return parent::getId() . '-pretty';
@@ -32,10 +38,5 @@ class DocalistXmlPretty extends DocalistXml
     {
         return parent::getDescription() .
             __(' Le fichier généré est formatté pour être plus facilement lisible.', 'docalist-data');
-    }
-
-    protected function initWriter()
-    {
-        return parent::initWriter()->setIndent(4);
     }
 }

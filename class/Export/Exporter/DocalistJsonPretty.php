@@ -18,6 +18,12 @@ use Docalist\Data\Export\Exporter\DocalistJson;
  */
 class DocalistJsonPretty extends DocalistJson
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->getWriter()->setPretty(true);
+    }
+
     public static function getID()
     {
         return parent::getId() . '-pretty';
@@ -32,10 +38,5 @@ class DocalistJsonPretty extends DocalistJson
     {
         return parent::getDescription() .
             __(' Le fichier généré est formatté pour être plus facilement lisible.', 'docalist-data');
-    }
-
-    protected function initWriter()
-    {
-        return parent::initWriter()->setPretty(true);
     }
 }
