@@ -12,11 +12,22 @@ namespace Docalist\Data\Export;
 use Docalist\Data\Record;
 
 /**
+ * Interface d'un convertisseur utilisé pour l'import/export.
+ *
+ * Cette interface permet de marquer explicitement les filtres qui convertissent les enregistrements Docalist
+ * en tableaux de données.
+ *
+ * Elle contient une seule méthode (__invoke) qui prend en paramètre un objet Record et retourne un tableau
+ * contenant les données à exporter. La méthode peut aussi supprimer certains enregsitrements en retournant
+ * null à la place des données.
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
+ */
+/**
  * Interface des convertisseurs utilisés pour l'export de données Docalist.
  *
  * Un convertisseur se charge de transformer un enregistrement Docalist dans un autre format.
  *
- * Il prend en paramètre un objet Record et retourne un tableau contenant les données à exporter.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -30,12 +41,5 @@ interface Converter
      * @return array|null Un tableau contenant les données à exporter ou null si l'enregistrement ne peut pas
      * être converti.
      */
-    public function convert(Record $record);
-
-    /**
-     * Suggère un nom pour le fichier généré.
-     *
-     * @return string Un nom de fichier avec une extension (par exemple "export.txt").
-     */
-    public function suggestFilename();
+    public function __invoke(Record $record);
 }

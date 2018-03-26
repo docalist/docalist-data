@@ -7,9 +7,9 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Transform\ArrayTransformer;
+namespace Docalist\Data\Filter;
 
-use Docalist\Data\Transform\ArrayTransformer;
+use Docalist\Data\Filter\Filter;
 
 /**
  * Supprime récursivement les éléments vides du tableau passé en paramètre.
@@ -18,14 +18,14 @@ use Docalist\Data\Transform\ArrayTransformer;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class RemoveEmptyElements implements ArrayTransformer
+class FilterEmptyArrayElements implements Filter
 {
-    public function transform(array $data)
+    public function __invoke($data)
     {
-        return array_filter($data, function ($value) {
-            is_array($value) && $value = $this->process($value);
+        return is_array($data) ? array_filter($data, function ($value) {
+            is_array($value) && $value = $this->__invoke($value);
 
             return ! ($value === '' | $value === null | $value === []);
-        });
+        }) : $data;
     }
 }

@@ -7,20 +7,20 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Transform\ArrayTransformer;
+namespace Docalist\Data\Filter;
 
-use Docalist\Data\Transform\ArrayTransformer;
+use Docalist\Data\Filter\Filter;
 
 /**
  * Trie les tableaux par ordre alphabétique des clés.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class SortByKey implements ArrayTransformer
+class SortArrayByKey implements Filter
 {
-    public function transform(array $data)
+    public function __invoke($data)
     {
-        ksort($data);
+        is_array($data) && ksort($data);
 
         return $data;
     }
