@@ -21,13 +21,8 @@ use Docalist\Data\Record;
  */
 class DocalistConverter implements Converter
 {
-    public function convert(Record $record)
+    public function __invoke(Record $record)
     {
         return $record->getPhpValue();
-    }
-
-    public function suggestFilename()
-    {
-        return 'docalist.txt';
     }
 }
