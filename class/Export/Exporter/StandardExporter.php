@@ -10,26 +10,25 @@
 namespace Docalist\Data\Export\Exporter;
 
 use Docalist\Data\Export\Exporter;
-use Docalist\Data\Export\Writer\AbstractWriter;
-use Docalist\Data\Export\RecordProcessor;
 use Docalist\Data\Export\Converter;
-use Docalist\Data\Export\DataProcessor;
 use Docalist\Data\Export\Writer;
+use Docalist\Data\Export\Writer\AbstractWriter;
 use Docalist\Data\Record;
+use InvalidArgumentException;
 use Generator;
 
 /**
  * Classe de base pour les exporteurs standard.
  *
- * Un exporteur standard définit un pipeline dans lequel passent les enregistrements à exporter pour générer un
- * fichier d'export :
+ * Un exporteur standard définit un pipeline de données dans lequel passent les enregistrements à exporter pour
+ * générer un fichier d'export :
  *
- * Record* -> [RecordProcessor*] -> [Converter] -> array -> [DataConverter*] -> [Writer] -> File.
+ * Record* -> [RecordTransformer*] -> [Converter] -> array -> [ArrayTransformer*] -> [Writer] -> File.
  *
  * Il se compose :
- * - d'une liste d'objets RecordProcessor qui filtrent et transforment les enregistrements à exporter.
- * - d'un objet Converter qui convertit un enregistrement Docalist vers un autre format.
- * - d'une liste d'objets DataProcessor qui modifient filtrent et transforment les données converties.
+ * - d'une liste d'objets RecordTransformer qui filtrent et transforment les enregistrements à exporter.
+ * - d'un objet Converter qui convertit un enregistrement Docalist vers un autre format (un tableau).
+ * - d'une liste d'objets ArrayTransformer qui modifient filtrent et transforment les données converties.
  * - d'un objet ExportWriter qui écrit les données obtenues dans un flux de sortie.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
@@ -37,25 +36,11 @@ use Generator;
 abstract class StandardExporter extends AbstractWriter implements Exporter
 {
     /**
-     * Une liste d'objets RecordProcessor à appliquer avant la conversion.
+     * La liste des filtres qui composent le pipeline de données.
      *
-     * @var RecordProcessor[]
+     * @var callable[]
      */
-    protected $recordProcessors;
-
-    /**
-     * L'objet Converter utilisé pour convertir les enregistrements Docalist.
-     *
-     * @var RecordConverter
-     */
-    protected $converter;
-
-    /**
-     * Une liste d'objets DataProcessor à appliquer après la conversion.
-     *
-     * @var DataProcessor[]
-     */
-    protected $dataProcessors;
+    protected $filters;
 
     /**
      * Le Writer à utiliser pour générer le fichier d'export.
@@ -66,87 +51,50 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
 
     /**
      * Initialise l'exporteur.
+     *
+     * @param callable[]    $filters    La liste des filtres qui composent le pipeline de données.
+     * @param Writer        $writer     Le Writer à utiliser pour générer le fichier d'export.
+     *
+     * @throws InvalidArgumentException Si l'un des filtres n'est pas un callable.
      */
-    public function __construct()
+    public function __construct(array $filters, Writer $writer)
     {
-        // Initialise les RecordProcessors
-        $this->recordProcessors = $this->initRecordProcessors();
-
-        // Initialise le convertisseur
-        $this->converter = $this->initConverter();
-
-        // Initialise les DataProcessors
-        $this->dataProcessors = $this->initDataProcessors();
-
-        // Initialise le Writer
-        $this->writer = $this->initWriter();
+        foreach ($filters as $key => $filter) {
+            if (! is_callable($filter)) {
+                throw new InvalidArgumentException("Filter $key is not callable");
+            }
+        }
+        $this->filters = $filters;
+        $this->writer = $writer;
     }
 
     /**
-     * Initialise et retourne les RecordProcessor à appliquer avant la conversion.
+     * Retourne la liste des filtres.
      *
-     * @return RecordProcessor[]
-     *
-     * @return self
+     * @return callable[]
      */
-    protected function initRecordProcessors()
+    public function getFilters()
     {
-        return [];
+        return $this->filters;
     }
 
     /**
-     * Retourne la liste des objets RecordProcessor appliqués avant la conversion.
+     * Retourne un filtre.
      *
-     * @return RecordProcessor[] Un tableau d'objets RecordProcessor.
+     * @param int|string $key Clé du filtre (clé associée au filtre dans le tableau de filtres passé au constructeur).
+     *
+     * @throws InvalidArgumentException Si la clé indiquée n'existe pas.
+     *
+     * @return callable
      */
-    public function getRecordProcessors()
+    public function getFilter($key)
     {
-        return $this->recordProcessors;
+        if (! isset($this->filters[$key])) {
+            throw new InvalidArgumentException('Filter not found');
+        }
+
+        return $this->filters[$key];
     }
-
-    /**
-     * Initialise et retourne le Converter à utiliser.
-     *
-     * @return Converter
-     */
-    abstract protected function initConverter();
-
-    /**
-     * Retourne le convertisseur utilisé.
-     *
-     * @return Converter
-     */
-    public function getConverter()
-    {
-        return $this->converter;
-    }
-
-    /**
-     * Retourne la liste des objets DataProcessor appliqués après la conversion.
-     *
-     * @return DataProcessor[] Un tableau d'objets DataProcessor.
-     */
-    protected function initDataProcessors()
-    {
-        return [];
-    }
-
-    /**
-     * Retourne la liste des objets DataProcessor appliqués après la conversion.
-     *
-     * @return DataProcessor[] Un tableau d'objets DataProcessor.
-     */
-    public function getDataProcessors()
-    {
-        return $this->dataProcessors;
-    }
-
-    /**
-     * Initialise et retourne le Writer à utiliser.
-     *
-     * @return Converter
-     */
-    abstract protected function initWriter();
 
     /**
      * Retourne le Writer utilisé.
@@ -170,55 +118,16 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
 
     public function suggestFilename()
     {
-        $format = pathinfo($this->getConverter()->suggestFilename(), PATHINFO_FILENAME);
-
-        return $format . '-' . $this->getWriter()->suggestFilename(); // exemple docalist-export.xml
+        return static::getID() . '-' . $this->getWriter()->suggestFilename();
     }
 
     public function export($stream, Iterable $records)
     {
-        // Traitement des enregistrements avant conversion
-        $processors = $this->getRecordProcessors();
-        !empty($processors) && $records = $this->process($records, $processors);
-
-        // Conversion
-        $records = $this->convert($records);
-
-        // Traitement des données après conversion
-        $processors = $this->getDataProcessors();
-        !empty($processors) && $records = $this->process($records, $processors);
-
-        // Ecriture dans le flux de sortie
-        $this->getWriter()->export($stream, $records);
+        return $this->getWriter()->export($stream, $this->convert($records));
     }
 
     /**
-     * Applique une liste de processeurs (RecordProcessor ou DataProcessor) aux enregistrements passés en paramètre.
-     *
-     * @param Iterable  $records    La liste des enregistrements à traiter.
-     * @param array     $processors Les processeurs à exécuter.
-     *
-     * @return Generator
-     */
-    protected function process(Iterable $records, array $processors)
-    {
-        // Applique la liste des processeurs a chaque enregistrement
-        foreach ($records as $key => $record) {
-            // Si un processeur retourne null, on ignore l'enregistrement
-            foreach ($processors as $processor) {
-                $record = $processor->process($record);
-                if (is_null($record)) {
-                    continue 2;
-                }
-            }
-
-            // Génère l'enregistrement traité
-            yield $key => $record;
-        }
-    }
-
-    /**
-     * Convertit les enregistrements passés en paramètres.
+     * Retourne un générateur qui convertit les enregistrements passés en paramètres.
      *
      * @param Iterable $records Enregistrement à convertir.
      *
@@ -226,9 +135,14 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
      */
     protected function convert(Iterable $records)
     {
-        $converter = $this->getConverter();
         foreach ($records as $key => $record) {
-            yield $key => $converter->convert($record);
+            foreach ($this->filters as $filter) {
+                if (is_null($record = $filter($record))) {
+                    continue 2;
+                }
+            }
+
+            yield $key => $record;
         }
     }
 }
