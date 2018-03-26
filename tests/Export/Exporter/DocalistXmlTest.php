@@ -25,26 +25,8 @@ class DocalistXmlTest extends DocalistJsonTest
     const EXPECTED_ID = 'docalist-xml';
     const EXPECTED_CONVERTER = DocalistConverter::class;
     const EXPECTED_WRITER = XmlWriter::class;
-    const EXPECTED_FILENAME = 'docalist-export.xml';
+    const EXPECTED_FILENAME = 'docalist-xml-export.xml';
 
-    protected function getExpectedExport1()
-    {
-        return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n<records>" .
-            // Enregistrement 1
-            '<record>'.
-                '<content><item><type>content</type><value>content</value></item></content>' .
-                '<posttitle>Welcome</posttitle>' .
-                '<slug>test</slug>' .
-            '</record>' .
-
-            // L'enregistrement vide a été supprimé
-
-            // Enregistrement 2
-            '<record>'.
-                '<slug>test2</slug>' .
-            '</record>' .
-        "</records>\n";
-    }
     protected function getExpectedExport()
     {
         $lines = [

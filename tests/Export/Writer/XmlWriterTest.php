@@ -11,7 +11,6 @@ namespace Docalist\Data\Tests\Export\Exporter;
 
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Writer\XmlWriter;
-use Docalist\Data\Export\Exception\WriteError;
 
 /**
  * Teste la classe XmlWriter.
@@ -136,24 +135,24 @@ class XmlWriterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Vérifie qu'une exception WriteError est générée si on ne passe pas un handle de fichier correct à export()
+     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier correct à export().
      *
-     * @expectedException Docalist\Data\Export\Exception\WriteError
-     * @expectedExceptionMessage An error occured during export
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Invalid stream
      */
-    public function testWriteError()
+    public function testExportInvalidStream()
     {
         $writer = new XmlWriter();
         $writer->export(null, [['a'=>'']]);
     }
 
     /**
-     * Vérifie qu'une exception WriteError est générée si on ne passe pas un handle de fichier ouvert en lecture
+     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier ouvert en écriture.
      *
-     * @expectedException Docalist\Data\Export\Exception\WriteError
-     * @expectedExceptionMessage An error occured during export
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage not writable
      */
-    public function testWriteError2()
+    public function testExportNotWritableStream()
     {
         $writer = new XmlWriter();
         $writer->export(fopen('php://temp', 'r'), [['a'=>'']]);

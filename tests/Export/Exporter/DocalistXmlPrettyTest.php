@@ -25,7 +25,7 @@ class DocalistXmlPrettyTest extends DocalistXmlTest
     const EXPECTED_ID = 'docalist-xml-pretty';
     const EXPECTED_CONVERTER = DocalistConverter::class;
     const EXPECTED_WRITER = XmlWriter::class;
-    const EXPECTED_FILENAME = 'docalist-export.xml';
+    const EXPECTED_FILENAME = 'docalist-xml-pretty-export.xml';
 
     protected function getExpectedExport()
     {

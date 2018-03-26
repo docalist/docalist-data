@@ -12,6 +12,7 @@ namespace Docalist\Data\Tests\Export\Exporter;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Record;
 use Docalist\Data\Export\Converter\DocalistConverter;
+use Docalist\Data\Export\Converter;
 
 /**
  * Teste le processeur SortFields.
@@ -25,13 +26,22 @@ class DocalistConverterTest extends PHPUnit_Framework_TestCase
      */
     public function testProcess()
     {
-        $converter = new DocalistConverter();
+        // Crée le convertisseur
+        $convert = new DocalistConverter();
 
+        // Vérifie que le convertisseur a été marqué avec l'interface "Converter"
+        $this->assertInstanceOf(Converter::class, $convert);
+
+        // Vérifie que le convertisseur est un callable (redondant avec le test précédent mais ne nuit pas)
+        $this->assertTrue(is_callable($convert));
+
+        // Vérifie que le convertisseur retourne bien tableau vide si on lui passe un enregsitrement vide
         $record = new Record();
-        $this->assertSame([], $converter->convert($record));
+        $this->assertSame([], $convert($record));
 
+        // Vérifie que le convertisseur nous retourne bien les données des enregsitrements
         $data = ['posttype' => 'record', 'posttitle' => 'titre'];
         $record = new Record($data);
-        $this->assertSame($data, $converter->convert($record));
+        $this->assertSame($data, $convert($record));
     }
 }

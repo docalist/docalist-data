@@ -12,9 +12,9 @@ namespace Docalist\Data\Tests\Export\Exporter;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\DocalistJson;
 use Docalist\Data\Export\Converter\DocalistConverter;
-use Docalist\Data\Export\DataProcessor\RemoveEmptyFields;
-use Docalist\Data\Export\DataProcessor\RemoveEmptyRecords;
-use Docalist\Data\Export\DataProcessor\SortFields;
+use Docalist\Data\Filter\FilterEmptyArrayElements;
+use Docalist\Data\Filter\FilterEmpty;
+use Docalist\Data\Filter\SortArrayByKey;
 use Docalist\Data\Export\Writer\JsonWriter;
 use Docalist\Data\Entity\ContentEntity;
 use Docalist\Data\Record;
@@ -30,7 +30,7 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     const EXPECTED_ID = 'docalist-json';
     const EXPECTED_CONVERTER = DocalistConverter::class;
     const EXPECTED_WRITER = JsonWriter::class;
-    const EXPECTED_FILENAME = 'docalist-export.json';
+    const EXPECTED_FILENAME = 'docalist-json-export.json';
 
     /**
      * Crée l'exporteur à tester.
@@ -50,15 +50,12 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     {
         $exporter = $this->createExporter();
 
-        $this->assertEmpty($exporter->getRecordProcessors());
-
-        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $exporter->getConverter());
-
-        $processors = $exporter->getDataProcessors();
-        $this->assertCount(3, $processors);
-        $this->assertInstanceOf(RemoveEmptyFields::class, $processors[0]);
-        $this->assertInstanceOf(RemoveEmptyRecords::class, $processors[1]);
-        $this->assertInstanceOf(SortFields::class, $processors[2]);
+        $filters = $exporter->getFilters();
+        $this->assertCount(4, $filters);
+        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $filters['converter']);
+        $this->assertInstanceOf(FilterEmptyArrayElements::class, $filters[0]);
+        $this->assertInstanceOf(FilterEmpty::class, $filters[1]);
+        $this->assertInstanceOf(SortArrayByKey::class, $filters[2]);
 
         $this->assertInstanceOf(static::EXPECTED_WRITER, $exporter->getWriter());
     }

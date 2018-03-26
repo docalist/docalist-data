@@ -25,7 +25,7 @@ class DocalistJsonPrettyTest extends DocalistJsonTest
     const EXPECTED_ID = 'docalist-json-pretty';
     const EXPECTED_CONVERTER = DocalistConverter::class;
     const EXPECTED_WRITER = JsonWriter::class;
-    const EXPECTED_FILENAME = 'docalist-export.json';
+    const EXPECTED_FILENAME = 'docalist-json-pretty-export.json';
 
     protected function getExpectedExport()
     {

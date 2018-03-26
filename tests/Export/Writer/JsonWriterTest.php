@@ -71,4 +71,28 @@ class JsonWriterTest extends PHPUnit_Framework_TestCase
         $this->assertSame('[{"é":"/"}]', $writer->exportToString([['é'=>'/']]));
         // et non pas '[{"\u00e9":"\/"}]'
     }
+
+    /**
+     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier correct à export().
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Invalid stream
+     */
+    public function testExportInvalidStream()
+    {
+        $writer = new JsonWriter();
+        $writer->export(null, [['a'=>'']]);
+    }
+
+    /**
+     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier ouvert en écriture.
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage not writable
+     */
+    public function testExportNotWritableStream()
+    {
+        $writer = new JsonWriter();
+        $writer->export(fopen('php://temp', 'r'), [['a'=>'']]);
+    }
 }
