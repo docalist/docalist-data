@@ -10,6 +10,8 @@
 namespace Docalist\Data\Export\Writer;
 
 use Docalist\Data\Export\Writer;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Classe de base pour les Writers.
@@ -35,5 +37,57 @@ abstract class AbstractWriter implements Writer
 
         // Retourne le résultat
         return $result;
+    }
+
+    /**
+     * Vérifie que le paramètre est un flux ouvert en écriture, génère une exception sinon.
+     *
+     * @param mixed $stream Flux à tester.
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function checkIsWritableStream($stream)
+    {
+        // Génère une exception si ce n'est pas un stream
+        if ( ! is_resource($stream)) {
+            throw new InvalidArgumentException('Invalid stream, not a resource');
+        }
+
+        // Récupère le mode d'ouverture du flux
+        $meta = stream_get_meta_data($stream);
+        $mode = $meta['mode'];
+
+        // Liste des modes qui permettent d'ouvrir un fichier en écriture
+        $writable = [ // credits : guzzle/Stream (https://github.com/guzzle/streams/blob/master/src/Stream.php)
+            'w'     => true, 'w+'   => true, 'rw'   => true, 'r+'   => true, 'x+' => true,
+            'c+'    => true, 'wb'   => true, 'w+b'  => true, 'r+b'  => true,
+            'x+b'   => true, 'c+b'  => true, 'w+t'  => true, 'r+t'  => true,
+            'x+t'   => true, 'c+t'  => true, 'a'    => true, 'a+'   => true,
+        ];
+
+        // Génère une exception si le flux n'a pas été ouvert en écriture
+        if (! isset($writable[$mode])) {
+            throw new InvalidArgumentException('Stream is not writable');
+        }
+    }
+
+    /**
+     * Ecrit des données dans le flux et génère une exception en cas d'erreur.
+     *
+     * @param resource $stream
+     * @param string  $data
+     *
+     * @throws RuntimeException
+     */
+    protected function write($stream, $data)
+    {
+        error_clear_last();
+        $size = fwrite($stream, $data);
+        if ($size === false) {
+            $message = 'Write error during export';
+            $error = error_get_last();
+            isset($error['message']) && $message .= ': ' . $error['message'];
+            throw new RuntimeException($message);
+        }
     }
 }

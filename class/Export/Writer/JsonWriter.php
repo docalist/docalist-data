@@ -66,18 +66,22 @@ class JsonWriter extends AbstractWriter
 
     public function export($stream, Iterable $records)
     {
+        $this->checkIsWritableStream($stream);
+
         $pretty = $this->getPretty();
 
         $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
         $pretty && $options |= JSON_PRETTY_PRINT;
 
         $first = true;
-        fwrite($stream, $pretty ? "[\n" : '[');
+        $this->write($stream, $pretty ? "[\n" : '[');
         $comma = $pretty ? ",\n" : ',';
         foreach ($records as $record) {
-            $first ? ($first = false) : fwrite($stream, $comma);
-            fwrite($stream, json_encode($record, $options));
+            $data = $first ? '' : $comma;
+            $data .= json_encode($record, $options);
+            $this->write($stream, $data);
+            $first = false;
         }
-        fwrite($stream, $pretty ? "\n]" : ']');
+        $this->write($stream, $pretty ? "\n]" : ']');
     }
 }

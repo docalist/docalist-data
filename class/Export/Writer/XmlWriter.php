@@ -10,7 +10,6 @@
 namespace Docalist\Data\Export\Writer;
 
 use Docalist\Data\Export\Writer;
-use Docalist\Data\Export\Exception\WriteError;
 use XMLWriter as PhpXmlWriter;
 
 /**
@@ -75,6 +74,8 @@ class XmlWriter extends AbstractWriter
 
     public function export($stream, Iterable $records)
     {
+        $this->checkIsWritableStream($stream);
+
         $xml = new PhpXmlWriter();
         $xml->openMemory();
 
@@ -95,34 +96,13 @@ class XmlWriter extends AbstractWriter
             $xml->endElement();
             ++$nb;
             if (0 === $nb % self::BUFFER_COUNT) {
-                $this->flushBuffer($stream, $xml);
+                $this->write($stream, $xml->flush(true));
             }
         }
         $xml->endElement();
         $xml->endDocument();
 
-        $this->flushBuffer($stream, $xml);
-    }
-
-    /**
-     * Ecrit le buffer XML dans le flux de sortie passé en paramètre et vide le buffer.
-     *
-     * @param resource      $stream     Flux de sortie.
-     * @param PhpXmlWriter  $xml        Objet PhpXmlWriter à flusher.
-     *
-     * @throw WriteError Si une erreur survient lors de l'écriture des données.
-     */
-    protected function flushBuffer($stream, PhpXmlWriter $xml)
-    {
-        $buffer = $xml->flush(true);
-        error_clear_last();
-        $size = @fwrite($stream, $buffer);
-        if ($size === false || $size !== strlen($buffer)) {
-            $message = 'An error occured during export';
-            $error = error_get_last();
-            isset($error['message']) && $message .= ': ' . $error['message'];
-            throw new WriteError($message);
-        }
+        $this->write($stream, $xml->flush(true));
     }
 
     /**

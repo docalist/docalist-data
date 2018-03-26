@@ -9,8 +9,6 @@
  */
 namespace Docalist\Data\Export;
 
-use Docalist\Data\Export\Converter\WriteError;
-
 /**
  * Interface des générateurs utilisés pour l'export de données Docalist.
  *
@@ -46,8 +44,6 @@ interface Writer
      *
      * @param Resource $stream  Le flux de sortie où écrire les données.
      * @param Iterable $records Les enregistrements à exporter.
-     *
-     * @throw WriteError Si une erreur survient lors de l'écriture des données.
      */
     public function export($stream, Iterable $records);
 
@@ -55,8 +51,6 @@ interface Writer
      * Exporte les enregistrements passés en paramètre et retourne une chaine contenant le résultat.
      *
      * @param Iterable $records Les enregistrements à exporter.
-     *
-     * @throw WriteError Si une erreur survient lors de l'écriture des données.
      */
     public function exportToString(Iterable $records);
 }
