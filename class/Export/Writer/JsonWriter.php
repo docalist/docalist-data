@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -32,7 +32,7 @@ class JsonWriter extends AbstractWriter
      *
      * @return self
      */
-    public function setPretty($pretty)
+    public function setPretty(bool $pretty): self
     {
         $this->pretty = (bool) $pretty;
 
@@ -44,22 +44,22 @@ class JsonWriter extends AbstractWriter
      *
      * @return boolean
      */
-    public function getPretty()
+    public function getPretty(): bool
     {
         return $this->pretty;
     }
 
-    public function getContentType()
+    public function getContentType(): string
     {
         return 'application/json; charset=utf-8';
     }
 
-    public function isBinaryContent()
+    public function isBinaryContent(): bool
     {
         return false;
     }
 
-    public function suggestFilename()
+    public function suggestFilename(): string
     {
         return 'export.json';
     }

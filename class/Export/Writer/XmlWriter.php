@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -40,7 +40,7 @@ class XmlWriter extends AbstractWriter
      *
      * @eturn self
      */
-    public function setIndent($indent)
+    public function setIndent(int $indent): self
     {
         $this->indent = abs((int) $indent);
 
@@ -52,22 +52,22 @@ class XmlWriter extends AbstractWriter
      *
      * @return int
      */
-    public function getIndent()
+    public function getIndent(): int
     {
         return $this->indent;
     }
 
-    public function getContentType()
+    public function getContentType(): string
     {
         return 'application/xml; charset=utf-8';
     }
 
-    public function isBinaryContent()
+    public function isBinaryContent(): bool
     {
         return false;
     }
 
-    public function suggestFilename()
+    public function suggestFilename(): string
     {
         return 'export.xml';
     }
