@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -106,17 +106,17 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
         return $this->writer;
     }
 
-    public function getContentType()
+    public function getContentType(): string
     {
         return $this->getWriter()->getContentType();
     }
 
-    public function isBinaryContent()
+    public function isBinaryContent(): bool
     {
         return $this->getWriter()->isBinaryContent();
     }
 
-    public function suggestFilename()
+    public function suggestFilename(): string
     {
         return static::getID() . '-' . $this->getWriter()->suggestFilename();
     }
