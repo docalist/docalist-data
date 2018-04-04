@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -16,9 +16,9 @@ namespace Docalist\Data\Operation;
  */
 class SortArrayByKey
 {
-    public function __invoke($data)
+    public function __invoke(array $data)
     {
-        is_array($data) && ksort($data);
+        ksort($data);
 
         return $data;
     }

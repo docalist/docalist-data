@@ -44,11 +44,6 @@ class SortArrayByKeyTest extends PHPUnit_Framework_TestCase
                 ['b' => ['b2' => 'B2', 'b1' => 'B1'], 'a' => ['a2' => 'A2', 'a1' => 'A1']],
                 ['a' => ['a2' => 'A2', 'a1' => 'A1'], 'b' => ['b2' => 'B2', 'b1' => 'B1']],
             ],
-
-            // Ne fait rien si on ne lui passe pas un tableau
-            [ 'not array',  'not array' ],
-            [ ''         ,  ''          ],
-
         ];
     }
 
