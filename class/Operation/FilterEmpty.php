@@ -7,21 +7,19 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Filter;
-
-use Docalist\Data\Filter\Filter;
+namespace Docalist\Data\Operation;
 
 /**
- * Trie les tableaux par ordre alphabétique des clés.
+ * Un callable (pour les pipelines de données) qui filtre les données vides.
+ *
+ * Le filtre retourne null quand empty() retourne true. Les autres données sont retourneés inchangés.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class SortArrayByKey implements Filter
+class FilterEmpty
 {
     public function __invoke($data)
     {
-        is_array($data) && ksort($data);
-
-        return $data;
+        return empty($data) ? null : $data;
     }
 }

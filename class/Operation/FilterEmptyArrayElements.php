@@ -7,18 +7,17 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Filter;
-
-use Docalist\Data\Filter\Filter;
+namespace Docalist\Data\Operation;
 
 /**
- * Supprime récursivement les éléments vides du tableau passé en paramètre.
+ * Un callable (pour les pipelines de données) qui supprime récursivement les éléments vides du tableau passé
+ * en paramètre.
  *
- * Un élément est considéré comme vide s'il contient une chaine vide, la valeur null ou un tableau vide.
+ * Un élément de tableau est considéré comme vide s'il contient une chaine vide, la valeur null ou un tableau vide.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class FilterEmptyArrayElements implements Filter
+class FilterEmptyArrayElements
 {
     public function __invoke($data)
     {
