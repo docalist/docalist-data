@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -24,7 +24,7 @@ class StandardExporters
      *
      * @return array[] Un tableau de la forme format-name => settings.
      */
-    public static function getList()
+    public static function getList(): array
     {
         return [
             DocalistJson::getID()       => DocalistJson::class,
