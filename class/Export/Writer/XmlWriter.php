@@ -20,13 +20,6 @@ use XMLWriter as PhpXmlWriter;
 class XmlWriter implements Writer
 {
     /**
-     * Nombre d'enregistrements générés en mémoire avant que flushBuffer() ne soit appellé.
-     *
-     * @var integer
-     */
-    const BUFFER_COUNT = 10;
-
-    /**
      * Taille de l'indentation (nombre d'espaces) ou zéro pour générer du code XML compact.
      *
      * @var int
