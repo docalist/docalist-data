@@ -7,11 +7,10 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Tests\Export\Exporter;
+namespace Docalist\Data\Tests\Operation;
 
 use PHPUnit_Framework_TestCase;
-use Docalist\Data\Filter\FilterEmpty;
-use Docalist\Data\Filter\Filter;
+use Docalist\Data\Operation\FilterEmpty;
 
 /**
  * Teste le filtre FilterEmpty.
@@ -49,10 +48,7 @@ class FilterEmptyTest extends PHPUnit_Framework_TestCase
         // Crée le filtre
         $filter = new FilterEmpty();
 
-        // Vérifie que le filtre a été marqué avec l'interface "Filter"
-        $this->assertInstanceOf(Filter::class, $filter);
-
-        // Vérifie que le filter est un callable (redondant avec le test précédent mais ne nuit pas)
+        // Vérifie que le filter est un callable
         $this->assertTrue(is_callable($filter));
 
         // Vérifie que le filter retourne bien le résultat attendu
