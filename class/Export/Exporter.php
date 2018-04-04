@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -25,19 +25,19 @@ interface Exporter extends Writer
      *
      * @return string
      */
-    public static function getID();
+    public static function getID(): string;
 
     /**
      * Retourne le libellé de l'exporteur.
      *
      * @return string
      */
-    public static function getLabel();
+    public static function getLabel(): string;
 
     /**
      * Retourne la description de l'exporteur.
      *
      * @return string
      */
-    public static function getDescription();
+    public static function getDescription(): string;
 }
