@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Tests\Export\Exporter;
+namespace Docalist\Data\Tests\Export\Writer;
 
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Writer\XmlWriter;
