@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -23,21 +23,21 @@ interface Writer
      *
      * @return string Retourne un type MIME (par exemple "text/plain; charset=utf-8").
      */
-    public function getContentType();
+    public function getContentType(): string;
 
     /**
      * Indique si le contenu généré est binaire.
      *
      * @return bool Retourne true si le contenu généré est binaire, false s'il peut être affiché.
      */
-    public function isBinaryContent();
+    public function isBinaryContent(): bool;
 
     /**
      * Suggère un nom pour le fichier généré.
      *
      * @return string Un nom de fichier avec une extension (par exemple "export.txt").
      */
-    public function suggestFilename();
+    public function suggestFilename(): string;
 
     /**
      * Exporte les enregistrements passés en paramètre dans le flux de sortie indiqué.
@@ -51,6 +51,8 @@ interface Writer
      * Exporte les enregistrements passés en paramètre et retourne une chaine contenant le résultat.
      *
      * @param Iterable $records Les enregistrements à exporter.
+     *
+     * @return string
      */
-    public function exportToString(Iterable $records);
+    public function exportToString(Iterable $records): string;
 }
