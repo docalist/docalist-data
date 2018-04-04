@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -20,7 +20,7 @@ use RuntimeException;
  */
 abstract class AbstractWriter implements Writer
 {
-    final public function exportToString(Iterable $records)
+    final public function exportToString(Iterable $records): string
     {
         // Ouvre un flux en mémoire mémoire
         $stream = fopen('php://temp', 'r+');
@@ -79,7 +79,7 @@ abstract class AbstractWriter implements Writer
      *
      * @throws RuntimeException
      */
-    protected function write($stream, $data)
+    protected function write($stream, string $data)
     {
         error_clear_last();
         $size = fwrite($stream, $data);
