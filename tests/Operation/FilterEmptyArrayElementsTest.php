@@ -39,8 +39,6 @@ class FilterEmptyArrayElementsTest extends PHPUnit_Framework_TestCase
             [ [ [''], [''], ['']    ],  []                      ],
             [ [ [ [ [null ] ] ]     ],  []                      ],
             [ [ [ [ [ [] ] ] ]      ],  []                      ],
-
-            [ 'not array'            ,  'not array'             ],
         ];
     }
 

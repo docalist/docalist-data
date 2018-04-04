@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -19,12 +19,12 @@ namespace Docalist\Data\Operation;
  */
 class FilterEmptyArrayElements
 {
-    public function __invoke($data)
+    public function __invoke(array $data)
     {
-        return is_array($data) ? array_filter($data, function ($value) {
+        return array_filter($data, function ($value) {
             is_array($value) && $value = $this->__invoke($value);
 
             return ! ($value === '' | $value === null | $value === []);
-        }) : $data;
+        });
     }
 }
