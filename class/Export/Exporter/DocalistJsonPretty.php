@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -24,17 +24,17 @@ class DocalistJsonPretty extends DocalistJson
         $this->getWriter()->setPretty(true);
     }
 
-    public static function getID()
+    public static function getID(): string
     {
         return parent::getId() . '-pretty';
     }
 
-    public static function getLabel()
+    public static function getLabel(): string
     {
         return parent::getLabel() . __(' (formatté et indenté)', 'docalist-data');
     }
 
-    public static function getDescription()
+    public static function getDescription(): string
     {
         return parent::getDescription() .
             __(' Le fichier généré est formatté pour être plus facilement lisible.', 'docalist-data');
