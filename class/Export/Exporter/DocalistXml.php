@@ -37,17 +37,17 @@ class DocalistXml extends StandardExporter
         parent::__construct($filters, $writer);
     }
 
-    public static function getID()
+    public static function getID(): string
     {
         return 'docalist-xml';
     }
 
-    public static function getLabel()
+    public static function getLabel(): string
     {
         return __('Docalist XML', 'docalist-data');
     }
 
-    public static function getDescription()
+    public static function getDescription(): string
     {
         return __('Fichier XML contenant les données Docalist en format natif.', 'docalist-data');
     }
