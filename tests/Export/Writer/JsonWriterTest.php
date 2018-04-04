@@ -56,43 +56,25 @@ class JsonWriterTest extends PHPUnit_Framework_TestCase
         $this->assertSame('export.json', $writer->suggestFilename());
     }
 
-    public function testExportToString()
+    public function testExport()
     {
-        // Mode compact
         $writer = new JsonWriter();
-        $this->assertSame('[{"a":"A"}]', $writer->exportToString([['a'=>'A']]));
+        $export = function ($records) use($writer) {
+            ob_start();
+            $writer->export($records);
+            return ob_get_clean();
+        };
+
+        // Mode compact
+        $this->assertSame('[{"a":"A"}]', $export([['a'=>'A']]));
 
         // Mode pretty
         $writer->setPretty(true);
-        $this->assertSame("[\n{\n    \"a\": \"A\"\n}\n]", $writer->exportToString([['a'=>'A']]));
+        $this->assertSame("[\n{\n    \"a\": \"A\"\n}\n]", $export([['a'=>'A']]));
 
         // Vérifie que accents, slashs sont non échappés
         $writer->setPretty(false);
-        $this->assertSame('[{"é":"/"}]', $writer->exportToString([['é'=>'/']]));
+        $this->assertSame('[{"é":"/"}]', $export([['é'=>'/']]));
         // et non pas '[{"\u00e9":"\/"}]'
-    }
-
-    /**
-     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier correct à export().
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid stream
-     */
-    public function testExportInvalidStream()
-    {
-        $writer = new JsonWriter();
-        $writer->export(null, [['a'=>'']]);
-    }
-
-    /**
-     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier ouvert en écriture.
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage not writable
-     */
-    public function testExportNotWritableStream()
-    {
-        $writer = new JsonWriter();
-        $writer->export(fopen('php://temp', 'r'), [['a'=>'']]);
     }
 }

@@ -40,19 +40,9 @@ interface Writer
     public function suggestFilename(): string;
 
     /**
-     * Exporte les enregistrements passés en paramètre dans le flux de sortie indiqué.
-     *
-     * @param Resource $stream  Le flux de sortie où écrire les données.
-     * @param Iterable $records Les enregistrements à exporter.
-     */
-    public function export($stream, Iterable $records);
-
-    /**
-     * Exporte les enregistrements passés en paramètre et retourne une chaine contenant le résultat.
+     * Exporte les enregistrements passés en paramètre.
      *
      * @param Iterable $records Les enregistrements à exporter.
-     *
-     * @return string
      */
-    public function exportToString(Iterable $records): string;
+    public function export(Iterable $records);
 }

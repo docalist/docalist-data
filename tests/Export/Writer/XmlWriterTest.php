@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -30,12 +30,6 @@ class XmlWriterTest extends PHPUnit_Framework_TestCase
 
         $writer->setIndent(0);
         $this->assertSame(0, $writer->getIndent());
-
-        $writer->setIndent('2'); // int like
-        $this->assertSame(2, $writer->getIndent());
-
-        $writer->setIndent('aa'); // not int
-        $this->assertSame(0, $writer->getIndent());
     }
 
     public function testGetContentType()
@@ -56,14 +50,20 @@ class XmlWriterTest extends PHPUnit_Framework_TestCase
         $this->assertSame('export.xml', $writer->suggestFilename());
     }
 
-    public function testExportToString()
+    public function testExport()
     {
-        // Mode compact
         $writer = new XmlWriter();
+        $export = function ($records) use($writer) {
+            ob_start();
+            $writer->export($records);
+            return ob_get_clean();
+        };
+
+        // Mode compact
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><a>A</a></record></records>\n",
-            $writer->exportToString([['a'=>'A']])
+            $export([['a'=>'A']])
         );
 
         // Mode indenté
@@ -71,91 +71,53 @@ class XmlWriterTest extends PHPUnit_Framework_TestCase
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records>\n  <record>\n    <a>A</a>\n  </record>\n</records>\n",
-            $writer->exportToString([['a'=>'A']])
+            $export([['a'=>'A']])
         );
     }
 
     public function testOutputArray()
     {
         $writer = new XmlWriter();
+        $export = function ($records) use($writer) {
+            ob_start();
+            $writer->export($records);
+            return ob_get_clean();
+        };
+
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><a>A</a></record></records>\n",
-            $writer->exportToString([['a'=>'A']])
+            $export([['a'=>'A']])
         );
 
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><a/></record></records>\n",
-            $writer->exportToString([['a'=>'']])
+            $export([['a'=>'']])
         );
 
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><a><item>A</item></a></record></records>\n",
-            $writer->exportToString([['a'=>['A']]])
+            $export([['a'=>['A']]])
         );
 
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><a/></record></records>\n",
-            $writer->exportToString([['a'=>[]]])
+            $export([['a'=>[]]])
         );
 
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><item>A</item></record></records>\n",
-            $writer->exportToString([['A']])
+            $export([['A']])
         );
 
         $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
             "<records><record><a><item>A1</item><key>A2</key></a></record></records>\n",
-            $writer->exportToString([['a'=>['A1', 'key' => 'A2']]])
+            $export([['a'=>['A1', 'key' => 'A2']]])
         );
-    }
-
-    public function testFlushBuffer()
-    {
-        $writer = new XmlWriter();
-
-        $records = [];
-        $expected = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n";
-        $expected .= '<records>';
-        for ($i = 0; $i < XmlWriter::BUFFER_COUNT; $i++) {
-            $records[] = ['a' => ''];
-            $expected .= '<record><a/></record>';
-        }
-        $expected .= '</records>' . "\n";
-
-        $this->assertSame(
-            $expected,
-            $writer->exportToString($records)
-        );
-    }
-
-    /**
-     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier correct à export().
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid stream
-     */
-    public function testExportInvalidStream()
-    {
-        $writer = new XmlWriter();
-        $writer->export(null, [['a'=>'']]);
-    }
-
-    /**
-     * Vérifie qu'une exception est générée si on ne passe pas un handle de fichier ouvert en écriture.
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage not writable
-     */
-    public function testExportNotWritableStream()
-    {
-        $writer = new XmlWriter();
-        $writer->export(fopen('php://temp', 'r'), [['a'=>'']]);
     }
 }
-

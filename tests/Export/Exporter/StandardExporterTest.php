@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -12,7 +12,7 @@ namespace Docalist\Data\Tests\Export\Exporter;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\StandardExporter;
 use Docalist\Data\Record;
-use Docalist\Data\Export\Writer\AbstractWriter;
+use Docalist\Data\Export\Writer;
 
 /**
  * Teste la classe StandardExporter.
@@ -71,43 +71,43 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
                 }
 
                 // Un Writer qui fait juste un var_export()
-                $writer = new class() extends AbstractWriter
+                $writer = new class() implements Writer
                 {
-                    public function getContentType()
+                    public function getContentType(): string
                     {
                         return 'mime/type';
                     }
 
-                    public function isBinaryContent()
+                    public function isBinaryContent(): bool
                     {
-                        return 'special-value';
+                        return true;
                     }
 
-                    public function suggestFilename()
+                    public function suggestFilename(): string
                     {
                         return 'writer.ext2';
                     }
 
-                    public function export($stream, Iterable $records)
+                    public function export(Iterable $records)
                     {
-                        fputs($stream, var_export(iterator_to_array($records), true));
+                        var_export(iterator_to_array($records));
                     }
                 };
 
                 parent::__construct($filters, $writer);
             }
 
-            public static function getID()
+            public static function getID(): string
             {
                 return 'my-ID';
             }
 
-            public static function getLabel()
+            public static function getLabel(): string
             {
                 return 'my-label';
             }
 
-            public static function getDescription()
+            public static function getDescription(): string
             {
                 return 'my-desc';
             }
@@ -127,7 +127,9 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
     public function testExportToString()
     {
         $exporter = $this->createExporter();
-        $result = $exporter->exportToString([new Record(['posttitle' => 'AAA', 'slug' => 'BBB']), new Record()]);
+        ob_start();
+        $exporter->export([new Record(['posttitle' => 'AAA', 'slug' => 'BBB']), new Record()]);
+        $result = ob_get_clean();
 
         // le RecordProcessor met tout en minu et s'arrête au premier enregistrement
         // le Convertor ajout le champ 'status'
@@ -158,7 +160,7 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
     public function testIsBinaryContent()
     {
         $exporter = $this->createExporter();
-        $this->assertSame('special-value', $exporter->isBinaryContent());
+        $this->assertSame(true, $exporter->isBinaryContent());
     }
 
     /**

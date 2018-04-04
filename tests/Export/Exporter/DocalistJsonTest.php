@@ -141,11 +141,14 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Teste la méthode exportToString() et, indirectement, la méthode export().
+     * Teste la méthode export().
      */
-    public function testExportToString()
+    public function testExport()
     {
         $exporter = $this->createExporter();
-        $this->assertSame($this->getExpectedExport(), $exporter->exportToString($this->getRecordsToExport()));
+        ob_start();
+        $exporter->export($this->getRecordsToExport());
+        $result = ob_get_clean();
+        $this->assertSame($this->getExpectedExport(), $result);
     }
 }

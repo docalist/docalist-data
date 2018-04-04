@@ -17,7 +17,7 @@ use XMLWriter as PhpXmlWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class XmlWriter extends AbstractWriter
+class XmlWriter implements Writer
 {
     /**
      * Nombre d'enregistrements générés en mémoire avant que flushBuffer() ne soit appellé.
@@ -72,12 +72,10 @@ class XmlWriter extends AbstractWriter
         return 'export.xml';
     }
 
-    public function export($stream, Iterable $records)
+    public function export(Iterable $records)
     {
-        $this->checkIsWritableStream($stream);
-
         $xml = new PhpXmlWriter();
-        $xml->openMemory();
+        $xml->openURI('php://output');
 
         $indent = $this->getIndent();
         if ($indent > 0) {
@@ -86,23 +84,15 @@ class XmlWriter extends AbstractWriter
         }
         $xml->startDocument('1.0', 'utf-8', 'yes');
         $xml->startElement('records');
-        // $xml->writeAttribute('count', $records->count());
-        // $xml->writeAttribute('datetime', date('Y-m-d H:i:s'));
-        // $xml->writeAttribute('query', $records->getSearchRequest()->getEquation());
-        $nb = 0;
         foreach ($records as $record) {
             $xml->startElement('record');
             $this->outputArray($xml, $record);
             $xml->endElement();
-            ++$nb;
-            if (0 === $nb % self::BUFFER_COUNT) {
-                $this->write($stream, $xml->flush(true));
-            }
         }
         $xml->endElement();
         $xml->endDocument();
 
-        $this->write($stream, $xml->flush(true));
+        $xml->flush();
     }
 
     /**

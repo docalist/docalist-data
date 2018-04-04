@@ -16,7 +16,7 @@ use Docalist\Data\Export\Writer;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class JsonWriter extends AbstractWriter
+class JsonWriter implements Writer
 {
     /**
      * Génère ou non du JSON indenté et formatté.
@@ -64,24 +64,20 @@ class JsonWriter extends AbstractWriter
         return 'export.json';
     }
 
-    public function export($stream, Iterable $records)
+    public function export(Iterable $records)
     {
-        $this->checkIsWritableStream($stream);
-
         $pretty = $this->getPretty();
 
         $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
         $pretty && $options |= JSON_PRETTY_PRINT;
 
         $first = true;
-        $this->write($stream, $pretty ? "[\n" : '[');
         $comma = $pretty ? ",\n" : ',';
+        echo $pretty ? "[\n" : '[';
         foreach ($records as $record) {
-            $data = $first ? '' : $comma;
-            $data .= json_encode($record, $options);
-            $this->write($stream, $data);
-            $first = false;
+            $first ? ($first = false) : print($comma);
+            echo json_encode($record, $options);
         }
-        $this->write($stream, $pretty ? "\n]" : ']');
+        echo $pretty ? "\n]" : ']';
     }
 }
