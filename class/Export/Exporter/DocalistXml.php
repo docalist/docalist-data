@@ -11,9 +11,9 @@ namespace Docalist\Data\Export\Exporter;
 
 use Docalist\Data\Export\Exporter\StandardExporter;
 use Docalist\Data\Export\Converter\DocalistConverter;
-use Docalist\Data\Filter\FilterEmptyArrayElements;
-use Docalist\Data\Filter\FilterEmpty;
-use Docalist\Data\Filter\SortArrayByKey;
+use Docalist\Data\Operation\FilterEmptyArrayElements;
+use Docalist\Data\Operation\FilterEmpty;
+use Docalist\Data\Operation\SortArrayByKey;
 use Docalist\Data\Export\Writer\XmlWriter;
 
 /**
