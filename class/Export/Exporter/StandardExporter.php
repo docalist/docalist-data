@@ -12,7 +12,6 @@ namespace Docalist\Data\Export\Exporter;
 use Docalist\Data\Export\Exporter;
 use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\Writer;
-use Docalist\Data\Export\Writer\AbstractWriter;
 use Docalist\Data\Record;
 use InvalidArgumentException;
 use Generator;
@@ -33,7 +32,7 @@ use Generator;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-abstract class StandardExporter extends AbstractWriter implements Exporter
+abstract class StandardExporter implements Exporter
 {
     /**
      * La liste des filtres qui composent le pipeline de données.
@@ -121,9 +120,9 @@ abstract class StandardExporter extends AbstractWriter implements Exporter
         return static::getID() . '-' . $this->getWriter()->suggestFilename();
     }
 
-    public function export($stream, Iterable $records)
+    public function export(Iterable $records)
     {
-        return $this->getWriter()->export($stream, $this->convert($records));
+        return $this->getWriter()->export($this->convert($records));
     }
 
     /**
