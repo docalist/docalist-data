@@ -111,7 +111,7 @@ class XmlWriter implements Writer
 
             is_int($key) && $key = 'item';
             $xml->startElement($key);
-            is_scalar($value) ? $xml->text($value) : $this->outputArray($xml, $value);
+            is_scalar($value) ? $xml->text((string)$value) : $this->outputArray($xml, $value);
             $xml->endElement();
         }
     }
