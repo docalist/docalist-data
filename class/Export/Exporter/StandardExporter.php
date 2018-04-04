@@ -9,38 +9,20 @@
  */
 namespace Docalist\Data\Export\Exporter;
 
+use Docalist\Pipeline\StandardPipeline;
 use Docalist\Data\Export\Exporter;
-use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\Writer;
-use Docalist\Data\Record;
-use InvalidArgumentException;
-use Generator;
 
 /**
  * Classe de base pour les exporteurs standard.
  *
- * Un exporteur standard définit un pipeline de données dans lequel passent les enregistrements à exporter pour
- * générer un fichier d'export :
- *
- * Record* -> [RecordTransformer*] -> [Converter] -> array -> [ArrayTransformer*] -> [Writer] -> File.
- *
- * Il se compose :
- * - d'une liste d'objets RecordTransformer qui filtrent et transforment les enregistrements à exporter.
- * - d'un objet Converter qui convertit un enregistrement Docalist vers un autre format (un tableau).
- * - d'une liste d'objets ArrayTransformer qui modifient filtrent et transforment les données converties.
- * - d'un objet ExportWriter qui écrit les données obtenues dans un flux de sortie.
+ * Un exporteur standard utilise un pipeline de données pour convertir les enregistrements à exporter et un
+ * Writer pour générer le fichier.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-abstract class StandardExporter implements Exporter
+abstract class StandardExporter extends StandardPipeline implements Exporter
 {
-    /**
-     * La liste des filtres qui composent le pipeline de données.
-     *
-     * @var callable[]
-     */
-    protected $filters;
-
     /**
      * Le Writer à utiliser pour générer le fichier d'export.
      *
@@ -51,48 +33,27 @@ abstract class StandardExporter implements Exporter
     /**
      * Initialise l'exporteur.
      *
-     * @param callable[]    $filters    La liste des filtres qui composent le pipeline de données.
+     * @param callable[]    $operations La liste des opérations qui composent le pipeline d'export.
      * @param Writer        $writer     Le Writer à utiliser pour générer le fichier d'export.
-     *
-     * @throws InvalidArgumentException Si l'un des filtres n'est pas un callable.
      */
-    public function __construct(array $filters, Writer $writer)
+    public function __construct(array $operations, Writer $writer)
     {
-        foreach ($filters as $key => $filter) {
-            if (! is_callable($filter)) {
-                throw new InvalidArgumentException("Filter $key is not callable");
-            }
-        }
-        $this->filters = $filters;
+        parent::__construct($operations);
+        $this->setWriter($writer);
+    }
+
+    /**
+     * Modifie le Writer utilisé.
+     *
+     * @param Writer $writer
+     *
+     * @return self
+     */
+    public function setWriter(Writer $writer): self
+    {
         $this->writer = $writer;
-    }
 
-    /**
-     * Retourne la liste des filtres.
-     *
-     * @return callable[]
-     */
-    public function getFilters()
-    {
-        return $this->filters;
-    }
-
-    /**
-     * Retourne un filtre.
-     *
-     * @param int|string $key Clé du filtre (clé associée au filtre dans le tableau de filtres passé au constructeur).
-     *
-     * @throws InvalidArgumentException Si la clé indiquée n'existe pas.
-     *
-     * @return callable
-     */
-    public function getFilter($key)
-    {
-        if (! isset($this->filters[$key])) {
-            throw new InvalidArgumentException('Filter not found');
-        }
-
-        return $this->filters[$key];
+        return $this;
     }
 
     /**
@@ -100,7 +61,7 @@ abstract class StandardExporter implements Exporter
      *
      * @return Writer
      */
-    public function getWriter()
+    public function getWriter(): Writer
     {
         return $this->writer;
     }
@@ -122,26 +83,6 @@ abstract class StandardExporter implements Exporter
 
     public function export(Iterable $records)
     {
-        return $this->getWriter()->export($this->convert($records));
-    }
-
-    /**
-     * Retourne un générateur qui convertit les enregistrements passés en paramètres.
-     *
-     * @param Iterable $records Enregistrement à convertir.
-     *
-     * @return Generator
-     */
-    protected function convert(Iterable $records)
-    {
-        foreach ($records as $key => $record) {
-            foreach ($this->filters as $filter) {
-                if (is_null($record = $filter($record))) {
-                    continue 2;
-                }
-            }
-
-            yield $key => $record;
-        }
+        $this->getWriter()->export($this->process($records));
     }
 }
