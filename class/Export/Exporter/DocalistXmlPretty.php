@@ -24,17 +24,17 @@ class DocalistXmlPretty extends DocalistXml
         $this->getWriter()->setIndent(4);
     }
 
-    public static function getID()
+    public static function getID(): string
     {
         return parent::getId() . '-pretty';
     }
 
-    public static function getLabel()
+    public static function getLabel(): string
     {
         return parent::getLabel() . __(' (formatté et indenté)', 'docalist-data');
     }
 
-    public static function getDescription()
+    public static function getDescription(): string
     {
         return parent::getDescription() .
             __(' Le fichier généré est formatté pour être plus facilement lisible.', 'docalist-data');
