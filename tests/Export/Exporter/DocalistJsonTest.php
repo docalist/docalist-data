@@ -18,6 +18,7 @@ use Docalist\Data\Filter\SortArrayByKey;
 use Docalist\Data\Export\Writer\JsonWriter;
 use Docalist\Data\Entity\ContentEntity;
 use Docalist\Data\Record;
+use Docalist\Data\Export\Exporter\StandardExporter;
 
 /**
  * Teste l'export Docalist au format JSON.
@@ -35,9 +36,9 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     /**
      * Crée l'exporteur à tester.
      *
-     * @return Exporter
+     * @return StandardExporter
      */
-    protected function createExporter()
+    protected function createExporter(): StandardExporter
     {
         $class = static::EXPORTER;
         return new $class();
@@ -50,12 +51,11 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     {
         $exporter = $this->createExporter();
 
-        $filters = $exporter->getFilters();
-        $this->assertCount(4, $filters);
-        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $filters['converter']);
-        $this->assertInstanceOf(FilterEmptyArrayElements::class, $filters[0]);
-        $this->assertInstanceOf(FilterEmpty::class, $filters[1]);
-        $this->assertInstanceOf(SortArrayByKey::class, $filters[2]);
+        $this->assertCount(4, $exporter->getOperations());
+        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $exporter->getOperation('converter'));
+        $this->assertInstanceOf(FilterEmptyArrayElements::class, $exporter->getOperation(0));
+        $this->assertInstanceOf(FilterEmpty::class, $exporter->getOperation(1));
+        $this->assertInstanceOf(SortArrayByKey::class, $exporter->getOperation(2));
 
         $this->assertInstanceOf(static::EXPECTED_WRITER, $exporter->getWriter());
     }
