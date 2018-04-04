@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -29,12 +29,6 @@ class JsonWriterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($writer->getPretty());
 
         $writer->setPretty(false);
-        $this->assertFalse($writer->getPretty());
-
-        $writer->setPretty('1'); // falsy
-        $this->assertTrue($writer->getPretty());
-
-        $writer->setPretty('0'); // falsy
         $this->assertFalse($writer->getPretty());
     }
 
