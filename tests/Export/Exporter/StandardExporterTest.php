@@ -28,11 +28,11 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
      *
      * @return StandardExporter
      */
-    protected function createExporter($withBadFilter = false)
+    protected function createExporter()
     {
-        return new class($withBadFilter) extends StandardExporter
+        return new class() extends StandardExporter
         {
-            public function __construct($withBadFilter = false)
+            public function __construct()
             {
                 $filters = [
                     // Record filter : transforme le premier enregistrement en tout maju et supprime les suivants
@@ -65,10 +65,6 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
                         return array_map('ucfirst', $data);
                     }
                 ];
-
-                if ($withBadFilter) {
-                    $filters[] = 'hello';
-                }
 
                 // Un Writer qui fait juste un var_export()
                 $writer = new class() implements Writer
@@ -175,17 +171,5 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
 
         $exporter = $this->createExporter();
         $this->assertSame('my-ID-writer.ext2', $exporter->suggestFilename());
-    }
-
-
-    /**
-     * Vérifie qu'une exception est générée si on passe un filtre qui n'est pas un callable.
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage not callable
-     */
-    public function testInvalidFilter()
-    {
-        $this->createExporter(true);
     }
 }
