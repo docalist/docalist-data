@@ -25,16 +25,12 @@ class DocalistJson extends StandardExporter
 {
     public function __construct()
     {
-        $filters = [
+        parent::__construct([
             'converter' => new DocalistConverter(),
             new FilterEmptyArrayElements(),
             new FilterEmpty(),
             new SortArrayByKey(),
-        ];
-
-        $writer = new JsonWriter();
-
-        parent::__construct($filters, $writer);
+        ], new JsonWriter());
     }
 
     public static function getID(): string

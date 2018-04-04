@@ -25,16 +25,12 @@ class DocalistXml extends StandardExporter
 {
     public function __construct()
     {
-        $filters = [
+        parent::__construct([
             'converter' => new DocalistConverter(),
             new FilterEmptyArrayElements(),
             new FilterEmpty(),
             new SortArrayByKey(),
-        ];
-
-        $writer = new XmlWriter();
-
-        parent::__construct($filters, $writer);
+        ], new XmlWriter());
     }
 
     public static function getID(): string
