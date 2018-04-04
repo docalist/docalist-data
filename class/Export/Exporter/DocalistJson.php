@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -37,17 +37,17 @@ class DocalistJson extends StandardExporter
         parent::__construct($filters, $writer);
     }
 
-    public static function getID()
+    public static function getID(): string
     {
         return 'docalist-json';
     }
 
-    public static function getLabel()
+    public static function getLabel(): string
     {
         return __('Docalist JSON', 'docalist-data');
     }
 
-    public static function getDescription()
+    public static function getDescription(): string
     {
         return __('Fichier JSON contenant les données Docalist en format natif.', 'docalist-data');
     }
