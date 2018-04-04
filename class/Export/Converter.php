@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -10,24 +10,18 @@
 namespace Docalist\Data\Export;
 
 use Docalist\Data\Record;
+use Generator;
 
 /**
  * Interface d'un convertisseur utilisé pour l'import/export.
  *
- * Cette interface permet de marquer explicitement les filtres qui convertissent les enregistrements Docalist
- * en tableaux de données.
+ * Cette interface permet de marquer explicitement une opération qui convertit un enregistrement Docalist
+ * en tableau de données.
  *
- * Elle contient une seule méthode (__invoke) qui prend en paramètre un objet Record et retourne un tableau
- * contenant les données à exporter. La méthode peut aussi supprimer certains enregsitrements en retournant
- * null à la place des données.
- *
- * @author Daniel Ménard <daniel.menard@laposte.net>
- */
-/**
- * Interface des convertisseurs utilisés pour l'export de données Docalist.
- *
- * Un convertisseur se charge de transformer un enregistrement Docalist dans un autre format.
- *
+ * Elle contient une seule méthode (__invoke) qui prend en paramètre un objet Record et qui retourne
+ * - soit un tableau contenant les données à exporter,
+ * - soit null pour empêcher l'export d'un enregistrement,
+ * - soit un générateur pour exporter plusieurs lignes de données à partir d'un enregistrement unique.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -38,8 +32,11 @@ interface Converter
      *
      * @param Record $record L'enregistrement Docalist à convertir.
      *
-     * @return array|null Un tableau contenant les données à exporter ou null si l'enregistrement ne peut pas
-     * être converti.
+     * @return array|null|Generator Retourne :
+     *
+     * - soit un tableau contenant les données à exporter,
+     * - soit null pour empêcher l'export d'un enregistrement,
+     * - soit un générateur pour exporter plusieurs lignes de données à partir d'un enregistrement unique.
      */
     public function __invoke(Record $record);
 }
