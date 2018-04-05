@@ -21,6 +21,16 @@ use Docalist\Data\Record;
  */
 class DocalistConverter implements Converter
 {
+    public function getSupportDescription(): string
+    {
+        return __('Tous les types', 'docalist-data');
+    }
+
+    public function supports(string $className): bool
+    {
+        return is_a($className, Record::class, true);
+    }
+
     public function __invoke(Record $record)
     {
         return $record->getPhpValue();
