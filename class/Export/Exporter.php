@@ -40,4 +40,21 @@ interface Exporter extends Writer
      * @return string
      */
     public static function getDescription(): string;
+
+    /**
+     * Retourne une chaine qui décrit les types d'enregistrements Docalist supportés par l'exporteur.
+     *
+     * @return string
+     */
+    public function getSupportDescription(): string;
+
+    /**
+     * Indique si l'exporteur supporte le type d'enregistrement Docalist passé en paramètre.
+     *
+     * @param string $className Nom complet d'une classe PHP qui représente un type d'enregistrement Docalist
+     * (le nom d'un classe qui hérite de 'Docalist\Data\Record').
+     *
+     * @return bool Retourne true si l'exporteur sait exporteur les enregistrements de ce type, false sinon.
+     */
+    public function supports(string $className): bool;
 }
