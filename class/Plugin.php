@@ -15,10 +15,9 @@ use Docalist\Data\Type;
 use Docalist\Data\Settings\Settings;
 use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Data\Pages\AdminDatabases;
-use Docalist\Data\Export\ExportService;
 use Docalist\Data\Entity\ContentEntity;
+use Docalist\Data\Export\ExportSetup;
 use Exception;
-use Docalist\Data\Export\Exporter\StandardExporters;
 
 /**
  * Plugin de gestion des bases docalist.
@@ -49,7 +48,7 @@ class Plugin
         // Charge les fichiers de traduction du plugin
         load_plugin_textdomain('docalist-data', false, 'docalist-data/languages');
 
-        // Debug - permet de réinstaller les tables SVB
+        // Debug - permet de réinstaller les tables docalist-data
         if (isset($_GET['reinstall-tables']) && $_GET['reinstall-tables'] === 'docalist-data') {
             $installer = new Installer();
             echo 'Uninstall docalist-data tables...<br />';
@@ -64,9 +63,6 @@ class Plugin
         add_filter('docalist_service_views', function (Views $views) {
             return $views->addDirectory('docalist-data', DOCALIST_DATA_DIR . '/views');
         });
-
-        // Déclare le service "docalist-data-export"
-        docalist('services')->add('docalist-data-export', new ExportService());
 
         add_action('init', function () {
             // Charge la configuration du plugin
@@ -93,13 +89,11 @@ class Plugin
             ];
         });
 
-        // Liste des exporteurs définis dans ce plugin
-        add_filter('docalist_databases_get_export_formats', function (array $formats) {
-            return $formats + StandardExporters::getList();
-        }, 10);
-
         // Déclare nos assets
         require_once dirname(__DIR__) . '/assets/register.php';
+
+        // Initialise le module d'export
+        ExportSetup::setup();
     }
 
     /**
