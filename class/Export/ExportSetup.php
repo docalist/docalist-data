@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -13,7 +13,10 @@ use Docalist\Data\Export\Settings\ExportSettings;
 use Docalist\Data\Export\ExportService;
 use Docalist\Data\Export\AdminPage\SettingsPage;
 use Docalist\Data\Export\Widget\ExportWidget;
-use Docalist\Data\Export\Exporter\StandardExporters;
+use Docalist\Data\Export\Exporter\DocalistJson;
+use Docalist\Data\Export\Exporter\DocalistXml;
+use Docalist\Data\Export\Exporter\DocalistJsonPretty;
+use Docalist\Data\Export\Exporter\DocalistXmlPretty;
 
 /**
  * Initialisation du module d'export.
@@ -22,7 +25,7 @@ use Docalist\Data\Export\Exporter\StandardExporters;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class ExportSetup
+final class ExportSetup
 {
     /**
      * Initialise le module d'export.
@@ -47,7 +50,22 @@ class ExportSetup
 
         // Déclare les exporteurs définis dans ce plugin
         add_filter('docalist_databases_get_export_formats', function (array $formats) {
-            return $formats + StandardExporters::getList();
+            return $formats + self::getExporters();
         }, 10);
+    }
+
+    /**
+     * Retourne la liste des formats d'exports prédéfinis dans docalist-data.
+     *
+     * @return array[] Un tableau de la forme format-name => nom-de-classe.
+     */
+    private static function getExporters(): array
+    {
+        return [
+            DocalistJson::getID()       => DocalistJson::class,
+            DocalistJsonPretty::getID() => DocalistJsonPretty::class,
+            DocalistXml::getID()        => DocalistXml::class,
+            DocalistXmlPretty::getID()  => DocalistXmlPretty::class,
+        ];
     }
 }
