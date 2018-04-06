@@ -12,9 +12,6 @@ namespace Docalist\Data\Tests\Export\Exporter;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\DocalistJson;
 use Docalist\Data\Export\Converter\DocalistConverter;
-use Docalist\Data\Operation\FilterEmptyArrayElements;
-use Docalist\Data\Operation\FilterEmpty;
-use Docalist\Data\Operation\SortArrayByKey;
 use Docalist\Data\Export\Writer\JsonWriter;
 use Docalist\Data\Entity\ContentEntity;
 use Docalist\Data\Record;
@@ -51,12 +48,7 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     {
         $exporter = $this->createExporter();
 
-        $this->assertCount(4, $exporter->getOperations());
-        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $exporter->getOperation('converter'));
-        $this->assertInstanceOf(FilterEmptyArrayElements::class, $exporter->getOperation(0));
-        $this->assertInstanceOf(FilterEmpty::class, $exporter->getOperation(1));
-        $this->assertInstanceOf(SortArrayByKey::class, $exporter->getOperation(2));
-
+        $this->assertInstanceOf(static::EXPECTED_CONVERTER, $exporter->getConverter());
         $this->assertInstanceOf(static::EXPECTED_WRITER, $exporter->getWriter());
     }
 

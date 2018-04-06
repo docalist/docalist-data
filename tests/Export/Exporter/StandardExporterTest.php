@@ -12,6 +12,7 @@ namespace Docalist\Data\Tests\Export\Exporter;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\StandardExporter;
 use Docalist\Data\Record;
+use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\Writer;
 
 /**
@@ -34,37 +35,48 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
         {
             public function __construct()
             {
-                $filters = [
-                    // Record filter : transforme le premier enregistrement en tout maju et supprime les suivants
-                    function (Record $record)
+                // Record filter : transforme le premier enregistrement en tout maju et supprime les suivants
+                $before = function (Record $record)
+                {
+                    static $first = true;
+
+                    if (! $first) {
+                        return null;
+                    }
+
+                    foreach ($record->getPhpValue() as $field => $value) {
+                        $record->$field = strtolower($value);
+                    }
+
+                    $first = false;
+
+                    return $record;
+                };
+
+                // Convertisseur
+                $converter = new class implements Converter
+                {
+                    public function getSupportDescription(): string
                     {
-                        static $first = true;
+                        return 'Tous les types';
+                    }
 
-                        if (! $first) {
-                            return null;
-                        }
+                    public function supports(string $className): bool
+                    {
+                        return true;
+                    }
 
-                        foreach ($record->getPhpValue() as $field => $value) {
-                            $record->$field = strtolower($value);
-                        }
-
-                        $first = false;
-
-                        return $record;
-                    },
-
-                    // Convertisseur : convertit le record en array et ajoute un champ 'status'='CCC'
-                    function (Record $record)
+                    public function __invoke(Record $record)
                     {
                         return $record->getPhpValue() + ['status' => 'CCC'];
-                    },
-
-                    // Data filter : met la premiere lettre de chaque champ en maju
-                    function (array $data)
-                    {
-                        return array_map('ucfirst', $data);
                     }
-                ];
+                };
+
+                // Data filter : met la premiere lettre de chaque champ en maju
+                $after = function (array $data)
+                {
+                    return array_map('ucfirst', $data);
+                };
 
                 // Un Writer qui fait juste un var_export()
                 $writer = new class() implements Writer
@@ -90,7 +102,9 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
                     }
                 };
 
-                parent::__construct($filters, $writer);
+                parent::__construct($converter, $writer);
+                $this->prependOperation($before);
+                $this->appendOperation($after);
             }
 
             public static function getID(): string
