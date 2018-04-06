@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export;
+namespace Docalist\Data\Export\Widget;
 
 use WP_Widget;
 use Docalist\Search\SearchRequest;
