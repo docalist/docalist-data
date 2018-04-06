@@ -58,12 +58,12 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
                 {
                     public function getSupportDescription(): string
                     {
-                        return 'Tous les types';
+                        return 'XXXX';
                     }
 
                     public function supports(string $className): bool
                     {
-                        return true;
+                        return $className === 'XXXX';
                     }
 
                     public function __invoke(Record $record)
@@ -185,5 +185,18 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
 
         $exporter = $this->createExporter();
         $this->assertSame('my-ID-writer.ext2', $exporter->suggestFilename());
+    }
+
+    public function testSupports()
+    {
+        $exporter = $this->createExporter();
+        $this->assertTrue($exporter->supports('XXXX'));
+        $this->assertFalse($exporter->supports('YYYY'));
+    }
+
+    public function testGetSupportDescription()
+    {
+        $exporter = $this->createExporter();
+        $this->assertSame('XXXX', $exporter->getSupportDescription());
     }
 }
