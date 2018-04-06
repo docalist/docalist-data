@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -10,6 +10,7 @@
 namespace Docalist\Data\Export;
 
 use Docalist\AdminPage;
+use Docalist\Data\Export\Settings\ExportSettings;
 use Exception;
 
 /**
@@ -22,22 +23,22 @@ class SettingsPage extends AdminPage
     /**
      * Paramètres du plugin.
      *
-     * @var Settings
+     * @var ExportSettings
      */
     protected $settings;
 
     /**
      * Crée la page de réglages des paramètres du plugin.
      *
-     * @param Settings $settings Paramètres du plugin.
+     * @param ExportSettings $settings Paramètres du plugin.
      */
-    public function __construct(Settings $settings)
+    public function __construct(ExportSettings $settings)
     {
         $this->settings = $settings;
 
         parent::__construct(
             'docalist-data-export-settings',           // ID
-            'options-general.php',                          // page parent
+            'options-general.php',                     // page parent
             __('Export et biblios', 'docalist-data')   // libellé menu
         );
     }
@@ -57,13 +58,11 @@ class SettingsPage extends AdminPage
                 $_POST = wp_unslash($_POST);
                 $this->settings->exportpage = (int) $_POST['exportpage'];
                 $this->settings->limit = $_POST['limit'];
-
                 // $settings->validate();
+                $this->settings->filterEmpty(false);
                 $this->settings->save();
 
-                docalist('admin-notices')->success(
-                    __('Options enregistrées.', 'docalist-data')
-                );
+                docalist('admin-notices')->success(__("Les options d'export ont été enregistrées.", 'docalist-data'));
 
                 return $this->redirect($this->getUrl($this->getDefaultAction()), 303);
             } catch (Exception $e) {
