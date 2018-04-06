@@ -40,4 +40,18 @@ class LimitSetting extends Composite
             ],
         ];
     }
+
+    public function filterEmpty($strict = true)
+    {
+        // Supprime les éléments vides
+        $empty = parent::filterEmpty();
+
+        // Si tout est vide ou si on est en mode strict, terminé
+        if ($empty || $strict) {
+            return $empty;
+        }
+
+        // Retourne true si on n'a pas de nom
+        return $this->filterEmptyProperty('role');
+    }
 }
