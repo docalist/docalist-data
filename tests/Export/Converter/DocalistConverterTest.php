@@ -10,9 +10,11 @@
 namespace Docalist\Data\Tests\Export\Exporter;
 
 use PHPUnit_Framework_TestCase;
-use Docalist\Data\Record;
 use Docalist\Data\Export\Converter\DocalistConverter;
 use Docalist\Data\Export\Converter;
+use Docalist\Data\Record;
+use Docalist\Type\Entity;
+use Docalist\Data\Entity\ContentEntity;
 
 /**
  * Teste le processeur SortFields.
@@ -24,7 +26,7 @@ class DocalistConverterTest extends PHPUnit_Framework_TestCase
     /**
      * Teste le convertisseur.
      */
-    public function testProcess()
+    public function testInvoke()
     {
         // Crée le convertisseur
         $convert = new DocalistConverter();
@@ -43,5 +45,20 @@ class DocalistConverterTest extends PHPUnit_Framework_TestCase
         $data = ['posttype' => 'record', 'posttitle' => 'titre'];
         $record = new Record($data);
         $this->assertSame($data, $convert($record));
+    }
+
+    public function testSupports()
+    {
+        $converter = new DocalistConverter();
+        $this->assertFalse($converter->supports('XXX'));
+        $this->assertFalse($converter->supports(Entity::class));
+        $this->assertTrue($converter->supports(Record::class));
+        $this->assertTrue($converter->supports(ContentEntity::class));
+    }
+
+    public function testGetSupportDescription()
+    {
+        $converter = new DocalistConverter();
+        $this->assertNotEmpty(trim($converter->getSupportDescription()));
     }
 }
