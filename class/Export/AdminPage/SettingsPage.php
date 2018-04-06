@@ -7,7 +7,7 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export;
+namespace Docalist\Data\Export\AdminPage;
 
 use Docalist\AdminPage;
 use Docalist\Data\Export\Settings\ExportSettings;
