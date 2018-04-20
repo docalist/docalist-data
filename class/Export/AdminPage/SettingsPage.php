@@ -39,7 +39,7 @@ class SettingsPage extends AdminPage
         parent::__construct(
             'docalist-data-export-settings',           // ID
             'options-general.php',                     // page parent
-            __('Export et biblios', 'docalist-data')   // libellé menu
+            __('Export Docalist', 'docalist-data')   // libellé menu
         );
     }
 
