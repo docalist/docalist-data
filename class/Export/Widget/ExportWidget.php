@@ -10,9 +10,10 @@
 namespace Docalist\Data\Export\Widget;
 
 use WP_Widget;
-use Docalist\Search\SearchRequest;
 use Docalist\Search\SearchResponse;
 use Docalist\Forms\Container;
+use Docalist\Search\SearchEngine;
+use Docalist\Data\Export\ExportService;
 
 /**
  * Widget "Export Docalist".
@@ -26,13 +27,36 @@ class ExportWidget extends WP_Widget
         $id = 'docalist-data-export';
         parent::__construct(
             $id,                                        // ID de base. WordPress ajoute le préfixe "widget"
-            __('Export de notices', 'docalist-data'),   // Titre (nom) du widget affiché en back office
+            __('Export Docalist', 'docalist-data'),     // Titre (nom) du widget affiché en back office
             [                                           // Args
-                'description' => __('Export de notices', 'docalist-data'),
+                'description' => __(
+                    "Affiche les liens permettant d'exporter la recherche en cours",
+                    'docalist-data'
+                ),
                 'classname' => $id,                     // par défaut, WordPress met 'widget_'.$id
                 'customize_selective_refresh' => true,
             ]
         );
+    }
+
+    /**
+     * Construit l'url permettant d'exporter la recherche en cours.
+     *
+     * @return string L'url à utiliser pour l'export ou une chaine vide si l'export n'est pas possible.
+     */
+    private function getExportUrl(): string
+    {
+        // Récupère le service docalist-search
+        $searchEngine = docalist('docalist-search-engine'); /** @var SearchEngine $searchEngine */
+
+        // Récupère les résultats de la recherche en cours
+        $searchResponse = $searchEngine->getSearchResponse(); /** @var SearchResponse $searchResponse */
+
+        // Récupère le service d'export
+        $exportService = docalist('docalist-data-export'); /** @var ExportService $exportService */
+
+        // Ok
+        return $exportService->getExportUrl($searchResponse);
     }
 
     /**
@@ -55,20 +79,9 @@ class ExportWidget extends WP_Widget
      */
     public function widget($context, $settings)
     {
-        // Seuls les utilisateurs loggués peuvent exporter, si ce n'est pas le cas, on n'affiche pas le widget
-        if (! is_user_logged_in()) {
-            return;
-        }
-
-        // Si on n'a pas de recherche en cours, on n'affiche pas le widget
-        $searchRequest = docalist('docalist-search-engine')->getSearchRequest(); /** @var SearchRequest $request */
-        if (is_null($searchRequest)) {
-            return;
-        }
-
-        // Si on n'a pas de hits, on n'affiche pas le widget
-        $searchResponse = docalist('docalist-search-engine')->getSearchResponse(); /** @var SearchResponse $results */
-        if (is_null($searchResponse) || $searchResponse->getHitsCount() === 0) {
+        // Détermine l'url de l'export
+        $url = $this->getExportUrl();
+        if (empty($url)) {
             return;
         }
 
@@ -87,20 +100,17 @@ class ExportWidget extends WP_Widget
         }
 
         // Début des liens
-        $link = '<li class="%s" style="%s" title="%s"><a href="%s">%s</a></li>';
-        echo '<ul>';
+        $link = '<li class="%s" title="%s"><a href="%s">%s</a></li>';
 
-        // Détermine l'url de la page "export"
-        $exportPage = get_permalink(docalist('docalist-data-export')->exportpage());
+        echo '<ul>';
 
         // Lien "Exporter"
         $label = $settings['file'];
         $label && printf(
             $link,
             'export-file',
-            '',
             __("Génére un fichier d'export", 'docalist-data'),
-            $exportPage,
+            $url,
             $label
         );
 
@@ -109,9 +119,8 @@ class ExportWidget extends WP_Widget
         $label && printf(
             $link,
             'export-print',
-            '',
             __('Génére une bibliographie', 'docalist-data'),
-            $exportPage,
+            $url,
             $label
         );
 
@@ -120,9 +129,8 @@ class ExportWidget extends WP_Widget
         $label && printf(
             $link,
             'export-mail',
-            '',
             __("Génère un fichier d'export et l'envoie par messagerie", 'docalist-data'),
-            $exportPage,
+            $url,
             $label
         );
 
