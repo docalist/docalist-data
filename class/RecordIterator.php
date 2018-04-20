@@ -1,15 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * This file is part of the 'Docalist Biblio' plugin.
+ * This file is part of Docalist Data.
  *
  * Copyright (C) 2012-2018 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
- *
- * @package     Docalist
- * @subpackage  Biblio
- * @author      Daniel Ménard <daniel.menard@laposte.net>
  */
 namespace Docalist\Data;
 
@@ -20,9 +16,18 @@ use Countable;
 
 /**
  * Un itérateur de références (pour l'export).
+ *
+ * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class RecordIterator implements Iterator, Countable
 {
+    /**
+     * Taille des batchs
+     *
+     * @var integer
+     */
+    const BATCH_SIZE = 1000;
+
     /**
      * La requête en cours.
      *
@@ -69,12 +74,12 @@ class RecordIterator implements Iterator, Countable
      * Construit l'itérateur.
      *
      * @param SearchRequest $searchRequest
-     * @param int $limit Nombre maximum de notices à itérer.
+     * @param int $limit Nombre maximum de notices à itérer (zéro = pas de limite).
      */
-    public function __construct(SearchRequest $searchRequest, $limit = null)
+    public function __construct(SearchRequest $searchRequest, int $limit = 0)
     {
         $this->searchRequest = $searchRequest;
-        $this->searchRequest->setSize(1000);
+        $this->searchRequest->setSize($limit === 0 ? self::BATCH_SIZE : min($limit, self::BATCH_SIZE));
         $this->limit = $limit;
         $this->count = 0;
     }
@@ -90,7 +95,7 @@ class RecordIterator implements Iterator, Countable
             return false;
         }
 
-        if ($this->limit && $this->count >= $this->limit) {
+        if (0 !== $this->limit && $this->count >= $this->limit) {
             return false;
         }
 
@@ -112,7 +117,9 @@ class RecordIterator implements Iterator, Countable
         ++$this->current;
         ++$this->count;
         if (! $this->valid()) {
-            $this->loadPage($this->searchRequest->getPage() + 1);
+            if ($this->searchResponse && $this->count < $this->searchResponse->getHitsCount()) {
+                $this->loadPage($this->searchRequest->getPage() + 1);
+            }
         }
     }
 
