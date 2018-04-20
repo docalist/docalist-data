@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -9,14 +9,18 @@
  */
 namespace Docalist\Data\Export;
 
-use WP_Query;
+use Docalist\Data\Export\Settings\ExportSettings;
+use Docalist\Data\Export\Exporter;
+use Docalist\Data\Database;
+use Docalist\Data\RecordIterator;
 use Docalist\Search\SearchUrl;
-use Docalist\Search\SearchRequest;
-use Docalist\Http\ViewResponse;
 use Docalist\Search\SearchResponse;
-use Docalist\Data\Export\ExportWidget;
-use Docalist\Search\Aggregation\Standard\TermsIn;
-use RuntimeException;
+use Docalist\Search\QueryDSL;
+use Docalist\Search\Aggregation\Bucket\TermsAggregation;
+use Docalist\Tokenizer;
+use Docalist\Views;
+use InvalidArgumentException;
+use WP_Query;
 
 /**
  * Service docalist-data-export  : génère des fichiers d'export et des bibliographies.
@@ -28,351 +32,421 @@ class ExportService
     /**
      * Les paramètres du plugin.
      *
-     * @var Settings
+     * @var ExportSettings
      */
     protected $settings;
 
     /**
-     * Nom du transient utilisé pour stocker la dernière requête docalist-search
-     * exécutée.
-     *
-     * @var string
-     */
-    const TRANSIENT = 'docalist-data-export-last-request-%d';
-
-    /**
-     * La requête docalist-search contenant les notices à exporter.
-     *
-     * Initialisé par checkParams().
-     *
-     * @var SearchRequest
-     */
-    protected $request;
-
-    /**
-     * Le format d'export à utiliser.
-     *
-     * Initialisé par checkParams().
-     *
-     * @var Format
-     */
-    protected $format;
-
-    /**
-     * Indique s'il faut compresser le fichier généré.
-     *
-     * Initialisé par checkParams().
-     *
-     * @var bool
-     */
-    protected $zip;
-
-    /**
-     * Indique s'il faut envoyer le fichier par e-mail.
-     *
-     * Initialisé par checkParams().
-     *
-     * @var bool
-     */
-    protected $mail;
-
-
-    /**
      * Initialise le plugin.
      */
-    public function __construct()
+    public function __construct(ExportSettings $settings)
     {
-        // Charge la configuration du plugin
-        $this->settings = new Settings(docalist('settings-repository'));
+        // Stocke les paramètres du module d'export
+        $this->settings = $settings;
 
-        // Crée la page de réglages du plugin
-        add_action('admin_menu', function () {
-            new SettingsPage($this->settings);
-        });
+        // Récupère l'ID de la page d'export, terminé si on n'en a pas
+        $exportPageID = $this->getExportPageID();
+        if (empty($exportPageID)) {
+            return;
+        }
 
-        // Déclare le widget "Export notices"
-        add_action('widgets_init', function () {
-            register_widget(ExportWidget::class);
-        });
-
-        // Stocke la dernière requête exécutée par docalist-search dans un transient.
-        // On utilise une priorité haute pour laisser la possibilité à tous les autres plugins de créer la requête.
-        // On en profite pour tester si on est sur la page "export" (c'est plus simple de le faire içi plutôt que
-        // d'intercepter parse_query et ça fait un filtre en moins) et si c'est le cas, on vérifie les paramètres
-        // indiqués et on déclenche l'export.
-        add_filter('docalist_search_create_request', function (SearchRequest $request = null, WP_Query $query) {
-            // Stocke la SearchRequest
-            if ($request && is_user_logged_in()) {
-                $url = $request->getSearchUrl()->getUrl();
-                set_transient($this->transient(), $url, 24 * HOUR_IN_SECONDS);
+        // Déclenche l'export quand l'utilisateur accède à la page "export"
+        add_action('pre_get_posts', function(WP_Query $query) use ($exportPageID) {
+            if ($query->is_main_query() && $query->is_page && $exportPageID === $query->get_queried_object_id()) {
+                $view = $this->actionExport();
             }
-
-            // Déclenche l'export si on est sur la page "export"
-            if ($query->is_main_query() && $query->is_page && $query->get_queried_object_id() === $this->exportPage()) {
-                $view = $this->checkParams(); // true si ok, une View sinon
-                if ($view === true) {
-                    $this->export();
-                } else {
-                    $this->showView($view);
-                }
-            }
-
-            return $request;
-        }, 9999, 2);
-    }
-
-    /**
-     * Retourne le nom du transient utilisé pour l'utilisateur en cours.
-     *
-     * @return string
-     */
-    public function transient()
-    {
-        return sprintf(self::TRANSIENT, get_current_user_id());
-    }
-
-    /**
-     * Retourne les paramètres du plugin.
-     *
-     * @return Settings
-     */
-    public function settings()
-    {
-        return $this->settings;
+        });
     }
 
     /**
      * Retourne l'ID de la page "export" indiquée dans les paramètres du plugin.
      *
+     * @return int Retourne l'ID WordPress de la page export ou zéro si l'export n'a pas été paramétré.
+     */
+    private function getExportPageID(): int
+    {
+        return $this->settings->exportpage->getPhpValue();
+    }
+
+    /**
+     * Teste si l'utilisateur en cours a les droits requis pour lancer un export.
+     *
+     * @return bool
+     */
+    private function currentUserCanExport(): bool
+    {
+        return 0 !== $this->getExportLimit();
+    }
+
+    /**
+     * Retourne le nombre maximum de notices que l'utilisateur en cours peut exporter.
+     *
      * @return int
      */
-    public function exportPage()
+    private function getExportLimit(): int
     {
-        return $this->settings->exportpage();
-    }
-
-    /**
-     * Teste si on a tous les paramètres requis pour pouvoir lancer l'export.
-     *
-     * @return true|ViewResponse Retourne true si on a tout ce qu'il faut et
-     * que tout est ok, sinon retourne une vue contenant le formulaire "choix
-     * du format d'export" ou un message à afficher à l'utilisateur.
-     */
-    protected function checkParams()
-    {
-        // Affiche un message si on n'a aucune requête en cours
-        $url = get_transient($this->transient());
-        if ($url === false) {
-            return $this->view('docalist-data:export/norequest');
-        }
-
-        // Crée la requête
-        $url = new SearchUrl($url);
-        $request = $url->getSearchRequest();
-
-        // Exécute la requête
-        $agg = new TermsIn();
-        $request->addAggregation($agg->getName(), $agg);
-        $request->setSize(0);
-        $searchResponse = $request->execute(); /** @var SearchResponse $results */
-
-        // Affiche un message si on a aucune réponse
-        if ($searchResponse->getHitsCount() === 0) {
-            return $this->view('docalist-data:export/nohits');
-        }
-
-        // Détermine la liste des types de notices qu'on va exporter
-        $countByType = $types = [];
-        foreach ($agg->getBuckets() as $bucket) {
-            $types[] = $bucket->key;
-            $label = $agg->getBucketLabel($bucket);
-            $countByType[$label] = $bucket->doc_count;
-        }
-
-        // Récupère la liste des formats d'export possibles
-        $formats = $this->formats($types);
-        if (empty($formats)) {
-            return $this->view('docalist-data:export/noformat', [
-                'types' => $countByType,
-                'total' => $searchResponse->getHitsCount(),
-                'max' => 100,
-            ]);
-        }
-
-        // Récupère les options transmises en paramètres
-        $mail = isset($_REQUEST['mail']) && $_REQUEST['mail'] === '1';
-        $zip = isset($_REQUEST['zip']) && $_REQUEST['zip'] === '1';
-        $format = isset($_REQUEST['format']) ? $_REQUEST['format'] : null;
-        $go = isset($_REQUEST['go']) && $_REQUEST['go'] === '1';
-
-        // Vérifie que le format indiqué figure dans la liste des formats possibles
-        isset($format) && !isset($formats[$format]) && $format = null;
-
-        // Si tout est ok, retourne true
-        if (isset($format) && $go) {
-            $this->request = $request;
-            $this->mail = $mail;
-            $this->zip = $zip;
-            $this->format = $formats[$format];
-
-            return true;
-        }
-
-        // Sinon, affiche le formulaire "choix du format"
-        return $this->view('docalist-data:export/form', [
-            'types' => $countByType,
-            'total' => $searchResponse->getHitsCount(),
-            'max' => 100,
-            'formats' => $formats,
-            'format' => is_null($format) ? key($formats) : $format, // le premier par défaut
-            'mail' => $mail,
-            'zip' => $zip,
-        ]);
-    }
-
-    /**
-     * Injecte le contenu généré par la vue passée en paramètres dans la page
-     * "export".
-     *
-     * @param ViewResponse $view La vue à exécutr.
-     */
-    protected function showView(ViewResponse $view)
-    {
-        $injectView = function ($content) use ($view) {
-            global $post;
-
-            // Vérifie que c'est bien notre page
-            if ($post->ID !== $this->exportPage()) {
-                return $content;
+        $user = wp_get_current_user();
+        $roles = is_null($user) ? [] : $user->roles;
+        $roles[] = '(anonymous)';
+        $limit = 0;
+        foreach ($roles as $role) {
+            if (isset($this->settings->limit[$role])) {
+                $limit = max($limit, $this->settings->limit[$role]->limit->getPhpValue());
             }
+        }
 
-            // Exécute la vue et retourne le contenu généré
-            return $view->getContent();
-        };
+        return $limit;
+    }
 
-        // On ne sait pas si le thème utilise the_content() ou the_excerpt()
-        // donc on intercepte les deux, en utilisant une priorité très haute
-        // pour court-circuiter wp_autop et compagnie.
-        add_filter('the_content', $injectView, 9999);
-        add_filter('the_excerpt', $injectView, 9999);
+    /**
+     * Teste si les résultats de recherche passés en paramètre peuvent être exportés.
+     *
+     * La méthode retourne true si :
+     *
+     * - l'administrateur a paramétré la page à utiliser pour l'export,
+     * - l'utilisateur en cours a les droits requis pour lancer un export,
+     * - les résultats de recherche passés en paramètres ne sont pas vides,
+     * - on peut accéder à la SearchUrl qui a généré la recherche.
+     *
+     * @param SearchResponse $searchResponse Résultats de recherche à exporter.
+     *
+     * @return bool
+     */
+    private function canExport(SearchResponse $searchResponse): bool
+    {
+        $exportPage = $this->getExportPageID();
+        if (empty($exportPage)) {
+            return false;
+        }
+
+        if (! $this->currentUserCanExport()) {
+            return false;
+        }
+
+        if (0 === $searchResponse->getHitsCount()) {
+            return false;
+        }
+
+        if (is_null($request = $searchResponse->getSearchRequest()) || is_null($request->getSearchUrl())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Retourne l'url permettant d'exporter les résultats d'une recherche passés en paramètre.
+     *
+     * @param SearchResponse $searchResponse Résultats de recherche à exporter.
+     * @param string $format Optionnel, format d'export souhaité. Si aucun format n'est indiqué, le choix sera
+     * proposé à l'utilisateur.
+     *
+     * @return string Retourne l'url obtenue ou une chaine vide si l'export n'est pas possible (i.e. si canExport()
+     * retourne false).
+     */
+    public function getExportUrl(SearchResponse $searchResponse, string $format = ''): string
+    {
+        // Vérifie que l'export est possible
+        if (! $this->canExport($searchResponse)) {
+            return '';
+        }
+
+        // Récupère l'url complète de la recherche en cours (y compris les types implicites éventuels)
+        $searchUrl = $searchResponse->getSearchRequest()->getSearchUrl(); // not null, vérifié par canExport()
+        $types = $searchUrl->getTypes();
+        if ($searchUrl->hasFilter('in') || empty($types)) {
+            $url = $searchUrl->getUrlForPage(1);
+        } else {
+            $url = $searchUrl->toggleFilter('in', $types);
+        }
+
+        // Extrait la query string
+        $pt = strpos($url, '?');
+        $queryString = ($pt === false) ? '' : substr($url, $pt);
+
+        // Détermine l'url de la page "export"
+        $url = get_permalink($this->getExportPageID()); // not zéro, vérifié par canExport()
+        $url .= $queryString;
+
+        // Done
+        return $url;
+    }
+
+    /**
+     *
+     * Retourne un entête "Content-Disposition" pour le fichier et la disposition indiqués.
+     *
+     * @param string $filename  Le nom du fichier.
+     * @param string $disposition La disposition souhaitée : "attachment" (par défaut) ou "inline".
+     *
+     * @return string
+     */
+    private function getContentDispositionHeader(string $filename, string $disposition = 'attachment'): string
+    {
+        // Crée une version ascii sans espaces du nom du fichier
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $name = pathinfo($filename, PATHINFO_FILENAME);
+        $asciiFilename = implode('-', Tokenizer::tokenize($name)) . '.' . $extension;
+
+        // Génère l'entête
+        $header = sprintf('Content-Disposition: %s; filename="%s"', $disposition, $asciiFilename);
+
+        // Indique le nom exact du fichier s'il est différent de la version ascii
+        ($filename !== $asciiFilename) && $header.= sprintf("; filename*=utf-8''%s", rawurlencode($filename));
+
+        return $header;
+    }
+
+    /**
+     * Lance une recherche à partir de l'url passée en paramètre.
+     *
+     * La réponse retournée contient une agrégation "types" de type "terms" sur les types de notices.
+     *
+     * @param string $url
+     *
+     * @return SearchResponse Retourne les résultats de recherche obtenus.
+     */
+    private function search(string $url): SearchResponse
+    {
+        // Crée une SearchUrl à partir de l'url indiquée
+        $searchUrl = new SearchUrl($url);
+
+        // Génère une SearchRequest à partir de cette SearchUrl
+        $request = $searchUrl->getSearchRequest();
+        $request->setSize(0);
+
+        // Ajoute une agrégation sur les types de notices
+        $agg = new TermsAggregation('type', ['size' => 1000]);
+        $agg->setName('types');
+        $request->addAggregation($agg->getName(), $agg);
+
+        // Exécute la requête et retourne la SearchResponse obtenue
+        return $request->execute(); // TODO : si null ?
+    }
+
+    /**
+     * Retourne le nom complet de la classe PHP qui implémente le type d'enregistrement passé en paramètre.
+     *
+     * @param string $type Nom du type (par exemple 'article' ou 'book').
+     *
+     * @return string Nom de la classe Php (par exemple Docalist\Biblio\Entity\BookEntity).
+     */
+    private function getClassForType(string $type): string
+    {
+        if ($type === 'post' || $type === 'page') {
+            return 'WP_Post';
+        }
+
+        try {
+            return Database::getClassForType($type); // Génère une exception si ce n'est pas un type docalist
+        } catch (InvalidArgumentException $e) {
+            return 'UnknownContentType';
+        }
+    }
+
+    /**
+     * Retourne des informations sur les types d'enregistrements qui figurent dans les résutlats de recherche
+     * passés en paramètre.
+     *
+     * @param SearchResponse $searchResponse Les résultats de recherche à examiner (générée par search()).
+     *
+     * La SearchResponse doit contenir une agrégation "types" de type "terms" sur le champ "type" qui est utilisée
+     * pour récupérer le nombre de réponses par type d'enregistrement.
+     *
+     * @return array[] Un tableau indexé par nom de type dont chaque élément contient les éléments suivants :
+     * - 'type' : le nom du type (article, book, etc.)
+     * - 'class' : Nom complet de la classe PHP qui gère le type,
+     * - 'label' : le libellé du type,
+     * - 'count' : le nombre total de réponses de ce type dans les résultats.
+     */
+    private function getTypesInfo(SearchResponse $searchResponse): array
+    {
+        $agg = $searchResponse->getAggregation('types'); /** @var TermsAggregation $agg */
+        $typesInfo = [];
+        foreach ($agg->getBuckets() as $bucket) {
+            $typesInfo[$bucket->key] = [
+                'type' => $bucket->key,
+                'class' => $this->getClassForType($bucket->key),
+                'label' => $agg->getBucketLabel($bucket),
+                'count' => $bucket->doc_count,
+            ];
+        }
+
+        return $typesInfo;
+    }
+
+    /**
+     * Retourne des informations sur les exporteurs capables d'exporter les types d'enregistrements indiqués.
+     *
+     * @param array[] $typesInfo Le tableau d'informations sur les types d'enregistrements retourné par getTypesInfo().
+     *
+     * @return array[] Un tableau indexé par ID contenant des informations sur les exporteurs disponibles :
+     * - 'ID' : ID de l'exporteur,
+     * - 'class' : Nom complet de la classe PHP de l'exporteur,
+     * - 'label' : Libellé de l'exporteur,
+     * - 'description' : Description de l'exporteur,
+     * - 'supported' : Liste des types d'enregistrements supportés,
+     * - 'unsupported' : Liste des types d'enregistrements non supportés,
+     * - 'count' : Nombre total de notices qui pourront être exportées.
+     */
+    private function getExportersInfo(array $typesInfo)
+    {
+        // Récupère l'ID et le nom de classe PHP des exporters disponibles
+        $exporters = apply_filters('docalist_databases_get_export_formats', []);
+
+        // Teste les types qui sont supportés par chaque exporteur
+        $result = [];
+        foreach ($exporters as $key => $class) {
+            $exporter = new $class(); /** @var Exporter $exporter */
+            $count = 0;
+            $supported = $unsupported = [];
+            foreach ($typesInfo as $typeInfo) {
+                if ($exporter->supports($typeInfo['class'])) {
+                    $supported[$typeInfo['type']] = $typeInfo['label'];
+                    $count += $typeInfo['count'];
+                } else {
+                    $unsupported[$typeInfo['type']] = $typeInfo['label'];
+                }
+            }
+            if ($count !== 0) {
+                $result[$key] = [
+                    'ID' => $key,
+                    'class' => $class,
+                    'label' => $exporter->getLabel(),
+                    'description' => $exporter->getDescription(),
+                    'supported' => $supported,
+                    'unsupported' => $unsupported,
+                    'count' => $count,
+                ];
+            }
+        }
+
+        // Ok
+        return $result;
     }
 
     /**
      * Lance l'export.
      *
-     * Teste si on a tous les paramètres requis, affiche le formulaire si ce
-     * n'est pas le cas, lance l'export sinon.
+     * La méthode vérifie qu'on a tous les paramètres requis et lance l'export.
+     * S'il manque des paramètres ou que quelque chose ne va pas, elle affiche une vue.
      */
-    protected function export()
+    private function actionExport(): void
     {
+        // Teste si l'utilisateur en cours a le droit d'exporter et détermine la limite
+        $limit = $this->getExportLimit();
+        if (0 === $limit) {
+            $this->view('docalist-data:export/access-denied');
+
+            return;
+        }
+
+        // Lance une recherche à partir des paramètres transmis en query string
+        $searchResponse = $this->search($_SERVER['REQUEST_URI']);
+
+        // Affiche un message à l'utilisateur si on n'a aucune réponse
+        if ($searchResponse->getHitsCount() === 0) {
+            $this->view('docalist-data:export/nohits');
+
+            return;
+        }
+
+        // Récupère des informations sur les types d'enregistrements qui figurent dans les résultats
+        $typesInfo = $this->getTypesInfo($searchResponse);
+
+        // Récupère des informations sur les exporteurs capables d'exporteurs tout ou partie des résultats
+        $exportersInfo = $this->getExportersInfo($typesInfo);
+
+        // Affiche un message à l'utilisateur si aucun exporteur n'est disponible
+        if (0 === count($exportersInfo)) {
+            $this->view('docalist-data:export/noformat', ['count' => $searchResponse->getHitsCount()]);
+
+            return;
+        }
+
+        // Affiche la page "choix du format" si aucun exporteur n'a été indiqué
+        if (empty($_GET['_exporter'])) {
+            $this->view('docalist-data:export/form', [
+                'exportersInfo' => $exportersInfo,
+                'count' => $searchResponse->getHitsCount(),
+                'max' => $limit,
+            ]);
+
+            return;
+        }
+
+        // Affiche un message si l'exporteur indiqué n'existe pas ou ne peut pas traiter les données à exporter
+        $exporter = $_GET['_exporter'];
+        if (!empty($exporter) && !isset($exportersInfo[$exporter])) {
+            $this->view('docalist-data:export/invalidformat');
+
+            return;
+        }
+
+        // Lance l'export
+        $class = $exportersInfo[$exporter]['class'];
+        $supportedTypes = array_keys($exportersInfo[$exporter]['supported']);
+        unset($exportersInfo);
+        $exporter = new $class(); /** @var Exporter $exporter */
+
+        // Génère les entêtes http
+        $disposition = $exporter->isBinaryContent() ? 'attachment' : 'inline';
+        header('Content-Type: ' . $exporter->getContentType());
+        header($this->getContentDispositionHeader($exporter->suggestFilename(), $disposition));
+        header('X-Content-Type-Options: nosniff');
+
         // Permet au script de s'exécuter longtemps
         set_time_limit(3600);
 
-        $mode = 'attachment'; // TODO
-        $disposition = ($mode === 'display') ? 'inline' : 'attachment';
+        // Modifie la requête pour qu'elle ne contienne que les types supportés par l'exporteur
+        $dsl = docalist('elasticsearch-query-dsl'); /** @var QueryDSL $dsl */
+        $request = $searchResponse->getSearchRequest();
+        $request->addFilter($dsl->terms('type', $supportedTypes));
+        $request->removeAggregation('types'); // l'aggrégation sur les types n'est plus nécessaire
 
-        $this->format->export($this->request, $disposition, 1000); // TODO from settings
+        // Exporte les enregistrements
+        set_time_limit(3600);
+        $iterator = new RecordIterator($request, $limit);
+        $exporter->export($iterator);
 
+        // Stoppe l'exécution de WordPress : on ne veut pas afficher la page "export"
         die();
     }
 
     /**
-     * Retourne la liste des formats disponibles pour les types indiqués.
+     * Remplace le contenu de la page export par le résultat de la vue passée en paramètre.
      *
-     * @param array $types La liste des types.
-     *
-     * @throws RuntimeException
-     *
-     * @return Format[]
+     * @param string    $view Le nom de la vue à exécuter.
+     * @param mixed[]   $data Un tableau contenant les données à transmettre à la vue.
      */
-    protected function formats(array $types)
+    private function view(string $view, array $data = []): void
     {
-        // Dans une table 'export-formats', on aura la liste des formats définis
-        // ['name', 'converter', 'converter-settings', 'exporter', 'exporter-settings']
-        // Dans les settings, on aura pour chaque type indexé par docalist-search :
-        // 'formats' => liste des formats autorisés pour ce type = ['format1', 'format2', ...]
+        // Exécute la vue
+        $views = docalist('views'); /** @var Views $views */
+        $data['this'] = $this;
+        $content = $views->render($view, $data);
 
-        // Liste des formats autorisés pour chaque type
-        // TODO : depuis les settings
-        $formatsByType = [
-            'prisme' => [ // en local
-                'prisme2014-delimited',
-                'prisme2014-uppercase-delimited',
-                'prisme2011-delimited',
-                'prisme2011-uppercase-delimited',
-                'docalist-json-pretty',
-                'docalist-xml-pretty',
-            ],
-            'dbprisme' => [
-                'prisme2014-delimited',
-                'prisme2014-uppercase-delimited',
-                'prisme2011-delimited',
-                'prisme2011-uppercase-delimited',
-                'docalist-json-pretty',
-                'docalist-xml-pretty',
-            ],
-            'dbtests' => [
-                'prisme2014-delimited',
-                'prisme2014-uppercase-delimited',
-                'prisme2011-delimited',
-                'prisme2011-uppercase-delimited',
-                'docalist-json-pretty',
-                'docalist-xml-pretty',
-            ],
-            'post' => [
-                'docalist-json-pretty',
-                'docalist-xml-pretty',
-            ],
-            'page' => [
-                'docalist-json-pretty',
-                'docalist-xml-pretty',
-            ],
-        ];
+        // On utilise une priorité haute pour court-circuiter les filtres WordPress (wp_autop, embed, etc.)
+        $exportPage = $this->getExportPageID();
+        add_filter('the_content', function (string $oldContent) use ($content, $exportPage) {
+            global $post;
 
-        // Crée la liste des formats communs à tous les types qu'on a
-        $formats = null;
-        foreach ($types as $type) {
-            if (! isset($formatsByType[$type])) {
-                $formats = [];
-                break;
-            }
-            $f = array_flip($formatsByType[$type]);
-            $formats = empty($formats) ? $f : array_intersect_key($formats, $f);
-        }
-
-        // Récupère la liste des formats d'export définis
-        // TODO : depuis la table
-        $allFormats = apply_filters('docalist_databases_get_export_formats', []);
-        if (empty($allFormats)) {
-            throw new RuntimeException(__("Aucun format d'export disponible", 'docalist-data'));
-        }
-        // on récupère un tableau de la forme 'format' => params
-
-        // Instancie les formats
-        foreach ($formats as $name => & $format) {
-            if (!isset($allFormats[$name])) {
-                throw new RuntimeException("Le format $name n'existe pas");
-            }
-            $format = new Format($name, $allFormats[$name]);
-        }
-        unset($format); // juste pour éviter warning "var not used"
-
-        // Ok
-        return $formats;
+            return (isset($post->ID) && $post->ID === $exportPage) ? $content : $oldContent;
+        }, 9999);
     }
 
     /**
-     * Exécute la vue indiquée et retourne le contenu généré.
+     * Change le titre de la page export.
      *
-     * @param string $view Nom de la vue.
-     * @param array $viewArgs Paramètres à passer à la vue.
+     * Cette méthode est appellée depuis les vues pour changer le titre de la page.
      *
-     * @return string
+     * @param string $title Le titre à afficher.
      */
-    protected function view($view, array $viewArgs = [])
+    private function setTitle(string $title): void
     {
-        !isset($viewArgs['this']) && $viewArgs['this'] = $this;
-
-        return new ViewResponse($view, $viewArgs);
+        $exportPage = $this->getExportPageID();
+        add_filter('the_title', function (string $oldTitle, int $id) use ($title, $exportPage) {
+            return ($id === $exportPage) ? $title : $oldTitle;
+        }, 9999, 2);
     }
 }
