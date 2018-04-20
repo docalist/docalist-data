@@ -31,14 +31,14 @@ class ExportSettings extends Settings
             'fields' => [
                 'exportpage' => [
                     'type' => Integer::class,
-                    'label' => __("Page pour l'export", 'docalist-data'),
+                    'label' => __("Page WordPress", 'docalist-data'),
                     'description' => __("Page WordPress sur laquelle l'export sera disponible.", 'docalist-data'),
                     'default' => 0,
                 ],
                 'limit' => [
                     'type' => LimitSetting::class,
                     'repeatable' => true,
-                    'label' => __("Limites de l'export", 'docalist-data'),
+                    'label' => __("Utilisateurs", 'docalist-data'),
                     'description' => __(
                         'Liste des rôles autorisés à exporter des notices et nombre maximum de notices par rôle.',
                         'docalist-data'
