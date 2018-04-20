@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -9,20 +9,25 @@
  */
 namespace Docalist\Data\Export\Views;
 
-use Docalist\Data\Export\Plugin;
+use Docalist\Data\Export\ExportService;
 
 /**
  * Affiche le message "aucune réponse".
  *
- * Cette vue est affichée quand la dernière requête exécutée ne donne aucune
- * réponses.
- * Par défaut, on se contente d'afficher la vue "norequest".
+ * Cette vue est affichée quand la requête fournie à la page d'export ne donne aucune réponses.
  *
- * @var Plugin $this
+ * @var ExportService $this
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-echo $this->view('docalist-data-export:norequest');
-?>
+$this->setTitle(__('Export impossible', 'docalist-data')); ?>
 
-<small>La dernière requête exécutée ne donne aucune réponse.</small>
+<p class="export-intro"><?php
+    _e("Impossible de lancer l'export car aucun contenu ne correspond aux paramètres indiqués.", 'docalist-data'); ?>
+</p>
+
+<p class ="export-back">
+    <a href="javascript:history.back()"><?php
+        _e('« Retour à la page précédente', 'docalist-data'); ?>
+    </a>
+</p>
