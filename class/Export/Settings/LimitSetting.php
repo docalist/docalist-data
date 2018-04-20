@@ -35,7 +35,7 @@ class LimitSetting extends Composite
                 'limit' => [
                     'type' => Integer::class,
                     'label' => __('Limite pour ce rôle', 'docalist-data'),
-                    'description' => __('Nombre maximum de notices exportables (0 = pas de limite).', 'docalist-data'),
+                    'description' => __('Nombre maximum de notices exportables.', 'docalist-data'),
                 ],
             ],
         ];
@@ -51,7 +51,7 @@ class LimitSetting extends Composite
             return $empty;
         }
 
-        // Retourne true si on n'a pas de nom
-        return $this->filterEmptyProperty('role');
+        // Retourne true si on n'a pas de rôle ou que la limite est à zéro
+        return $this->filterEmptyProperty('role') || 0 === $this->limit->getPhpValue();
     }
 }
