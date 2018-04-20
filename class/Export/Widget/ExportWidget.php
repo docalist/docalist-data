@@ -113,7 +113,7 @@ class ExportWidget extends WP_Widget
             $url,
             $label
         );
-
+/*
         // Lien "Bibliographie"
         $label = $settings['print'];
         $label && printf(
@@ -133,7 +133,7 @@ class ExportWidget extends WP_Widget
             $url,
             $label
         );
-
+*/
         // Fin des liens
         echo '</ul>';
 
@@ -159,7 +159,7 @@ class ExportWidget extends WP_Widget
         $form->input('file')
             ->setLabel(__('<b>Exporter</b>', 'docalist-data'))
             ->addClass('widefat');
-
+/*
         $form->input('print')
             ->setLabel(__('<b>Créer une bibliographie</b>', 'docalist-data'))
             ->addClass('widefat');
@@ -167,7 +167,7 @@ class ExportWidget extends WP_Widget
         $form->input('mail')
             ->setLabel(__('<b>Envoyer par messagerie</b>', 'docalist-data'))
             ->addClass('widefat');
-
+*/
         return $form;
     }
 
