@@ -55,10 +55,4 @@ class DocalistConverterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($converter->supports(Record::class));
         $this->assertTrue($converter->supports(ContentEntity::class));
     }
-
-    public function testGetSupportDescription()
-    {
-        $converter = new DocalistConverter();
-        $this->assertNotEmpty(trim($converter->getSupportDescription()));
-    }
 }

@@ -50,11 +50,4 @@ interface Exporter extends Writer
      * @return bool Retourne true si l'exporteur sait exporteur les enregistrements de ce type, false sinon.
      */
     public function supports(string $className): bool;
-
-    /**
-     * Retourne une chaine qui décrit les types d'enregistrements Docalist supportés par l'exporteur.
-     *
-     * @return string
-     */
-    public function getSupportDescription(): string;
 }

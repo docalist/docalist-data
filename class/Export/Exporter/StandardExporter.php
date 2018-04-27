@@ -118,11 +118,6 @@ abstract class StandardExporter implements Exporter
         return $this->getConverter()->supports($className);
     }
 
-    public function getSupportDescription(): string
-    {
-        return $this->getConverter()->getSupportDescription();
-    }
-
     public function getContentType(): string
     {
         return $this->getWriter()->getContentType();

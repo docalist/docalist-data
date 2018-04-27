@@ -22,13 +22,6 @@ use Generator;
 interface Converter
 {
     /**
-     * Retourne une chaine qui décrit les types d'enregistrements Docalist supportés par le convertisseur.
-     *
-     * @return string
-     */
-    public function getSupportDescription(): string;
-
-    /**
      * Indique si le convertisseur supporte le type d'enregistrement Docalist passé en paramètre.
      *
      * @param string $className Nom complet d'une classe PHP qui représente un type d'enregistrement Docalist

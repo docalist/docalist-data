@@ -56,11 +56,6 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
                 // Convertisseur
                 $converter = new class implements Converter
                 {
-                    public function getSupportDescription(): string
-                    {
-                        return 'XXXX';
-                    }
-
                     public function supports(string $className): bool
                     {
                         return $className === 'XXXX';
@@ -192,11 +187,5 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
         $exporter = $this->createExporter();
         $this->assertTrue($exporter->supports('XXXX'));
         $this->assertFalse($exporter->supports('YYYY'));
-    }
-
-    public function testGetSupportDescription()
-    {
-        $exporter = $this->createExporter();
-        $this->assertSame('XXXX', $exporter->getSupportDescription());
     }
 }
