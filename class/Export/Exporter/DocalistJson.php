@@ -43,6 +43,10 @@ class DocalistJson extends StandardExporter
 
     public function getDescription(): string
     {
-        return __('Fichier JSON contenant les données Docalist en format natif.', 'docalist-data');
+        return __(
+            'Génère un <a href="https://fr.wikipedia.org/wiki/JavaScript_Object_Notation">fichier JSON</a>
+            contenant les données des enregistrements Docalist en format natif.',
+            'docalist-data'
+        );
     }
 }

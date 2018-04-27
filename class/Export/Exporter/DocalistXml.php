@@ -43,6 +43,10 @@ class DocalistXml extends StandardExporter
 
     public function getDescription(): string
     {
-        return __('Fichier XML contenant les données Docalist en format natif.', 'docalist-data');
+        return __(
+            'Génère un <a href="https://fr.wikipedia.org/wiki/Extensible_Markup_Language">fichier XML</a>
+            contenant les données des enregistrements Docalist en format natif.',
+            'docalist-data'
+        );
     }
 }

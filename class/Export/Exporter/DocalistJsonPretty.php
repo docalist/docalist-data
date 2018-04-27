@@ -36,7 +36,9 @@ class DocalistJsonPretty extends DocalistJson
 
     public function getDescription(): string
     {
-        return parent::getDescription() .
-            __(' Le fichier généré est formatté pour être plus facilement lisible.', 'docalist-data');
+        return parent::getDescription() . ' ' . __(
+            'Le fichier généré est formatté et indenté pour être plus facilement lisible par un humain.',
+            'docalist-data'
+        );
     }
 }
