@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of Docalist Data.
  *
@@ -7,14 +7,16 @@
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
-namespace Docalist\Data\Export;
+namespace Docalist\Data\Export\Widget;
 
 use WP_Widget;
-use Docalist\Search\SearchRequest;
 use Docalist\Search\SearchResponse;
 use Docalist\Forms\Container;
+use Docalist\Search\SearchEngine;
+use Docalist\Data\Export\ExportService;
 
 /**
+ * Widget "Export Docalist".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -24,59 +26,69 @@ class ExportWidget extends WP_Widget
     {
         $id = 'docalist-data-export';
         parent::__construct(
-            $id,    // Base ID. Inutile de préfixer avec "widget", WordPress le fait
-            __('Export de notices', 'docalist-data'),  // Titre (nom) du widget affiché en back office
-            [   // Args
-                'description' => __('Export de notices', 'docalist-data'),
-                'classname' => $id, // par défaut, WordPress met 'widget_'.$id
+            $id,                                        // ID de base. WordPress ajoute le préfixe "widget"
+            __('Export Docalist', 'docalist-data'),     // Titre (nom) du widget affiché en back office
+            [                                           // Args
+                'description' => __(
+                    "Affiche les liens permettant d'exporter la recherche en cours",
+                    'docalist-data'
+                ),
+                'classname' => $id,                     // par défaut, WordPress met 'widget_'.$id
                 'customize_selective_refresh' => true,
             ]
         );
     }
 
     /**
+     * Construit l'url permettant d'exporter la recherche en cours.
+     *
+     * @return string L'url à utiliser pour l'export ou une chaine vide si l'export n'est pas possible.
+     */
+    private function getExportUrl(): string
+    {
+        // Récupère le service docalist-search
+        $searchEngine = docalist('docalist-search-engine'); /** @var SearchEngine $searchEngine */
+
+        // Récupère les résultats de la recherche en cours
+        $searchResponse = $searchEngine->getSearchResponse(); /** @var SearchResponse $searchResponse */
+
+        // Récupère le service d'export
+        $exportService = docalist('docalist-data-export'); /** @var ExportService $exportService */
+
+        // Ok
+        return $exportService->getExportUrl($searchResponse);
+    }
+
+    /**
      * Affiche le widget.
      *
-     * @param array $context Les paramètres d'affichage du widget. Il s'agit
-     * des paramètres définis par le thème lors de l'appel à la fonction
-     * WordPress.
+     * @param array $context Les paramètres d'affichage du widget. Il s'agit des paramètres définis par le thème
+     * lors de l'appel à la fonction WordPress.
      *
      * Le tableau passé en paramètre inclut notamment les clés :
+     *
      * - before_widget : code html à afficher avant le widget.
      * - after_widget : texte html à affiche après le widget.
      * - before_title : code html à générer avant le titre (exemple : '<h2>')
      * - after_title  : code html à générer après le titre (exemple : '</h2>')
      *
-     * @param array $settings Les paramètres du widget que l'administrateur
-     * a saisi dans le formulaire de paramétrage (cf. {createSettingsForm()}).
+     * @param array $settings Les paramètres du widget que l'administrateur a saisi dans le formulaire de
+     * paramétrage (cf. {getSettingsForm()}).
      *
      * @see http://codex.wordpress.org/Function_Reference/register_sidebar
      */
     public function widget($context, $settings)
     {
-        // Seuls les utilisateurs loggués peuvent exporter
-        if (! is_user_logged_in()) {
+        // Détermine l'url de l'export
+        $url = $this->getExportUrl();
+        if (empty($url)) {
             return;
         }
 
-        // Si on n'a pas de recherche en cours, terminé
-        $searchRequest = docalist('docalist-search-engine')->getSearchRequest(); /** @var SearchRequest $request */
-        if (is_null($searchRequest)) {
-            return;
-        }
-
-        // Si on n'a pas de hits, terminé
-        $searchResponse = docalist('docalist-search-engine')->getSearchResponse(); /** @var SearchResponse $results */
-        if (is_null($searchResponse) || $searchResponse->getHitsCount() === 0) {
-            return;
-        }
-
-        // TODO: à étudier, avec le widget customizer, on peut être appellé avec
-        // des settings vides. Se produit quand on ajoute un nouveau widget dans
-        // une sidebar, tant qu'on ne modifie aucun paramètre. Dès qu'on modifie
-        // l'un des paramètres du widget, celui-ci est correctement enregistré
-        // et dès lors on a les settings.
-        $settings += $this->defaultSettings();
+        // TODO: à étudier, avec le widget customizer, on peut être appellé avec des settings vides. Cela se produit
+        // quand on ajoute un nouveau widget dans une sidebar, tant qu'on ne modifie aucun paramètre. Dès qu'on
+        // modifie l'un des paramètres du widget, celui-ci est correctement enregistré et dès lors on a les settings.
+        $settings += $this->getDefaultSettings();
 
         // Début du widget
         echo $context['before_widget'];
@@ -88,31 +100,27 @@ class ExportWidget extends WP_Widget
         }
 
         // Début des liens
-        $link = '<li class="%s" style="%s" title="%s"><a href="%s">%s</a></li>';
-        echo '<ul>';
+        $link = '<li class="%s" title="%s"><a href="%s">%s</a></li>';
 
-        // Détermine l'url de la page "export"
-        $exportPage = get_permalink(docalist('docalist-data-export')->exportpage());
+        echo '<ul>';
 
         // Lien "Exporter"
         $label = $settings['file'];
         $label && printf(
             $link,
             'export-file',
-            '',
             __("Génére un fichier d'export", 'docalist-data'),
-            $exportPage,
+            $url,
             $label
         );
-
+/*
         // Lien "Bibliographie"
         $label = $settings['print'];
         $label && printf(
             $link,
             'export-print',
-            '',
             __('Génére une bibliographie', 'docalist-data'),
-            $exportPage,
+            $url,
             $label
         );
 
@@ -121,12 +129,11 @@ class ExportWidget extends WP_Widget
         $label && printf(
             $link,
             'export-mail',
-            '',
             __("Génère un fichier d'export et l'envoie par messagerie", 'docalist-data'),
-            $exportPage,
+            $url,
             $label
         );
-
+*/
         // Fin des liens
         echo '</ul>';
 
@@ -137,9 +144,9 @@ class ExportWidget extends WP_Widget
     /**
      * Crée le formulaire permettant de paramètrer le widget.
      *
-     * @return Fragment
+     * @return Container
      */
-    protected function settingsForm()
+    protected function getSettingsForm()
     {
         $form = new Container();
 
@@ -152,7 +159,7 @@ class ExportWidget extends WP_Widget
         $form->input('file')
             ->setLabel(__('<b>Exporter</b>', 'docalist-data'))
             ->addClass('widefat');
-
+/*
         $form->input('print')
             ->setLabel(__('<b>Créer une bibliographie</b>', 'docalist-data'))
             ->addClass('widefat');
@@ -160,7 +167,7 @@ class ExportWidget extends WP_Widget
         $form->input('mail')
             ->setLabel(__('<b>Envoyer par messagerie</b>', 'docalist-data'))
             ->addClass('widefat');
-
+*/
         return $form;
     }
 
@@ -169,7 +176,7 @@ class ExportWidget extends WP_Widget
      *
      * @return array
      */
-    protected function defaultSettings()
+    protected function getDefaultSettings()
     {
         return [
             'title' => __('Export', 'docalist-data'),
@@ -187,18 +194,16 @@ class ExportWidget extends WP_Widget
     public function form($instance)
     {
         // Récupère le formulaire à afficher
-        $form = $this->settingsForm();
+        $form = $this->getSettingsForm();
 
         // Lie le formulaire aux paramètres du widget
-        $form->bind($instance ?: $this->defaultSettings());
+        $form->bind($instance ?: $this->getDefaultSettings());
 
-        // Dans WordPress, les widget ont un ID et sont multi-instances. Le
-        // formulaire doit donc avoir le même nom que le widget.
-        // Par ailleurs, l'API Widgets de WordPress attend des noms
-        // de champ de la forme "widget-id_base-[number][champ]". Pour générer
-        // cela facilement, on donne directement le bon nom au formulaire.
-        // Pour que les facettes soient orrectement clonées, le champ facets
-        // définit explicitement repeatLevel=2 (cf. settingsForm)
+        // Dans WordPress, les widget ont un ID et sont multi-instances. Le formulaire doit donc avoir le même nom
+        // que le widget. Par ailleurs, l'API Widgets de WordPress attend des noms de champ de la forme
+        // "widget-id_base-[number][champ]". Pour générer cela facilement, on donne directement le bon nom au
+        // formulaire. Si on avait des champs répétables, il faudrait définir explicitement repeatLevel=2 dans
+        // getSettingsForm().
         $name = 'widget-' . $this->id_base . '[' . $this->number . ']';
         $form->setName($name);
 
@@ -209,8 +214,7 @@ class ExportWidget extends WP_Widget
     /**
      * Enregistre les paramètres du widget.
      *
-     * La méthode vérifie que les nouveaux paramètres sont valides et retourne
-     * la version corrigée.
+     * La méthode vérifie que les nouveaux paramètres sont valides et retourne les paramètres modifiés.
      *
      * @param array $new les nouveaux paramètres du widget.
      * @param array $old les anciens paramètres du widget
@@ -219,7 +223,7 @@ class ExportWidget extends WP_Widget
      */
     public function update($new, $old)
     {
-        $settings = $this->settingsForm()->bind($new)->getData();
+        $settings = $this->getSettingsForm()->bind($new)->getData();
 
         // TODO validation
 

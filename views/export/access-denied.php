@@ -12,20 +12,18 @@ namespace Docalist\Data\Export\Views;
 use Docalist\Data\Export\ExportService;
 
 /**
- * Affiche un message "aucun format disponible"
+ * Affiche le message "accès refusé".
  *
- * @var ExportService   $this
- * @var int             $count Nombre total d'enregistrements dans la sélection.
+ * Cette vue est affichée quand l'utilisateur en cours ne dispose pas des droits requis pour l'export.
+ *
+ * @var ExportService $this
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-$this->setTitle(__('Export impossible', 'docalist-data')); ?>
+$this->setTitle(__('Accès refusé', 'docalist-data')); ?>
 
 <p class="export-intro"><?php
-    _e(
-        "Les contenus sélectionnés ne peuvent pas être exportés avec les formats actuellement disponibles.",
-        'docalist-data'
-    ); ?>
+    _e("Vous ne disposez pas des droits nécessaires pour accéder à cette page.", 'docalist-data'); ?>
 </p>
 
 <p class ="export-back">

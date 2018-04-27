@@ -12,18 +12,17 @@ namespace Docalist\Data\Export\Views;
 use Docalist\Data\Export\ExportService;
 
 /**
- * Affiche un message "aucun format disponible"
+ * Affiche un message "format invalide"
  *
  * @var ExportService   $this
- * @var int             $count Nombre total d'enregistrements dans la sélection.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-$this->setTitle(__('Export impossible', 'docalist-data')); ?>
+$this->setTitle(__("Format d'export invalide", 'docalist-data')); ?>
 
 <p class="export-intro"><?php
     _e(
-        "Les contenus sélectionnés ne peuvent pas être exportés avec les formats actuellement disponibles.",
+        "Les contenus sélectionnés ne peuvent pas être exportés avec le format d'export indiqué.",
         'docalist-data'
     ); ?>
 </p>
