@@ -66,8 +66,7 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLabel()
     {
-        $class = static::EXPORTER;
-        $this->assertNotEmpty($class::getLabel());
+        $this->assertNotEmpty($this->createExporter()->getLabel());
     }
 
     /**
@@ -75,12 +74,11 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDescription()
     {
-        $class = static::EXPORTER;
-        $this->assertNotEmpty($class::getDescription());
+        $this->assertNotEmpty($this->createExporter()->getDescription());
     }
 
     /**
-     * Teste la méthode getDescription().
+     * Teste la méthode suggestFilename().
      */
     public function testSuggestFilename()
     {
@@ -89,7 +87,7 @@ class DocalistJsonTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Retourne les enregsitrements à exporter.
+     * Retourne les enregistrements à exporter.
      *
      * @return Record[]
      */

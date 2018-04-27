@@ -29,12 +29,12 @@ class DocalistXmlPretty extends DocalistXml
         return parent::getId() . '-pretty';
     }
 
-    public static function getLabel(): string
+    public function getLabel(): string
     {
         return parent::getLabel() . __(' (formatté et indenté)', 'docalist-data');
     }
 
-    public static function getDescription(): string
+    public function getDescription(): string
     {
         return parent::getDescription() .
             __(' Le fichier généré est formatté pour être plus facilement lisible.', 'docalist-data');

@@ -36,12 +36,12 @@ class DocalistJson extends StandardExporter
         return 'docalist-json';
     }
 
-    public static function getLabel(): string
+    public function getLabel(): string
     {
         return __('Docalist JSON', 'docalist-data');
     }
 
-    public static function getDescription(): string
+    public function getDescription(): string
     {
         return __('Fichier JSON contenant les données Docalist en format natif.', 'docalist-data');
     }

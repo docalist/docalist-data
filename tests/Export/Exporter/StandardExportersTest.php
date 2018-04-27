@@ -26,7 +26,7 @@ class StandardExportersTest extends PHPUnit_Framework_TestCase
     /**
      * Teste la méthode getList()
      */
-    public function testGetList()
+    public function NUtestGetList()
     {
         $list = StandardExporters::getList();
 

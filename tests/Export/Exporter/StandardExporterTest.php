@@ -107,12 +107,12 @@ class StandardExporterTest extends PHPUnit_Framework_TestCase
                 return 'my-ID';
             }
 
-            public static function getLabel(): string
+            public function getLabel(): string
             {
                 return 'my-label';
             }
 
-            public static function getDescription(): string
+            public function getDescription(): string
             {
                 return 'my-desc';
             }

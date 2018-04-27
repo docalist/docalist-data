@@ -36,12 +36,12 @@ class DocalistXml extends StandardExporter
         return 'docalist-xml';
     }
 
-    public static function getLabel(): string
+    public function getLabel(): string
     {
         return __('Docalist XML', 'docalist-data');
     }
 
-    public static function getDescription(): string
+    public function getDescription(): string
     {
         return __('Fichier XML contenant les données Docalist en format natif.', 'docalist-data');
     }

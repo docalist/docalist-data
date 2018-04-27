@@ -32,14 +32,14 @@ interface Exporter extends Writer
      *
      * @return string
      */
-    public static function getLabel(): string;
+    public function getLabel(): string;
 
     /**
      * Retourne la description de l'exporteur.
      *
      * @return string
      */
-    public static function getDescription(): string;
+    public function getDescription(): string;
 
     /**
      * Indique si l'exporteur supporte le type d'enregistrement Docalist passé en paramètre.
