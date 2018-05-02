@@ -11,12 +11,12 @@ namespace Docalist\Data\Views;
 
 use Docalist\Data\Database;
 use Docalist\Forms\Container;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
 
 /**
  * Export de notices : choix des notices à exporter.
  *
- * @var ImportPage $this
+ * @var DatabaseTools $this
  * @var Database $database Base de données en cours.
  * @var array $exporter Le nom de code de l'exporteur en cours.
  * @var string $error Optionnel, erreur à afficher.

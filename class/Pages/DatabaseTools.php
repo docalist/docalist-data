@@ -25,7 +25,7 @@ use Docalist\Data\Export\Exporter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class ImportPage extends AdminPage
+class DatabaseTools extends AdminPage
 {
 
     /**
@@ -41,9 +41,9 @@ class ImportPage extends AdminPage
     public function __construct(Database $database)
     {
         parent::__construct(
-            'import-' . $database->postType(),              // ID
+            $database->postType() . '-tools',               // ID
             'edit.php?post_type=' . $database->postType(),  // Page parent
-            __('Gérer', 'docalist-data')                  // Libellé du menu
+            __('Outils', 'docalist-data')                   // Libellé du menu
         );
         $this->database = $database;
     }

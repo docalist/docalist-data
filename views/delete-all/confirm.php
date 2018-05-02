@@ -10,7 +10,7 @@
 namespace Docalist\Data\Views;
 
 use Docalist\Data\Database;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
 
 /**
  * Demande une confirmation à l'utilisateur.
@@ -18,7 +18,7 @@ use Docalist\Data\Pages\ImportPage;
  * Si l'utilisateur clique "ok", la requête en cours est relancée avec en plus
  * le paramètre confirm=1.
  *
- * @var ImportPage $this
+ * @var DatabaseTools $this
  * @var Database $database La base en cours.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>

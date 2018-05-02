@@ -14,7 +14,7 @@ use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Data\Record;
 use Docalist\Data\Pages\ListReferences;
 use Docalist\Data\Pages\EditReference;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
 use Docalist\Search\SearchUrl;
 use Docalist\Search\SearchRequest;
 use WP_Post;
@@ -118,7 +118,7 @@ class Database extends PostTypeRepository
         // Crée les pages "Formulaire de saisie" et "Gestion de la base"
         add_action('admin_menu', function () {
             new EditReference($this);
-            new ImportPage($this);
+            new DatabaseTools($this);
         });
 
         // Pour l'excerpt, on filtre 'get_the_excerpt' car the_content() appelle get_the_content() et

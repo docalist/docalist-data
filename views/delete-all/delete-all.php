@@ -10,7 +10,7 @@
 namespace Docalist\Data\Views;
 
 use Docalist\Data\Database;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
 
 /**
  * Cette vue est affichée lorsqu'on lance l'option "vider la base".
@@ -21,7 +21,7 @@ use Docalist\Data\Pages\ImportPage;
  * Remarque : cette vue ne prend aucun paramètre, ils sont passés directement
  * aux callbacks des filtres installés.
  *
- * @var ImportPage $this
+ * @var DatabaseTools $this
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */

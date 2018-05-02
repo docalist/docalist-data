@@ -12,12 +12,12 @@ namespace Docalist\Data\Views;
 use Docalist\Data\Database;
 use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Forms\Form;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
 
 /**
  * Import de fichier dans une base : choix des fichiers.
  *
- * @var ImportPage $this
+ * @var DatabaseTools $this
  * @var Database $database Base de données en cours.
  * @var DatabaseSettings $settings Paramètres de la base de données en cours.
  * @var array $converters Liste des formats d'imports disponibles (code => label).
