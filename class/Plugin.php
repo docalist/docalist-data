@@ -94,6 +94,13 @@ class Plugin
 
         // Initialise le module d'export
         ExportSetup::setup();
+
+        // Autorise l'upload de fichier JSON
+        add_filter('upload_mimes', function(array $types) {
+            return $types + [
+                'json' => 'application/json; charset=utf-8'
+            ];
+        });
     }
 
     /**
