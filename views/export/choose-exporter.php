@@ -12,12 +12,12 @@ namespace Docalist\Data\Views;
 use Docalist\Data\Database;
 use Docalist\Forms\Form;
 use Symfony\Component\HttpFoundation\Cookie;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
 
 /**
  * Export de notices : choix du format d'export.
  *
- * @var ImportPage $this
+ * @var DatabaseTools $this
  * @var Database $database Base de données en cours.
  * @var array $formats Liste des formats d'exports disponibles.
  * @var string $args Arguments supplémentaires à transmettre.

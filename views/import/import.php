@@ -56,7 +56,7 @@ $startTime = microtime(true);
  */
 add_action('docalist_databases_before_import', function(array $files, Database $database, array $options) { ?>
     <?php
-        if ($options['simulate']) {
+        if ($options['simulate'] ?? false) {
             $h2 = __("Simulation de l'import de fichiers", 'docalist-data');
             $desc = __(
                 "Vous avez lancé une simulation d'import de fichiers dans la base <strong>%s</strong>.",
@@ -101,7 +101,7 @@ add_action('docalist_databases_before_import', function(array $files, Database $
  */
 add_action('docalist_databases_import_start', function($file, $options) { ?>
     <?php
-        if ($options['simulate']) {
+        if ($options['simulate'] ?? false) {
             $h3 = __('Test du fichier %s', 'docalist-data');
         } else {
             $h3 = __('Import du fichier %s', 'docalist-data');
@@ -167,7 +167,7 @@ add_action('docalist_databases_after_import', function(array $files, Database $d
         <h3><?= __('Terminé !', 'docalist-data') ?></h3>
     </div>
     <?php
-    if ($options['simulate']) {
+    if ($options['simulate'] ?? false) {
         $msg = _n(
             'La simulation d\'import est terminée : le fichier %2$s a été testé.',
             'La simulation d\'import est terminée : %d fichiers ont été testés (%2$s).',

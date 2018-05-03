@@ -10,23 +10,22 @@
 namespace Docalist\Data\Views;
 
 use Docalist\Data\Database;
-use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Forms\Form;
-use Docalist\Data\Pages\ImportPage;
+use Docalist\Data\Pages\DatabaseTools;
+use Docalist\Data\Import\Importer;
 
 /**
  * Import de fichier dans une base : choix des fichiers.
  *
- * @var ImportPage $this
- * @var Database $database Base de données en cours.
- * @var DatabaseSettings $settings Paramètres de la base de données en cours.
- * @var array $converters Liste des formats d'imports disponibles (code => label).
+ * @var DatabaseTools   $this
+ * @var Database        $database Base de données en cours.
+ * @var Importer[]      $importers Liste des importerus disponibles.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__('Import %s', 'docalist-data'), $settings->label) ?></h2>
+    <h2><?= sprintf(__('Import %s', 'docalist-data'), $database->settings()->label->getPhpValue()) ?></h2>
 
     <p class="description">
         <?= __("Ajoutez les fichiers à importer, choisissez l'ordre en déplaçant l'icone, indiquez le format de chacun des fichiers puis cliquez sur le bouton lancer l'import.", 'docalist-data') ?>
@@ -51,10 +50,12 @@ use Docalist\Data\Pages\ImportPage;
                     <label>
                         <?=__('Format : ', 'docalist-data') ?>
                         <select name="formats[]">
-                            <option value=""><?=__('Indiquez le format', 'docalist-data')?></option>
-                            <?php foreach($converters as $name => $label): ?>
-                            <option value="<?=esc_attr($name)?>" selected="selected"><?=esc_html($label)?></option>
-                            <?php endforeach; ?>
+                            <option value=""><?=__('Indiquez le format', 'docalist-data')?></option><?php
+                            foreach($importers as $importer) { /** @var Importer $importer */
+                                $id = $importer->getID();
+                                $label = $importer->getLabel(); ?>
+                                <option value="<?=esc_attr($id)?>" selected="selected"><?=esc_html($label)?></option><?php
+                            } ?>
                         </select>
                     </label>
                 </div>

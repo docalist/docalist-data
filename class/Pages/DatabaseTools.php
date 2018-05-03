@@ -19,13 +19,14 @@ use Docalist\Search\SearchRequest;
 use Docalist\Data\RecordIterator;
 use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\Exporter;
+use Docalist\Data\Import\Importer;
 
 /**
  * Page "Importer" d'une base
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class ImportPage extends AdminPage
+class DatabaseTools extends AdminPage
 {
 
     /**
@@ -41,11 +42,35 @@ class ImportPage extends AdminPage
     public function __construct(Database $database)
     {
         parent::__construct(
-            'import-' . $database->postType(),              // ID
+            $database->postType() . '-tools',               // ID
             'edit.php?post_type=' . $database->postType(),  // Page parent
-            __('Gérer', 'docalist-data')                  // Libellé du menu
+            __('Outils', 'docalist-data')                   // Libellé du menu
         );
         $this->database = $database;
+    }
+
+    /**
+     * Retourne la liste des importeurs disponibles pour la base indiquée.
+     *
+     * @param Database $database
+     *
+     * @return Importer[] Un tableau de la forme id => Importer.
+     */
+    private function getImporters(Database $database = null)
+    {
+
+        // Récupère les importeurs disponibles, retourne un tableau de la forme : ID-importeur => Classe-PHP
+        $classes = apply_filters('docalist_databases_get_importers', [], $database);
+
+        // Instancie chaque importeur
+        $importers = [];
+        foreach ($classes as $class) {
+            $importer = new $class(); /** @var Importer $importer */
+            $importers[$importer->getID()] = $importer;
+        }
+
+        // Ok
+        return $importers;
     }
 
     /**
@@ -70,24 +95,21 @@ class ImportPage extends AdminPage
      */
     public function actionImport(array $ids = null, array $formats = null, array $options = [])
     {
-        // Récupère la liste des importeurs disponibles
-        // Le filtre retourne un tableau de la forme
-        // Nom de code de l'importeur => libellé de l'importeur
-        $importers = apply_filters('docalist_databases_get_importers', [], $this->database);
+        // Récupère la liste des importeurs disponibles.
+        $importers = $this->getImporters($this->database);
         if (empty($importers)) {
             return $this->view('docalist-core:error', [
                 'h2' => __('Importer un fichier', 'docalist-data'),
                 'h3' => __("Aucun importeur disponible", 'docalist-data'),
-                'message' => sprintf(__("Aucun format d'import n'est disponible.", 'docalist-data')),
+                'message' => sprintf(__("Aucun format d'import n'est disponible pour cette base.", 'docalist-data')),
             ]);
         }
 
-        // Permet à l'utilisateur d'uploader et de choisir les fichiers à charger
+        // Si aucun fichier n'a été indiqué, affiche la vue "choix du fichier à importer"
         if (empty($ids)) {
             return $this->view('docalist-data:import/choose', [
                 'database' => $this->database,
-                'settings' => $this->database->settings(),
-                'converters' => $importers,
+                'importers' => $importers,
             ]);
         }
 
@@ -108,9 +130,9 @@ class ImportPage extends AdminPage
             if (empty($formats[$index]) || !isset($importers[$formats[$index]])) {
                 return $this->view('docalist-core:error', [
                     'h2' => __('Importer un fichier', 'docalist-data'),
-                    'h3' => __("Convertisseur incorrect", 'docalist-data'),
+                    'h3' => __("Importeur incorrect", 'docalist-data'),
                     'message' => sprintf(
-                        __("Le convertisseur indiqué pour le fichier %s n'est pas valide.", 'docalist-data'),
+                        __("L'importeur indiqué pour le fichier %s n'est pas valide.", 'docalist-data'),
                         $id
                     ),
                 ]);
@@ -120,25 +142,25 @@ class ImportPage extends AdminPage
         }
 
         // Vérifie les options
-        $options['simulate'] = isset($options['simulate']);
-        !isset($options['status']) && $options['status'] = 'pending';
-        $options['importref'] = isset($options['importref']) && $options['importref'] === '1';
-        $options['limit'] = isset($options['limit']) ? (int) $options['limit'] : 0;
+//         $options['simulate'] = isset($options['simulate']);
+//         !isset($options['status']) && $options['status'] = 'pending';
+//         $options['importref'] = isset($options['importref']) && $options['importref'] === '1';
+//         $options['limit'] = isset($options['limit']) ? (int) $options['limit'] : 0;
 
         // On retourne une réponse de type "callback" qui lance l'import
         // lorsqu'elle est générée (import_start, error, progress, done)
-        $response = new CallbackResponse(function () use ($files, $options) {
+        $response = new CallbackResponse(function () use ($files, $options, $importers) {
             // Permet au script de s'exécuter longtemps
             ignore_user_abort(true);
             set_time_limit(3600);
+
+            ini_set('implicit_flush', 1);
+//            ini_set('zlib.output_compression', 0);
 
             // Supprime la bufferisation pour voir le suivi en temps réel
             while (ob_get_level()) {
                 ob_end_flush();
             }
-            ini_set('implicit_flush', 1);
-            ini_set('zlib.output_compression', 0);
-
 //             Susceptible d'être plus rapide avec une base innodb, à tester.
 //             global $wpdb;
 //             $wpdb->query('SET autocommit=0');
@@ -154,29 +176,8 @@ class ImportPage extends AdminPage
             do_action('docalist_databases_before_import', $files, $this->database, $options);
 
             // Importe tous les fichiers dans l'ordre indiqué
-            foreach ($files as $file => $importer) {
-                // Début de l'import du fichier
-                do_action('docalist_databases_import_start', $file, $options);
-
-                // Détermine l'action à invoquer pour cet importeur
-                $tag = "docalist_databases_import_{$importer}";
-
-                // Vérifie qu'il y a bien un callback derrière
-                if (! has_action($tag)) {
-                    $msg = __(
-                        "L'importeur %s n'est pas installé correctement, impossible d'importer le fichier.",
-                        'docalist-data'
-                    );
-                    do_action('docalist_databases_import_error', sprintf($msg, $importer));
-                }
-
-                // Lance l'importeur
-                else {
-                    do_action($tag, $file, $this->database, $options);
-                }
-
-                // Fin de l'import du fichier
-                do_action('docalist_databases_import_done', $file, $options);
+            foreach ($files as $filename => $importerId) {
+                $this->importFile($importers[$importerId], $filename, $options);
             }
 
             // Fin de l'import
@@ -188,6 +189,57 @@ class ImportPage extends AdminPage
 
         // Terminé
         return $response;
+    }
+
+    private function importFile(Importer $importer, string $filename, array $options = [])
+    {
+        // Vérifie les options fournies
+        $simulate = isset($options['simulate']) ? (bool) $options['simulate'] : false;
+        $status = isset($options['status']) ? $options['status'] : 'pending';
+        $importref = isset($options['importref']) ? (bool) $options['importref'] : false;
+        $limit = isset($options['limit']) ? (int) $options['limit'] : 0;
+
+        // Début de l'import du fichier
+        do_action('docalist_databases_import_start', $filename, $options);
+
+        do_action('docalist_import_import_progress', 'Ouverture du fichier...');
+
+        $progress =
+            $simulate
+            ? __('%s enregistrements lus', 'docalist-data')
+            : __('%s enregistrements importés', 'docalist-data');
+
+        $nb = 0;
+        foreach ($importer->getRecords($filename) as $record) { /** @var Record $record */
+            // Charge les notices avec le statut demandé
+            $record->status = $status;
+
+            // Ignore les numéros de réf existants
+            if (! $importref) {
+                unset ($record->ref);
+            }
+
+            // Sauve les notices si on n'est pas en mode simulation
+            if (! $simulate) {
+                $this->database->save($record);
+            }
+            // COmpte le nombre d'enregistrements traités
+            ++$nb;
+
+            // Affiche un message de progression de temps en temps
+            (0 === $nb % 100) && do_action('docalist_databases_import_progress', sprintf($progress, $nb));
+
+            // Stoppe l'import si on atteint la limite
+            if (0 !== $limit && $nb >= $limit) {
+                break;
+            }
+        }
+
+        // Affiche le nombre exact de notices importées
+        do_action('docalist_databases_import_progress', '<b>' . sprintf($progress, $nb) . '</b>');
+
+        // Fin de l'import du fichier
+        do_action('docalist_databases_import_done', $filename, $options);
     }
 
     public function actionDeleteAll($confirm = false)
