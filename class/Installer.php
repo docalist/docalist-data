@@ -128,6 +128,13 @@ class Installer
                 'type' => 'link-type',
                 'creation' => '2015-12-16 08:15:50',
             ],
+            'source-type' => [
+                'path' => $dir . 'source-type.txt',
+                'label' => __("Source - Types de sources", 'docalist-data'),
+                'format' => 'table',
+                'type' => 'sources',
+                'creation' => '2018-05-04 10:32:33',
+            ],
         ];
     }
 
