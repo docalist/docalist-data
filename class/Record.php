@@ -480,7 +480,7 @@ class Record extends Entity
     protected function initRefNumber(Database $database)
     {
         // Si la notice a déjà un numéro de référence, on se contente de synchroniser la séquence
-        if (isset($this->ref)) {
+        if (isset($this->ref) && 0 !== $this->ref->getPhpValue()) {
             docalist('sequences')->setIfGreater($database->postType(), 'ref', $this->ref->getPhpValue());
 
             return;
