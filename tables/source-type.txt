@@ -1,0 +1,10 @@
+# ------------------------------------------------------------------------------
+# Types de sources.
+#
+# 04/05/18, DM Version initiale
+# ------------------------------------------------------------------------------
+code;label;description
+wikipedia;Wikipédia;Les données proviennent d'un article de Wikipédia. 
+pubmed;PubMed;Les données proviennent d'une notice documentaire exportée depuis PubMed.
+google-scholar;Google Scholar;Les données proviennent d'une notice documentaire exportée depuis Google Scholar.
+crossref;CrossRef;Les données proviennent d'une notice documentaire exportée depuis CrossRef.
