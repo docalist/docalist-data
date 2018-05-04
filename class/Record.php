@@ -23,6 +23,7 @@ use Docalist\Data\Field\PostParentField;
 use Docalist\Data\Field\PostNameField;
 use Docalist\Data\Field\RefField;
 use Docalist\Data\Field\TypeField;
+use Docalist\Data\Field\SourceField;
 
 use Docalist\Repository\Repository;
 
@@ -50,6 +51,7 @@ use Closure;
  * @property PostNameField      $slug       Slug de la fiche
  * @property RefField           $ref        Numéro unique identifiant la fiche
  * @property TypeField          $type       Type de fiche
+ * @property SourceField[]      $source     Informations sur la source des données.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -76,6 +78,7 @@ class Record extends Entity
                 // Champs docalist communs à tous les types d'entité
                 'ref'           => RefField::class,
                 'type'          => TypeField::class,
+                'source'        => SourceField::class,
             ],
         ];
     }
@@ -756,6 +759,7 @@ class Record extends Entity
         $mapping->addField('posttitle')->text();
         $mapping->addField('posttitle-sort')->keyword();
         $mapping->addField('ref')->integer();
+        $mapping->addField('source')->keyword();
 
         return $mapping;
     }
@@ -800,6 +804,13 @@ class Record extends Entity
 
         // Numéro de réf
         isset($this->ref) && $document['ref'] = $this->ref();
+
+        // Source
+        if (isset($this->source)) {
+            foreach($this->source as $source) {
+                $document['source'][] = $source->type->getPhpValue();
+            }
+        }
 
         // Ok
         return $document;
