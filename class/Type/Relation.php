@@ -181,4 +181,9 @@ class Relation extends Integer
 
         throw new InvalidArgumentException("Invalid Relation format '$format'");
     }
+
+    public function filterEmpty($strict = true)
+    {
+        return empty($this->phpValue);
+    }
 }
