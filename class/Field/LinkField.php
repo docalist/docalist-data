@@ -14,6 +14,7 @@ use Docalist\Type\TableEntry;
 use Docalist\Type\Url;
 use Docalist\Type\Text;
 use Docalist\Type\DateTime;
+use WP_Embed;
 
 /**
  * Champ standard "link" : un lien internet (url, uri, e-mail, hashtag...)
