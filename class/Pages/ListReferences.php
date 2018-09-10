@@ -15,6 +15,8 @@ use WP_Post;
 use DateTime;
 use DateInterval;
 use Exception;
+use WP_Query;
+use WP_User;
 
 /**
  * Page "Liste des notices" d'une base
