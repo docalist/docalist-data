@@ -53,7 +53,7 @@ class ExportService
         // Déclenche l'export quand l'utilisateur accède à la page "export"
         add_action('pre_get_posts', function(WP_Query $query) use ($exportPageID) {
             if ($query->is_main_query() && $query->is_page && $exportPageID === $query->get_queried_object_id()) {
-                $view = $this->actionExport();
+                $this->actionExport();
             }
         });
     }
