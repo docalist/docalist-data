@@ -150,7 +150,7 @@ class Record extends Entity
     /**
      * Retourne la liste des types dont hérite la classe en cours.
      *
-     * @return Un tableau contenant le nom de classe complet des types dont hérite le type en cours, dans
+     * @return array Un tableau contenant le nom de classe complet des types dont hérite le type en cours, dans
      * l'ordre d'héritage (parent, grand-parent, etc.)
      *
      * Remarque : la classe de base des types (Type) n'est pas incluse dans le tableau retourné.
