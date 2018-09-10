@@ -74,9 +74,7 @@ use Docalist\Forms\Form;
         $form->submit(__('Enregistrer les modifications', 'docalist-data'))
              ->addClass('button button-primary');
 
-        $form->bind($settings)->display('wordpress');
-
-        wp_styles()->enqueue('docalist-data-edit-reference');
+        $form->bind($settings)->display();
     ?>
 </div>
 
@@ -90,7 +88,7 @@ use Docalist\Forms\Form;
 function pagesList()
 {
     $pages = ['…'];
-    foreach (get_pages() as $page) { /** @var \WP_Post $page */
+    foreach (get_pages() as $page) { /* @var \WP_Post $page */
         $pages[$page->ID] = str_repeat('   ', count($page->ancestors)) . $page->post_title;
     }
 

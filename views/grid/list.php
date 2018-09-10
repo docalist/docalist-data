@@ -57,7 +57,7 @@ use Docalist\Data\Settings\TypeSettings;
     <?php
     $nb = 0;
     foreach($type->grids as $name => $grid) {
-        /** @var TypeSettings $type */
+        /* @var TypeSettings $type */
 
         $settings = esc_url($this->getUrl('GridSettings', $dbindex, $typeindex, $name));
         $edit = esc_url($this->getUrl('GridEdit', $dbindex, $typeindex, $name));

@@ -51,7 +51,7 @@ use Docalist\Data\Import\Importer;
                         <?=__('Format : ', 'docalist-data') ?>
                         <select name="formats[]">
                             <option value=""><?=__('Indiquez le format', 'docalist-data')?></option><?php
-                            foreach($importers as $importer) { /** @var Importer $importer */
+                            foreach($importers as $importer) { /* @var Importer $importer */
                                 $id = $importer->getID();
                                 $label = $importer->getLabel(); ?>
                                 <option value="<?=esc_attr($id)?>" selected="selected"><?=esc_html($label)?></option><?php

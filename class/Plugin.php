@@ -71,7 +71,7 @@ class Plugin
             // Crée les bases de données définies par l'utilisateur
             $this->databases = array();
             foreach ($this->settings->databases as $settings) {
-                /** @var DatabaseSettings $settings */
+                /* @var DatabaseSettings $settings */
                 $database = new Database($settings);
                 $this->databases[$database->postType()] = $database;
             }
@@ -165,7 +165,7 @@ class Plugin
             throw new Exception(sprintf($msg, $id, $type));
         }
 
-        $database = $this->databases[$type]; /** @var Database $database */
+        $database = $this->databases[$type]; /* @var Database $database */
         return $database->load($id);
     }
 }

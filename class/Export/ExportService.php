@@ -261,7 +261,7 @@ class ExportService
      */
     private function getTypesInfo(SearchResponse $searchResponse): array
     {
-        $agg = $searchResponse->getAggregation('types'); /** @var TermsAggregation $agg */
+        $agg = $searchResponse->getAggregation('types'); /* @var TermsAggregation $agg */
         $typesInfo = [];
         foreach ($agg->getBuckets() as $bucket) {
             $typesInfo[$bucket->key] = [
@@ -297,7 +297,7 @@ class ExportService
         // Teste les types qui sont supportés par chaque exporteur
         $result = [];
         foreach ($exporters as $key => $class) {
-            $exporter = new $class(); /** @var Exporter $exporter */
+            $exporter = new $class(); /* @var Exporter $exporter */
             $count = 0;
             $supported = $unsupported = [];
             foreach ($typesInfo as $typeInfo) {
@@ -387,7 +387,7 @@ class ExportService
         $class = $exportersInfo[$exporter]['class'];
         $supportedTypes = array_keys($exportersInfo[$exporter]['supported']);
         unset($exportersInfo);
-        $exporter = new $class(); /** @var Exporter $exporter */
+        $exporter = new $class(); /* @var Exporter $exporter */
 
         // Génère les entêtes http
         $disposition = $exporter->isBinaryContent() ? 'attachment' : 'inline';
@@ -399,7 +399,7 @@ class ExportService
         set_time_limit(3600);
 
         // Modifie la requête pour qu'elle ne contienne que les types supportés par l'exporteur
-        $dsl = docalist('elasticsearch-query-dsl'); /** @var QueryDSL $dsl */
+        $dsl = docalist('elasticsearch-query-dsl'); /* @var QueryDSL $dsl */
         $request = $searchResponse->getSearchRequest();
         $request->addFilter($dsl->terms('type', $supportedTypes));
         $request->removeAggregation('types'); // l'aggrégation sur les types n'est plus nécessaire
@@ -422,7 +422,7 @@ class ExportService
     private function view(string $view, array $data = []): void
     {
         // Exécute la vue
-        $views = docalist('views'); /** @var Views $views */
+        $views = docalist('views'); /* @var Views $views */
         $data['this'] = $this;
         $content = $views->render($view, $data);
 

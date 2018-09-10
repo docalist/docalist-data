@@ -47,13 +47,13 @@ class ExportWidget extends WP_Widget
     private function getExportUrl(): string
     {
         // Récupère le service docalist-search
-        $searchEngine = docalist('docalist-search-engine'); /** @var SearchEngine $searchEngine */
+        $searchEngine = docalist('docalist-search-engine'); /* @var SearchEngine $searchEngine */
 
         // Récupère les résultats de la recherche en cours
-        $searchResponse = $searchEngine->getSearchResponse(); /** @var SearchResponse $searchResponse */
+        $searchResponse = $searchEngine->getSearchResponse(); /* @var SearchResponse $searchResponse */
 
         // Récupère le service d'export
-        $exportService = docalist('docalist-data-export'); /** @var ExportService $exportService */
+        $exportService = docalist('docalist-data-export'); /* @var ExportService $exportService */
 
         // Ok
         return $exportService->getExportUrl($searchResponse);

@@ -98,10 +98,10 @@ class ListReferences
 
         // Fournit le contenu des colonnes personnalisées pour chaque notice
         add_action("manage_{$this->postType}_posts_custom_column", function ($column, $post_id) {
-            /** @var Record $ref */
+            /* @var Record $ref */
             static $ref = null;
 
-            /** @var WP_Post $post */
+            /* @var WP_Post $post */
             global $post;
 
             if (is_null($ref) || $ref->getID() !== $post_id) {
@@ -126,7 +126,7 @@ class ListReferences
 
                 case 'creation':
                     $date = $post->post_date;
-                    $author = get_user_by('id', $post->post_author); /** @var WP_User $author */
+                    $author = get_user_by('id', $post->post_author); /* @var WP_User $author */
                     printf(
                         '%s<br/><a href="%s">%s</a>',
                         $this->formatDate($date),
@@ -140,7 +140,7 @@ class ListReferences
                     if ($date !== $post->post_date) {
                         $id = get_post_meta($post->ID, '_edit_last', true);
                         if ($id /* && $id !== $post->post_author */) {
-                            $author = get_user_by('id', $id); /** @var WP_User $author */
+                            $author = get_user_by('id', $id); /* @var WP_User $author */
                             printf(
                                 '%s<br/><a href="%s">%s</a>',
                                 $this->formatDate($date),
@@ -377,7 +377,7 @@ class ListReferences
 
         // Version dynamique qui tient compte des critères de recherche actuels
         if (true) {
-            global $wp_query; /** @var WP_Query $wp_query */
+            global $wp_query; /* @var WP_Query $wp_query */
 
             $sql = $wp_query->request;
 
@@ -434,7 +434,7 @@ class ListReferences
 
         // Version dynamique qui tient compte des critères de recherche actuels
         if (true) {
-            /** @var WP_Query $wp_query */
+            /* @var WP_Query $wp_query */
             global $wp_query;
 
             $sql = $wp_query->request;

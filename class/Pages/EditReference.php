@@ -626,7 +626,7 @@ class EditReference
      */
 //     protected function tableOptions($table, $fields = 'code,label') {
 //         empty($table) && $table = 'countries';
-//         /** @var TableManager $tableManager */
+//         /* @var TableManager $tableManager */
 //         $tableManager = docalist('table-manager');
 //         return $tableManager->get($table)->search($fields);
 //     }

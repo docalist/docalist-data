@@ -54,7 +54,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     // Récupère le formulaire de saisie des propriétés du champ
     $type = $schema->collection() ?: $schema->type() ?: Composite::class;
     $fieldType = new $type($type::getClassDefault(), $schema);
-    $form = $fieldType->$method(); /** @var Container $form */
+    $form = $fieldType->$method(); /* @var Container $form */
 
     // Détermine le nom de la metabox (vide au premier niveau, nom du champ/sous-champ ensuite)
     $name = '';

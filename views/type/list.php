@@ -43,7 +43,7 @@ use Docalist\Data\Settings\TypeSettings;
     $addType = $this->getUrl('TypeAdd', $dbindex);
     $nb = 0;
     foreach($database->types as $typeindex => $type) {
-        /** @var TypeSettings $type */
+        /* @var TypeSettings $type */
 
         $edit = esc_url($this->getUrl('TypeEdit', $dbindex, $typeindex));
         $delete = esc_url($this->getUrl('TypeDelete', $dbindex, $typeindex));

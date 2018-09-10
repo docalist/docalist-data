@@ -65,7 +65,7 @@ class DatabaseTools extends AdminPage
         // Instancie chaque importeur
         $importers = [];
         foreach ($classes as $class) {
-            $importer = new $class(); /** @var Importer $importer */
+            $importer = new $class(); /* @var Importer $importer */
             $importers[$importer->getID()] = $importer;
         }
 
@@ -210,7 +210,7 @@ class DatabaseTools extends AdminPage
             : __('%s enregistrements importés', 'docalist-data');
 
         $nb = 0;
-        foreach ($importer->getRecords($filename) as $record) { /** @var Record $record */
+        foreach ($importer->getRecords($filename) as $record) { /* @var Record $record */
             // Charge les notices avec le statut demandé
             $record->status = $status;
 
@@ -322,7 +322,7 @@ class DatabaseTools extends AdminPage
         $class = $this->database->type();
 
         // Récupère le schéma
-        $ref = new $class; /** @var Record $ref */
+        $ref = new $class; /* @var Record $ref */
         $schema = $ref->getSchema();
 
         $maxlevel = 4;
@@ -347,7 +347,7 @@ class DatabaseTools extends AdminPage
     {
         // var_dump($schema);
 
-        foreach ($fields as $field) { /** @var Schema $field */
+        foreach ($fields as $field) { /* @var Schema $field */
             echo '<tr>';
 
             //$level && printf('<td colspan="%d">x</td>', $level);
@@ -484,11 +484,11 @@ class DatabaseTools extends AdminPage
 
         // Crée le convertisseur
         $settings = isset($format['converter-settings']) ? $format['converter-settings'] : [];
-        $converter = new $converter($settings); /** @var Converter $converter */
+        $converter = new $converter($settings); /* @var Converter $converter */
 
         // Crée l'exporteur
         $settings = isset($format['exporter-settings']) ? $format['exporter-settings'] : [];
-        $exporter = new $exporter($converter, $settings); /** @var Exporter $exporter */
+        $exporter = new $exporter($converter, $settings); /* @var Exporter $exporter */
 
         // Crée l'itérateur
         $iterator = new RecordIterator($request);

@@ -9,6 +9,7 @@
  */
 namespace Docalist\Data\Type;
 
+use Docalist\Type\Any;
 use Docalist\Type\TypedText;
 use Docalist\Type\Text;
 use Docalist\Table\TableManager;
@@ -144,12 +145,12 @@ class Topic extends TypedText
         $terms = array_combine($terms, $terms);
 
         // Récupère le table-manager
-        $tables = docalist('table-manager'); /** @var TableManager $tables */
+        $tables = docalist('table-manager'); /* @var TableManager $tables */
 
         // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
         $table = $this->schema->getField('type')->table();
         $tableName = explode(':', $table)[1];
-        $table = $tables->get($tableName); /** @var TableInterface $table */
+        $table = $tables->get($tableName); /* @var TableInterface $table */
 
         // Détermine la source qui correspond au type du topic
         $source = $table->find('source', 'code='. $table->quote($this->type()));
@@ -158,7 +159,7 @@ class Topic extends TypedText
 
             // Si la source est une table, on traduit les termes
             if ($type === 'table' || $type === 'thesaurus') {
-                $table = $tables->get($tableName); /** @var TableInterface $table */
+                $table = $tables->get($tableName); /* @var TableInterface $table */
                 foreach ($terms as & $term) {
                     $result = $table->find('label', 'code=' . $table->quote($term));
                     $result !== false && $term = $result;
