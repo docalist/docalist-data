@@ -57,7 +57,7 @@ final class ExportSetup
     /**
      * Retourne la liste des formats d'exports prédéfinis dans docalist-data.
      *
-     * @return array[] Un tableau de la forme format-name => nom-de-classe.
+     * @return string[] Un tableau de la forme format-name => nom-de-classe.
      */
     private static function getExporters(): array
     {
