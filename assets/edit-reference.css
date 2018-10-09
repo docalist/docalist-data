@@ -41,8 +41,8 @@
     width: 100%;
 }
 
-.field-othertitle th.field-type     { width: 20%; }
-.field-othertitle .field-value      { width: 80%; }
+.field-othertitle th.field-type     { width: 30%; }
+.field-othertitle .field-value      { width: 70%; }
 
 .field-translation th.field-type    { width: 20%; }
 .field-translation .field-value     { width: 80%; }
@@ -52,9 +52,9 @@
 .field-context .field-place         { width: 20%; }
 .field-context .field-number        { width: 20%; }
 
-.field-author .field-name           { width: 40%; }
-.field-author .field-firstname      { width: 40%; }
-.field-author th.field-role         { width: 20%; }
+.field-author .field-name           { width: 35%; }
+.field-author .field-firstname      { width: 30%; }
+.field-author th.field-role         { width: 35%; }
 
 .field-corporation .field-name      { width: 30%; }
 .field-corporation .field-acronym   { width: 10%; }
@@ -68,16 +68,16 @@
 .field-editor th.field-country      { width: 20%; }
 .field-editor th.field-role         { width: 20%; }
 
-.field-link th.field-type           { width: 20%; }
-.field-link .field-url              { width: 50%; }
-.field-link .field-label            { width: 20%; }
+.field-link th.field-type           { width: 25%; }
+.field-link .field-url              { width: 40%; }
+.field-link .field-label            { width: 25%; }
 .field-link .field-date             { width: 10%; }
 
 .field-collection .field-name       { width: 80%; }
 .field-collection .field-number     { width: 20%; }
 
-.field-relation th.field-type       { width: 20%; }
-.field-relation th.field-value      { width: 80%; }
+.field-relation th.field-type       { width: 25%; }
+.field-relation th.field-value      { width: 75%; }
 
 .composite-integrated + .composite-integrated {
     margin-top: 0.5em;
