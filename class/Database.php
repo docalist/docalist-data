@@ -257,8 +257,6 @@ class Database extends PostTypeRepository
      */
     public static function getClassForType($type)
     {
-        static $types;
-
         // Récupère la liste des types disponibles
         $types = self::getAvailableTypes();
 
