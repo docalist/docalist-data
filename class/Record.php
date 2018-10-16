@@ -867,15 +867,28 @@ class Record extends Entity
      *
      * @return string[] Le path complet des termes.
      */
-    protected function getTermsPath(array $terms, $table)
+    protected function getTermsPath(array $terms, $tableName)
     {
         // Ouvre le thesaurus
-        $table = docalist('table-manager')->get($table);
+        $table = docalist('table-manager')->get($tableName);
 
         // Pour chaque terme ajoute le terme parent comme préfixe tant qu'on a un terme parent
         foreach ($terms as & $term) {
             $path = $term;
+            $seen = [$term => true];
             while (!empty($term = $table->find('BT', 'code=' . $table->quote($term)))) {
+                // Exit si les BT forment une boucle infinie
+                if (isset($seen[$term])) {
+                    printf(
+                        '<p style="color:red">Thésaurus "%s" : boucle infinie sur les BT des termes "%s" (%s)</p>',
+                        $tableName,
+                        $path,
+                        __METHOD__
+                    );
+                    break;
+                }
+                $seen[$term]= true;
+
                 // find() retourne null si pas de BT ou false si pas de réponse (erreur dans le theso)
                 $path = $term . '/' . $path;
             }
