@@ -724,7 +724,7 @@ class Record extends Entity
         $defaultAnalyzer = $database->settings()->stemming();
 
         // Détermine le nom du mapping (nom de la base + nom du type)
-        $name = $database->postType() . '-' . $this->schema->name();
+        $name = $database->postType() . '-' . $this->type();
         // garder synchro avec DatabaseIndexer::index()
 
         // Construit le mapping du type
