@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Data\Type\Topic as Topic;
+use Docalist\Data\Type\Topic;
 
 /**
  * Champ standard "topic" : Une liste de mots-clés d'un certain type.
