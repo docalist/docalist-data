@@ -47,8 +47,7 @@ class DatabaseIndexer extends CustomPostTypeIndexer
     {
         $types = $this->database->settings()->types;
         foreach ($types as $type) {  /* @var TypeSettings $type */
-            $class = Database::getClassForType($type->name());
-            $ref = new $class();
+            $ref = $this->database->createReference($type->name(), []);
             $settings = $ref->buildIndexSettings($settings, $this->database);
         }
 
