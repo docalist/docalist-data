@@ -9,7 +9,8 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\Text;
+use Docalist\Type\ListEntry;
+use Docalist\Data\Database;
 
 /**
  * Champ standard "posttype" : nom de code de la base docalist où est stocké l'enregistrement.
@@ -18,14 +19,39 @@ use Docalist\Type\Text;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostTypeField extends Text
+class PostTypeField extends ListEntry
 {
     public static function loadSchema()
     {
         return [
             'name' => 'posttype',
-            'label' => __('Type de post WordPress', 'docalist-data'),
-            'description' => __('Nom de code interne du type de post WordPress', 'docalist-data'),
+            'label' => __('Base Docalist', 'docalist-data'),
+            'description' => __('Base Docalist où est enregistrée la fiche (type de post).', 'docalist-data'),
         ];
+    }
+
+    public function getFormattedValue($options = null)
+    {
+        $value = $this->getPhpValue();
+        $database = docalist('docalist-data')->database($value); /** @var Database $database */
+
+        return $database ? $database->label() : $value;
+    }
+
+    /**
+     * Retourne la liste des bases Docalist.
+     *
+     * @return array Un tableau de la forme [post-type => Libellé de la base].
+     */
+    protected function getEntries()
+    {
+        $result = [];
+        foreach (docalist('docalist-data')->databases() as $postType => $database) { /** @var Database $database */
+            $result[$postType] = $database->label();
+        }
+
+        asort($result, SORT_NATURAL);
+
+        return $result;
     }
 }
