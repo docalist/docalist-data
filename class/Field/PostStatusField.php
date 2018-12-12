@@ -9,7 +9,7 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\Text;
+use Docalist\Type\ListEntry;
 
 /**
  * Champ standard "status" : statut de visibilité de l'enregistrement.
@@ -18,7 +18,7 @@ use Docalist\Type\Text;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostStatusField extends Text
+class PostStatusField extends ListEntry
 {
     public static function loadSchema()
     {
@@ -27,5 +27,23 @@ class PostStatusField extends Text
             'label' => __('Statut WordPress', 'docalist-data'),
             'description' => __('Statut de la fiche.', 'docalist-data'),
         ];
+    }
+
+    public function getFormattedValue($options = null)
+    {
+        $value = $this->getPhpValue();
+        $status = get_post_status_object($value);
+
+        return $status ? $status->label : $value;
+    }
+
+    /**
+     * Retourne la liste des statuts de publication WordPress.
+     *
+     * @return array Un tableau de la forme [statut => libellé].
+     */
+    protected function getEntries()
+    {
+        return get_post_statuses();
     }
 }
