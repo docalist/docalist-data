@@ -9,24 +9,24 @@
  */
 namespace Docalist\Data\Field;
 
-use Docalist\Type\Text;
+use Docalist\Type\ListEntry;
 use WP_User;
 
 /**
- * Champ standard "createdBy" : login de l'utilisateur WordPress qui a créé l'enregistrement.
+ * Champ standard "createdBy" : ID de l'utilisateur WordPress qui a créé l'enregistrement.
  *
  * Ce champ Docalist correspond au champ WordPress "post_author".
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class PostAuthorField extends Text
+class PostAuthorField extends ListEntry
 {
     public static function loadSchema()
     {
         return [
             'name' => 'createdBy',
             'label' => __('Créé par', 'docalist-data'),
-            'description' => __("Nom de login de l'utilisateur WordPress qui a créé la fiche.", 'docalist-data'),
+            'description' => __("ID de l'utilisateur WordPress qui a créé la fiche.", 'docalist-data'),
         ];
     }
 
@@ -35,5 +35,20 @@ class PostAuthorField extends Text
         $author = get_user_by('id', $this->getPhpValue()); /* @var WP_User $author */
 
         return $author->display_name;
+    }
+
+    /**
+     * Retourne la liste des utilisateurs WordPress.
+     *
+     * @return array Un tableau de la forme [login => display_name].
+     */
+    protected function getEntries()
+    {
+        $result = [];
+        foreach (get_users() as $user) { /** @var WP_User $user */
+            $result[$user->ID] = $user->display_name . ' (' . $user->user_login . ')';
+        }
+
+        return $result;
     }
 }
