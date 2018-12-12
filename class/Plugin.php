@@ -17,7 +17,7 @@ use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Data\Pages\AdminDatabases;
 use Docalist\Data\Entity\ContentEntity;
 use Docalist\Data\Export\ExportSetup;
-use Exception;
+use InvalidArgumentException;
 
 /**
  * Plugin de gestion des bases docalist.
@@ -64,6 +64,8 @@ class Plugin
             return $views->addDirectory('docalist-data', DOCALIST_DATA_DIR . '/views');
         });
 
+        // Initialise la liste des bases. On le fait dans l'action init car on ne peut pas appeller
+        // register_post_type / add_rewrite_tag avant
         add_action('init', function () {
             // Charge la configuration du plugin
             $this->settings = new Settings(docalist('settings-repository'));
@@ -135,7 +137,7 @@ class Plugin
      *
      * @return Record
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getReference($id = null)
     {
@@ -153,16 +155,20 @@ class Plugin
      *
      * @return Record
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function getRecord($id = null)
     {
         is_null($id) && $id = get_the_ID();
         $type = get_post_type($id);
 
+        if (false === $type) {
+            throw new InvalidArgumentException(sprintf('Post %s not found', $id));
+        }
+
         if (! isset($this->databases[$type])) {
-            $msg = __("Le post %s n'est pas un enregistrement docalist (postype=%s)");
-            throw new Exception(sprintf($msg, $id, $type));
+            $msg = __("Post %s is not a Docalist record (postype=%s)");
+            throw new InvalidArgumentException(sprintf($msg, $id, $type));
         }
 
         $database = $this->databases[$type]; /* @var Database $database */
