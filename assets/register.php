@@ -2,7 +2,7 @@
 /**
  * This file is part of Docalist Data.
  *
- * Copyright (C) 2012-2018 Daniel Ménard
+ * Copyright (C) 2012-2019 Daniel Ménard
  *
  * For copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
@@ -39,6 +39,54 @@ add_action('admin_init', function () {
         '20150510'
     );
 
+    // google-maps et google-maps-place
+
+    // Si on n'a pas de clé d'api, on va ajouter une dépendance qui génèrent un warning (pour les admins)
+    $warnings = [];
+
+    // Clé d'API à utiliser
+    $key = defined('GOOGLE_API_KEY') ? GOOGLE_API_KEY : '';
+    empty($key) && current_user_can('manage_options') && $warnings[] = 'no-google-api-key';
+
+    // Langue de l'API
+    $language = defined('GOOGLE_MAPS_LANGUAGE') ? GOOGLE_MAPS_LANGUAGE : 'fr';
+
+    // Pays/région à utiliser
+    $region = defined('GOOGLE_MAPS_REGION') ? GOOGLE_MAPS_REGION : 'FR';
+
+    // Déclare les dépendances des warnings
+    foreach ($warnings as $warning) {
+        wp_register_script($warning, "$base/assets/$warning.js", [], '20190205', true);
+    }
+
+    // Déclare le handle 'google-maps'
+    wp_register_script(
+        'google-maps',
+        sprintf(
+            'https://maps.googleapis.com/maps/api/js?key=%s&language=%s&region=%s',
+            rawurlencode($key),
+            rawurlencode($language),
+            rawurlencode($region)
+        ),
+        $warnings,
+        null, // Ne pas générer de numéro de version, Google gère lui-même son versionning
+        true
+    );
+
+    // Déclare le handle 'google-maps-places'
+    wp_register_script(
+        'google-maps-places',
+        sprintf(
+            'https://maps.googleapis.com/maps/api/js?libraries=places&key=%s&language=%s&region=%s',
+            rawurlencode($key),
+            rawurlencode($language),
+            rawurlencode($region)
+        ),
+        $warnings,
+        null, // Ne pas générer de numéro de version, Google gère lui-même son versionning
+        true
+    );
+
     // Adresse Postale
     wp_register_style(
         'docalist-postal-address',
@@ -47,16 +95,6 @@ add_action('admin_init', function () {
         '151229'
     );
 
-    $url = 'https://maps.googleapis.com/maps/api/js?libraries=places';
-    defined('GOOGLE_PLACES_LANGUAGE') && $url .= '&language='  . rawurlencode(GOOGLE_PLACES_LANGUAGE); // dans wp-config
-    defined('GOOGLE_API_KEY') && $url .= '&key=' . rawurlencode(GOOGLE_API_KEY); // dans wp-config
-    wp_register_script(
-        'google-maps-places',
-        $url,
-        [],
-        null, // Ne pas générer de numéro de version dans l'url du script, google gère lui-même son versionning
-        true
-    );
     wp_register_script(
         'docalist-postal-address',
         "$base/assets/postal-address/postal-address.js",
