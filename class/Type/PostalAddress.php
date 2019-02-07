@@ -19,6 +19,7 @@ use Docalist\PostalAddressMetadata\PostalAddressMetadata;
 use InvalidArgumentException;
 use Docalist\Forms\Div;
 use Docalist\Forms\Input;
+use Docalist\Table\TableInterface;
 
 /**
  * PostalAddress : un type composite comprenant les différentes informations nécessaires pour envoyer un courrier
@@ -128,6 +129,30 @@ class PostalAddress extends Composite
                 ],
             ]
         ];
+    }
+
+    public function assign($value)
+    {
+        // 06/02/19 - gère la compatibilité ascendante avec le site svb
+        // dans svb, le type PostalAddress avait un champ unique administrativeArea de type tableau de Text
+        // désormais, on a des champs différents pour chaque niveau (administrativeArea, administrativeArea2, etc.)
+        if (is_array($value) && isset($value['administrativeArea']) && is_array($value['administrativeArea'])) {
+            $areas = $value['administrativeArea'];
+            $suffixes = ['', '2', '3', '4', '5'];
+
+            foreach ($suffixes as $suffix) {
+                unset($value['administrativeArea' . $suffix]);
+            }
+
+            foreach ($suffixes as $suffix) {
+                if (is_null($area = array_shift($areas))) {
+                    break;
+                }
+                $value['administrativeArea' . $suffix] = $area;
+            }
+        }
+
+        return parent::assign($value);
     }
 
     public function getFormatSettingsForm()
@@ -407,5 +432,42 @@ class PostalAddress extends Composite
         }
 
         return $code;
+    }
+
+    /**
+     * Retourne le code du continent correspondant au pays qui figure dans l'adresse.
+     *
+     * @return string Le code du continent (AF, AN, AS, EU, NA, OC ou SA) ou une chaine vide si le pays est inconnu.
+     */
+    public function getContinent(): string
+    {
+        // On ne peut rien faire si on n'a pas le pays
+        if (! isset($this->country) || empty($country = $this->country->getPhpValue())) {
+            return '';
+        }
+
+        // Ouvre la table country-to-continent
+        $table = docalist('table-manager')->get('country-to-continent'); /** @var TableInterface $table */
+
+        // Détermine le continent
+        return $table->find('dst', 'src=' . $table->quote($country)) ?: '';
+    }
+
+    /**
+     * Retourne la hiérarchie "continent/pays" de l'adresse.
+     *
+     * @param string $separator Séparateur à utiliser (slash par défaut).
+     *
+     * @return string Une chaine de la forme continent/pays.
+     */
+    public function getContinentAndCountry(string $separator = '/'): string
+    {
+        // On ne peut rien faire si on n'a pas le pays
+        if (! isset($this->country) || empty($country = $this->country->getPhpValue())) {
+            return '';
+        }
+
+        // Détermine le continent
+        return $this->getContinent() . $separator . $country;
     }
 }
