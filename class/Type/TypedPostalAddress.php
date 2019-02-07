@@ -27,7 +27,7 @@ class TypedPostalAddress extends TypedText
     public static function loadSchema()
     {
         return [
-            'label' => __('Adresse', 'docalist-data'),
+            'label' => __('Adresse postale', 'docalist-data'),
             'description' => __("Adresse et type d'adresse.", 'docalist-data'),
             'editor' => 'container',
             'fields' => [
