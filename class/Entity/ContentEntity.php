@@ -13,6 +13,7 @@ use Docalist\Data\Record;
 use Docalist\Data\Field\PostTitleField;
 use Docalist\Data\Field\ContentField;
 use Docalist\Data\Field\TopicField;
+use Docalist\Data\GridBuilder\EditGridBuilder;
 
 /**
  * Un contenu simple dans une base docalist.
@@ -30,6 +31,9 @@ use Docalist\Data\Field\TopicField;
  */
 class ContentEntity extends Record
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function loadSchema()
     {
         return [
@@ -44,10 +48,36 @@ class ContentEntity extends Record
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function initPostTitle()
     {
         if (empty($this->posttitle)) {
             $this->posttitle = __('(contenu sans titre)', 'docalist-data');
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getEditGrid()
+    {
+        $builder = new EditGridBuilder(self::class);
+
+        // $builder->setProperty('stylesheet', 'docalist-people-edit-organization');
+
+        $builder->addGroup(
+            __('Contenu de base', 'docalist-people'),
+            'posttitle,content,topic'
+        );
+
+        $builder->addGroup(
+            __('Informations de gestion', 'docalist-people'),
+            'type,ref,source',
+            'collapsed'
+        );
+
+        return $builder->getGrid();
     }
 }
