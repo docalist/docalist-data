@@ -15,14 +15,6 @@ namespace Docalist\Data;
 add_action('admin_init', function () {
     $base = DOCALIST_DATA_URL;
 
-    // Css pour EditReference (également utilisé dans le paramétrage de la grille de saisie)
-    wp_register_style(
-        'docalist-data-edit-reference',
-        "$base/assets/edit-reference.css",
-        ['wp-admin'],
-        '181009'
-    );
-
     // Editeur de grille
     wp_register_script(
         'docalist-data-grid-edit',
