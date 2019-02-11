@@ -253,9 +253,6 @@ class EditReference
         // Récupère le grille "edit"
         $schema = $this->database->settings()->types[$ref->type()]->grids['edit'];
 
-        // Insère la css générique de l'éditeur
-        wp_styles()->enqueue('docalist-data-edit-reference');
-
         // Insère la css spécifique du formulaire de saisie
         ! empty($stylesheet = $schema->stylesheet()) && wp_styles()->enqueue($stylesheet);
 
