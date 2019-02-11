@@ -245,16 +245,21 @@ class EditReference
         // Adapte le titre de l'écran de saisie
         $this->setPageTitle($ref->type(), false);
 
-        // Insère notre feuille de style
-        wp_styles()->enqueue('docalist-data-edit-reference');
-
         // Crée un nonce
         add_action('edit_form_after_title', function () {
             $this->createNonce();
         });
 
-        // Affiche un texte d'intro si la grille comporte une description
+        // Récupère le grille "edit"
         $schema = $this->database->settings()->types[$ref->type()]->grids['edit'];
+
+        // Insère la css générique de l'éditeur
+        wp_styles()->enqueue('docalist-data-edit-reference');
+
+        // Insère la css spécifique du formulaire de saisie
+        ! empty($stylesheet = $schema->stylesheet()) && wp_styles()->enqueue($stylesheet);
+
+        // Affiche un texte d'intro si la grille comporte une description
         $description = $schema->description() ?: $ref->getSchema()->description();
         if ($description && $description !== '-') { // '-' signifie "ne pas hériter"
             add_action('edit_form_after_title', function () use ($description) {
