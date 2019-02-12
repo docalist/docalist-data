@@ -2,9 +2,16 @@
 # Content : types de contenus.
 #
 # 25/01/18, DM Version initiale.
+# 12/02/19, DM Ajout d'entrées généralistes pour permette de réutiliser la table
+#           pour les structures, les personnes, etc.
 # ------------------------------------------------------------------------------
 code;label;description
-content;Contenu;Contenu principal.
-excerpt;Extrait;Extrait du contenu.
-internal;Note interne;Remarques/notes réservées à l'usage interne.
+overview;En bref;Une brève présentation de l'entité cataloguée.
+presentation;Présentation détaillée;Présentation détaillée de l'entité cataloguée.
+content;Contenu;Description du contenu de l'entité cataloguée.
+excerpt;Extrait;Un extrait du contenu de l'entité cataloguée.
+history;Historique;Historique de l'entité cataloguée.
+review;Critique;Appréciations positives ou négatives sur l'entité cataloguée.
+press;On en parle;Mentions et citations de l'entité cataloguée dans les médias.
+internal;Note interne;Remarques et notes réservées à l'usage interne.
 other;Autre;Autre type de contenu.
