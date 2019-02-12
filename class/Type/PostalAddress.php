@@ -105,7 +105,6 @@ class PostalAddress extends Composite
                     'type' => TableEntry::class,
                     'table' => 'table:ISO-3166-1_alpha2_fr',
                     'label' => __('Pays', 'docalist-data'),
-                    'default' => 'FR',
                     'description' => false,
                 ],
                 'administrativeArea2' => [
