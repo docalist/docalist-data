@@ -38,7 +38,6 @@ class Topic extends TypedText
             'fields' => [
                 'type' => [
                     'label' => __('Vocabulaire', 'docalist-data'),
-                    'table' => 'table:topic-type',
                 ],
                 'value' => [
                     'repeatable' => true, // Monovalué dans TypedText, on le rend répétable

@@ -32,6 +32,11 @@ class TopicField extends Topic
         return [
             'name' => 'topic',
             'repeatable' => true,
+            'fields' => [
+                'type' => [
+                    'table' => 'table:topic-type',
+                ],
+            ],
         ];
     }
 }
