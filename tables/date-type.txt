@@ -4,5 +4,9 @@
 # 06/01/16, DM Version initiale
 # ------------------------------------------------------------------------------
 code;label;description
-start;Date de création; 
-end;Date de fin; 
+creation;Date de creation;Date de creation (d'un objet, d'une oeuvre, d'une structure, d'un service...)
+start;Date de début;Date de début (d'une activité, d'un événement, d'un programme, d'un service...) 
+end;Date de fin; Date de fin (d'une activité, d'un événement, d'un programme...)
+birth;Date de naissance;Date de naissance (d'une personne ou d'un animal). 
+death;Date de décès;Date de décès (d'une personne ou d'un animal).
+signing-date;Date de signature;Date de signature (pour un traité, un contrat, un texte officiel...)
