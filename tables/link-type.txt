@@ -7,7 +7,7 @@
 # 05/04/16, DM : Ajout de l'entrée pdf. 
 # 22/06/16, DM : Ajout de plusieurs entrées (pinterest, scoopit, diigo, viadeo...) 
 # 15/12/16, DM : Ajout de des entrées blog et flick. 
-# 26/01/18, DM : Réorganisation pour intégratino dans docalist-data.
+# 26/01/18, DM : Réorganisation pour intégration dans docalist-data.
 # ------------------------------------------------------------------------------
 code;label;description
 #
