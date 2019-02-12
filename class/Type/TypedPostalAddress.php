@@ -33,13 +33,13 @@ class TypedPostalAddress extends TypedText
             'fields' => [
                 'type' => [
                     'table' => 'table:postal-address-type',
+                    'description' => __("Précision sur le type d'adresse.", 'docalist-data'),
                 ],
                 'value' => [
                     'type' => PostalAddress::class,
                     'label' => __('Adresse', 'docalist-data'),
                 ],
             ],
-            'default' => [['type' => 'main']],
         ];
     }
 }
