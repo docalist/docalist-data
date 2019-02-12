@@ -43,7 +43,6 @@ class TypedPhoneNumber extends TypedText
                     'type' => PhoneNumber::class,
                 ],
             ],
-            'default' => [['type' => 'work'],['type' => 'mobile']],
         ];
     }
 }
