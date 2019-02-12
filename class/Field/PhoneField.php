@@ -32,6 +32,11 @@ class PhoneField extends TypedPhoneNumber
         return [
             'name' => 'phone',
             'repeatable' => true,
+            'fields' => [
+                'type' => [
+                    'table' => 'table:phone-number-type',
+                ],
+            ],
         ];
     }
 }
