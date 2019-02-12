@@ -42,7 +42,6 @@ class DateField extends TypedFuzzyDate
                     'label' => __('Date', 'docalist-data'),
                 ],
             ],
-            'default' => [['type' => 'start']],
         ];
     }
 }
