@@ -83,8 +83,8 @@ add_action('admin_init', function () {
     wp_register_style(
         'docalist-postal-address',
         "$base/assets/postal-address/postal-address.css",
-        ['wp-admin'],
-        '151229'
+        [],
+        '190212'
     );
 
     wp_register_script(
