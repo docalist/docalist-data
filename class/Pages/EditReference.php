@@ -253,9 +253,6 @@ class EditReference
         // Récupère le grille "edit"
         $schema = $this->database->settings()->types[$ref->type()]->grids['edit'];
 
-        // Insère la css spécifique du formulaire de saisie
-        ! empty($stylesheet = $schema->stylesheet()) && wp_styles()->enqueue($stylesheet);
-
         // Affiche un texte d'intro si la grille comporte une description
         $description = $schema->description() ?: $ref->getSchema()->description();
         if ($description && $description !== '-') { // '-' signifie "ne pas hériter"
@@ -320,6 +317,9 @@ class EditReference
                 return $result === false ? $state['collapsed'] : $result;
             });
         }
+
+        // Insère la css spécifique au formulaire de saisie de l'entité
+        ! empty($stylesheet = $schema->stylesheet()) && wp_styles()->enqueue($stylesheet);
     }
 
     /**
