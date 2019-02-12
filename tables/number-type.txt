@@ -2,7 +2,14 @@
 # Types de numéros.
 #
 # 06/01/16, DM Version initiale
+# 12/02/19, DM Ajouts d'entrées génériques.
 # ------------------------------------------------------------------------------
 code;type;format;label;description
-internal;;"Nº interne %s";"Numéro interne";"Un numéro ou une référence qui vous est propre (interne)."
-other;;Nº%s;"Autre numéro";
+agreement;;"Agrément nº%s";"N° d'agrément";"Un numéro officiel autorisant une personne ou un organisme à exercer une activité."
+ape;;"APE %s";"Code APE";"En France, code indiquant l'activité principale d'une entreprise."
+internal;;"Nº interne %s";"Numéro interne";"Un numéro ou une référence interne."
+licence;;"Licence nº%s";"N° de licence";"Numéro ou type de la licence régissant les droits d'exploitation."
+other;;Nº%s;"Autre numéro";"Tout type de numéro qui ne figure pas dans la liste."
+siren;;"SIREN %s";SIREN;"En France, code identifiant un organisme ou une entreprise (9 chiffres)."
+siret;;"SIRET %s";SIRET;"En France, code identifiant un établissement particulier d'une entreprise (14 chiffres)."
+tva;;"TVA %s";"Nº de TVA";"Numéro de TVA intracommunautaire (En France : lettres FR, 2 chiffres puis numéro SIREN de l'organisme)."
