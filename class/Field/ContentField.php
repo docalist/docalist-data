@@ -42,7 +42,6 @@ class ContentField extends TypedLargeText
                     'editor' => 'wpeditor-teeny',
                 ]
             ],
-            'default' => [['type' => 'content']],
             'editor' => 'integrated',
         ];
     }
