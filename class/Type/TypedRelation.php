@@ -31,7 +31,6 @@ class TypedRelation extends TypedText
             'description' => __('Relation vers une autre fiche et type de relation.', 'docalist-data'),
             'fields' => [
                 'type' => [
-                    // 'table' => 'table:relations', // Les classes descendantes doivent indiquer la table
                     'description' => __('Type de relation', 'docalist-data'),
                 ],
                 'value' => [
