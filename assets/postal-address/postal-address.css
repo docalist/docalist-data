@@ -59,8 +59,8 @@
     min-width: auto;
 }
 
-.type-postal-address .form-table td {
-    padding: 0 0 1px 0;
+.type-postal-address .form-table td, .type-postal-address .form-table th {
+    padding: 0 0 1px 0!important;
 }
 
 .type-postal-address .form-table label 
