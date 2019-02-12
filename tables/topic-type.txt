@@ -4,4 +4,4 @@
 # 02/02/18, DM : Version initiale (from docalist-biblio)
 # ------------------------------------------------------------------------------
 code;label;description;source
-free;Mots-clés libres;"Mots-clés choisis parmi ceux qui existent déjà ou créés librement.";index:topic.free
+free;Mots-clés libres;"Mots-clés choisis parmi ceux qui existent déjà ou créés librement.";index:topic-free
