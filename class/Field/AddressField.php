@@ -36,6 +36,13 @@ class AddressField extends TypedPostalAddress
                 'type' => [
                     'table' => 'table:postal-address-type',
                 ],
+                'value' => [
+                    'fields' => [
+                        'country' => [
+                            'table' => 'table:ISO-3166-1_alpha2_fr',
+                        ],
+                    ],
+                ],
             ],
         ];
     }
