@@ -32,6 +32,11 @@ class AddressField extends TypedPostalAddress
         return [
             'name' => 'address',
             'repeatable' => true,
+            'fields' => [
+                'type' => [
+                    'table' => 'table:postal-address-type',
+                ],
+            ],
         ];
     }
 }

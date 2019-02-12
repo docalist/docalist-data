@@ -32,7 +32,6 @@ class TypedPostalAddress extends TypedText
             'editor' => 'container',
             'fields' => [
                 'type' => [
-                    'table' => 'table:postal-address-type',
                     'description' => __("Précision sur le type d'adresse.", 'docalist-data'),
                 ],
                 'value' => [
