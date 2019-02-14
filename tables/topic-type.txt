@@ -4,9 +4,4 @@
 # 02/02/18, DM : Version initiale (from docalist-biblio)
 # ------------------------------------------------------------------------------
 code;label;description;source
-access;Accès;"Mots-clés décrivant les modalités d'accès à l'entité cataloguée.";index:topic-access
-status;Statut;"Mots-clés décrivant le statut ou l'état de l'entité cataloguée.";index:topic-status
-audience;Public;"Mots-clés décrivant les publics visés ou attendus par l'entité cataloguée.";index:topic-audience
-typology;"Typologie";"Mots-clés permettant de classer ou d'indiquer le type de l'entité cataloguée.";index:topic-typology
-discipline;Discipline;"Mots-clés permettant d'indiquer la discipline ou la spécialité dont relève 'entité cataloguée.";index:topic-discipline
-free;Libre;"Autres mots-clés libres";index:topic-free
+free;Mots-clés libres;"Mots-clés choisis parmi ceux qui existent déjà ou créés librement.";index:topic-free
