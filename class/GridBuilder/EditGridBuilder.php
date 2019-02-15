@@ -165,6 +165,23 @@ final class EditGridBuilder
     }
 
     /**
+     * Ajoute plusieurs groupes de champs dans la grille.
+     *
+     * @param string[] $groups Un tableau de la forme libellé du groupe => liste des champs
+     */
+    public function addGroups(array $groups): void
+    {
+        foreach ($groups as $label => $fields) {
+            $state = '';
+            if (substr($fields, 0, 1) === '-') {
+                $state = 'collapsed';
+                $fields = ltrim($fields, '-,');
+            }
+            $this->addGroup($label, $fields, $state);
+        }
+    }
+
+    /**
      * Initialise les valeurs par défaut des champs de la grille.
      *
      * @param array $defaults Un tableau de la forme Nom de champ => default indiquant la valeur par défaut des champs.
