@@ -2,10 +2,10 @@
 /**
  * This file is part of Docalist Data.
  *
- * Copyright (C) 2012-2018 Daniel Ménard
+ * Copyright (C) 2012-2019 Daniel Ménard
  *
  * For copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 namespace Docalist\Data\Type;
 
@@ -15,7 +15,7 @@ use Docalist\Forms\EntryPicker;
 use InvalidArgumentException;
 
 /**
- * Gère une relation vers un autre post WordPress.
+ * Gère une relation vers une fiche docalist.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -24,7 +24,6 @@ class Relation extends Integer
     public static function loadSchema()
     {
         return [
-//            'reltype' => '',    // exemple : "Svb\Type\Event"
             'relfilter' => '*',  // exemple: "+type:event +database:dbevents"
         ];
     }
@@ -33,24 +32,16 @@ class Relation extends Integer
     {
         parent::__construct($value, $schema);
 
-        // Vérifie que la classe descendante a indiqué le type de relation
-/*
-        if (is_null($schema) || empty($schema->reltype())) {
-            $field = $schema ? ($schema->name() ?: $schema->label()) : '';
-            throw new InvalidArgumentException("Schema property 'reltype' is required for Relation field '$field'.");
-        }
-*/
         // Vérifie que la classe descendante a indiqué un filtre pour les lookups
         if (is_null($schema) || empty($schema->relfilter())) {
             $field = $schema ? ($schema->name() ?: $schema->label()) : '';
-            throw new InvalidArgumentException("Schema property 'relfilter' is required for Relation field '$field'.");
+            throw new InvalidArgumentException("Property 'relfilter' is required for Relation field '$field'.");
         }
     }
 
     public static function getClassDefault()
     {
-        // On surcharge car la valeur par défut d'un Integer est 0
-        // On utilise null pour indiquer "pas de relation"
+        // On surcharge car la valeur par défut d'un Integer est 0, on utilise null pour indiquer "pas de relation"
         return null;
     }
 
@@ -71,14 +62,7 @@ class Relation extends Integer
         // Récupère le formulaire par défaut
         $form = parent::getSettingsForm();
 
-        // Indique le type de relation (input disabled contenant le nom de la classe php)
-/*
-        $form->input('reltype')
-             ->setAttribute('disabled')
-             ->addClass('code large-text')
-             ->setLabel(__('Entité liée', 'docalist-data'))
-             ->setDescription(__('Pour info, nom de classe des entités liées à ce champ.', 'docalist-data'));
-*/
+        // Filtre de recherche (relfilter)
         $form->input('relfilter')
             ->addClass('code large-text')
             ->setLabel(__('Filtre de recherche', 'docalist-data'))
