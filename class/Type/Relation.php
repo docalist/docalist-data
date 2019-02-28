@@ -12,6 +12,7 @@ namespace Docalist\Data\Type;
 use Docalist\Schema\Schema;
 use Docalist\Type\Integer;
 use Docalist\Forms\EntryPicker;
+use Docalist\Data\Record;
 use InvalidArgumentException;
 
 /**
@@ -21,6 +22,15 @@ use InvalidArgumentException;
  */
 class Relation extends Integer
 {
+    /**
+     * L'entité liée.
+     *
+     * Est à false initialement, initialisée avec un Record ou null par getEntity(), remis à false par assign().
+     *
+     * @var Record|null|false
+     */
+    protected $entity = false;
+
     public static function loadSchema()
     {
         return [
@@ -47,6 +57,9 @@ class Relation extends Integer
 
     public function assign($value)
     {
+        // Efface l'entité mise en cache (cf. getEntity)
+        $this->entity = false;
+
         // Un Integer ne peut pas être à null, par contre pour un type Relation, il faut accepter la valeur null
         if (is_null($value)) {
             $this->phpValue = null;
@@ -169,5 +182,27 @@ class Relation extends Integer
     public function filterEmpty($strict = true)
     {
         return empty($this->phpValue);
+    }
+
+    /**
+     * Retourne l'entité indiquée par la relation.
+     *
+     * Lors du premier appel, l'entité liée est chargée et est mise en cache. Les appels ultérieurs retournent
+     * l'entité en cache (i.e. le record n'est chargé qu'une seule fois).
+     *
+     * Si la valeur de la relation change, le cache est effacé (cf. assign()).
+     *
+     * @return Record|null L'objet Record correspondant à l'entité liée ou null s'il n'y a pas d'entité liée.
+     */
+    public function getEntity(): ?Record
+    {
+        // Charge l'entité lors du premier appel
+        if ($this->entity === false) {
+            $id = $this->getPhpValue();
+            $this->entity = empty($id) ? null : docalist('docalist-data')->getRecord($id);
+
+        }
+
+        return $this->entity;
     }
 }
