@@ -2,10 +2,10 @@
 /**
  * This file is part of Docalist Data.
  *
- * Copyright (C) 2012-2018 Daniel Ménard
+ * Copyright (C) 2012-2019 Daniel Ménard
  *
  * For copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 namespace Docalist\Data\Type;
 
@@ -16,6 +16,7 @@ use Docalist\Table\TableManager;
 use Docalist\Table\TableInterface;
 use Docalist\Forms\TopicsInput;
 use InvalidArgumentException;
+use Docalist\Data\Type\Collection\TopicCollection;
 
 /**
  * Une liste de mots-clés d'un certain type.
@@ -51,7 +52,7 @@ class Topic extends TypedText
 
     public static function getCollectionClass()
     {
-        return Topics::class;
+        return TopicCollection::class;
     }
 
     /* ------------------------------------------------------------------------------------------------------------
