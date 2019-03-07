@@ -2,23 +2,20 @@
 /**
  * This file is part of Docalist Data.
  *
- * Copyright (C) 2012-2018 Daniel Ménard
+ * Copyright (C) 2012-2019 Daniel Ménard
  *
  * For copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE file that was distributed with this source code.
  */
 namespace Docalist\Data\Type;
 
 use Docalist\Type\TypedText;
-use Docalist\Type\TableEntry;
 use Docalist\Data\Type\PhoneNumber;
 
 /**
- * Numéro de téléphone typé : un type composite associant un type provenant d'une table d'autorité à une valeur
- * de type PhoneNumber.
+ * TypedPhoneNumber : un TypedValue qui a une valeur de type PhoneNumber.
  *
- * @property TableEntry     $type   Type de numéro (standard, ligne directe, mobile...)
- * @property PhoneNumber    $value  Numéro de téléphone associé.
+ * @property PhoneNumber $value Numéro de téléphone associé.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
