@@ -13,6 +13,8 @@ use Docalist\Data\Record;
 
 /**
  * Compatibilité ascendante : ancien nom de la classe Record.
+ *
+ * @deprecated
  */
 class Type extends Record
 {
