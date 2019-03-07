@@ -13,6 +13,7 @@ use Docalist\Type\TypedText;
 use Docalist\Type\TableEntry;
 use Docalist\Data\Type\Relation;
 use Docalist\Data\Record;
+use Docalist\Data\Type\Collection\TypedRelationCollection;
 
 /**
  * Une relation typée : un type composite associant un type provenant d'une table d'autorité à un champ de type
@@ -50,8 +51,16 @@ class TypedRelation extends TypedText
      *
      * @return Record|null L'objet Record correspondant à l'entité liée ou null s'il n'y a pas d'entité liée.
      */
-    public function getEntity()//: ?Record
+    public function getEntity(): ?Record
     {
         return $this->value->getEntity();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass()
+    {
+        return TypedRelationCollection::class;
     }
 }
