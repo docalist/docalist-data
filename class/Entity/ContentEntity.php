@@ -12,7 +12,9 @@ namespace Docalist\Data\Entity;
 use Docalist\Data\Record;
 use Docalist\Data\Field\PostTitleField;
 use Docalist\Data\Field\ContentField;
+use Docalist\Type\Collection\TypedValueCollection;
 use Docalist\Data\Field\TopicField;
+use Docalist\Data\Type\Collection\TopicCollection;
 use Docalist\Data\GridBuilder\EditGridBuilder;
 
 /**
@@ -23,9 +25,9 @@ use Docalist\Data\GridBuilder\EditGridBuilder;
  *
  * Chaque enregistrement dispose d'un titre, d'un champ content (multivalué) et d'un champ topic (multivalué).
  *
- * @property PostTitleField $posttitle  Titre.
- * @property ContentField[] $content    Contenus.
- * @property TopicField[]   $topic      Mots-clés.
+ * @property PostTitleField         $posttitle  Titre.
+ * @property TypedValueCollection   $content    Contenus.
+ * @property TopicCollection        $topic      Mots-clés.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */

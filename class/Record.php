@@ -24,6 +24,7 @@ use Docalist\Data\Field\PostNameField;
 use Docalist\Data\Field\RefField;
 use Docalist\Data\Field\TypeField;
 use Docalist\Data\Field\SourceField;
+use Docalist\Type\Collection\TypedValueCollection;
 
 use Docalist\Repository\Repository;
 
@@ -40,18 +41,18 @@ use Closure;
 /**
  * Un enregistrement dans une base docalist.
  *
- * @property PostTypeField      $posttype   Post Type
- * @property PostStatusField    $status     Statut de la fiche
- * @property PostTitleField     $posttitle  Titre de la fiche
- * @property PostDateField      $creation   Date/heure de création de la fiche.
- * @property PostAuthorField    $createdBy  Auteur de la fiche.
- * @property PostModifiedField  $lastupdate Date/heure de dernière modification
- * @property PostPasswordField  $password   Mot de passe de la fiche
- * @property PostParentField    $parent     Post ID de la fiche parent
- * @property PostNameField      $slug       Slug de la fiche
- * @property RefField           $ref        Numéro unique identifiant la fiche
- * @property TypeField          $type       Type de fiche
- * @property SourceField[]      $source     Informations sur la source des données.
+ * @property PostTypeField          $posttype   Post Type
+ * @property PostStatusField        $status     Statut de la fiche
+ * @property PostTitleField         $posttitle  Titre de la fiche
+ * @property PostDateField          $creation   Date/heure de création de la fiche.
+ * @property PostAuthorField        $createdBy  Auteur de la fiche.
+ * @property PostModifiedField      $lastupdate Date/heure de dernière modification
+ * @property PostPasswordField      $password   Mot de passe de la fiche
+ * @property PostParentField        $parent     Post ID de la fiche parent
+ * @property PostNameField          $slug       Slug de la fiche
+ * @property RefField               $ref        Numéro unique identifiant la fiche
+ * @property TypeField              $type       Type de fiche
+ * @property TypedValueCollection   $source     Informations sur la source des données.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
