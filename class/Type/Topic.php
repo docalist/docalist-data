@@ -9,20 +9,21 @@
  */
 namespace Docalist\Data\Type;
 
-use Docalist\Type\Any;
 use Docalist\Type\TypedText;
-use Docalist\Type\Text;
+use Docalist\Type\TableEntry;
+use Docalist\Type\Collection;
+use Docalist\Data\Type\Collection\TopicCollection;
+use Docalist\Type\Any;
 use Docalist\Table\TableManager;
 use Docalist\Table\TableInterface;
 use Docalist\Forms\TopicsInput;
 use InvalidArgumentException;
-use Docalist\Data\Type\Collection\TopicCollection;
 
 /**
  * Une liste de mots-clés d'un certain type.
  *
  * @property TableEntry $type   Type    Vocabulaire.
- * @property Text[]     $value  Value   Tags.
+ * @property Collection $value  Value   Tags.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -138,39 +139,6 @@ class Topic extends TypedText
         ];
     }
 
-    public function getTermsLabel()
-    {
-        // Récupère la liste des termes
-        $terms = $this->value->getPhpValue();
-        $terms = array_combine($terms, $terms);
-
-        // Récupère le table-manager
-        $tables = docalist('table-manager'); /* @var TableManager $tables */
-
-        // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
-        $table = $this->schema->getField('type')->table();
-        $tableName = explode(':', $table)[1];
-        $table = $tables->get($tableName); /* @var TableInterface $table */
-
-        // Détermine la source qui correspond au type du topic
-        $source = $table->find('source', 'code='. $table->quote($this->type()));
-        if ($source !== false) { // type qu'on n'a pas dans la table topics
-            list($type, $tableName) = explode(':', $source);
-
-            // Si la source est une table, on traduit les termes
-            if ($type === 'table' || $type === 'thesaurus') {
-                $table = $tables->get($tableName); /* @var TableInterface $table */
-                foreach ($terms as & $term) {
-                    $result = $table->find('label', 'code=' . $table->quote($term));
-                    $result !== false && $term = $result;
-                }
-            }
-        }
-
-        // Ok
-        return $terms;
-    }
-
     public function getFormattedValue($options = null)
     {
         $format = $this->getOption('format', $options, $this->getDefaultFormat());
@@ -203,5 +171,48 @@ class Topic extends TypedText
             $this->type->getEntryLabel(),
             implode(', ', $this->getTermsLabel())
         );
+    }
+
+    /**
+     * Retourne le libellé des termes du topic.
+     *
+     * La méthode retourne un tableau qui indique, pour chaque code de topic, le libellé correspondant tel
+     * qu'il figure dans la table d'autorité associée au champ type du topic.
+     *
+     * Si un terme n'existe pas dans la table d'autorité, c'est son code qui est retourné comme label.
+     *
+     * @return array Un tableau de la forme code => libellé.
+     */
+    public function getTermsLabel()
+    {
+        // Récupère la liste des termes
+        $terms = $this->value->getPhpValue();
+        $terms = array_combine($terms, $terms);
+
+        // Récupère le table-manager
+        $tables = docalist('table-manager'); /* @var TableManager $tables */
+
+        // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
+        $table = $this->schema->getField('type')->table();
+        $tableName = explode(':', $table)[1];
+        $table = $tables->get($tableName); /* @var TableInterface $table */
+
+        // Détermine la source qui correspond au type du topic
+        $source = $table->find('source', 'code='. $table->quote($this->type()));
+        if ($source !== false) { // type qu'on n'a pas dans la table topics
+            list($type, $tableName) = explode(':', $source);
+
+            // Si la source est une table, on traduit les termes
+            if ($type === 'table' || $type === 'thesaurus') {
+                $table = $tables->get($tableName); /* @var TableInterface $table */
+                foreach ($terms as & $term) {
+                    $result = $table->find('label', 'code=' . $table->quote($term));
+                    $result !== false && $term = $result;
+                }
+            }
+        }
+
+        // Ok
+        return $terms;
     }
 }
