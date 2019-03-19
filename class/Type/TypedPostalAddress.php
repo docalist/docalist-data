@@ -23,7 +23,7 @@ use Docalist\Data\Type\PostalAddress;
  */
 class TypedPostalAddress extends TypedValue
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'label' => __('Adresse postale', 'docalist-data'),

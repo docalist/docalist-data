@@ -46,7 +46,7 @@ class Grid extends Schema
         return new self($this->mergeProperties($this->value(), $data));
     }
 
-    public static function getCollectionClass()
+    public static function getCollectionClass(): string
     {
         return Collection::class;
     }

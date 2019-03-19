@@ -60,7 +60,7 @@ use Closure;
  */
 class Record extends Entity
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'record',

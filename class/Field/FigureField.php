@@ -30,7 +30,7 @@ use Docalist\Type\TypedDecimal;
  */
 class FigureField extends TypedDecimal
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'figure',

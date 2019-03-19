@@ -20,7 +20,7 @@ use Docalist\Type\Integer;
  */
 class RefField extends Integer
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'ref',

@@ -31,7 +31,7 @@ use InvalidArgumentException;
  */
 class Topic extends TypedText
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'label' => __('Indexation', 'docalist-data'),
@@ -53,7 +53,7 @@ class Topic extends TypedText
         ];
     }
 
-    public static function getCollectionClass()
+    public static function getCollectionClass(): string
     {
         return TopicCollection::class;
     }
@@ -67,7 +67,7 @@ class Topic extends TypedText
      * Les méthodes qui suivent sont là uniquement pour assurer la compatibilité ascendante. Elles pourront être
      * supprimées une fois que prisme et svb auront été adaptés.
      * ------------------------------------------------------------------------------------------------------------ */
-    public function assign($value)
+    public function assign($value): void
     {
         ($value instanceof Any) && $value = $value->getPhpValue();
 
@@ -80,7 +80,7 @@ class Topic extends TypedText
             }
         }
 
-        return parent::assign($value);
+        parent::assign($value);
     }
 
     public function __set($name, $value)

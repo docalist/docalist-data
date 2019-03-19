@@ -21,7 +21,7 @@ use Docalist\Data\Database;
  */
 class TypeField extends ListEntry
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'type',

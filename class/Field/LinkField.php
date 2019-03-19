@@ -41,7 +41,7 @@ use WP_Embed;
  */
 class LinkField extends MultiField
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'link',
@@ -74,7 +74,7 @@ class LinkField extends MultiField
         ];
     }
 
-    public function assign($value)
+    public function assign($value): void
     {
         /*
          * Par le passé, on avait deux-sous champs supplémentaires :
@@ -87,7 +87,7 @@ class LinkField extends MultiField
             unset($value['status']);
         }
 
-        return parent::assign($value);
+        parent::assign($value);
     }
 
     public function getDefaultFormat()

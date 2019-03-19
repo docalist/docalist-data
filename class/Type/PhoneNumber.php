@@ -30,7 +30,7 @@ class PhoneNumber extends Text
      * cf. aussi rfc3966 : https://tools.ietf.org/html/rfc3966
      */
 
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'label' => __('Téléphone', 'docalist-data'),

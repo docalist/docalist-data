@@ -29,7 +29,7 @@ use Docalist\Data\Type\TypedPostalAddress;
  */
 class AddressField extends TypedPostalAddress
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'address',

@@ -24,7 +24,7 @@ use Docalist\Forms\Container;
  */
 class Group extends Any
 {
-    public function assign($value)
+    public function assign($value): void
     {
         if (! is_null($value)) {
             throw new InvalidTypeException('A group can not have a value.');

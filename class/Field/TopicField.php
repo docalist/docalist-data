@@ -29,7 +29,7 @@ use Docalist\Data\Type\Topic;
  */
 class TopicField extends Topic
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'topic',

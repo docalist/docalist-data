@@ -24,7 +24,7 @@ class Settings extends \Docalist\Type\Settings
 {
     protected $id = 'docalist-data-settings';
 
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'fields' => [

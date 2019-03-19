@@ -22,7 +22,7 @@ use Docalist\Type\Text;
  */
 class PostTitleField extends Text
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'posttitle',

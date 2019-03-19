@@ -29,7 +29,7 @@ use Docalist\Type\TypedLargeText;
  */
 class ContentField extends TypedLargeText
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'content',

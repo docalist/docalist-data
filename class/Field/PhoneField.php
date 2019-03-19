@@ -29,7 +29,7 @@ use Docalist\Data\Type\TypedPhoneNumber;
  */
 class PhoneField extends TypedPhoneNumber
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'phone',

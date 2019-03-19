@@ -29,7 +29,7 @@ class TypedPhoneNumber extends TypedText
      * - la table d'autorité associée ne contient pas de colonne format
      */
 
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'label' => __('Téléphone', 'docalist-data'),

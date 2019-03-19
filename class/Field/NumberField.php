@@ -29,7 +29,7 @@ use Docalist\Type\TypedNumber;
  */
 class NumberField extends TypedNumber
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'number',

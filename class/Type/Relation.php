@@ -33,7 +33,7 @@ class Relation extends Integer
      */
     protected $entity = false;
 
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'relfilter' => '*',  // exemple: "+type:event +database:dbevents"
@@ -57,7 +57,7 @@ class Relation extends Integer
         return null;
     }
 
-    public function assign($value)
+    public function assign($value): void
     {
         // Efface l'entité mise en cache (cf. getEntity)
         $this->entity = false;
@@ -69,7 +69,7 @@ class Relation extends Integer
             return $this;
         }
 
-        return parent::assign($value);
+        parent::assign($value);
     }
 
     public function getSettingsForm()

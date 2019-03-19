@@ -25,7 +25,7 @@ use Docalist\Data\Type\Collection\TypedRelationCollection;
  */
 class TypedRelation extends TypedValue
 {
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'label' => __('Relation', 'docalist-data'),
@@ -58,7 +58,7 @@ class TypedRelation extends TypedValue
     /**
      * {@inheritDoc}
      */
-    public static function getCollectionClass()
+    public static function getCollectionClass(): string
     {
         return TypedRelationCollection::class;
     }

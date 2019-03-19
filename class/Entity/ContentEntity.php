@@ -38,7 +38,7 @@ class ContentEntity extends Record
     /**
      * {@inheritDoc}
      */
-    public static function loadSchema()
+    public static function loadSchema(): array
     {
         return [
             'name' => 'content',
