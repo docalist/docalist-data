@@ -122,8 +122,16 @@ $methods = [
 $form = createForm($type->grids['base'], $grid, $methods[$grid->gridtype()]);
 $form->bind($grid->getPhpValue());
 
-wp_styles()->enqueue(['docalist-data-edit-reference', 'docalist-data-grid-edit']);
+// Enqueue les assets de l'éditeur de grille
+wp_styles()->enqueue(['docalist-data-grid-edit']);
 wp_scripts()->enqueue(['docalist-data-grid-edit']);
+
+// Enqueue la css spécifique du type pour le formulaire de saisie
+if ($grid->gridtype() === 'edit') {
+    $css = $type->grids['edit']->stylesheet();
+    !empty($css) && wp_styles()->enqueue([$css]);
+}
+
 ?>
 <div class="wrap">
     <h1><?= sprintf(__('%s - %s - %s', 'docalist-data'), $database->label(), $type->label(), $grid->label()) ?></h1>
