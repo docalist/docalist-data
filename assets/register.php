@@ -9,6 +9,8 @@
 
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
+declare(strict_types=1);
+
 namespace Docalist\Data;
 
 // Les scripts suivants ne sont dispos que dans le back-office
