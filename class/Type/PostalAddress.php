@@ -17,6 +17,7 @@ use Docalist\Type\Text;
 use Docalist\Type\TableEntry;
 use Docalist\Type\GeoPoint;
 use Docalist\Forms\Container;
+use Docalist\Forms\Element;
 use Docalist\PostalAddressMetadata\PostalAddressMetadata;
 use InvalidArgumentException;
 use Docalist\Forms\Div;
@@ -155,7 +156,7 @@ class PostalAddress extends Composite
         parent::assign($value);
     }
 
-    public function getFormatSettingsForm()
+    public function getFormatSettingsForm(): Container
     {
         $form = parent::getFormatSettingsForm();
         $after = $form->get('after');
@@ -179,7 +180,7 @@ class PostalAddress extends Composite
         return $form;
     }
 
-    public function getAvailableFormats()
+    public function getAvailableFormats(): array
     {
         return [
             'text' => __('Texte', 'docalist-data'),
@@ -222,14 +223,14 @@ class PostalAddress extends Composite
         // de tout recopier dans un tableau intermédiaire.
     }
 
-    public function getAvailableEditors()
+    public function getAvailableEditors(): array
     {
         return [
             'default' => __('Par défaut (autocomplete Google Maps API + formualaire + carte)', 'docalist-data'),
         ];
     }
 
-    public function getEditorForm($options = null)
+    public function getEditorForm($options = null): Element
     {
         $editor = $this->getOption('editor', $options, $this->getDefaultEditor());
         switch ($editor) {

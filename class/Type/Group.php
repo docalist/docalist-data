@@ -32,7 +32,7 @@ class Group extends Any
     }
 
     // pas de baseSettings() pour un groupe : pas de groupes dans une grille de base
-    public function getEditorSettingsForm()
+    public function getEditorSettingsForm(): Container
     {
         $name = $this->schema->name();
         $form = new Container($name);
@@ -97,7 +97,7 @@ class Group extends Any
     }
 
 
-    public function getFormatSettingsForm()
+    public function getFormatSettingsForm(): Container
     {
         $name = $this->schema->name();
         $form = new Container($name);

@@ -13,6 +13,8 @@ namespace Docalist\Data\Type;
 
 use Docalist\Schema\Schema;
 use Docalist\Type\Integer;
+use Docalist\Forms\Element;
+use Docalist\Forms\Container;
 use Docalist\Forms\EntryPicker;
 use Docalist\Data\Record;
 use InvalidArgumentException;
@@ -66,13 +68,13 @@ class Relation extends Integer
         if (is_null($value)) {
             $this->phpValue = null;
 
-            return $this;
+            return;
         }
 
         parent::assign($value);
     }
 
-    public function getSettingsForm()
+    public function getSettingsForm(): Container
     {
         // Récupère le formulaire par défaut
         $form = parent::getSettingsForm();
@@ -90,7 +92,7 @@ class Relation extends Integer
         return $form;
     }
 
-    public function getAvailableEditors()
+    public function getAvailableEditors(): array
     {
         return [
             'lookup' => __('Lookup dynamique', 'docalist-data'),
@@ -98,7 +100,7 @@ class Relation extends Integer
         ];
     }
 
-    public function getEditorForm($options = null)
+    public function getEditorForm($options = null): Element
     {
         $editor = $this->getOption('editor', $options, $this->getDefaultEditor());
         switch ($editor) {
@@ -122,7 +124,7 @@ class Relation extends Integer
             ->setDescription($this->getOption('description', $options));
     }
 
-    public function getAvailableFormats()
+    public function getAvailableFormats(): array
     {
         return [
             'id'            => __('Post ID', 'docalist-data'),
@@ -134,7 +136,7 @@ class Relation extends Integer
         ];
     }
 
-    public function getDefaultFormat()
+    public function getDefaultFormat(): string
     {
         return 'link-title';
     }
@@ -181,7 +183,7 @@ class Relation extends Integer
         throw new InvalidArgumentException("Invalid Relation format '$format'");
     }
 
-    public function filterEmpty($strict = true)
+    public function filterEmpty(bool $strict = true): bool
     {
         return empty($this->phpValue);
     }

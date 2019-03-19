@@ -520,7 +520,7 @@ class Record extends Entity
         }
     }
 
-    public function getSettingsForm()
+    public function getSettingsForm(): Container
     {
         $name = $this->schema->name();
         $form = new Container($name);
@@ -544,7 +544,7 @@ class Record extends Entity
     }
 
 
-    public function getEditorSettingsForm()
+    public function getEditorSettingsForm(): Container
     {
         $name = $this->schema->name();
         $form = new Container($name);
@@ -579,7 +579,7 @@ class Record extends Entity
         return $form;
     }
 
-    public function getFormatSettingsForm()
+    public function getFormatSettingsForm(): Container
     {
         $name = $this->schema->name();
         $form = new Container($name);

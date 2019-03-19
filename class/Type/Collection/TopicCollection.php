@@ -14,6 +14,7 @@ namespace Docalist\Data\Type\Collection;
 use Docalist\Type\Collection;
 use Docalist\Forms\TopicsInput;
 use Docalist\Data\Type\Topic;
+use Docalist\Forms\Element;
 use Docalist\Type\Collection\TypedValueCollection;
 use InvalidArgumentException;
 
@@ -24,7 +25,7 @@ use InvalidArgumentException;
  */
 class TopicCollection extends TypedValueCollection
 {
-    public function getEditorForm($options = null)
+    public function getEditorForm($options = null): Element
     {
         $form = new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
 

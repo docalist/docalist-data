@@ -19,6 +19,7 @@ use Docalist\Type\Any;
 use Docalist\Table\TableManager;
 use Docalist\Table\TableInterface;
 use Docalist\Forms\TopicsInput;
+use Docalist\Forms\Element;
 use InvalidArgumentException;
 
 /**
@@ -112,12 +113,12 @@ class Topic extends TypedText
      * FIN COMPATIBILITE ASCENDANTE
      * ------------------------------------------------------------------------------------------------------------ */
 
-    public function getAvailableEditors()
+    public function getAvailableEditors(): array
     {
         return [];
     }
 
-    public function getEditorForm($options = null)
+    public function getEditorForm($options = null): Element
     {
         throw new InvalidArgumentException("Encore utilisée ? normallement c'est Topics qui fait le job");
 
@@ -130,7 +131,7 @@ class Topic extends TypedText
         return $editor;
     }
 
-    public function getAvailableFormats()
+    public function getAvailableFormats(): array
     {
         return [
             'v'     => 'Mots-clés',

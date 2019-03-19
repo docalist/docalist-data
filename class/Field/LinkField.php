@@ -90,12 +90,12 @@ class LinkField extends MultiField
         parent::assign($value);
     }
 
-    public function getDefaultFormat()
+    public function getDefaultFormat(): string
     {
         return 'link';
     }
 
-    public function getAvailableFormats()
+    public function getAvailableFormats(): array
     {
         return [
             'url'       => 'Url',
@@ -253,7 +253,7 @@ class LinkField extends MultiField
         // sites qui gèrent oEmbed, pas les providers enregistrés avec wp_embed_register_handler().
     }
 
-    public function filterEmpty($strict = true)
+    public function filterEmpty(bool $strict = true): bool
     {
         // Supprime les éléments vides
         $empty = parent::filterEmpty();

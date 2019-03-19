@@ -52,7 +52,7 @@ class SourceField extends TypedText
         ];
     }
 
-    public function filterEmpty($strict = true)
+    public function filterEmpty(bool $strict = true): bool
     {
         // TypedText considère qu'on est vide si on n'a que le type
         // Dans notre cas, il fuat juste que l'un des champs soit rempli

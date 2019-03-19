@@ -31,7 +31,7 @@ class PostTitleField extends Text
         ];
     }
 
-    public function getDefaultEditor()
+    public function getDefaultEditor(): string
     {
         return 'input-large';
     }

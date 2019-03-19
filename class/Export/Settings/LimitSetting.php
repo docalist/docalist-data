@@ -43,7 +43,7 @@ class LimitSetting extends Composite
         ];
     }
 
-    public function filterEmpty($strict = true)
+    public function filterEmpty(bool $strict = true): bool
     {
         // Supprime les éléments vides
         $empty = parent::filterEmpty();
