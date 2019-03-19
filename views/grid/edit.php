@@ -80,18 +80,6 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     $metabox = new Metabox($name);
     $metabox->setLabel($label)->setAttribute('class', $class)->addItems($form->getItems());
 
-    // Valeur par défaut
-    if ($level === 2 && $method === 'getEditorSettingsForm' && $schema->type() !== Group::class) {
-        $default = $fieldType->getEditorForm($grid)
-            ->setName('default')
-            ->setLabel(__('Valeur par défaut', 'docalist-data'));
-        $metabox->add($default);
-    }
-    // TODO : ça devrait être getSettingsForm/getEditorSettingsForm qui se charge d'insérer l'éditeur
-    // dans le formulaire. ça permettrait de dire qu'on en veut pour les grilles base/edit et chaque
-    // champ pourrait choisir (par exemple, on ne veut pas de valeur par défaut pour les champs de gestion
-    // comme post_type ou date).
-
     // Crée une "sous-metabox" pour chacun des sous-champs, dans l'ordre choisi par l'utilisateur
     $fields = $grid->getFields();
     if ($fields) {
@@ -104,6 +92,18 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
             $form->add(createForm($fieldSchema, $field, $method));
         }
     }
+
+    // Valeur par défaut
+    if ($level === 2 && $method === 'getEditorSettingsForm' && $schema->type() !== Group::class) {
+        $default = $fieldType->getEditorForm($grid)
+            ->setName('default')
+            ->setLabel(__('Valeur par défaut', 'docalist-data'));
+        $metabox->add($default);
+    }
+    // TODO : ça devrait être getSettingsForm/getEditorSettingsForm qui se charge d'insérer l'éditeur
+    // dans le formulaire. ça permettrait de dire qu'on en veut pour les grilles base/edit et chaque
+    // champ pourrait choisir (par exemple, on ne veut pas de valeur par défaut pour les champs de gestion
+    // comme post_type ou date).
 
     $prefix = $savPrefix;
     --$level;
