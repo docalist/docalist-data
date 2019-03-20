@@ -90,6 +90,11 @@ class LinkField extends MultiField
         parent::assign($value);
     }
 
+    protected function getCategoryField(): TableEntry
+    {
+        return $this->type;
+    }
+
     public function getDefaultFormat(): string
     {
         return 'link';
