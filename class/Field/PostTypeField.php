@@ -45,7 +45,7 @@ class PostTypeField extends ListEntry
      *
      * @return array Un tableau de la forme [post-type => Libellé de la base].
      */
-    protected function getEntries()
+    protected function getEntries(): array
     {
         $result = [];
         foreach (docalist('docalist-data')->databases() as $postType => $database) { /** @var Database $database */

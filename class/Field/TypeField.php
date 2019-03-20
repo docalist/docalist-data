@@ -38,7 +38,7 @@ class TypeField extends ListEntry
      * Remarque : le tableau retourné contient les libellés par défaut des types docalist, pas ceux qui ont été
      * définis par l'utilisateur dans les paramètres des bases docalist.
      */
-    protected function getEntries()
+    protected function getEntries(): array
     {
         static $types = null;
 

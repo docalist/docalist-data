@@ -44,7 +44,7 @@ class PostStatusField extends ListEntry
      *
      * @return array Un tableau de la forme [statut => libellé].
      */
-    protected function getEntries()
+    protected function getEntries(): array
     {
         return get_post_statuses();
     }

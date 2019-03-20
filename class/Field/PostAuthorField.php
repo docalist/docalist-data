@@ -44,7 +44,7 @@ class PostAuthorField extends ListEntry
      *
      * @return array Un tableau de la forme [login => display_name].
      */
-    protected function getEntries()
+    protected function getEntries(): array
     {
         $result = [];
         foreach (get_users() as $user) { /** @var WP_User $user */
