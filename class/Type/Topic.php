@@ -84,27 +84,27 @@ class Topic extends TypedText
         parent::assign($value);
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, $value): void
     {
-        return parent::__set($name === 'term' ? 'value' : $name, $value);
+        parent::__set($name === 'term' ? 'value' : $name, $value);
     }
 
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return parent::__isset($name === 'term' ? 'value' : $name);
     }
 
-    public function __unset($name)
+    public function __unset(string $name): void
     {
-        return parent::__unset($name === 'term' ? 'value' : $name);
+        parent::__unset($name === 'term' ? 'value' : $name);
     }
 
-    public function __get($name)
+    public function __get(string $name): Any
     {
         return parent::__get($name === 'term' ? 'value' : $name);
     }
 
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         return parent::__call($name === 'term' ? 'value' : $name, $arguments);
     }
