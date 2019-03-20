@@ -457,7 +457,7 @@ class Record extends Entity
      *
      * @param Repository $repository Le dépôt dans lequel l'entité va être enregistrée.
      */
-    public function beforeSave(Repository $repository)
+    public function beforeSave(Repository $repository): void
     {
         parent::beforeSave($repository);
 
