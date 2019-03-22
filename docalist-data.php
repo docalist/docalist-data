@@ -10,7 +10,7 @@
  * Plugin Name: Docalist Data
  * Plugin URI:  https://docalist.org/
  * Description: Docalist: gestion des bases.
- * Version:     3.0.1
+ * Version:     3.0.2
  * Author:      Daniel Ménard
  * Author URI:  https://docalist.org/
  * Text Domain: docalist-data
@@ -25,7 +25,7 @@ namespace Docalist\Data;
 /**
  * Version du plugin.
  */
-define('DOCALIST_DATA_VERSION', '3.0.1'); // Garder synchro avec la version indiquée dans l'entête
+define('DOCALIST_DATA_VERSION', '3.0.2'); // Garder synchro avec la version indiquée dans l'entête
 
 /**
  * Path absolu du répertoire dans lequel le plugin est installé.
