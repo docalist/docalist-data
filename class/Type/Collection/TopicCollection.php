@@ -62,14 +62,7 @@ class TopicCollection extends TypedValueCollection
     }
 
     /**
-     * Fusionne deux collections de topics.
-     *
-     * Les termes des tes topics qui ont le même code sont fusionnés.
-     *
      * {@inheritDoc}
-     */
-    /**
-     * Fusionne deux collections de topics et retourne une nouvelle collection.
      *
      * Cette méthode surcharge la méthode merge() héritée de Collection pour combiner ensemble les termes des topics
      * qui ont le même type : si deux topics ont le même type, leurs listes de termes sont fusionnées et
