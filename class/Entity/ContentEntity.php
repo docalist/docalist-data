@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Docalist\Data\Entity;
 
 use Docalist\Data\Record;
-use Docalist\Data\Field\PostTitleField;
 use Docalist\Data\Field\ContentField;
 use Docalist\Type\Collection\TypedValueCollection;
 use Docalist\Data\Field\TopicField;
@@ -27,7 +26,6 @@ use Docalist\Data\GridBuilder\EditGridBuilder;
  *
  * Chaque enregistrement dispose d'un titre, d'un champ content (multivalué) et d'un champ topic (multivalué).
  *
- * @property PostTitleField         $posttitle  Titre.
  * @property TypedValueCollection   $content    Contenus.
  * @property TopicCollection        $topic      Mots-clés.
  *
@@ -45,21 +43,10 @@ class ContentEntity extends Record
             'label' => __('Contenu de base', 'docalist-data'),
             'description' => __('Un contenu de base (titre, texte et mots-clés).', 'docalist-data'),
             'fields' => [
-                'posttitle' => PostTitleField::class,
                 'content'   => ContentField::class,
                 'topic'     => TopicField::class,
             ],
         ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function initPostTitle()
-    {
-        if (empty($this->posttitle)) {
-            $this->posttitle = __('(contenu sans titre)', 'docalist-data');
-        }
     }
 
     /**
