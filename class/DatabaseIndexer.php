@@ -11,17 +11,16 @@ declare(strict_types=1);
 
 namespace Docalist\Data;
 
-use Docalist\Data\Settings\TypeSettings;
-use Docalist\Search\IndexManager;
 use Docalist\Search\Indexer\CustomPostTypeIndexer;
-use Docalist\Data\Record;
+use Docalist\Search\Mapping;
+use WP_Post;
 
 /**
- * Un indexeur pour les notices d'une base.
+ * Un indexeur pour les notices d'une base Docalist.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DatabaseIndexer extends CustomPostTypeIndexer
+final class DatabaseIndexer extends CustomPostTypeIndexer
 {
     /**
      * La base de données indexée.
@@ -31,53 +30,92 @@ class DatabaseIndexer extends CustomPostTypeIndexer
     protected $database;
 
     /**
-     * Construit l'indexeur.
+     * Initialise l'indexeur.
      *
-     * @param Database $database La base à indexer.
+     * @param Database $database La base docalist à indexer.
      */
-    public function __construct(Database $database)
+    final public function __construct(Database $database)
     {
         $this->database = $database;
-        parent::__construct(
-            $database->postType(),                  // Nom du post type
-            $this->database->settings()->name(),    // collection (in:) = nom de la base
-            __('Bases Docalist', 'docalist-data') // Catégorie
-        );
     }
 
-    public function buildIndexSettings(array $settings)
+    /**
+     * {@inheritDoc}
+     */
+    final public function getType(): string
     {
-        $types = $this->database->settings()->types;
-        foreach ($types as $type) {  /* @var TypeSettings $type */
-            $ref = $this->database->createReference($type->name(), []);
-            $settings = $ref->buildIndexSettings($settings, $this->database);
+        return $this->database->getPostType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    final public function getCollection(): string
+    {
+        return $this->database->getSettings()->name->getPhpValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    final public function getLabel(): string
+    {
+        return $this->database->getSettings()->label->getPhpValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    final public function getCategory(): string
+    {
+        return __('Bases Docalist', 'docalist-data');
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Pour une base docalist, le mapping est généré en fusionnant les mappings de chaque type
+     * de notice présent dans la base.
+     */
+    final public function getMapping(): Mapping
+    {
+        // Crée le mapping des champs WordPress
+        $result = parent::getMapping();
+
+        // Construit le mapping de chaque type de notices
+        foreach ($this->database->getSettings()->types->keys() as $type) {
+            // Crée un enregistrement docalist de ce type
+            $record = $this->database->createReference($type, []);
+
+            // Initialise son mapping
+            $mapping = new Mapping($this->getCollection() . '-' . $type);
+
+            // Ajoute les champs de la notice
+            $record->buildMapping($mapping);
+
+            // Fusionne le mapping obtenu dans le mapping résultat
+            $result->mergeWith($mapping);
         }
 
-        return $settings;
+        // Ok
+        return $result;
     }
 
-    protected function index($post, IndexManager $indexManager)
+    /**
+     * {@inheritDoc}
+     */
+    final public function getIndexData(WP_Post $post): array
     {
-        $ref = $this->database->fromPost($post);
-        $esType = $this->database->postType() . '-' . $ref->type();
+        // Indexe les champs WordPress
+        $indexData = parent::getIndexData($post);
 
-        $indexManager->index($this->getType(), $this->getID($post), $this->map($ref), $esType);
-    }
+        // Convertit le post en enregistrement docalist
+        $record = $this->database->fromPost($post);
 
-    protected function remove($post, IndexManager $indexManager)
-    {
-        $ref = $this->database->fromPost($post);
-        $esType = $this->database->postType() . '-' . $ref->type();
+        // Ajoute les données de la notice
+        $record->buildIndexData($indexData);
 
-        $indexManager->delete($this->getType(), is_scalar($post) ? $post : $this->getID($post), $esType);
-    }
-
-    protected function map($ref) /* @var Record $ref */
-    {
-        $document = $ref->map();
-//      $document['database'] = $this->database->postType(); // mapping créé dans Type::buildIndexSettings()
-        $document['in'] = $this->getCollection(); // mapping créé dans Type::buildIndexSettings()
-
-        return $document;
+        // Ok
+        return $indexData;
     }
 }
