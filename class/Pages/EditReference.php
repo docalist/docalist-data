@@ -221,11 +221,19 @@ class EditReference
                 echo "</pre>";
 
                 echo "<h4>Mapping Docalist-Search</h4><pre>";
-                echo htmlspecialchars(json_encode(
-                    $ref->map(),
+                $data = $ref->map();
+                $json = json_encode(
+                    $data,
                     JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-                ));
-
+                );
+                if ($json === false) {
+                    echo "Json_encode a échoué. data=<br />", htmlspecialchars(var_export($data, true));
+                } else {
+                    echo htmlspecialchars(json_encode(
+                        $ref->map(),
+                        JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                    ));
+                }
                 echo "</pre>";
             },
             $this->postType,    // posttype
