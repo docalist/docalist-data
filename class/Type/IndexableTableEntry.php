@@ -19,7 +19,7 @@ use Docalist\Search\Mapping;
 use Docalist\Data\HasIndexSettings;
 
 /**
- * Un numéro de téléphone.
+ * Un TableEntry qui implémente les interfaces Indexable et HasIndexSettings.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
