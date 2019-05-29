@@ -15,7 +15,7 @@ use Docalist\Type\Collection;
 use Docalist\Forms\TopicsInput;
 use Docalist\Data\Type\Topic;
 use Docalist\Forms\Element;
-use Docalist\Type\Collection\TypedValueCollection;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
 use InvalidArgumentException;
 
 /**
@@ -23,8 +23,11 @@ use InvalidArgumentException;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class TopicCollection extends TypedValueCollection
+class TopicCollection extends IndexableTypedValueCollection
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getEditorForm($options = null): Element
     {
         $form = new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
@@ -44,6 +47,8 @@ class TopicCollection extends TypedValueCollection
      * codes de topic qui sont associés à une table de lookup de type thesaurus.
      *
      * @return string[] Un tableau de la forme table => topic (les clés indiquent la table utilisée).
+     *
+     * @deprecated
      */
     public function getThesaurusTopics()
     {
