@@ -86,7 +86,7 @@ add_action('admin_init', function () {
         'docalist-postal-address',
         "$base/assets/postal-address/postal-address.css",
         [],
-        '190212'
+        '190604'
     );
 
     wp_register_script(
