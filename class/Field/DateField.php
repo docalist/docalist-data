@@ -12,6 +12,10 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Type\TypedFuzzyDate;
+use Docalist\Forms\Container;
+use Docalist\Data\Indexable;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Data\Indexer\DateFieldIndexer;
 
 /**
  * Champ standard "date" : dates.
@@ -27,8 +31,11 @@ use Docalist\Type\TypedFuzzyDate;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DateField extends TypedFuzzyDate
+class DateField extends TypedFuzzyDate implements Indexable
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function loadSchema(): array
     {
         return [
@@ -45,5 +52,21 @@ class DateField extends TypedFuzzyDate
                 ],
             ],
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass(): string
+    {
+        return IndexableTypedValueCollection::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIndexerClass(): string
+    {
+        return DateFieldIndexer::class;
     }
 }
