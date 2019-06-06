@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Type\TypedNumber;
-use Docalist\Forms\Container;
 use Docalist\Data\Indexable;
 use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
 use Docalist\Data\Indexer\NumberFieldIndexer;
