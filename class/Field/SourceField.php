@@ -12,20 +12,23 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Type\TypedText;
-use Docalist\Type\Text;
 use Docalist\Type\Url;
+use Docalist\Data\Indexable;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Data\Indexer\SourceFieldIndexer;
 
 /**
  * Champ standard "source" : informations sur la provenance des données de l'enregistrement.
  *
- * @property TableEntry $type   Code de provenance.
- * @property Url        $value  Url de provenance.
- * @property Text       $value  Note, info, remarque.
+ * @property Url $url Url de provenance.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class SourceField extends TypedText
+class SourceField extends TypedText implements Indexable
 {
+    /**
+     * {@inheritdoc}
+     */
     public static function loadSchema(): array
     {
         return [
@@ -52,10 +55,29 @@ class SourceField extends TypedText
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass(): string
+    {
+        return IndexableTypedValueCollection::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIndexerClass(): string
+    {
+        return SourceFieldIndexer::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filterEmpty(bool $strict = true): bool
     {
         // TypedText considère qu'on est vide si on n'a que le type
-        // Dans notre cas, il fuat juste que l'un des champs soit rempli
+        // Dans notre cas, il faut juste que l'un des champs soit rempli
         return $this->filterEmptyProperty('type', $strict)
             && $this->filterEmptyProperty('url', $strict)
             && $this->filterEmptyProperty('value', $strict);
