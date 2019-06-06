@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Type\Collection;
 
-use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Type\Collection\TypedValueCollection;
 use Docalist\Type\Collection;
 use Docalist\Data\Type\TypedRelation;
 
@@ -20,7 +20,7 @@ use Docalist\Data\Type\TypedRelation;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class TypedRelationCollection extends IndexableTypedValueCollection
+class TypedRelationCollection extends TypedValueCollection
 {
     /**
      * Filtre les éléments de la collection sur le champ type des éléments et retourne l'entité associée.
