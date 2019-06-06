@@ -218,4 +218,81 @@ class Topic extends TypedText
         // Ok
         return $terms;
     }
+
+    /**
+     * Détermine le path complet (la hiérarchie) des termes du topic.
+     *
+     * @return string[] Un tableau de la forme code => path complet.
+     */
+    public function getTermsPath(): array
+    {
+        // Récupère le type de topic et la liste des termes
+        $type = $this->type->getPhpValue();
+        $terms = $this->getTermsLabel();
+
+        // Si on n'a pas de type ou pas de termes, terminé
+        if (empty($type) || empty($terms)) {
+            return $terms;
+        }
+
+        // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
+        $tables = docalist('table-manager'); /** @var TableManager $tables */
+        $table = $this->schema->getField('type')->table();
+        $tableName = explode(':', $table)[1];
+        $table = $tables->get($tableName);
+
+        // Détermine la source qui correspond au type du topic
+        $source = $table->find('source', 'code='. $table->quote($type));
+        if ($source === false) { // type qu'on n'a pas dans la table topics
+            return $terms;
+        }
+        list($type, $tableName) = explode(':', $source);
+
+        // Si la source n'est un thésaurus, terminé
+        if ($type !== 'thesaurus') {
+            return $terms;
+        }
+
+        // Ouvre le thésaurus
+        $table = $tables->get($tableName);
+
+        // Pour chaque terme ajoute le terme parent comme préfixe tant qu'on a un terme parent
+        foreach ($terms as $code => & $path) {
+            $seen = [$code => true];
+
+            // find() retourne null si pas de BT ou false si pas de réponse (erreur dans le theso)
+            while (!empty($code = $table->find('BT', 'code=' . $table->quote($code)))) {
+
+                // Exit si les BT forment une boucle infinie
+                if (isset($seen[$code])) {
+                    printf('<p style="color:red">Thésaurus "%s" : boucle infinie pour "%s"</p>', $tableName, $path);
+                    break;
+                }
+                $seen[$code]= true;
+
+                $label = $table->find('label', 'code=' . $table->quote($code)) ?: $code;
+                $path = $label . '/' . $path;
+            }
+        }
+
+        // Ok
+        return $terms;
+    }
+
+
+    /**
+     * Retourne le code et le libellé des topics qui sont associés à une table de type 'thesaurus'.
+     *
+     * @return string[] Un tableau de la forme code => label.
+     */
+    public function getThesaurusTopics(): array
+    {
+        // Ouvre la table des topics indiquée dans le schéma du champ 'type'
+        list(, $name) = explode(':', $this->schema->getField('type')->table());
+        $tableManager = docalist('table-manager'); /** @var TableManager $tableManager */
+        $table = $tableManager->get($name);
+
+        // Retourne le code et le label des entrées qui sont associées à une table de type 'thesaurus'
+        return $table->search('code,label', 'source LIKE "thesaurus:%"');
+    }
 }
