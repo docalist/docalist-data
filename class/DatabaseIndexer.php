@@ -14,6 +14,7 @@ namespace Docalist\Data;
 use Docalist\Search\Indexer\CustomPostTypeIndexer;
 use Docalist\Search\Mapping;
 use WP_Post;
+use Docalist\Search\Indexer\Field\CollectionIndexer;
 
 /**
  * Un indexeur pour les notices d'une base Docalist.
@@ -80,18 +81,22 @@ final class DatabaseIndexer extends CustomPostTypeIndexer
     final public function getMapping(): Mapping
     {
         // Crée le mapping des champs WordPress
-        $result = parent::getMapping();
+        $result = new Mapping($this->getType());
 
         // Construit le mapping de chaque type de notices
         foreach ($this->database->getSettings()->types->keys() as $type) {
             // Crée un enregistrement docalist de ce type
             $record = $this->database->createReference($type, []);
 
-            // Initialise son mapping
-            $mapping = new Mapping($this->getCollection() . '-' . $type);
+            // Initialise son indexeur
+            $class = $record->getIndexerClass();
+            $indexer = new $class($record);
 
-            // Ajoute les champs de la notice
-            $record->buildMapping($mapping);
+            // Récupère son mapping
+            $mapping = $indexer->getMapping();
+
+            // Génère le mapping du champ "in" (RecordIndexer ne peut pas car il ne sait pas dans quelle base il est)
+            CollectionIndexer::buildMapping($mapping);
 
             // Fusionne le mapping obtenu dans le mapping résultat
             $result->mergeWith($mapping);
@@ -106,16 +111,20 @@ final class DatabaseIndexer extends CustomPostTypeIndexer
      */
     final public function getIndexData(WP_Post $post): array
     {
-        // Indexe les champs WordPress
-        $indexData = parent::getIndexData($post);
-
         // Convertit le post en enregistrement docalist
         $record = $this->database->fromPost($post);
 
-        // Ajoute les données de la notice
-        $record->buildIndexData($indexData);
+        // Initialise son indexeur
+        $class = $record->getIndexerClass();
+        $indexer = new $class($record);
+
+        // Indexe le record
+        $data = $indexer->getIndexData();
+
+        // Indexe le champ "in" (RecordIndexer ne peut pas car il ne sait pas dans quelle base il est)
+        CollectionIndexer::buildIndexData($this->getCollection(), $data);
 
         // Ok
-        return $indexData;
+        return $data;
     }
 }
