@@ -358,7 +358,11 @@ class TopicFieldIndexer extends FieldIndexer
         $data = [];
         foreach ($this->field as $item) { /** @var TopicField $item */
             $type = $item->type->getPhpValue();
-            $labels = array_values($item->getTermsLabel()); // on veut pas des clés qui contiennent le code
+            $labels = $item->getTermsLabel();
+            if (empty($labels)) {
+                continue;
+            }
+            $labels = array_values($labels); // on ne veut pas des clés qui contiennent le code
 
             if (isset($attr['search'])) {
                 $this->add($data[$attr['search']], $labels);
