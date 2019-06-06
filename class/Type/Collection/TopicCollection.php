@@ -15,7 +15,7 @@ use Docalist\Type\Collection;
 use Docalist\Forms\TopicsInput;
 use Docalist\Data\Type\Topic;
 use Docalist\Forms\Element;
-use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Type\Collection\TypedValueCollection;
 use InvalidArgumentException;
 
 /**
@@ -23,7 +23,7 @@ use InvalidArgumentException;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class TopicCollection extends IndexableTypedValueCollection
+class TopicCollection extends TypedValueCollection
 {
     /**
      * {@inheritDoc}
