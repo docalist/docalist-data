@@ -20,6 +20,7 @@ use Exception;
 use Docalist\Http\ViewResponse;
 use Docalist\Forms\Container;
 use Docalist\Data\Type\Group;
+use Docalist\Data\DatabaseIndexer;
 
 /**
  * Gère la page "création/modification d'une notice" d'une base docalist.
@@ -220,9 +221,11 @@ class EditReference
                 echo htmlspecialchars((string)$ref);
                 echo "</pre>";
 
-                echo "<h4>Mapping Docalist-Search</h4><pre>";
+                echo "<h4>Indexation</h4><pre>";
+                $indexer = new DatabaseIndexer($this->database);
+                $data = $indexer->getIndexData($post->filter('raw')); // on a une erreur json sans le filter
                 echo htmlspecialchars(json_encode(
-                    $ref->map(),
+                    $data,
                     JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                 ));
 
