@@ -11,26 +11,17 @@ declare(strict_types=1);
 
 namespace Docalist\Data;
 
-use Docalist\Search\Mapping;
-
 /**
- * Indexable : un objet qui génère des attributs de recherche dans l'index docalist-search.
+ * Indexable : un objet qui a un indexeur.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 interface Indexable
 {
     /**
-     * Définit les attributs de recherche utilisés dans le mapping passé en paramètre.
+     * Retourne le nom de la classe PHP à utiliser comme indexeur.
      *
-     * @param Mapping $mapping Mapping dans lequel générer les attributs de recherche.
+     * @return Indexer
      */
-    public function buildMapping(Mapping $mapping): void;
-
-    /**
-     * Ajoute les données à indexer dans le tableau passé en paramètre.
-     *
-     * @param array $data Les données qui seront stockées dans l'index (par référence).
-     */
-    public function buildIndexData(array & $data): void;
+    public function getIndexerClass(): string;
 }
