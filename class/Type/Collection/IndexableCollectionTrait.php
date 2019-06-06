@@ -12,8 +12,6 @@ declare(strict_types=1);
 namespace Docalist\Data\Type\Collection;
 
 use Docalist\Data\Indexable;
-use Docalist\Search\Mapping;
-use InvalidArgumentException;
 
 /**
  * Un trait qui permet à une Collection d'implémenter l'interface Indexable.
@@ -25,23 +23,10 @@ trait IndexableCollectionTrait // implements Indexable
     /**
      * {@inheritdoc}
      */
-    public function buildMapping(Mapping $mapping): void
+    public function getIndexerClass(): string
     {
-        // Crée un élément temporaire
-        $item = $this->createTemporaryItem();
+        $item = $this->createTemporaryItem(); /** @var Indexable $item */
 
-        // Demande à l'élément de génèrer le mapping (génère une exception s'il n'est pas Indexable)
-        $item->buildMapping($mapping);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildIndexData(array & $data): void
-    {
-        // Indexe chacun des items de la collection (génère une exception si les items ne sont pas Indexable)
-        foreach ($this->phpValue as $item) { /** @var Indexable $item */
-            $item->buildIndexData($data);
-        }
+        return $item->getIndexerClass();
     }
 }
