@@ -12,6 +12,10 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Type\TypedLargeText;
+use Docalist\Forms\Container;
+use Docalist\Data\Indexable;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Data\Indexer\ContentFieldIndexer;
 
 /**
  * Champ standard "content" : contenu de l'enregistrement.
@@ -27,8 +31,11 @@ use Docalist\Type\TypedLargeText;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class ContentField extends TypedLargeText
+class ContentField extends TypedLargeText implements Indexable
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function loadSchema(): array
     {
         return [
@@ -45,6 +52,26 @@ class ContentField extends TypedLargeText
                 ]
             ],
             'editor' => 'integrated',
+
+            'index' => [
+                'search' => true,   // indexation : 'content' est toujours généré (cf. ContentFieldIndexer)
+            ],
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass(): string
+    {
+        return IndexableTypedValueCollection::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIndexerClass(): string
+    {
+        return ContentFieldIndexer::class;
     }
 }
