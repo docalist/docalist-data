@@ -12,6 +12,9 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Data\Type\Topic;
+use Docalist\Data\Indexable;
+use Docalist\Data\Type\Collection\IndexableTopicCollection;
+use Docalist\Data\Indexer\TopicFieldIndexer;
 
 /**
  * Champ standard "topic" : Une liste de mots-clés d'un certain type.
@@ -27,8 +30,11 @@ use Docalist\Data\Type\Topic;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class TopicField extends Topic
+class TopicField extends Topic implements Indexable
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function loadSchema(): array
     {
         return [
@@ -40,5 +46,21 @@ class TopicField extends Topic
                 ],
             ],
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass(): string
+    {
+        return IndexableTopicCollection::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIndexerClass(): string
+    {
+        return TopicFieldIndexer::class;
     }
 }
