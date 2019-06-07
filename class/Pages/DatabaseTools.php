@@ -156,8 +156,8 @@ class DatabaseTools extends AdminPage
             ignore_user_abort(true);
             set_time_limit(3600);
 
-            ini_set('implicit_flush', 1);
-//            ini_set('zlib.output_compression', 0);
+            ini_set('implicit_flush', '1');
+//            ini_set('zlib.output_compression', '0');
 
             // Supprime la bufferisation pour voir le suivi en temps réel
             while (ob_get_level()) {

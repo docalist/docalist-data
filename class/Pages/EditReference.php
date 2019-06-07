@@ -224,11 +224,18 @@ class EditReference
                 echo "<h4>Indexation</h4><pre>";
                 $indexer = new DatabaseIndexer($this->database);
                 $data = $indexer->getIndexData($post->filter('raw')); // on a une erreur json sans le filter
-                echo htmlspecialchars(json_encode(
+                $json = json_encode(
                     $data,
                     JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-                ));
-
+                );
+                if ($json === false) {
+                    echo "Json_encode a échoué. data=<br />", htmlspecialchars(var_export($data, true));
+                } else {
+                    echo htmlspecialchars(json_encode(
+                        $json,
+                        JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                    ));
+                }
                 echo "</pre>";
             },
             $this->postType,    // posttype
