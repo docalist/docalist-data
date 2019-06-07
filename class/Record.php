@@ -14,6 +14,7 @@ namespace Docalist\Data;
 use Docalist\Type\Entity;
 use Docalist\Schema\Schema;
 
+use Docalist\Data\Indexable;
 use Docalist\Data\Field\PostTypeField;
 use Docalist\Data\Field\PostStatusField;
 use Docalist\Data\Field\PostTitleField;
@@ -26,39 +27,39 @@ use Docalist\Data\Field\PostNameField;
 use Docalist\Data\Field\RefField;
 use Docalist\Data\Field\TypeField;
 use Docalist\Data\Field\SourceField;
-use Docalist\Type\Collection\TypedValueCollection;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
 
 use Docalist\Repository\Repository;
 
 use Docalist\Forms\Container;
 
-use Docalist\Search\MappingBuilder;
-use Docalist\Tokenizer;
 use ReflectionMethod;
 use Docalist\Type\MultiField;
 use Docalist\Data\Type\Group;
 
 use Closure;
+use InvalidArgumentException;
+use Docalist\Data\Indexer\RecordIndexer;
 
 /**
  * Un enregistrement dans une base docalist.
  *
- * @property PostTypeField          $posttype   Post Type
- * @property PostStatusField        $status     Statut de la fiche
- * @property PostTitleField         $posttitle  Titre de la fiche
- * @property PostDateField          $creation   Date/heure de création de la fiche.
- * @property PostAuthorField        $createdBy  Auteur de la fiche.
- * @property PostModifiedField      $lastupdate Date/heure de dernière modification
- * @property PostPasswordField      $password   Mot de passe de la fiche
- * @property PostParentField        $parent     Post ID de la fiche parent
- * @property PostNameField          $slug       Slug de la fiche
- * @property RefField               $ref        Numéro unique identifiant la fiche
- * @property TypeField              $type       Type de fiche
- * @property TypedValueCollection   $source     Informations sur la source des données.
+ * @property PostTypeField                  $posttype   Post Type
+ * @property PostStatusField                $status     Statut de la fiche
+ * @property PostTitleField                 $posttitle  Titre de la fiche
+ * @property PostDateField                  $creation   Date/heure de création de la fiche.
+ * @property PostAuthorField                $createdBy  Auteur de la fiche.
+ * @property PostModifiedField              $lastupdate Date/heure de dernière modification
+ * @property PostPasswordField              $password   Mot de passe de la fiche
+ * @property PostParentField                $parent     Post ID de la fiche parent
+ * @property PostNameField                  $slug       Slug de la fiche
+ * @property RefField                       $ref        Numéro unique identifiant la fiche
+ * @property TypeField                      $type       Type de fiche
+ * @property IndexableTypedValueCollection  $source     Informations sur la source des données.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Record extends Entity
+class Record extends Entity implements Indexable
 {
     public static function loadSchema(): array
     {
@@ -721,102 +722,12 @@ class Record extends Entity
         return $result;
     }
 
-    public function buildIndexSettings(array $settings, Database $database)
-    {
-        // Récupère l'analyseur par défaut pour les champs texte de cette base (dans les settings de la base)
-        $defaultAnalyzer = $database->settings()->stemming();
-
-        // Détermine le nom du mapping (nom de la base + nom du type)
-        $name = $database->postType() . '-' . $this->type();
-        // garder synchro avec DatabaseIndexer::index()
-
-        // Construit le mapping du type
-        $mapping = docalist('mapping-builder'); /* @var MappingBuilder $mapping */
-        $mapping->reset()->setDefaultAnalyzer($defaultAnalyzer);
-        $mapping = $this->buildMapping($mapping);
-
-        // Stocke le mapping dans les settings
-        $settings['mappings'][$name] = $mapping->getMapping();
-
-        // Ok
-        return $settings;
-    }
-
     /**
-     *
-     * @param MappingBuilder $mapping
-     *
-     * @return MappingBuilder
+     * {@inheritdoc}
      */
-    protected function buildMapping(MappingBuilder $mapping)
+    public function getIndexerClass(): string
     {
-        // pour les champs de base, maintenir le même ordre que dans CustomPostTypeIndexer
-        $mapping->addField('in')->keyword();
-        $mapping->addField('type')->keyword();
-        $mapping->addField('type-label')->text()->filter();
-        $mapping->addField('status')->keyword();
-        $mapping->addField('slug')->text();
-        $mapping->addField('createdby')->keyword();
-        $mapping->addField('creation')->dateTime();
-        $mapping->addField('lastupdate')->dateTime();
-        $mapping->addField('posttitle')->text();
-        $mapping->addField('posttitle-sort')->keyword();
-        $mapping->addField('ref')->integer();
-        $mapping->addField('source')->keyword();
-
-        return $mapping;
-    }
-
-    public function map()
-    {
-        $document = [];
-
-        // In
-        // -> initialisé dans DatabaseIndexer::map() car un type ne sait pas dans quelle base il figure
-
-        // Type de réf
-        isset($this->type) && $document['type'] = $this->type();
-
-        // Récupère le libellé exact du type de notice, tel qu'indiqué dans la grille
-        $document['type-label'] = $this->getSchema()->label() ?: $this->type();
-
-        // Statut
-        isset($this->status) && $document['status'] = $this->status();
-
-        // Slug
-        isset($this->slug) && $document['slug'] = $this->slug();
-
-        // CreatedBy
-        if (isset($this->createdBy)) {
-            $user = get_user_by('id', $this->createdBy());
-            $document['createdby'] = $user ? $user->user_login : $this->createdBy();
-        }
-
-        // Date de création
-        isset($this->creation) && $document['creation'] = $this->creation();
-
-        // Date de modification
-        isset($this->lastupdate) && $document['lastupdate'] = $this->lastupdate();
-
-        // Titre du post
-        if (isset($this->posttitle)) {
-            $postTitle = $this->posttitle->getPhpValue();
-            $document['posttitle'] = $postTitle;
-            $document['posttitle-sort'] = implode(' ', Tokenizer::tokenize($postTitle));
-        }
-
-        // Numéro de réf
-        isset($this->ref) && $document['ref'] = $this->ref();
-
-        // Source
-        if (isset($this->source)) {
-            foreach($this->source as $source) {
-                $document['source'][] = $source->type->getPhpValue();
-            }
-        }
-
-        // Ok
-        return $document;
+        return RecordIndexer::class;
     }
 
     /**
@@ -829,6 +740,8 @@ class Record extends Entity
      * @param string|Closure $value Nom du sous-champ contenant la valeur à indexer ('value' par défaut) ou
      * une fonction chargée de retourner le contenu à indexer.
      * Exemple : function(TypedText $item) { return $item->text->getPhpValue(); }
+     *
+     * @deprecated
      */
     protected function mapMultiField(array & $document, $field, $value = 'value')
     {
@@ -869,6 +782,8 @@ class Record extends Entity
      * @param string $table Nom de la table d'autorité à utiliser (doit être de type 'thesaurus').
      *
      * @return string[] Le path complet des termes.
+     *
+     * @deprecated
      */
     protected function getTermsPath(array $terms, $tableName)
     {

@@ -25,6 +25,9 @@ use InvalidArgumentException;
  */
 class TopicCollection extends TypedValueCollection
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getEditorForm($options = null): Element
     {
         $form = new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
@@ -44,6 +47,8 @@ class TopicCollection extends TypedValueCollection
      * codes de topic qui sont associés à une table de lookup de type thesaurus.
      *
      * @return string[] Un tableau de la forme table => topic (les clés indiquent la table utilisée).
+     *
+     * @deprecated
      */
     public function getThesaurusTopics()
     {
@@ -62,14 +67,7 @@ class TopicCollection extends TypedValueCollection
     }
 
     /**
-     * Fusionne deux collections de topics.
-     *
-     * Les termes des tes topics qui ont le même code sont fusionnés.
-     *
      * {@inheritDoc}
-     */
-    /**
-     * Fusionne deux collections de topics et retourne une nouvelle collection.
      *
      * Cette méthode surcharge la méthode merge() héritée de Collection pour combiner ensemble les termes des topics
      * qui ont le même type : si deux topics ont le même type, leurs listes de termes sont fusionnées et

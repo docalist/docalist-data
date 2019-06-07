@@ -19,6 +19,8 @@ use Docalist\Forms\Metabox;
 use Docalist\Forms\Container;
 use Docalist\Data\Type\Group;
 use Docalist\Type\Composite;
+use Docalist\Data\Indexable;
+use Docalist\Data\Indexer;
 
 /**
  * Edite une grille.
@@ -55,8 +57,8 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
 
     // Récupère le formulaire de saisie des propriétés du champ
     $type = $schema->collection() ?: $schema->type() ?: Composite::class;
-    $fieldType = new $type($type::getClassDefault(), $schema);
-    $form = $fieldType->$method(); /* @var Container $form */
+    $field = new $type($type::getClassDefault(), $schema);
+    $form = $field->$method(); /* @var Container $form */
 
     // Détermine le nom de la metabox (vide au premier niveau, nom du champ/sous-champ ensuite)
     $name = '';
@@ -66,8 +68,8 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     }
 
     // Détermine le titre de la metabox
-    $label = $prefix ?: $grid->label();
-    $label = sprintf('%s - <span class="label">%s</span>', $prefix, $grid->label() ?: $schema->label());
+//     $label = $prefix ?: $grid->label();
+//     $label = sprintf('%s - <span class="label">%s</span>', $prefix, $grid->label() ?: $schema->label());
     $label = sprintf('<span>%s</span>', $grid->label() ?: $schema->label());
     $prefix && ($grid->type() !== Group::class) && $label .= " <small>($prefix)</small>";
 
@@ -86,16 +88,16 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
         $form = $metabox->container('fields')
             ->setLabel(__('Champs', 'docalist-data'))
             ->addClass('meta-box-sortables');
-        foreach($fields as $name => $field) {
+        foreach ($fields as $name => $subfield) {
             // si c'est un groupe, il n'est que dans la grille, pas dans le schéma, on prend le schéma du groupe
-            $fieldSchema = $schema->hasField($name) ? $schema->getField($name) : $field;
-            $form->add(createForm($fieldSchema, $field, $method));
+            $fieldSchema = $schema->hasField($name) ? $schema->getField($name) : $subfield;
+            $form->add(createForm($fieldSchema, $subfield, $method));
         }
     }
 
     // Valeur par défaut
     if ($level === 2 && $method === 'getEditorSettingsForm' && $schema->type() !== Group::class) {
-        $default = $fieldType->getEditorForm($grid)
+        $default = $field->getEditorForm($grid)
             ->setName('default')
             ->setLabel(__('Valeur par défaut', 'docalist-data'));
         $metabox->add($default);
@@ -104,6 +106,13 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
     // dans le formulaire. ça permettrait de dire qu'on en veut pour les grilles base/edit et chaque
     // champ pourrait choisir (par exemple, on ne veut pas de valeur par défaut pour les champs de gestion
     // comme post_type ou date).
+
+    if ($method === 'getSettingsForm' && $field instanceof Indexable) {
+        $class = $field->getIndexerClass();
+        $indexer = new $class($field); /** @var Indexer $indexer */
+        $metabox->add($indexer->getIndexSettingsForm());
+    }
+
 
     $prefix = $savPrefix;
     --$level;

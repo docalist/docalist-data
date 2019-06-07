@@ -1,11 +1,11 @@
 {
-	"type": "wordpress-plugin",
-	"name": "docalist/docalist-data",
-	"description": "Docalist : gestion des bases de données.",
+    "type": "wordpress-plugin",
+    "name": "docalist/docalist-data",
+    "description": "Docalist : gestion des bases de données.",
     "homepage": "https://docalist.org/",
-	"license": "GPL-2.0-or-later",
+    "license": "GPL-2.0-or-later",
 
-	"authors": [ 
+    "authors": [ 
         {
             "name": "Daniel Ménard",
             "email": "daniel.menard@laposte.net",
@@ -13,20 +13,22 @@
         }
     ],
 
-	"keywords": [
-		"docalist"
-	],
+    "keywords": [
+        "docalist"
+    ],
     
     "support": {
         "issues": "https://github.com/docalist/docalist/issues",
         "forum": "https://groups.google.com/forum/#!forum/docalist-discuss"
     },
     
-	"require": {
-		"php": ">=7.2",
-		"composer/installers": "~1.0",
-		"docalist/postal-address-metadata": "~1.0"
-	},
+    "require": {
+        "php": ">=7.2",
+        "composer/installers": "~1.0",
+        "docalist/docalist-core": "^3.2.0",
+        "docalist/docalist-search": "^4.0.0",
+        "docalist/postal-address-metadata": "~1.0"
+    },
     "autoload" : {
         "psr-4" : {
             "Docalist\\Data\\" : "class"
@@ -44,7 +46,7 @@
     },
     "extra" : {
         "branch-alias" : {
-            "dev-master" : "3.0-dev"
+            "dev-master" : "4.0-dev"
         }
     }
 }

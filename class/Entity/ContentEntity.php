@@ -12,11 +12,10 @@ declare(strict_types=1);
 namespace Docalist\Data\Entity;
 
 use Docalist\Data\Record;
-use Docalist\Data\Field\PostTitleField;
 use Docalist\Data\Field\ContentField;
-use Docalist\Type\Collection\TypedValueCollection;
 use Docalist\Data\Field\TopicField;
-use Docalist\Data\Type\Collection\TopicCollection;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Data\Type\Collection\IndexableTopicCollection;
 use Docalist\Data\GridBuilder\EditGridBuilder;
 
 /**
@@ -27,9 +26,8 @@ use Docalist\Data\GridBuilder\EditGridBuilder;
  *
  * Chaque enregistrement dispose d'un titre, d'un champ content (multivalué) et d'un champ topic (multivalué).
  *
- * @property PostTitleField         $posttitle  Titre.
- * @property TypedValueCollection   $content    Contenus.
- * @property TopicCollection        $topic      Mots-clés.
+ * @property IndexableTypedValueCollection  $content    Contenus.
+ * @property IndexableTopicCollection       $topic      Mots-clés.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -45,21 +43,11 @@ class ContentEntity extends Record
             'label' => __('Contenu de base', 'docalist-data'),
             'description' => __('Un contenu de base (titre, texte et mots-clés).', 'docalist-data'),
             'fields' => [
-                'posttitle' => PostTitleField::class,
+                'posttitle' => [], // Hérité de Record, listé pour avoir le bon ordre dans la grille de base
                 'content'   => ContentField::class,
                 'topic'     => TopicField::class,
             ],
         ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function initPostTitle()
-    {
-        if (empty($this->posttitle)) {
-            $this->posttitle = __('(contenu sans titre)', 'docalist-data');
-        }
     }
 
     /**

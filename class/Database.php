@@ -28,7 +28,7 @@ use InvalidArgumentException;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Database extends PostTypeRepository
+final class Database extends PostTypeRepository
 {
     protected static $fieldMap = [
         'post_author' => 'createdBy',
@@ -85,9 +85,6 @@ class Database extends PostTypeRepository
 
             return $indexers;
         });
-
-        // Déclare nos facettes
-        $this->docalistSearchFacets();
 
         // Comme on stocke les données dans post_excerpt, on doit garantir qu'il n'est jamais modifié
         global $pagenow;
@@ -166,9 +163,11 @@ class Database extends PostTypeRepository
     }
 
     /**
-     * @return Type
+     * {@inheritDoc}
+     *
+     * @return Record
      */
-    public function load($id)
+    public function load($id): Record
     {
         // Vérifie que l'ID est correct
         $id = $this->checkId($id);
@@ -181,12 +180,14 @@ class Database extends PostTypeRepository
     }
 
     /**
+     *
      * @param WP_Post|array $post
-     * @param string $context
+     *
      * @throws InvalidArgumentException
-     * @return Type
+     *
+     * @return Record
      */
-    public function fromPost($post)
+    public function fromPost($post): Record
     {
         // Si on nous passé un objet WP_Post, on le convertit en tableau
         if (is_object($post)) {
@@ -236,7 +237,7 @@ class Database extends PostTypeRepository
      *
      * @return string[] Un tableau de la forme type => nom complet de la classe php qui gère ce type.
      */
-    public static function getAvailableTypes()
+    public static function getAvailableTypes(): array
     {
         static $types;
 
@@ -257,7 +258,7 @@ class Database extends PostTypeRepository
      * @throws InvalidArgumentException Si le type indiqué ne figure pas dans la liste retournée par
      * getAvailableTypes().
      */
-    public static function getClassForType($type)
+    public static function getClassForType($type): string
     {
         // Récupère la liste des types disponibles
         $types = self::getAvailableTypes();
@@ -284,11 +285,11 @@ class Database extends PostTypeRepository
      * @param string $grid Optionnel, nom du formulaire de saisie à utiliser pour initialiser la valeur par défaut.
      * N'est utilisé que si $data vaut null.
      *
-     * @return Type
+     * @return Record
      *
      * @throws InvalidArgumentException
      */
-    public function createReference($type, array $data = null, $grid = null)
+    public function createReference($type, array $data = null, $grid = null): Record
     {
         // Remarque : valeur par défaut / données initiales de la notice
         // - Si $data a été transmis (non null), ce sont ces données qu'on va utiliser pour initialiser la notice.
@@ -343,31 +344,79 @@ class Database extends PostTypeRepository
      *
      * @return DatabaseSettings
      */
-    public function settings()
+    final public function getSettings(): DatabaseSettings
     {
         return $this->settings;
     }
 
     /**
-     * Retourne l'ID de la page "accueil" indiquée dans les paramètres de la
-     * base.
+     * @deprecated Utiliser getSettings()
+     *
+     * @return DatabaseSettings
+     */
+    public function settings()
+    {
+        return $this->getSettings();
+    }
+
+    /**
+     * Retourne le libellé de la base.
+     *
+     * @return string
+     */
+    final public function getLabel(): string
+    {
+        return $this->settings->label->getPhpValue();
+    }
+
+    /**
+     * @deprecated Utiliser getLabels()
+     *
+     * @return DatabaseSettings
+     */
+    public function label()
+    {
+        return $this->settings->label();
+    }
+
+    /**
+     * Retourne l'ID de la page d'accueil indiquée dans les paramètres de la base.
+     *
+     * @return int
+     */
+    final public function getHomePage(): int
+    {
+        return $this->settings->homepage->getPhpValue();
+    }
+
+    /**
+     * @deprecated Utiliser getHomePage()
      *
      * @return int
      */
     public function homePage()
     {
-        return $this->settings->homepage();
+        return $this->getHomePage();
     }
 
     /**
-     * Retourne l'ID de la page "liste des réponses" indiquée dans les
-     * paramètres de la base.
+     * Retourne l'ID de la page de recherche indiquée dans les paramètres de la base.
+     *
+     * @return int
+     */
+    final public function getSearchPage(): int
+    {
+        return $this->settings->searchpage->getPhpValue();
+    }
+
+    /**
+     * @deprecated Utiliser getSearchPage()
      *
      * @return int
      */
     public function searchPage()
     {
-        return $this->settings->searchpage();
+        return $this->getSearchPage();
     }
 
     /**
@@ -375,6 +424,18 @@ class Database extends PostTypeRepository
      * paramètres de la base.
      *
      * @return string
+     */
+    final public function getSearchPageUrl(): string
+    {
+        $searchPage = $this->settings->searchpage->getPhpValue();
+
+        return $searchPage ? get_permalink($searchPage) : '';
+    }
+
+    /**
+     * @deprecated Utiliser getSearchPageUrl()
+     *
+     * @return int
      */
     public function searchPageUrl()
     {
@@ -386,9 +447,9 @@ class Database extends PostTypeRepository
      *
      * @see http://codex.wordpress.org/Function_Reference/register_post_type
      */
-    private function registerPostType()
+    private function registerPostType(): void
     {
-        $type = $this->postType();
+        $type = $this->getPostType();
 
         // Compatibilité avec les bases antérieures (à supprimer une fois que le .net sera à jour)
         !isset($this->settings->icon)       && $this->settings->icon = 'dashicons-list-view';
@@ -404,7 +465,7 @@ class Database extends PostTypeRepository
 
         // Détermine les paramètres du custom post type
         $args = [
-            'labels' => $this->postTypeLabels(),
+            'labels' => $this->getPostTypeLabels(),
             'description' => $this->settings->description(),
             'public' => true,  //
             'hierarchical' => false, // WP est inutilisable si on met à true (cache de la hiérarchie)
@@ -562,9 +623,9 @@ class Database extends PostTypeRepository
      *
      * @see http://codex.wordpress.org/Function_Reference/register_post_type
      */
-    private function postTypeLabels()
+    private function getPostTypeLabels(): array
     {
-        $label = $this->settings->label();
+        $label = $this->getLabel();
 
         // translators: une notice bibliographique unique
         $singular = __('Notice %s', 'docalist-data');
@@ -589,7 +650,6 @@ class Database extends PostTypeRepository
         $notfound = __('Aucune notice trouvée dans la base %s.', 'docalist-data');
         $notfound = sprintf($notfound, $label);
 
-        // @formatter:off
         // cf. wp-includes/post.php:get_post_type_labels()
         return [
             'name' => $label,
@@ -607,170 +667,25 @@ class Database extends PostTypeRepository
             'menu_name' => $label,
             'name_admin_bar' => $singular,
         ];
-        // @formatter:on
-    }
-
-    /**
-     * Retourne le libellé de la base.
-     *
-     * @return string
-     */
-    public function label()
-    {
-        return $this->settings->label();
     }
 
     /**
      * Rendue publique car EditReference::save() en a besoin.
+     *
      * @see \Docalist\Repository\PostTypeRepository::encode()
      */
-    public function encode(array $data)
+    public function encode(array $data): array
     {
         return parent::encode($data);
     }
 
     /**
      * Rendue publique car EditReference::save() en a besoin.
+     *
      * @see \Docalist\Repository\PostTypeRepository::decode()
      */
-    public function decode($post, $id)
+    public function decode($post, $id): array
     {
         return parent::decode($post, $id);
-    }
-
-    /**
-     * Indique à Docalist Search les facettes disponibles pour une notice
-     * documentaire.
-     */
-    protected function docalistSearchFacets()
-    {
-        static $done = false;
-
-        // Evite de le faire pour chaque base, une fois ça suffit
-        if ($done) {
-            return;
-        }
-        $done = true;
-
-        add_filter('docalist_search_get_facets', function ($facets) {
-            $facets += [
-                'ref.status' => [
-                    'label' => __('Statut', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'status.filter',
-                    ],
-                ],
-                'ref.type' => [
-                    'label' => __('Type de document', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'type.filter',
-                        // 'order' => 'term',
-                    ],
-                ],
-                'ref.genre' => [
-                    'label' => __('Genre de document', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'genre.filter',
-                    ],
-                ],
-                'ref.media' => [
-                    'label' => __('Support de document', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'media.filter',
-                    ],
-                ],
-                'ref.author' => [
-                    'label' => __('Auteur', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'author.filter',
-                        'exclude' => ['et al.¤'],
-                    ],
-                ],
-                'ref.corporation' => [
-                    'label' => __('Organisme', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'corporation.filter',
-                    ],
-                ],
-                'ref.date' => [
-                    'label' => __('Année du document', 'docalist-data'),
-                    'type' => 'date_histogram',
-                    'facet' => [
-                        'field' => 'date',
-                        'interval' => 'year',
-                    ],
-                ],
-                'ref.journal' => [
-                    'label' => __('Revue', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'journal.filter',
-                    ],
-                ],
-                'ref.editor' => [
-                    'label' => __('Editeur', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'editor.filter',
-                    ],
-                ],
-                'ref.context' => [
-                    'label' => __('Evénement', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'context.filter',
-                    ],
-                ],
-                'ref.degree' => [
-                    'label' => __('Diplôme', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'degree.filter',
-                    ],
-                ],
-                /*//@todo : pas trouvé comment
-                'ref.abstract' => array(
-                    'label' => __('Résumé', 'docalist-data'),
-                    'type' => 'range',
-                    'facet' => array(
-                        'abstract' => array(
-                            array('from' => '*', 'to' => '*')
-
-                        ),
-                    )
-                ),
-                */
-                'ref.topic' => [
-                    'label' => __('Mot-clé', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'topic.filter',
-                        'size' => 10,
-                        //                    'order' => 'term',
-                    ],
-                ],
-                'ref.owner' => [
-                    'label' => __('Producteur de la notice', 'docalist-data'),
-                    'facet' => [
-                        'field' => 'owner.filter',
-                    ],
-                ],
-
-                'ref.creation' => [
-                    'label' => __('Année de création de la notice', 'docalist-data'),
-                    'type' => 'date_histogram',
-                    'facet' => [
-                        'field' => 'creation',
-                        'interval' => 'year',
-                    ],
-                ],
-
-                'ref.lastupdate' => [
-                    'label' => __('Année de mise à jour de la notice', 'docalist-data'),
-                    'type' => 'date_histogram',
-                    'facet' => [
-                        'field' => 'lastupdate',
-                        'interval' => 'year',
-                    ],
-                ],
-            ];
-
-            return $facets;
-        });
     }
 }

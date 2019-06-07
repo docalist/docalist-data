@@ -69,11 +69,11 @@
     padding-right: .5em;
 }
 
-.type-postal-address .administrativeArea2-group, 
-.type-postal-address .administrativeArea3-group, 
-.type-postal-address .administrativeArea4-group, 
-.type-postal-address .administrativeArea5-group,
-.type-postal-address .location-group 
+.type-postal-address .field-administrativeArea2-group, 
+.type-postal-address .field-administrativeArea3-group, 
+.type-postal-address .field-administrativeArea4-group, 
+.type-postal-address .field-administrativeArea5-group,
+.type-postal-address .field-location-group 
 {
     display: none;
 }  

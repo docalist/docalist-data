@@ -12,6 +12,9 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Type\TypedNumber;
+use Docalist\Data\Indexable;
+use Docalist\Data\Type\Collection\IndexableTypedValueCollection;
+use Docalist\Data\Indexer\NumberFieldIndexer;
 
 /**
  * Numéros officiels et codes associés à l'entité.
@@ -27,8 +30,11 @@ use Docalist\Type\TypedNumber;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class NumberField extends TypedNumber
+class NumberField extends TypedNumber implements Indexable
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function loadSchema(): array
     {
         return [
@@ -42,5 +48,21 @@ class NumberField extends TypedNumber
                 ],
             ],
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass(): string
+    {
+        return IndexableTypedValueCollection::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIndexerClass(): string
+    {
+        return NumberFieldIndexer::class;
     }
 }
