@@ -231,10 +231,7 @@ class EditReference
                 if ($json === false) {
                     echo "Json_encode a échoué. data=<br />", htmlspecialchars(var_export($data, true));
                 } else {
-                    echo htmlspecialchars(json_encode(
-                        $json,
-                        JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-                    ));
+                    echo htmlspecialchars($json);
                 }
                 echo "</pre>";
             },
