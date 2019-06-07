@@ -23,6 +23,7 @@ use Docalist\Tokenizer;
 use Docalist\Views;
 use InvalidArgumentException;
 use WP_Query;
+use Docalist\Search\Indexer\Field\PostTypeIndexer;
 
 /**
  * Service docalist-data-export  : génère des fichiers d'export et des bibliographies.
@@ -218,7 +219,7 @@ class ExportService
         $request->setSize(0);
 
         // Ajoute une agrégation sur les types de notices
-        $agg = new TermsAggregation('type', ['size' => 1000]);
+        $agg = new TermsAggregation(PostTypeIndexer::CODE_FILTER, ['size' => 1000]);
         $agg->setName('types');
         $request->addAggregation($agg->getName(), $agg);
 
@@ -403,7 +404,7 @@ class ExportService
         // Modifie la requête pour qu'elle ne contienne que les types supportés par l'exporteur
         $dsl = docalist('elasticsearch-query-dsl'); /* @var QueryDSL $dsl */
         $request = $searchResponse->getSearchRequest();
-        $request->addFilter($dsl->terms('type', $supportedTypes));
+        $request->addFilter($dsl->terms(PostTypeIndexer::CODE_FILTER, $supportedTypes));
         $request->removeAggregation('types'); // l'aggrégation sur les types n'est plus nécessaire
 
         // Exporte les enregistrements
