@@ -393,7 +393,7 @@ class ExportService
         $exporter = new $class(); /* @var Exporter $exporter */
 
         // Génère les entêtes http
-        $disposition = 'inline'; // $exporter->isBinaryContent() ? 'attachment' : 'inline';
+        $disposition = 'attachment'; // $exporter->isBinaryContent() ? 'attachment' : 'inline';
         header('Content-Type: ' . $exporter->getContentType());
         header($this->getContentDispositionHeader($exporter->suggestFilename(), $disposition));
         header('X-Content-Type-Options: nosniff');
