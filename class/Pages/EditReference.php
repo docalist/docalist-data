@@ -221,19 +221,27 @@ class EditReference
                 echo htmlspecialchars((string)$ref);
                 echo "</pre>";
 
-                echo "<h4>Indexation</h4><pre>";
-                $indexer = new DatabaseIndexer($this->database);
-                $data = $indexer->getIndexData($post->filter('raw')); // on a une erreur json sans le filter
-                $json = json_encode(
-                    $data,
-                    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-                );
-                if ($json === false) {
-                    echo "Json_encode a échoué. data=<br />", htmlspecialchars(var_export($data, true));
-                } else {
-                    echo htmlspecialchars($json);
+                if (!empty($post->post_excerpt)) {
+                    /*
+                     * Quand on crée une nouvelle notice, post_excerpt est vide (ça ne devrait pas être le cas,
+                     * mais il faut investiguer pour savoir pourquoi). Du coup, DatabaseIndexer génère une exception
+                     * car la notice n'a pas de type.
+                     * Pour le moment, désactive le debug indexation si on n'a pas de post_excerpt.
+                     */
+                    echo "<h4>Indexation</h4><pre>";
+                    $indexer = new DatabaseIndexer($this->database);
+                    $data = $indexer->getIndexData($post->filter('raw')); // on a une erreur json sans le filter
+                    $json = json_encode(
+                        $data,
+                        JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                    );
+                    if ($json === false) {
+                        echo "Json_encode a échoué. data=<br />", htmlspecialchars(var_export($data, true));
+                    } else {
+                        echo htmlspecialchars($json);
+                    }
+                    echo "</pre>";
                 }
-                echo "</pre>";
             },
             $this->postType,    // posttype
             'normal',           // contexte
