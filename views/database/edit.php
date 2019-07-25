@@ -40,16 +40,20 @@ use Docalist\Forms\Form;
     <?php endif ?>
 
     <?php
+        // TODO : Choix de l'analyseur par défaut : désactivé pour le moment
+        // Le code actuel utilise la méthode IndexManager::getIndexSettings() qui n'est plus dispo
+        // A revoir quand on pourra paramétrer plusieurs moteurs de recherche
+
         // Récupère les settings pour déterminer la liste des analyseurs disponibles
-        $settings = docalist('docalist-search-index-manager')->getIndexSettings();
+        // $settings = docalist('docalist-search-index-manager')->getIndexSettings();
 
         // Ne conserve que les analyseurs "texte"
-        $analyzers = [];
-        foreach(array_keys($settings['settings']['analysis']['analyzer']) as $analyzer) {
-            if (strpos($analyzer, 'text') !== false) {
-                $analyzers[] = $analyzer;
-            }
-        }
+        // $analyzers = [];
+        // foreach(array_keys($settings['settings']['analysis']['analyzer']) as $analyzer) {
+        //     if (strpos($analyzer, 'text') !== false) {
+        //         $analyzers[] = $analyzer;
+        //     }
+        // }
 
         $form = new Form();
 
@@ -81,12 +85,12 @@ use Docalist\Forms\Form;
         $form->checkbox('revisions');
         $form->checkbox('comments');
 
-        $form->tag('h2.title', __('Indexation docalist-search', 'docalist-data'));
-        $form->tag('p', __("Options d'indexation dans le moteur de recherche.", 'docalist-data'));
-        $form->select('stemming')
-             ->addClass('regular-text')
-             ->setFirstOption(__('(Pas de stemming)', 'docalist-data'))
-             ->setOptions($analyzers);
+        // $form->tag('h2.title', __('Indexation docalist-search', 'docalist-data'));
+        // $form->tag('p', __("Options d'indexation dans le moteur de recherche.", 'docalist-data'));
+        // $form->select('stemming')
+        //      ->addClass('regular-text')
+        //      ->setFirstOption(__('(Pas de stemming)', 'docalist-data'))
+        //      ->setOptions($analyzers);
 
         $form->tag('h2.title', __('Intégration dans WordPress', 'docalist-data'));
         $form->tag('p', __("Apparence de cette base dans le back-office de WordPress.", 'docalist-data'));
