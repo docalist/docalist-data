@@ -96,7 +96,8 @@ $form->render('bootstrap');
 
     <form action="" method="post">
         <?php
-            $form->bind($_REQUEST)->display('wordpress');
+            $form->bind($_REQUEST);
+            $form->display('wordpress');
         ?>
 
         <div class="submit buttons">
