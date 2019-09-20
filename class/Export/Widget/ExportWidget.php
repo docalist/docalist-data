@@ -225,7 +225,9 @@ class ExportWidget extends WP_Widget
      */
     public function update($new, $old)
     {
-        $settings = $this->getSettingsForm()->bind($new)->getData();
+        $form = $this->getSettingsForm();
+        $form->bind($new);
+        $settings = $form->getData();
 
         // TODO validation
 
