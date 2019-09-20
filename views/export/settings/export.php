@@ -76,7 +76,8 @@ use Docalist\Forms\Form;
         $form->submit(__('Enregistrer les modifications', 'docalist-data'))
              ->addClass('button button-primary');
 
-        $form->bind($settings)->display();
+        $form->bind($settings);
+        $form->display();
     ?>
 </div>
 
