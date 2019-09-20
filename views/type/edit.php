@@ -45,6 +45,7 @@ use Docalist\Forms\Form;
              ->addClass('large-text');
         $form->submit(__('Enregistrer les modifications', 'docalist-data'));
 
-        $form->bind($type)->display();
+        $form->bind($type);
+        $form->display();
     ?>
 </div>
