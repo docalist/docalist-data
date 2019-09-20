@@ -34,8 +34,8 @@ class TopicCollection extends TypedValueCollection
 
         $form
             ->addClass($this->getEditorClass())
-            ->setLabel($this->getOption('label', $options))
-            ->setDescription($this->getOption('description', $options));
+            ->setLabel($this->getOption('label', $options, ''))
+            ->setDescription($this->getOption('description', $options, ''));
 
         return $form;
     }
