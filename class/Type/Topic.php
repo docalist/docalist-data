@@ -125,8 +125,8 @@ class Topic extends TypedText
         $editor = new TopicsInput($this->schema->name(), $this->schema->table());
 
         $editor
-            ->setLabel($this->getOption('label', $options))
-            ->setDescription($this->getOption('description', $options));
+            ->setLabel($this->getOption('label', $options, ''))
+            ->setDescription($this->getOption('description', $options, ''));
 
         return $editor;
     }
