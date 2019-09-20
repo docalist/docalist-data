@@ -133,7 +133,8 @@ use Docalist\Forms\Form;
         !isset($database->revisions) && $database->revisions = true;
         !isset($database->comments) && $database->comments = false;
 
-        $form->bind($database)->display('wordpress');
+        $form->bind($database);
+        $form->display('wordpress');
     ?>
 </div>
 <script type="text/javascript">
