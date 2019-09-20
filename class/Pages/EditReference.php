@@ -582,7 +582,7 @@ class EditReference
             $hasBoxCap = true;
             $box = new Container();
             $box->setLabel($field->label() ?: __('Groupe de champs sans titre', 'docalist-data'))
-                ->setDescription($field->description())
+                ->setDescription($field->description() ?? '')
                 ->setAttribute('id', $name)
                 ->setAttribute('state', $field->state());
         }
