@@ -57,6 +57,7 @@ use Docalist\Forms\Form;
              ->setDescription(__('Description libre.', 'docalist-data'));
         $form->submit(__('Enregistrer les modifications', 'docalist-data'));
 
-        $form->bind($grid)->display();
+        $form->bind($grid);
+        $form->display();
     ?>
 </div>
