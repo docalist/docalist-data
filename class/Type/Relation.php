@@ -117,11 +117,11 @@ class Relation extends Integer
         }
 
         return $form
-            ->setName($this->schema->name())
+            ->setName($this->schema->name() ?? '')
             ->addClass($this->getEditorClass($editor))
             ->setOptions('search:' . $this->schema->relfilter())
-            ->setLabel($this->getOption('label', $options))
-            ->setDescription($this->getOption('description', $options));
+            ->setLabel($this->getOption('label', $options, ''))
+            ->setDescription($this->getOption('description', $options, ''));
     }
 
     public function getAvailableFormats(): array
