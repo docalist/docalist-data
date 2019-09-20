@@ -245,8 +245,8 @@ class PostalAddress extends Composite
 
         $form
             ->setName($this->schema->name())
-            ->setLabel($this->getOption('label', $options))
-            ->setDescription($this->getOption('description', $options))
+            ->setLabel($this->getOption('label', $options, ''))
+            ->setDescription($this->getOption('description', $options, ''))
             ->addClass($this->getEditorClass($editor));
 
         // Chaque adresse est dans une div à part
