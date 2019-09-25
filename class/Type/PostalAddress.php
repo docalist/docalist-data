@@ -243,12 +243,6 @@ class PostalAddress extends Composite
                 throw new InvalidArgumentException("Invalid PostalAddress editor '$editor'");
         }
 
-        $form
-            ->setName($this->schema->name())
-            ->setLabel($this->getOption('label', $options, ''))
-            ->setDescription($this->getOption('description', $options, ''))
-            ->addClass($this->getEditorClass($editor));
-
         // Chaque adresse est dans une div à part
         $container = $form->div();
 
@@ -262,7 +256,7 @@ class PostalAddress extends Composite
         wp_scripts()->enqueue('docalist-postal-address');
 
         // Ok
-        return $form;
+        return $this->configureEditorForm($form, $options);
     }
 
     /**
