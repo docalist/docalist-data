@@ -74,7 +74,22 @@
             postbox.removeClass('has-cap');
         }
     });
-
+    $('.capability').trigger('propertychange');
+    
+    /**
+     * Met à jour l'icone "champ obligatoire" lorsque le champ "required" est modifié.
+     */
+    $(document).on('change', '.required-mode', function() {
+        var input = $(this);
+        var postbox = input.parents('.postbox:first') // la postbox parent
+        if (input.val()) {
+            postbox.addClass('is-required');
+        } else {
+            postbox.removeClass('is-required');
+        }
+    });
+    $('.required-mode').trigger('change');
+    
     /**
      * Mémorise la dernière boite cliquée pour permettre à add-group de savoir où insérer le nouveau groupe.
      */
