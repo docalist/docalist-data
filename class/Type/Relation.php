@@ -116,12 +116,9 @@ class Relation extends Integer
                 throw new InvalidArgumentException("Invalid Relation editor '$editor'");
         }
 
-        return $form
-            ->setName($this->schema->name() ?? '')
-            ->addClass($this->getEditorClass($editor))
-            ->setOptions('search:' . $this->schema->relfilter())
-            ->setLabel($this->getOption('label', $options, ''))
-            ->setDescription($this->getOption('description', $options, ''));
+        $form->setOptions('search:' . $this->schema->relfilter());
+
+        return $this->configureEditorForm($form, $options);
     }
 
     public function getAvailableFormats(): array
