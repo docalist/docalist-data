@@ -32,12 +32,7 @@ class TopicCollection extends TypedValueCollection
     {
         $form = new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
 
-        $form
-            ->addClass($this->getEditorClass())
-            ->setLabel($this->getOption('label', $options, ''))
-            ->setDescription($this->getOption('description', $options, ''));
-
-        return $form;
+        return $this->configureEditorForm($form, $options);
     }
 
     /**
