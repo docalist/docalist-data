@@ -43,11 +43,14 @@
 }
 .grid .has-cap>h2:after {
     font-family: "dashicons";
-    content: "\f112";
+    content: " \f112";
     vertical-align: text-bottom;
     -webkit-font-smoothing: antialiased;
-    padding-left: .5em;
-    color: #A00;
+    color: #00F;
+}
+.grid .is-required>h2>span:after {
+    content: " ✱";
+    color: red;
 }
 .grid .group>h2:before {
     /*content: "\f203";*/
