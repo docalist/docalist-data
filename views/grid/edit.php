@@ -100,6 +100,7 @@ function createForm(Schema $schema, Schema $grid, $method = 'getSettingsForm')
         $default = $field->getEditorForm($grid)
             ->setName('default')
             ->setLabel(__('Valeur par défaut', 'docalist-data'));
+        $default->setRequired('');
         $metabox->add($default);
     }
     // TODO : ça devrait être getSettingsForm/getEditorSettingsForm qui se charge d'insérer l'éditeur
