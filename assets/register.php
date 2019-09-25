@@ -22,7 +22,7 @@ add_action('admin_init', function () {
         'docalist-data-grid-edit',
         "$base/views/grid/edit.js",
         ['jquery', 'jquery-ui-sortable'],
-        '20150510',
+        '20190925',
         true
     );
 
@@ -30,7 +30,7 @@ add_action('admin_init', function () {
         'docalist-data-grid-edit',
         "$base/views/grid/edit.css",
         [],
-        '20150510'
+        '20190925'
     );
 
     // google-maps et google-maps-place
