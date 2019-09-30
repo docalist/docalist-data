@@ -51,18 +51,22 @@ abstract class FieldIndexer implements Indexer
      */
     private const ATTRIBUTES = [
         'search'            => ['%s',                   '%s-%s'                 ],
-        'filter'            => ['filter.%s',            'filter.%s.%s'          ],
-        'code-filter'       => ['filter.%s.code',       'filter.%s.%s.code'     ],
-        'label-filter'      => ['filter.%s.label',      'filter.%s.%s.label'    ],
-        'suggest'           => ['suggest.%s',           'suggest.%s.%s'         ],
-        'code-suggest'      => ['suggest.%s.code',      'suggest.%s.%s.code'    ],
-        'label-suggest'     => ['suggest.%s.label',     'suggest.%s.%s.label'   ],
-        'hierarchy'         => ['hierarchy.%s',         'hierarchy.%s.%s'       ],
-        'code-hierarchy'    => ['hierarchy.%s.code',    'hierarchy.%s.%s.code'  ],
-        'label-hierarchy'   => ['hierarchy.%s.label',   'hierarchy.%s.%s.label' ],
-        'sort'              => ['sort.%s',              'sort.%s.%s'            ],
-        'code-sort'         => ['sort.%s.code',         'sort.%s.%s.code'       ],
-        'label-sort'        => ['sort.%s.label',        'sort.%s.%s.label'      ],
+
+        'filter'            => ['filter.%s',            'filter.%s-%s'          ],
+        'code-filter'       => ['filter.%s.code',       'filter.%s-%s.code'     ],
+        'label-filter'      => ['filter.%s.label',      'filter.%s-%s.label'    ],
+
+        'suggest'           => ['suggest.%s',           'suggest.%s-%s'         ],
+        'code-suggest'      => ['suggest.%s.code',      'suggest.%s-%s.code'    ],
+        'label-suggest'     => ['suggest.%s.label',     'suggest.%s-%s.label'   ],
+
+        'hierarchy'         => ['hierarchy.%s',         'hierarchy.%s-%s'       ],
+        'code-hierarchy'    => ['hierarchy.%s.code',    'hierarchy.%s-%s.code'  ],
+        'label-hierarchy'   => ['hierarchy.%s.label',   'hierarchy.%s-%s.label' ],
+
+        'sort'              => ['sort.%s',              'sort.%s-%s'            ],
+        'code-sort'         => ['sort.%s.code',         'sort.%s-%s.code'       ],
+        'label-sort'        => ['sort.%s.label',        'sort.%s-%s.label'      ],
     ];
 
     /**
