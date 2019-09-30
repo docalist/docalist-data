@@ -66,9 +66,16 @@ class DateFieldIndexer extends FieldIndexer
                     );
 
             case 'filter':
-                return sprintf(
+                return
+                    empty($type)
+                    ? __(
+                        'Filtre, agrégation et tri sur la première des dates qui figure dans le champ "date"
+                        des références docalist, quel que soit son type.',
+                        'docalist-data'
+                    )
+                    : sprintf(
                     __(
-                        'Filtre sur les dates de type "%s" qui figurent dans le champ "date"
+                        'Filtre, agrégation et tri sur les dates de type "%s" qui figurent dans le champ "date"
                         des références docalist.',
                         'docalist-data'
                     ),
@@ -108,7 +115,7 @@ class DateFieldIndexer extends FieldIndexer
             case 'filter':
                 return __(
                     'La date est stockée sous la forme d\'un nombre (secondes écoulées depuis epoch)
-                    qui peut être utilisé à la fois comme filtre, comme clé de tri ou comme agrégation.',
+                    qui peut être utilisé à la fois comme filtre, comme agrégation et comme clé de tri.',
                     'docalist-data'
                 );
         }
@@ -148,7 +155,13 @@ class DateFieldIndexer extends FieldIndexer
                 'docalist-data'
             ));
 
-        // Filtres/facettes spécifiques
+        // Filtre, agrégation et tri sur la première date
+        $form->checkbox()
+            ->setName('filter')
+            ->setLabel($this->getAttributeName('filter'))
+            ->setDescription($this->getAttributeLabel('filter'));
+
+        // Filtres, agrégations et tri sur des dates spécifiques
         $form->add($item->type->getEditorForm())
             ->setName('filter-types')
             ->setAttribute('multiple')
@@ -186,8 +199,9 @@ class DateFieldIndexer extends FieldIndexer
                 ->setDescription($this->getAttributeDescription('search', $type));
         }
 
-        // Filtres
+        // Filtres, agrégations et tri
         $fields = $attr['filter-types'] ?? [];                      // spécifiques
+        isset($attr['filter']) && $fields[''] = $attr['filter'];    // générique (première date)
         foreach ($fields as $type => $name) {
             $mapping
                 ->date($name)
@@ -224,6 +238,10 @@ class DateFieldIndexer extends FieldIndexer
             isset($attr['search']) && $data[$attr['search']][] = $searchString;
             isset($attr['search-types'][$type]) && $data[$attr['search-types'][$type]][] = $searchString;
             isset($attr['filter-types'][$type]) && $data[$attr['filter-types'][$type]][] = $date;
+
+            if (isset($attr['filter']) && empty($data[$attr['filter']])) { // la première date uniquement
+                $data[$attr['filter']][] = $this->getSortKey($date);
+            }
         }
 
         // Ok
