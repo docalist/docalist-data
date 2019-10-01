@@ -370,7 +370,7 @@ final class Database extends PostTypeRepository
     }
 
     /**
-     * @deprecated Utiliser getLabels()
+     * @deprecated Utiliser getLabel()
      *
      * @return DatabaseSettings
      */
