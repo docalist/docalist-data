@@ -65,7 +65,8 @@ class Relation extends Integer
         $this->entity = false;
 
         // Un Integer ne peut pas être à null, par contre pour un type Relation, il faut accepter la valeur null
-        if (is_null($value)) {
+        // Les valeurs '', 0 et '0' sont également considérées comme null
+        if (is_null($value) || $value === '' || $value === '0' || $value === 0) {
             $this->phpValue = null;
 
             return;
