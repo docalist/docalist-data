@@ -202,7 +202,7 @@ class AdminDatabases extends AdminPage
                 $database->homepage = (int) $_POST['homepage'];
                 $database->homemode = $_POST['homemode'];
                 $database->searchpage = (int) $_POST['searchpage'];
-                $database->stemming = $_POST['stemming'];
+                isset($_POST['stemming']) && $database->stemming = $_POST['stemming'];
                 $database->icon = $_POST['icon'];
                 $database->notes = $_POST['notes'];
                 $database->thumbnail = (bool)$_POST['thumbnail'];
