@@ -697,7 +697,7 @@ class AdminDatabases extends AdminPage
 
         $database = $this->database($dbindex);
         $type = $this->type($dbindex, $typeindex);
-        $grid = $type->grids[$gridname]; /* @var Schema $grid */
+        $grid = $type->grids[$gridname]; /** @var Grid $grid */
 
         // Enregistre la grille si on est en POST
         if ($this->isPost()) {
@@ -729,6 +729,19 @@ class AdminDatabases extends AdminPage
                 $fields[$name] = $field;
             }
             $data['fields'] = $fields;
+
+            // Reset des valeurs par défaut
+            // Dans l'éditeur de grille, le champ "default" n'est pas transmis s'il est vide. Du coup, si le champ
+            // contenait une valeur par défaut, on ne peut plus la vider car grid::mergeWith() se contente de mettre
+            // à jour les data qui ont changés. Pour éviter ça, on modifie $data en mettant default=null pour les
+            // champs qui avaient une valeur par défaut dans la grille.
+            if ($gridname === 'edit') {
+                foreach ($grid->getFields() as $name => $field) {
+                    if (!is_null($field->default()) && !isset($data['fields'][$name]['default'])) {
+                        $data['fields'][$name]['default'] = null;
+                    }
+                }
+            }
 
             // Met à jour la grille et enregistre les settings
             $type->grids[$gridname] = $grid->mergeWith($data);
