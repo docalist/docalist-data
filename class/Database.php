@@ -523,7 +523,7 @@ final class Database extends PostTypeRepository
                 // Pages "liste des réponses" et "accueil" en mode 'page' ou 'search'
                 if ($query->is_page && $page = $query->get_queried_object_id()) {
                     // Page liste des réponses
-                    if ($page === $this->searchPage()) {
+                    if ($page === $this->getSearchPage()) {
                         // on fait une recherche et on affiche les réponses
                         $searchUrl = new SearchUrl($_SERVER['REQUEST_URI'], [$this->postType]);
                         $displayResults = true;
@@ -532,11 +532,11 @@ final class Database extends PostTypeRepository
                     }
 
                     // Page d'accueil
-                    if ($page === $this->homePage()) {
-                        // en mode 'page', on fait une recherche mais on laisse wp afficher la page
+                    if ($page === $this->getHomePage() && $this->settings->homemode() === 'search') {
+                        // en mode 'page', on fait une recherche mais on laisse wp afficher la page -> non
                         // en mode 'search', on affiche les réponses obtenues
-                        $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
-                        $displayResults = ($this->settings->homemode() === 'search');
+                        $searchUrl = new SearchUrl($_SERVER['REQUEST_URI'], [$this->postType]);
+                        $displayResults = true; // ($this->settings->homemode() === 'search');
 
                         return $searchUrl->getSearchRequest();
                     }
@@ -544,11 +544,12 @@ final class Database extends PostTypeRepository
 
                 // Page d'accueil - mode 'archive'
                 elseif ($query->is_post_type_archive && $query->get('post_type') === $this->postType) {
+                    return null;
                     // on fait une recherche, mais on laisse wp afficher les archives
-                    $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
-                    $displayResults = false;
+//                     $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
+//                     $displayResults = false;
 
-                    return $searchUrl->getSearchRequest();
+//                     return $searchUrl->getSearchRequest();
                 }
 
                 // Ce n'est pas une de nos pages
