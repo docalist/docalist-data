@@ -15,6 +15,7 @@ use Docalist\Data\Indexer;
 use Docalist\Type\Any;
 use Docalist\Forms\Container;
 use Docalist\Search\Mapping;
+use Docalist\Search\Mapping\Field\Parameter\IgnoreAbove;
 use Transliterator;
 use InvalidArgumentException;
 
@@ -290,18 +291,33 @@ abstract class FieldIndexer implements Indexer
     /**
      * Génère une clé de tri pour le texte passé en paramètre.
      *
-     * @param string $text
+     * @param string    $text       Texte à convertir.
+     * @param int       $maxLength  Longueur maximale de la clé (256 caractères par défaut, cf. ignore_above).
      *
      * @return string
      */
-    final protected function getSortKey(string $text)
+    final protected function getSortKey(string $text, int $maxLength = IgnoreAbove::DEFAULT_IGNORE_ABOVE)
     {
         static $transliterator = null;
 
+        // On utilise la classe Unicode Transliterator pour générer la clé de tri
+        // - on convertit les caractères en ascii (translitération des caractères accentués, composés, etc)
+        // - on convertit en minuscules
+        // - on remplace tout ce qui n'est pas une lettre ou un chiffre par un espace unique
         if (is_null($transliterator)) {
             $transliterator = Transliterator::createFromRules("::Latin-ASCII; ::Lower; [^[:L:][:N:]]+ > ' ';");
         }
 
-        return $transliterator->transliterate($text);
+        // Convertit le texte
+        $sortKey = $transliterator->transliterate($text);
+
+        // On peut avoir des espaces en début ou fin de chaine
+        $sortKey = trim($sortKey);
+
+        // Coupe la clé de tri générée si elle est plus grande que la limite indiquée
+        strlen($sortKey) > $maxLength && $sortKey = substr(0, $maxLength);
+
+        // Ok
+        return $sortKey;
     }
 }
