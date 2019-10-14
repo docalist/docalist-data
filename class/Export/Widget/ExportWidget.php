@@ -53,6 +53,9 @@ class ExportWidget extends WP_Widget
 
         // Récupère les résultats de la recherche en cours
         $searchResponse = $searchEngine->getSearchResponse(); /* @var SearchResponse $searchResponse */
+        if (is_null($searchResponse)) {
+            return '';
+        }
 
         // Récupère le service d'export
         $exportService = docalist('docalist-data-export'); /* @var ExportService $exportService */
