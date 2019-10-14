@@ -240,7 +240,7 @@ class DateFieldIndexer extends FieldIndexer
             isset($attr['filter-types'][$type]) && $data[$attr['filter-types'][$type]][] = $date;
 
             if (isset($attr['filter']) && empty($data[$attr['filter']])) { // la première date uniquement
-                $data[$attr['filter']][] = $this->getSortKey($date);
+                $data[$attr['filter']][] = $date;
             }
         }
 
