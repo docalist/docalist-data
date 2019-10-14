@@ -315,7 +315,7 @@ abstract class FieldIndexer implements Indexer
         $sortKey = trim($sortKey);
 
         // Coupe la clé de tri générée si elle est plus grande que la limite indiquée
-        strlen($sortKey) > $maxLength && $sortKey = substr(0, $maxLength);
+        strlen($sortKey) > $maxLength && $sortKey = substr($sortKey, 0, $maxLength);
 
         // Ok
         return $sortKey;
