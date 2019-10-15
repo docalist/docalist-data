@@ -118,8 +118,8 @@ class EditReference
         // post-new.php (entres autres) et affichée dans edit-form-advanced...
         $GLOBALS['title'] = sprintf(
             __('%s » %s » %s', 'docalist-data'),
-            $this->database->settings()->label(),
-            $this->database->settings()->types[$type]->label(),
+            $this->database->getSettings()->label(),
+            $this->database->getSettings()->types[$type]->label(),
             $creation ? __('Création', 'docalist-data') : __('Modification', 'docalist-data')
         );
     }
@@ -132,7 +132,7 @@ class EditReference
         $this->isNewPost = true;
 
         // S'il n'y a qu'un seul type de notices, inutile de demander à l'utilisateur
-        $types = $this->database->settings()->types;
+        $types = $this->database->getSettings()->types;
         if (empty($_REQUEST['ref_type']) && count($types) === 1) {
             $_REQUEST['ref_type'] = $types->first()->name();
         }
@@ -268,7 +268,7 @@ class EditReference
         });
 
         // Récupère le grille "edit"
-        $schema = $this->database->settings()->types[$ref->type()]->grids['edit'];
+        $schema = $this->database->getSettings()->types[$ref->type()]->grids['edit'];
 
         // Affiche un texte d'intro si la grille comporte une description
         $description = $schema->description() ?: $ref->getSchema()->description();
@@ -526,7 +526,7 @@ class EditReference
     protected function metaboxes(Record $ref, $ignoreDefaults = false)
     {
         // Charge la grille "edit" correspondant au type de la notice
-        $schema = $this->database->settings()->types[$ref->type()]->grids['edit'];
+        $schema = $this->database->getSettings()->types[$ref->type()]->grids['edit'];
 
         // Récupère la liste des champs
         $fields = $schema->getFields();
