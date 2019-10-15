@@ -13,6 +13,10 @@ namespace Docalist\Data;
 
 use Docalist\Data\Record;
 
+use function Docalist\deprecated;
+
+deprecated(__CLASS__, 'Record', '2019-03-07');
+
 /**
  * Compatibilité ascendante : ancien nom de la classe Record.
  *
