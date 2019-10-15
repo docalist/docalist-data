@@ -26,8 +26,8 @@ use Docalist\Data\Database;
 <div class="wrap">
     <?php
         $title = sprintf(__('%1$s » %2$s', 'docalist-search'),
-            $database->settings()->label(),
-            get_post_type_object($database->postType())->labels->add_new_item
+            $database->getSettings()->label(),
+            get_post_type_object($database->getPostType())->labels->add_new_item
         );
     ?>
     <h1><?= $title ?></h1>
