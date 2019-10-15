@@ -44,9 +44,9 @@ class DatabaseTools extends AdminPage
     public function __construct(Database $database)
     {
         parent::__construct(
-            $database->postType() . '-tools',               // ID
-            'edit.php?post_type=' . $database->postType(),  // Page parent
-            __('Outils', 'docalist-data')                   // Libellé du menu
+            $database->getPostType() . '-tools',                // ID
+            'edit.php?post_type=' . $database->getPostType(),   // Page parent
+            __('Outils', 'docalist-data')                       // Libellé du menu
         );
         $this->database = $database;
     }
@@ -410,7 +410,7 @@ class DatabaseTools extends AdminPage
         }
 
         // Ajoute le filtre type dans la requête
-        $type = $this->database->postType();
+        $type = $this->database->getPostType();
         if (! in_array($type, (array) $request->filter('_type'))) {
             $request->filter('_type', $type);
         }
