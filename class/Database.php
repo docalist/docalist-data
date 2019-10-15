@@ -23,6 +23,8 @@ use WP_Post;
 use WP_Query;
 use InvalidArgumentException;
 
+use function Docalist\deprecated;
+
 /**
  * Une base de données docalist.
  *
@@ -356,6 +358,8 @@ final class Database extends PostTypeRepository
      */
     public function settings()
     {
+        deprecated(get_class($this) . '::settings()', 'getSettings()', '2019-04-28');
+
         return $this->getSettings();
     }
 
@@ -376,6 +380,8 @@ final class Database extends PostTypeRepository
      */
     public function label()
     {
+        deprecated(get_class($this) . '::label()', 'getLabel()', '2019-04-28');
+
         return $this->settings->label();
     }
 
@@ -396,6 +402,8 @@ final class Database extends PostTypeRepository
      */
     public function homePage()
     {
+        deprecated(get_class($this) . '::homePage()', 'getHomePage()', '2019-04-28');
+
         return $this->getHomePage();
     }
 
@@ -416,6 +424,8 @@ final class Database extends PostTypeRepository
      */
     public function searchPage()
     {
+        deprecated(get_class($this) . '::searchPage()', 'getSearchPage()', '2019-04-28');
+
         return $this->getSearchPage();
     }
 
@@ -439,7 +449,9 @@ final class Database extends PostTypeRepository
      */
     public function searchPageUrl()
     {
-        return get_permalink($this->settings->searchpage());
+        deprecated(get_class($this) . '::searchPageUrl()', 'getSearchPageUrl()', '2019-04-28');
+
+        return $this->getSearchPageUrl();
     }
 
     /**
