@@ -18,6 +18,8 @@ use Docalist\Forms\Element;
 use Docalist\Type\Collection\TypedValueCollection;
 use InvalidArgumentException;
 
+use function Docalist\deprecated;
+
 /**
  * Une collection de Topic.
  *
@@ -47,6 +49,8 @@ class TopicCollection extends TypedValueCollection
      */
     public function getThesaurusTopics()
     {
+        deprecated(get_class($this) . '::schema()', 'getSchema()', '2019-05-29');
+
         // Ouvre la table des topics indiquée dans le schéma du champ 'type'
         list(, $name) = explode(':', $this->schema->getField('type')->table());
         $table = docalist('table-manager')->get($name);
