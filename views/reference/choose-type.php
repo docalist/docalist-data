@@ -37,7 +37,7 @@ use Docalist\Data\Database;
     </p>
     <table class="widefat">
         <?php $nb = 0 ?>
-        <?php foreach($database->settings()->types as $type): ?>
+        <?php foreach($database->getSettings()->types as $type): ?>
             <tr class="<?= ++$nb % 2 ? 'alternate' : '' ?>">
                 <td class="row-title">
                     <a href="<?= esc_url(add_query_arg('ref_type', $type->name())) ?>">
