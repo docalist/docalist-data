@@ -406,7 +406,7 @@ class ListReferences
 
         $cache = $wpdb->get_results($sql);
         if ($cache) {
-            $types = $this->database->settings()->types;
+            $types = $this->database->getSettings()->types;
             foreach ($cache as $type) {
                 list(, $code) = explode('/', $type->post_mime_type);
                 $label = isset($types[$code]) ? $types[$code]->label : $code;
