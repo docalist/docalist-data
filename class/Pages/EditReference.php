@@ -52,7 +52,7 @@ class EditReference
     /**
      * @var string Le post-type de la base.
      *
-     * Equivalent à $this->database->postType().
+     * Equivalent à $this->database->getPostType().
      */
     protected $postType;
 
@@ -72,7 +72,7 @@ class EditReference
     public function __construct(Database $database)
     {
         $this->database = $database;
-        $this->postType = $database->postType();
+        $this->postType = $database->getPostType();
 
         // Demande à l'utilisateur le type de la notice à créer
         add_action('load-post-new.php', function () {
