@@ -27,10 +27,14 @@ use Docalist\Data\Import\Importer;
  */
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__('Import %s', 'docalist-data'), $database->settings()->label->getPhpValue()) ?></h2>
+    <h2><?= sprintf(__('Import %s', 'docalist-data'), $database->getSettings()->label->getPhpValue()) ?></h2>
 
     <p class="description">
-        <?= __("Ajoutez les fichiers à importer, choisissez l'ordre en déplaçant l'icone, indiquez le format de chacun des fichiers puis cliquez sur le bouton lancer l'import.", 'docalist-data') ?>
+        <?= __(
+            "Ajoutez les fichiers à importer, choisissez l'ordre en déplaçant l'icone,
+            indiquez le format de chacun des fichiers puis cliquez sur le bouton lancer l'import.",
+            'docalist-data'
+        )?>
     </p>
 
     <form action="" method="post">
@@ -53,10 +57,12 @@ use Docalist\Data\Import\Importer;
                         <?=__('Format : ', 'docalist-data') ?>
                         <select name="formats[]">
                             <option value=""><?=__('Indiquez le format', 'docalist-data')?></option><?php
-                            foreach($importers as $importer) { /* @var Importer $importer */
+                            foreach ($importers as $importer) { /* @var Importer $importer */
                                 $id = $importer->getID();
                                 $label = $importer->getLabel(); ?>
-                                <option value="<?=esc_attr($id)?>" selected="selected"><?=esc_html($label)?></option><?php
+                                <option value="<?=esc_attr($id)?>" selected="selected">
+                                    <?=esc_html($label)?>
+                                </option><?php
                             } ?>
                         </select>
                     </label>
@@ -81,7 +87,11 @@ use Docalist\Data\Import\Importer;
                     <input type="checkbox" name="options[simulate]" value="1" checked="checked" id="simulate" />
                     <label for="simulate"><?=__("Ne pas créer de notices", 'docalist-data') ?></label>
                     <p class="description">
-                        <?=__('Utilisez cette option pour valider votre fichier et vérifier que les notices peuvent être converties au format docalist.', 'docalist-data')?>
+                        <?=__(
+                            'Utilisez cette option pour valider votre fichier et vérifier que les notices
+                            peuvent être converties au format docalist.',
+                            'docalist-data'
+                        )?>
                         <?=__('Décochez la case pour lancer réellement l\'import.', 'docalist-data')?>
                     </p>
                 </td>
@@ -92,12 +102,28 @@ use Docalist\Data\Import\Importer;
                     <label for="limit"><?=__('Limite de l\'import', 'docalist-data')?></label>
                 </th>
                 <td>
-                    <input name="options[limit]" type="number" min="0" id="limit" placeholder="<?=__('Toutes les', 'docalist-data')?>" />
+                    <input
+                        name="options[limit]"
+                        type="number"
+                        min="0"
+                        id="limit"
+                        placeholder="<?=__('Toutes les', 'docalist-data')?>" />
                     <?=__('notices.', 'docalist-data')?>
                     <p class="description">
-                        <?=__('Utilisez cette option pour limiter le nombre de notices importées.', 'docalist-data')?>
-                        <?=__('Par défaut, toutes les notices présentes dans le fichier seront importées.', 'docalist-data')?>
-                        <?=__('Si vous souhaitez faire un test d\'import (par exemple pour valider le fichier à importer), indiquez un nombre pour traiter seulement les n premières notices du fichier.', 'docalist-data')?>
+                        <?=__(
+                            'Utilisez cette option pour limiter le nombre de notices importées.',
+                            'docalist-data'
+                        )?>
+                        <?=__(
+                            'Par défaut, toutes les notices présentes dans le fichier seront importées.',
+                            'docalist-data'
+                        )?>
+                        <?=__(
+                            'Si vous souhaitez faire un test d\'import (par exemple pour valider le fichier
+                            à importer), indiquez un nombre pour traiter seulement les n premières notices
+                            du fichier.',
+                            'docalist-data'
+                        )?>
                     </p>
                 </td>
             </tr>
@@ -112,13 +138,22 @@ use Docalist\Data\Import\Importer;
                         $statuses = get_post_stati(['show_in_admin_all_list' => true], 'objects');
                         unset($statuses['future']);
                     ?>
-                    <?php foreach ($statuses as $name => $status): ?>
-                        <option value="<?=esc_attr($name)?>"<?=selected('pending', $name, false)?>><?=esc_html($status->label)?></option>
-                    <?php endforeach; ?>
+                    <?php foreach ($statuses as $name => $status) { ?>
+                        <option value="<?=esc_attr($name)?>"<?=selected('pending', $name, false)?>>
+                            <?=esc_html($status->label)?>
+                        </option>
+                    <?php } ?>
                     </select>
                     <p class="description">
-                        <?=__('Par défaut, les notices importées seront créées avec le statut "en attente".', 'docalist-data')?>
-                        <?=__('Choisissez l\'une des options proposées dans la liste pour leur affecter un statut différent.', 'docalist-data')?>
+                        <?=__(
+                            'Par défaut, les notices importées seront créées avec le statut "en attente".',
+                            'docalist-data'
+                        )?>
+                        <?=__(
+                            'Choisissez l\'une des options proposées dans la liste pour leur affecter
+                            un statut différent.',
+                            'docalist-data'
+                        )?>
                     </p>
                 </td>
             </tr>
@@ -137,8 +172,17 @@ use Docalist\Data\Import\Importer;
                         </option>
                     </select>
                     <p class="description">
-                        <?=__('Par défaut, docalist ne tient pas compte du numéro de référence éventuel (REF) qui figurent dans les notices importées et un nouveau numéro de référence sera attribué aux notices lorsque celles-ci seront publiées.', 'docalist-data')?>
-                        <?=__('Choisissez l\'option "importer" si vous souhaitez conserver tel quel le numéro de référence qui figure dans le fichier d\'import.', 'docalist-data')?>
+                        <?=__(
+                            'Par défaut, docalist ne tient pas compte du numéro de référence éventuel (REF)
+                            qui figurent dans les notices importées et un nouveau numéro de référence sera
+                            attribué aux notices lorsque celles-ci seront publiées.',
+                            'docalist-data'
+                        )?>
+                        <?=__(
+                            'Choisissez l\'option "importer" si vous souhaitez conserver tel quel le numéro
+                            de référence qui figure dans le fichier d\'import.',
+                            'docalist-data'
+                        )?>
                     </p>
                 </td>
             </tr>
