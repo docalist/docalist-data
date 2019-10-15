@@ -41,6 +41,8 @@ use Closure;
 use InvalidArgumentException;
 use Docalist\Data\Indexer\RecordIndexer;
 
+use function Docalist\deprecated;
+
 /**
  * Un enregistrement dans une base docalist.
  *
@@ -745,6 +747,8 @@ class Record extends Entity implements Indexable
      */
     protected function mapMultiField(array & $document, $field, $value = 'value')
     {
+        deprecated(get_class($this) . '::mapMultiField()', '', '2019-06-06');
+
         if (isset($this->$field)) {
             foreach ($this->$field as $item) { /* @var MultiField $item */
                 $code = $item->getCategoryCode();
@@ -770,7 +774,7 @@ class Record extends Entity implements Indexable
      */
     protected function getThesaurusTopics()
     {
-        trigger_error(__METHOD__ . ' is deprecated, use $this->topic->getThesaurusTopics()');
+        deprecated(get_class($this) . '::getThesaurusTopics()', '$record->topic->getThesaurusTopics()', '2017-07-05');
 
         return $this->topic->getThesaurusTopics();
     }
@@ -787,6 +791,8 @@ class Record extends Entity implements Indexable
      */
     protected function getTermsPath(array $terms, $tableName)
     {
+        deprecated(get_class($this) . '::getTermsPath()', '$record->topic->getTermsPath()', '2019-06-06');
+
         // Ouvre le thesaurus
         $table = docalist('table-manager')->get($tableName);
 
