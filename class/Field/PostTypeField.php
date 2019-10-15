@@ -37,7 +37,7 @@ class PostTypeField extends ListEntry
         $value = $this->getPhpValue();
         $database = docalist('docalist-data')->database($value); /** @var Database $database */
 
-        return $database ? $database->label() : $value;
+        return $database ? $database->getLabel() : $value;
     }
 
     /**
@@ -49,7 +49,7 @@ class PostTypeField extends ListEntry
     {
         $result = [];
         foreach (docalist('docalist-data')->databases() as $postType => $database) { /** @var Database $database */
-            $result[$postType] = $database->label();
+            $result[$postType] = $database->getLabel();
         }
 
         asort($result, SORT_NATURAL);
