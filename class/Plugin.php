@@ -79,7 +79,7 @@ class Plugin
             foreach ($this->settings->databases as $settings) {
                 /* @var DatabaseSettings $settings */
                 $database = new Database($settings);
-                $this->databases[$database->postType()] = $database;
+                $this->databases[$database->getPostType()] = $database;
             }
         });
 
