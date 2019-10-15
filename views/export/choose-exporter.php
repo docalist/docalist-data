@@ -44,15 +44,34 @@ foreach($formats as $name => $format) {
 }
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__("Export %s : choix du format d'export", 'docalist-data'), $database->settings()->label()) ?></h2>
+    <h2>
+        <?= sprintf(__("Export %s : choix du format d'export", 'docalist-data'), $database->getSettings()->label()) ?>
+    </h2>
 
     <p class="description">
-        <?= sprintf(__("Le tableau ci-dessous liste les formats d'export disponibles pour la base %s. ", 'docalist-data'), $database->settings()->label()) ?>
-        <?= __("Survolez les options pour obtenir une bulle d'aide avec des informations complémentaires. ", 'docalist-data') ?>
+        <?= sprintf(
+                __("Le tableau ci-dessous liste les formats d'export disponibles pour la base %s. ", 'docalist-data'),
+                $database->getSettings()->label()
+            )
+        ?>
+        <?= __(
+                "Survolez les options pour obtenir une bulle d'aide avec des informations complémentaires. ",
+                'docalist-data'
+            )
+        ?>
         <br />
-        <?= __("Choisissez le format d'export à utiliser pour sélectionner le format des notices que vous voulez obtenir et le type de fichier à générer puis cliquez sur l'un des boutons en bas de page. ", 'docalist-data') ?>
+        <?= __(
+                "Choisissez le format d'export à utiliser pour sélectionner le format des notices que vous
+                voulez obtenir et le type de fichier à générer puis cliquez sur l'un des boutons en bas de page. ",
+                'docalist-data'
+            )
+        ?>
         <br />
-        <?= __("Remarque : le format choisi sera enregistré comme option par défaut pour la prochaine fois. ", 'docalist-data') ?>
+        <?= __(
+                "Remarque : le format choisi sera enregistré comme option par défaut pour la prochaine fois. ",
+                'docalist-data'
+            )
+        ?>
     </p>
 
     <form action="" method="post">
@@ -101,7 +120,8 @@ foreach($formats as $name => $format) {
         <div class="options">
             <label>
                 <input type="checkbox" name="zip" value="1" />
-                Créer une archive compressée au <a href="http://fr.wikipedia.org/wiki/ZIP_(format_de_fichier)">format ZIP</a>.
+                Créer une archive compressée au
+                <a href="http://fr.wikipedia.org/wiki/ZIP_(format_de_fichier)">format ZIP</a>.
             </label>
         </div>
 
@@ -153,7 +173,7 @@ foreach($formats as $name => $format) {
 
 <?php
     // nom du cookie
-    $cookie = $database->settings()->name() . '-export';
+    $cookie = $database->getSettings()->name() . '-export';
 
     // nom du format d'export par défaut si pas de cookie
     reset($formats);
@@ -208,7 +228,14 @@ foreach($formats as $name => $format) {
         });
 
         // Initialisation : sélectionne et donne le focus au format par défaut
-        var favorite = decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + cookie.replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || "<?=$favorite?>";
+        var favorite = decodeURIComponent(
+            document.cookie.replace(
+                new RegExp(
+                    "(?:(?:^|.*;)\\s*" + cookie.replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"
+                ),
+                "$1"
+            )
+        ) || "<?=$favorite?>";
 
         $('#' + favorite).click().focus();
     });
