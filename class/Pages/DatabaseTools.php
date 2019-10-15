@@ -517,8 +517,7 @@ class DatabaseTools extends AdminPage
     {
         return $this->view('docalist-core:info', [
             'h2' => __('Settings', 'docalist-data'),
-//            'message' => '<pre>' . (string)$this->database->settings() . '</pre>',
-            'message' => '<pre>' . var_export($this->database->settings(), true) . '</pre>',
+            'message' => '<pre>' . var_export($this->database->getSettings(), true) . '</pre>',
         ]);
     }
 }
