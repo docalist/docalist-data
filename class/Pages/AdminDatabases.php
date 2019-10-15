@@ -226,16 +226,16 @@ class AdminDatabases extends AdminPage
 
                     if ($database->homepage() && $database->homepage() === $db->homepage()) {
                         $msg = __('La page d\'accueil indiquée est déjà utilisée par "%s"', 'docalist-data');
-                        throw new Exception(sprintf($msg, $db->label()));
+                        throw new Exception(sprintf($msg, $db->getLabel()));
                     }
 
-                    if (trim(strtolower($database->label())) === trim(strtolower($db->label()))) {
+                    if (trim(strtolower($database->label())) === trim(strtolower($db->getLabel()))) {
                         $msg = __(
                             'Il existe déjà une base avec le même libellé (%s),
                             vous allez vous mélanger les pinceaux !',
                             'docalist-data'
                         );
-                        throw new Exception(sprintf($msg, $db->label()));
+                        throw new Exception(sprintf($msg, $db->getLabel()));
                     }
                 }
 
