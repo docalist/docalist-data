@@ -21,6 +21,8 @@ use Docalist\Data\Entity\ContentEntity;
 use Docalist\Data\Export\ExportSetup;
 use InvalidArgumentException;
 
+use function Docalist\deprecated;
+
 /**
  * Plugin de gestion des bases docalist.
  *
@@ -143,7 +145,7 @@ class Plugin
      */
     public function getReference($id = null)
     {
-        _deprecated_function(__METHOD__, '0.16', 'getRecord');
+        deprecated(get_class($this) . '::getReference()', 'getRecord()', '2018-02-09');
 
         return $this->getRecord($id);
     }
