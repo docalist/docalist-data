@@ -487,14 +487,14 @@ class Record extends Entity implements Indexable
     {
         // Si la notice a déjà un numéro de référence, on se contente de synchroniser la séquence
         if (isset($this->ref) && 0 !== $this->ref->getPhpValue()) {
-            docalist('sequences')->setIfGreater($database->postType(), 'ref', $this->ref->getPhpValue());
+            docalist('sequences')->setIfGreater($database->getPostType(), 'ref', $this->ref->getPhpValue());
 
             return;
         }
 
         // Si la notice est en statut publish, on lui attribue un numéro de référence
         if (isset($this->status) && $this->status->getPhpValue() === 'publish') {
-            $this->ref = docalist('sequences')->increment($database->postType(), 'ref');
+            $this->ref = docalist('sequences')->increment($database->getPostType(), 'ref');
         }
     }
 
