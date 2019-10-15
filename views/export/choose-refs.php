@@ -81,7 +81,7 @@ $form->render('bootstrap');
 */
 ?>
 <div class="wrap">
-    <h2><?= sprintf(__('Export %s', 'docalist-data'), $database->settings()->label) ?></h2>
+    <h2><?= sprintf(__('Export %s', 'docalist-data'), $database->getSettings()->label) ?></h2>
 
     <p class="description">
         <?= __("Choisissez les notices à exporter.", 'docalist-data') ?>
