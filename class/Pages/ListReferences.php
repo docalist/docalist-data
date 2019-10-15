@@ -37,7 +37,7 @@ class ListReferences
     /**
      * Le post-type de la base.
      *
-     * Equivalent à $this->database->postType().
+     * Equivalent à $this->database->getPostType().
      *
      * @var string
      */
@@ -50,7 +50,7 @@ class ListReferences
     public function __construct(Database $database)
     {
         $this->database = $database;
-        $this->postType = $database->postType();
+        $this->postType = $database->getPostType();
 
         $this->setupColumns();
         $this->removeMonthsFilter();
