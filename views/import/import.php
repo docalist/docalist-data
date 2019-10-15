@@ -79,7 +79,7 @@ add_action('docalist_databases_before_import', function(array $files, Database $
             //@formatter:off
             printf(
                 $desc,
-                $database->settings()->label
+                $database->getSettings()->label
             );
             echo '<br />';
             _e('La page affichera des informations supplémentaires au fur
@@ -184,7 +184,7 @@ add_action('docalist_databases_after_import', function(array $files, Database $d
     printf("<p>$msg</p>",
         count($files),
         implode(', ', array_map('basename', array_keys($files))),
-        $database->settings()->label
+        $database->getSettings()->label
     );
 
     $msg = __('Temps écoulé : %.2f secondes.', 'docalist-data');
