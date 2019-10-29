@@ -193,7 +193,6 @@ class DateFieldIndexer extends FieldIndexer
         foreach ($fields as $type => $name) {
             $mapping
                 ->literal($name)
-                ->setIndexOptions(IndexOptions::INDEX_DOCS)
                 ->setFeatures(Mapping::FULLTEXT)
                 ->setLabel($this->getAttributeLabel('search', $type))
                 ->setDescription($this->getAttributeDescription('search', $type));

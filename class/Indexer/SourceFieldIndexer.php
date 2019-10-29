@@ -119,7 +119,6 @@ class SourceFieldIndexer extends FieldIndexer
         if (isset($attr['search'])) {
             $mapping
                 ->literal($attr['search'])
-                ->setIndexOptions(IndexOptions::INDEX_DOCS)
                 ->setFeatures(Mapping::FULLTEXT)
                 ->setLabel($this->getAttributeLabel('search'))
                 ->setDescription($this->getAttributeDescription('search'));
