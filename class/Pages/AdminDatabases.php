@@ -214,7 +214,7 @@ class AdminDatabases extends AdminPage
                 $database->validate();
 
                 // vérifie unicité nom/homepage (https://github.com/daniel-menard/prisme/issues/181)
-                foreach ($this->settings->databases as $name => $db) { /* @var Database $db */
+                foreach ($this->settings->databases as $name => $db) { /** @var DatabaseSettings $db */
                     if ($name === $dbindex) {
                         continue;
                     }
@@ -229,7 +229,7 @@ class AdminDatabases extends AdminPage
                         throw new Exception(sprintf($msg, $db->getLabel()));
                     }
 
-                    if (trim(strtolower($database->label())) === trim(strtolower($db->getLabel()))) {
+                    if (trim(strtolower($database->label())) === trim(strtolower($db->label()))) {
                         $msg = __(
                             'Il existe déjà une base avec le même libellé (%s),
                             vous allez vous mélanger les pinceaux !',
