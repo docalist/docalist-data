@@ -25,9 +25,9 @@
     "require": {
         "php": ">=7.2",
         "composer/installers": "~1.0",
-        "docalist/docalist-core": "3.4.0",
-        "docalist/docalist-search": "4.2.0",
-        "docalist/postal-address-metadata": "1.0.0"
+        "docalist/docalist-core": "^3.4.0",
+        "docalist/docalist-search": "^4.2.0",
+        "docalist/postal-address-metadata": "^1.0.0"
     },
     "autoload" : {
         "psr-4" : {
@@ -46,7 +46,7 @@
     },
     "extra" : {
         "branch-alias" : {
-            "dev-master" : "4.1-dev"
+            "dev-master" : "4.2-dev"
         }
     }
 }
