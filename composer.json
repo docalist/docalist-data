@@ -25,8 +25,8 @@
     "require": {
         "php": ">=7.2",
         "composer/installers": "~1.0",
-        "docalist/docalist-core": "3.3.0",
-        "docalist/docalist-search": "4.1.0",
+        "docalist/docalist-core": "3.4.0",
+        "docalist/docalist-search": "4.2.0",
         "docalist/postal-address-metadata": "1.0.0"
     },
     "autoload" : {
