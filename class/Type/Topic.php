@@ -148,7 +148,7 @@ class Topic extends TypedText
 
         switch ($format) {
             case 'v':
-                return implode(', ', $this->getTermsLabel());
+                return implode(', ', $this->getFormattedTerms($options));
 
             case 'V':
                 return implode(', ', $this->value->getPhpValue());
@@ -172,8 +172,24 @@ class Topic extends TypedText
         return sprintf(
             $format,
             $this->type->getEntryLabel(),
-            implode(', ', $this->getTermsLabel())
+            implode(', ', $this->getFormattedTerms($options))
         );
+    }
+
+    /**
+     * Formatte les termes.
+     *
+     * Cette méthode est appellée par getFormattedValue() pour formatter les termes.
+     * Par défaut elle retourne le résultat de getTermsLabel(), mais elle est surchargée dans TopicField pour
+     * générer des liens rebonds.
+     *
+     * @param mixed $options
+     *
+     * @return array
+     */
+    protected function getFormattedTerms($options): array
+    {
+        return $this->getTermsLabel();
     }
 
     /**
