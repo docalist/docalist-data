@@ -59,6 +59,12 @@ class TableEntryIndexer extends FieldIndexer
                     __('Filtre sur le champ "%s" des références docalist.', 'docalist-data'),
                     $field
                 );
+
+            case 'label-suggest':
+                return sprintf(
+                    __('Autocomplete sur les entrées du champ "%s" des références docalist.', 'docalist-data'),
+                    $field
+                );
         }
 
         return parent::getAttributeLabel($attribute, $type);
@@ -91,6 +97,16 @@ class TableEntryIndexer extends FieldIndexer
                     ),
                     $field
                 );
+
+            case 'label-suggest':
+                return sprintf(
+                    __(
+                        'Contient le libellé des entrées qui figurent dans la table d\'autorité ou
+                         le thésaurus associé au champ "%s" des références docalist.',
+                        'docalist-data'
+                    ),
+                    $field
+                );
         }
 
         return parent::getAttributeDescription($attribute, $type);
@@ -112,6 +128,11 @@ class TableEntryIndexer extends FieldIndexer
             ->setName('label-filter')
             ->setLabel($this->getAttributeName('label-filter'))
             ->setDescription($this->getAttributeLabel('label-filter'));
+
+        $form->checkbox()
+            ->setName('label-suggest')
+            ->setLabel($this->getAttributeName('label-suggest'))
+            ->setDescription($this->getAttributeLabel('label-suggest'));
 
         return $form;
     }
@@ -139,6 +160,14 @@ class TableEntryIndexer extends FieldIndexer
                 ->setFeatures(Mapping::AGGREGATE | Mapping::FILTER)
                 ->setLabel($this->getAttributeLabel('label-filter'))
                 ->setDescription($this->getAttributeDescription('label-filter'));
+        }
+
+        if (isset($attr['label-suggest'])) {
+            $mapping
+                ->suggest($attr['label-suggest'])
+                ->setFeatures(Mapping::LOOKUP)
+                ->setLabel($this->getAttributeLabel('suggest'))
+                ->setDescription($this->getAttributeDescription('suggest'));
         }
 
         // Ok
@@ -171,6 +200,10 @@ class TableEntryIndexer extends FieldIndexer
 
             if (isset($attr['label-filter'])) {
                 $data[$attr['label-filter']][] = $label;
+            }
+
+            if (isset($attr['label-suggest'])) {
+                $data[$attr['label-suggest']][] = $label;
             }
         }
 
