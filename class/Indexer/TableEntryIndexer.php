@@ -166,8 +166,8 @@ class TableEntryIndexer extends FieldIndexer
             $mapping
                 ->suggest($attr['label-suggest'])
                 ->setFeatures(Mapping::LOOKUP)
-                ->setLabel($this->getAttributeLabel('suggest'))
-                ->setDescription($this->getAttributeDescription('suggest'));
+                ->setLabel($this->getAttributeLabel('label-suggest'))
+                ->setDescription($this->getAttributeDescription('label-suggest'));
         }
 
         // Ok
