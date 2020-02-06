@@ -60,6 +60,13 @@ class SourceFieldIndexer extends FieldIndexer
                     des références docalist.',
                     'docalist-data'
                 );
+
+            case 'label-suggest':
+                return __(
+                    'Autocomplete sur le libellé des provenances qui figurent dans le champ "source"
+                    des références docalist.',
+                    'docalist-data'
+                );
         }
 
         return parent::getAttributeLabel($attribute, $type);
@@ -78,6 +85,7 @@ class SourceFieldIndexer extends FieldIndexer
                 );
 
             case 'label-filter':
+            case 'label-suggest':
                 return __(
                     'Contient les libellés indiquant la source (la provenance) des données.',
                     'docalist-data'
@@ -104,6 +112,11 @@ class SourceFieldIndexer extends FieldIndexer
             ->setLabel($this->getAttributeName('label-filter'))
             ->setDescription($this->getAttributeLabel('label-filter'));
 
+        $form->checkbox()
+            ->setName('label-suggest')
+            ->setLabel($this->getAttributeName('label-suggest'))
+            ->setDescription($this->getAttributeLabel('label-suggest'));
+
         return $form;
     }
 
@@ -127,9 +140,17 @@ class SourceFieldIndexer extends FieldIndexer
         if (isset($attr['label-filter'])) {
             $mapping
                 ->keyword($attr['label-filter'])
-                ->setFeatures(Mapping::AGGREGATE | Mapping::FILTER | Mapping::EXCLUSIVE)
+                ->setFeatures(Mapping::AGGREGATE | Mapping::FILTER)
                 ->setLabel($this->getAttributeLabel('label-filter'))
                 ->setDescription($this->getAttributeDescription('label-filter'));
+        }
+
+        if (isset($attr['label-suggest'])) {
+            $mapping
+                ->suggest($attr['label-suggest'])
+                ->setFeatures(Mapping::LOOKUP)
+                ->setLabel($this->getAttributeLabel('suggest'))
+                ->setDescription($this->getAttributeDescription('suggest'));
         }
 
         return $mapping;
@@ -158,7 +179,14 @@ class SourceFieldIndexer extends FieldIndexer
                 $data[$attr['search']][] = $code;
                 ($label !== $code) && $data[$attr['search']][] = $label;
             }
-            isset($attr['label-filter']) && $data[$attr['label-filter']][] = $label;
+
+            if (isset($attr['label-filter'])) {
+                $data[$attr['label-filter']][] = $label;
+            }
+
+            if (isset($attr['label-suggest'])) {
+                $data[$attr['label-suggest']][] = $label;
+            }
         }
 
         // Ok
