@@ -213,14 +213,12 @@ class SourceField extends TypedText implements Indexable
 
         $attributes = '';
 
-        $type = isset($this->type) ? $this->type->getPhpValue() : '';
         if (isset($this->type) && !empty($type = $this->type->getPhpValue())) {
             $attributes .= sprintf(' class="%s"', esc_attr($type));
         }
 
         $attributes .= sprintf(' href="%s"', $url);
 
-        $title = ($tooltip && isset($this->value)) ? $this->value->getPhpValue() : '';
         if ($tooltip && isset($this->value) && !empty($title = $this->value->getPhpValue())) {
             if ($title !== $text) {
                 $attributes .= sprintf(' title="%s"', esc_attr($title));
