@@ -86,6 +86,14 @@ class SourceField extends TypedText implements Indexable
     /**
      * {@inheritdoc}
      */
+    public function getDefaultFormat(): string
+    {
+        return 'link-type-value';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getAvailableFormats(): array
     {
         return [
