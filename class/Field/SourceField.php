@@ -88,7 +88,7 @@ class SourceField extends TypedText implements Indexable
      */
     public function getDefaultFormat(): string
     {
-        return 'link-type-value';
+        return 'link-type';
     }
 
     /**
