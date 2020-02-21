@@ -41,6 +41,9 @@ use WP_Embed;
  */
 class LinkField extends MultiField
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function loadSchema(): array
     {
         return [
@@ -74,6 +77,9 @@ class LinkField extends MultiField
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function assign($value): void
     {
         /*
@@ -90,16 +96,25 @@ class LinkField extends MultiField
         parent::assign($value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getCategoryField(): TableEntry
     {
         return $this->type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultFormat(): string
     {
         return 'link';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableFormats(): array
     {
         return [
@@ -112,6 +127,9 @@ class LinkField extends MultiField
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFormattedValue($options = null)
     {
         $format = $this->getOption('format', $options, $this->getDefaultFormat());
@@ -258,6 +276,9 @@ class LinkField extends MultiField
         // sites qui gèrent oEmbed, pas les providers enregistrés avec wp_embed_register_handler().
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterEmpty(bool $strict = true): bool
     {
         // Supprime les éléments vides
