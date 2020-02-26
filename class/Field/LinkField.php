@@ -12,10 +12,13 @@ declare(strict_types=1);
 namespace Docalist\Data\Field;
 
 use Docalist\Type\MultiField;
+use Docalist\Data\Indexable;
 use Docalist\Type\TableEntry;
 use Docalist\Type\Url;
 use Docalist\Type\Text;
 use Docalist\Type\DateTime;
+use Docalist\Data\Type\Collection\IndexableMultiFieldCollection;
+use Docalist\Data\Indexer\LinkFieldIndexer;
 use WP_Embed;
 
 /**
@@ -39,7 +42,7 @@ use WP_Embed;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class LinkField extends MultiField
+class LinkField extends MultiField implements Indexable
 {
     /**
      * {@inheritDoc}
@@ -102,6 +105,22 @@ class LinkField extends MultiField
     protected function getCategoryField(): TableEntry
     {
         return $this->type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getCollectionClass(): string
+    {
+        return IndexableMultiFieldCollection::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIndexerClass(): string
+    {
+        return LinkFieldIndexer::class;
     }
 
     /**
