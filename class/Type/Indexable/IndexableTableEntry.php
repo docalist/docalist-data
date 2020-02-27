@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace Docalist\Data\Type;
+namespace Docalist\Data\Type\Indexable;
 
 use Docalist\Type\TableEntry;
 use Docalist\Data\Indexable;
