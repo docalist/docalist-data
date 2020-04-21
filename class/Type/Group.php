@@ -139,13 +139,15 @@ class Group extends Any
             ->setDescription(sprintf(
                 __(
                     "Code html utilisé comme modèle pour afficher chacun des champs de ce groupe.
-                    Utilisez %s pour désigner le libellé du champ et %s pour désigner son contenu.
+                    Utilisez %s pour désigner le nom du champ, %s pour désigner son libellé du champ
+                    et %s pour désigner son contenu.
                     Exemple : %s. Laissez vide pour créer un groupe qui n'affichera aucun champ.",
                     'docalist-data'
                 ),
+                '<code>%field</code>',
                 '<code>%label</code>',
                 '<code>%content</code>',
-                '<code>' . htmlspecialchars('<p> <b>%label</b> : %content </p>') . '</code>'
+                '<code>' . htmlspecialchars('<p class="%field"> <b>%label</b> : %content </p>') . '</code>'
             ));
 
         $form->textarea('after')
