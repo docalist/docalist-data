@@ -713,7 +713,7 @@ class Record extends Entity implements Indexable
             $fieldAfter = isset($field['after']) ? $field['after'] : $this->schema->getField($name)->after();
             foreach ($content as $label => $content) {
                 $content = $fieldBefore . $content . $fieldAfter;
-                $items[] = strtr($format, ['%label' => $label, '%content' => $content]);
+                $items[] = strtr($format, ['%field' => $name, '%label' => $label, '%content' => $content]);
             }
         }
 
