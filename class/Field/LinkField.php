@@ -53,7 +53,7 @@ class LinkField extends MultiField implements Indexable
         return [
             'name' => 'link',
             'label' => __('Liens internet', 'docalist-data'),
-            'description' => __("Courriel et liens internet : e-mail, url, hashtag...", 'docalist-data'),
+            'description' => __('Courriel et liens internet : e-mail, url, hashtag...', 'docalist-data'),
             'repeatable' => true,
             'fields' => [
                 'type' => [
@@ -266,7 +266,7 @@ class LinkField extends MultiField implements Indexable
      *
      * @eturn string
      */
-    private function formatUrl($options = null)
+    private function formatUrl($options = null): string
     {
         return isset($this->url) ? $this->formatField('url', $options) : '';
     }
@@ -280,7 +280,7 @@ class LinkField extends MultiField implements Indexable
      *
      * @eturn string
      */
-    private function formatLabel($options = null)
+    private function formatLabel($options = null): string
     {
         return $this->formatField(isset($this->label) ? 'label' : 'type', $options);
     }
@@ -295,7 +295,7 @@ class LinkField extends MultiField implements Indexable
      *
      * @return string
      */
-    private function formatLink($options = null)
+    private function formatLink($options = null): string
     {
         $title = $this->getTooltip($options, 'date');
         if (!empty($title)) {
@@ -322,7 +322,7 @@ class LinkField extends MultiField implements Indexable
      *
      * @return string
      */
-    private function formatUrlLink($options = null)
+    private function formatUrlLink($options = null): string
     {
         $title = $this->getTooltip($options, 'label+date');
         if (!empty($title)) {
@@ -345,7 +345,7 @@ class LinkField extends MultiField implements Indexable
      *
      * @return string
      */
-    private function formatLabelLink($options = null)
+    private function formatLabelLink($options = null): string
     {
         return $this->formatUrl($options) . ' : ' . $this->formatLabel($options); // insécable avant ':'
     }
@@ -357,7 +357,7 @@ class LinkField extends MultiField implements Indexable
      *
      * @return string
      */
-    private function formatEmbed($options = null)
+    private function formatEmbed($options = null): string
     {
         global $wp_embed; /* @var WP_Embed $wp_embed */
 
