@@ -20,6 +20,7 @@ use Docalist\Type\DateTime;
 use Docalist\Data\Type\Collection\IndexableMultiFieldCollection;
 use Docalist\Data\Indexer\LinkFieldIndexer;
 use WP_Embed;
+use Docalist\Forms\Container;
 
 /**
  * Champ standard "link" : un lien internet (url, uri, e-mail, hashtag...)
@@ -149,6 +150,87 @@ class LinkField extends MultiField implements Indexable
     /**
      * {@inheritDoc}
      */
+    public function getFormatSettingsForm(): Container
+    {
+        $form = parent::getFormatSettingsForm();
+
+        $form->select('tooltip')
+            ->addClass('tooltip regular-text')
+            ->setLabel(__("Bulle d'aide du lien", 'docalist-data'))
+            ->setDescription(
+                __("Contenu de l'attribut title lorsque le champ est affiché sous forme de lien.", 'docalist-data')
+            )
+            ->setOptions($this->getTooltipOptions())
+            ->setFirstOption(__('(par défaut, choisi selon le format d\'affichage )', 'docalist-data'));
+
+        return $form;
+    }
+
+    /**
+     * Retourne les options disponibles pour la bulle d'aide des liens.
+     *
+     * @return string[]
+     */
+    private function getTooltipOptions(): array
+    {
+        return [
+            '-'             => __('Rien', 'docalist-data'),
+            'type'          => __('Type de lien', 'docalist-data'),
+            'url'           => __('Url du lien', 'docalist-data'),
+            'label'         => __('Libellé du lien', 'docalist-data'),
+            'date'          => __('Date du lien', 'docalist-data'),
+            'label+date'    => __('Date du lien', 'docalist-data'),
+        ];
+    }
+
+    /**
+     * Retourne la bulle d'aide du lien.
+     *
+     * @param array $options
+     *
+     * @return string
+     */
+    private function getTooltip($options = null, string $default = 'date'): string
+    {
+        switch ($this->getOption('tooltip', $options, $default))
+        {
+            case '-':
+                return '';
+
+            case 'type':
+                return $this->formatField('type', $options);
+
+            case 'url':
+                return $this->formatUrl($options);
+
+            case 'label':
+                return $this->formatLabel($options);
+
+            case 'date':
+                if (isset($this->date)) {
+                    return sprintf(
+                        __('Lien consulté le %s', 'docalist-data'),
+                        $this->formatField('date', $options)
+                    );
+                }
+
+            case 'label+date':
+                $title = $this->formatLabel($options);
+                if (isset($this->date)) {
+                    $title .= sprintf(
+                        __(' (lien consulté le %s)', 'docalist-data'),
+                        $this->formatField('date', $options)
+                    );
+                }
+                return $title;
+        }
+
+        return '';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getFormattedValue($options = null)
     {
         $format = $this->getOption('format', $options, $this->getDefaultFormat());
@@ -215,19 +297,17 @@ class LinkField extends MultiField implements Indexable
      */
     private function formatLink($options = null)
     {
-        if (isset($this->date)) {
-            $title = sprintf(__('Lien consulté le %s', 'docalist-data'), $this->formatField('date', $options));
-            $format = '<a href="%1$s" title="%3$s">%2$s</a>';
-        } else {
-            $title = '';
-            $format = '<a href="%1$s">%2$s</a>';
+        $title = $this->getTooltip($options, 'date');
+        if (!empty($title)) {
+            $title = sprintf(' title="%s"', esc_attr($title));
         }
 
         return sprintf(
-            $format,
+            '<a class="%s" href="%s"%s>%s</a>',
+            esc_attr($this->type->getPhpValue()),
             esc_attr($this->formatUrl($options)),
-            esc_html($this->formatLabel($options)),
-            esc_attr($title)
+            $title,
+            esc_html($this->formatLabel($options))
         );
     }
 
@@ -244,18 +324,17 @@ class LinkField extends MultiField implements Indexable
      */
     private function formatUrlLink($options = null)
     {
-        $url = $this->formatUrl($options);
-        $title = $this->formatLabel($options);
-        if (isset($this->date)) {
-            $title .= ' ';
-            $title .= sprintf(__('(lien consulté le %s)', 'docalist-data'), $this->formatField('date', $options));
+        $title = $this->getTooltip($options, 'label+date');
+        if (!empty($title)) {
+            $title = sprintf(' title="%s"', esc_attr($title));
         }
 
+        $url = $this->formatUrl($options);
         return sprintf(
-            '<a href="%1$s" title="%3$s">%2$s</a>',
+            '<a href="%s" title="%s">%s</a>',
             esc_attr($url),
-            esc_html($url),
-            esc_attr($title)
+            esc_attr($title),
+            esc_html($url)
         );
     }
 
