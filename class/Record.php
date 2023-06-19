@@ -643,7 +643,7 @@ class Record extends Entity implements Indexable
         // Initialise les variables pour que cela fonctionne quand la grille ne commence pas par un groupe
         $format = '<p><b>%label</b>: %content</p>'; // Le format du groupe en cours
         $before = null;                             // Propriété 'before' du groupe en cours
-        $sep = null;                                // Propriété 'sep' du groupe en cours
+        $sep = '';                                  // Propriété 'sep' du groupe en cours
         $after = null;                              // Propriété 'after' du groupe en cours
         $hasCap = true;                             // True si l'utilisateur a la cap requise par le groupe en cours
         $items = [];                                // Les items générés par le groupe en cours
@@ -673,7 +673,7 @@ class Record extends Entity implements Indexable
                 $hasCap = true;
                 $format = isset($field['format']) ? $field['format'] : '';
                 $before = isset($field['before']) ? $field['before'] : null;
-                $sep = isset($field['sep']) ? $field['sep'] : null;
+                $sep = isset($field['sep']) ? $field['sep'] : '';
                 $after = isset($field['after']) ? $field['after'] : null;
                 continue;
             }
