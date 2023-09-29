@@ -270,16 +270,15 @@ class PostalAddress extends Composite
      */
     protected function editorAutocomplete($options)
     {
-        $container = Div::create()->addClass('type-postal-address-row');
+        $container = (new Div())->addClass('type-postal-address-row');
 
-        Input::create()
+        $container->input()
             ->setAttribute('type', 'search')
             ->addClass('type-postal-address-autocomplete')
             ->setAttribute('placeholder', __(
                 "Tapez le début de l'adresse et choisissez dans la liste pour remplir le formulaire.",
                 'docalist-data'
-            ))
-            ->setParent($container);
+            ));
 
         return $container;
     }
@@ -296,7 +295,7 @@ class PostalAddress extends Composite
      */
     protected function editorMapAndForm($options)
     {
-        $container = Div::create()->addClass('type-postal-address-row');
+        $container = (new Div)->addClass('type-postal-address-row');
 
         $container->add($this->editorForm($options));
         $container->add($this->editorMap($options));
@@ -315,7 +314,7 @@ class PostalAddress extends Composite
      */
     protected function editorMap($options)
     {
-        $container = Div::create()->addClass('type-postal-address-col');
+        $container = (new Div)->addClass('type-postal-address-col');
 
         $container->div()->addClass('type-postal-address-map');
 
@@ -330,7 +329,7 @@ class PostalAddress extends Composite
     protected function editorForm($options)
     {
         // Crée le container
-        $container = Container::create()->addClass('type-postal-address-col type-postal-address-form');
+        $container = (new Container)->addClass('type-postal-address-col type-postal-address-form');
 
         // Récupère la liste des champs
         $fields = $this->getOption('fields');
