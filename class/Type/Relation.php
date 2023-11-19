@@ -53,12 +53,6 @@ class Relation extends Integer
         }
     }
 
-    public static function getClassDefault()
-    {
-        // On surcharge car la valeur par défut d'un Integer est 0, on utilise null pour indiquer "pas de relation"
-        return null;
-    }
-
     public function assign($value): void
     {
         // Efface l'entité mise en cache (cf. getEntity)
@@ -67,7 +61,7 @@ class Relation extends Integer
         // Un Integer ne peut pas être à null, par contre pour un type Relation, il faut accepter la valeur null
         // Les valeurs '', 0 et '0' sont également considérées comme null
         if (is_null($value) || $value === '' || $value === '0' || $value === 0) {
-            $this->phpValue = null;
+            $this->phpValue = 0;
 
             return;
         }
