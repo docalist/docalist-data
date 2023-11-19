@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Export\Settings;
 
+use Docalist\Repository\Repository;
 use Docalist\Type\Settings;
 use Docalist\Type\Integer;
 use Docalist\Data\Export\Settings\LimitSetting;
@@ -25,7 +26,10 @@ use Docalist\Data\Export\Settings\LimitSetting;
  */
 class ExportSettings extends Settings
 {
-    protected $id = 'docalist-data-export';
+    public function __construct(Repository $repository)
+    {
+        parent::__construct($repository, 'docalist-data-export');
+    }
 
     public static function loadSchema(): array
     {
