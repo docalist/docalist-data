@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Docalist\Data\Settings;
 
 use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Repository\Repository;
 
 /**
  * Config de Docalist Databases.
@@ -22,7 +23,10 @@ use Docalist\Data\Settings\DatabaseSettings;
  */
 class Settings extends \Docalist\Type\Settings
 {
-    protected $id = 'docalist-data-settings';
+    public function __construct(Repository $repository)
+    {
+        parent::__construct($repository, 'docalist-data-settings');
+    }
 
     public static function loadSchema(): array
     {
