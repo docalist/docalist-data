@@ -139,7 +139,7 @@ class Relation extends Integer
         return 'link-title';
     }
 
-    public function getFormattedValue($options = null)
+    public function getFormattedValue($options = null): string
     {
         $format = $this->getOption('format', $options, $this->getDefaultFormat());
 
