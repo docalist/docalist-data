@@ -31,7 +31,7 @@ class PostStatusField extends ListEntry
         ];
     }
 
-    public function getFormattedValue($options = null)
+    public function getFormattedValue($options = null): string
     {
         $value = $this->getPhpValue();
         $status = get_post_status_object($value);

@@ -632,7 +632,7 @@ class Record extends Entity implements Indexable
         return $default;
     }
 
-    public function getFormattedValue($options = null)
+    public function getFormattedValue($options = null): string|array
     {
         // TEMP : pour le moment on peut nous passer une grille ou un schéma, à terme, on ne passera que des array
         $options && is_object($options) && $options = $options->value();

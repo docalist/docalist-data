@@ -189,7 +189,7 @@ class PostalAddress extends Composite
         ];
     }
 
-    public function getFormattedValue($options = null)
+    public function getFormattedValue($options = null): string|array
     {
         $format = $this->getOption('format', $options, $this->getDefaultFormat());
         $args = [];

@@ -32,7 +32,7 @@ class PostTypeField extends ListEntry
         ];
     }
 
-    public function getFormattedValue($options = null)
+    public function getFormattedValue($options = null): string
     {
         $value = $this->getPhpValue();
         $database = docalist('docalist-data')->database($value); /** @var Database $database */

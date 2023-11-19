@@ -32,7 +32,7 @@ class PostAuthorField extends ListEntry
         ];
     }
 
-    public function getFormattedValue($options = null)
+    public function getFormattedValue($options = null): string
     {
         $author = get_user_by('id', $this->getPhpValue()); /* @var WP_User $author */
 
