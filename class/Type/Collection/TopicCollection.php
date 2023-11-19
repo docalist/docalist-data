@@ -32,7 +32,8 @@ class TopicCollection extends TypedValueCollection
      */
     public function getEditorForm($options = null): Element
     {
-        $form = new TopicsInput($this->schema->name(), $this->schema->getField('type')->table());
+        $schema = $this->getSchema();
+        $form = new TopicsInput($schema->name(), $schema->getField('type')->table());
 
         return $this->configureEditorForm($form, $options);
     }
@@ -52,7 +53,7 @@ class TopicCollection extends TypedValueCollection
         deprecated(get_class($this) . '::schema()', 'getSchema()', '2019-05-29');
 
         // Ouvre la table des topics indiquée dans le schéma du champ 'type'
-        list(, $name) = explode(':', $this->schema->getField('type')->table());
+        list(, $name) = explode(':', $this->getSchema()->getField('type')->table());
         $table = docalist('table-manager')->get($name);
 
         // Recherche toutes les entrées qui sont associées à une table de type 'thesaurus'

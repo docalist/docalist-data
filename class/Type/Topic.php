@@ -122,7 +122,8 @@ class Topic extends TypedText
     {
         throw new InvalidArgumentException("Encore utilisée ? normallement c'est Topics qui fait le job");
 
-        $editor = new TopicsInput($this->schema->name(), $this->schema->table());
+        $schema = $this->getSchema();
+        $editor = new TopicsInput($schema->name(), $schema->table());
 
         $editor
             ->setLabel($this->getOption('label', $options, ''))
@@ -212,7 +213,7 @@ class Topic extends TypedText
         $tables = docalist('table-manager'); /* @var TableManager $tables */
 
         // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
-        $table = $this->schema->getField('type')->table();
+        $table = $this->getSchema()->getField('type')->table();
         $tableName = explode(':', $table)[1];
         $table = $tables->get($tableName); /* @var TableInterface $table */
 
@@ -253,7 +254,7 @@ class Topic extends TypedText
 
         // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
         $tables = docalist('table-manager'); /** @var TableManager $tables */
-        $table = $this->schema->getField('type')->table();
+        $table = $this->getSchema()->getField('type')->table();
         $tableName = explode(':', $table)[1];
         $table = $tables->get($tableName);
 
@@ -304,7 +305,7 @@ class Topic extends TypedText
     public function getThesaurusTopics(): array
     {
         // Ouvre la table des topics indiquée dans le schéma du champ 'type'
-        list(, $name) = explode(':', $this->schema->getField('type')->table());
+        list(, $name) = explode(':', $this->getSchema()->getField('type')->table());
         $tableManager = docalist('table-manager'); /** @var TableManager $tableManager */
         $table = $tableManager->get($name);
 

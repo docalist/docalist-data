@@ -525,7 +525,7 @@ class Record extends Entity implements Indexable
 
     public function getSettingsForm(): Container
     {
-        $name = $this->schema->name();
+        $name = $this->getSchema()->name();
         $form = new Container($name);
 
         $form->hidden('name')->addClass('name');
@@ -549,7 +549,8 @@ class Record extends Entity implements Indexable
 
     public function getEditorSettingsForm(): Container
     {
-        $name = $this->schema->name();
+        $schema = $this->getSchema();
+        $name = $schema->name();
         $form = new Container($name);
 
         $form->hidden('name')->addClass('name');
@@ -557,7 +558,7 @@ class Record extends Entity implements Indexable
         $form->input('label')
             ->setAttribute('id', $name . '-label')
             ->addClass('label regular-text')
-            ->setAttribute('placeholder', $this->schema->label())
+            ->setAttribute('placeholder', $schema->label())
             ->setLabel(__('Titre', 'docalist-data'))
             ->setDescription(
                 __('Titre du formulaire.', 'docalist-data') .
@@ -569,7 +570,7 @@ class Record extends Entity implements Indexable
             ->setAttribute('id', $name . '-description')
             ->addClass('description large-text autosize')
             ->setAttribute('rows', 1)
-            ->setAttribute('placeholder', $this->schema->description())
+            ->setAttribute('placeholder', $schema->description())
             ->setLabel(__('Introduction', 'docalist-data'))
             ->setDescription(
                 __("Texte d'introduction qui sera affiché pour présenter le formulaire.", 'docalist-data') .
@@ -584,7 +585,7 @@ class Record extends Entity implements Indexable
 
     public function getFormatSettingsForm(): Container
     {
-        $name = $this->schema->name();
+        $name = $this->getSchema()->name();
         $form = new Container($name);
 
         $form->hidden('name')->addClass('name');
@@ -622,9 +623,9 @@ class Record extends Entity implements Indexable
         if (!empty($options['fields'][$field][$option])) {
             return $options['fields'][$field][$option];
         }
-
-        if ($this->schema->hasField($field)) {
-            if (! empty($value = $this->schema->getField($field)->__call($option))) {
+        $schema = $this->getSchema();
+        if ($schema->hasField($field)) {
+            if (! empty($value = $schema->getField($field)->__call($option))) {
                 return $value;
             }
         }
@@ -637,8 +638,10 @@ class Record extends Entity implements Indexable
         // TEMP : pour le moment on peut nous passer une grille ou un schéma, à terme, on ne passera que des array
         $options && is_object($options) && $options = $options->value();
 
+        $schema = $this->getSchema();
+
         // Récupère les noms des champs à afficher
-        $fields = array_keys(isset($options['fields']) ? $options['fields'] : $this->schema->getFields());
+        $fields = array_keys(isset($options['fields']) ? $options['fields'] : $schema->getFields());
 
         // Initialise les variables pour que cela fonctionne quand la grille ne commence pas par un groupe
         $format = '<p><b>%label</b>: %content</p>'; // Le format du groupe en cours
@@ -686,7 +689,7 @@ class Record extends Entity implements Indexable
             }
 
             // Si le champ requiert une capacité que l'utilisateur n'a pas, terminé
-            $cap = isset($field['capability']) ? $field['capability'] : $this->schema->getField($name)->capability();
+            $cap = isset($field['capability']) ? $field['capability'] : $schema->getField($name)->capability();
             if ($cap && ! current_user_can($cap)) {
                 continue;
             }
@@ -703,14 +706,14 @@ class Record extends Entity implements Indexable
             // avec le contenu formatté du champ. Si c'est une chaine, on le gère comme un tableau en
             // utilisant le libellé du champ.
             if (! is_array($content)) {
-                $label = isset($field['label']) ? $field['label'] : $this->schema->getField($name)->label();
+                $label = isset($field['label']) ? $field['label'] : $schema->getField($name)->label();
                 ($label === '-') && $label = '';
                 $content = [$label => $content];
             }
 
             // Stocke le champ (ou les champs en cas de vue éclatée)
-            $fieldBefore = isset($field['before']) ? $field['before'] : $this->schema->getField($name)->before();
-            $fieldAfter = isset($field['after']) ? $field['after'] : $this->schema->getField($name)->after();
+            $fieldBefore = isset($field['before']) ? $field['before'] : $schema->getField($name)->before();
+            $fieldAfter = isset($field['after']) ? $field['after'] : $schema->getField($name)->after();
             foreach ($content as $label => $content) {
                 $content = $fieldBefore . $content . $fieldAfter;
                 $items[] = strtr($format, ['%field' => $name, '%label' => $label, '%content' => $content]);
