@@ -214,6 +214,8 @@ class ExportWidget extends WP_Widget
 
         // Affiche le formulaire
         $form->display();
+
+        return '';
     }
 
     /**
