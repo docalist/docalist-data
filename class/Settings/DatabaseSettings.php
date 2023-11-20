@@ -153,11 +153,9 @@ class DatabaseSettings extends Composite
      *
      * Retourne true si tout est correct, génère une exception sinon.
      *
-     * @return bool
-     *
      * @throws Exception
      */
-    public function validate()
+    public function validate(): bool
     {
         $name = $this->name->getPhpValue();
         if (!preg_match('~^[a-z][a-z0-9-]{1,13}$~', $name)) {
@@ -172,10 +170,8 @@ class DatabaseSettings extends Composite
 
     /**
      * Retourne le nom du "custom post type" WordPress de cette base.
-     *
-     * @return string
      */
-    public function postType()
+    public function postType(): string
     {
         return 'db'.$this->name->getPhpValue();
     }
@@ -206,8 +202,8 @@ class DatabaseSettings extends Composite
      * Utilise get_post_type_capabilities() pour laisser WordPress générer les
      * droits standards.
      *
-     * @return array retourne un tableau de capacités dans le format attendu
-     *               par register_post_type()
+     * @return array<mixed> retourne un tableau de capacités dans le format attendu
+     *                      par register_post_type()
      */
     public function capabilities()
     {
@@ -297,10 +293,8 @@ class DatabaseSettings extends Composite
      *
      * Il suffit d'ajouter un "s" pour obtenir le suffixe utilisé pour les
      * "primary capabilities".
-     *
-     * @return string
      */
-    public function capabilitySuffix()
+    public function capabilitySuffix(): string
     {
         return $this->postType().'_ref';
     }
