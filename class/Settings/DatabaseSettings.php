@@ -11,13 +11,12 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Settings;
 
-use Docalist\Type\Composite;
-use Docalist\Type\Text;
-use Docalist\Type\Integer;
-use Docalist\Type\LargeText;
 use Docalist\Type\Boolean;
-use Docalist\Data\Settings\TypeSettings;
+use Docalist\Type\Composite;
 use Docalist\Type\DateTime;
+use Docalist\Type\Integer as DocalistInteger;
+use Docalist\Type\LargeText;
+use Docalist\Type\Text;
 use Exception;
 
 /**
@@ -25,21 +24,21 @@ use Exception;
  *
  * Une base est essentiellement une liste de types.
  *
- * @property Text           $name           Nom de la base de données.
- * @property Integer        $homepage       ID de la page d'accueil de la base de données.
- * @property Text           $homemode       Mode de fonctionnement de la page d'accueil (page, archive ou search).
- * @property Integer        $searchpage     ID de la page liste des réponses.
- * @property Text           $label          Libellé de la base.
- * @property LargeText      $description    Description de la base.
- * @property Text           $stemming       Stemming / analyseur par défaut.
- * @property TypeSettings[] $types          Types de notices gérés dans cette base, indexés par nom.
- * @property DateTime       $creation       Date de création de la base.
- * @property DateTime       $lastupdate     Date de dernière modification des paramètres de la base.
- * @property Text           $icon           Icône à utiliser pour cette base.
- * @property LargeText      $notes          Notes et historique de la base.
- * @property Boolean        $thumbnail      Indique si les notices peuvent avoir une image à la une.
- * @property Boolean        $revisions      Indique si les modifications des notices font l'objet de révisions.
- * @property Boolean        $comments       Indique si les notices peuvent avoir des commentaires.
+ * @property Text            $name        Nom de la base de données.
+ * @property DocalistInteger $homepage    ID de la page d'accueil de la base de données.
+ * @property Text            $homemode    Mode de fonctionnement de la page d'accueil (page, archive ou search).
+ * @property DocalistInteger $searchpage  ID de la page liste des réponses.
+ * @property Text            $label       Libellé de la base.
+ * @property LargeText       $description Description de la base.
+ * @property Text            $stemming    Stemming / analyseur par défaut.
+ * @property TypeSettings[]  $types       Types de notices gérés dans cette base, indexés par nom.
+ * @property DateTime        $creation    Date de création de la base.
+ * @property DateTime        $lastupdate  Date de dernière modification des paramètres de la base.
+ * @property Text            $icon        Icône à utiliser pour cette base.
+ * @property LargeText       $notes       Notes et historique de la base.
+ * @property bool            $thumbnail   Indique si les notices peuvent avoir une image à la une.
+ * @property bool            $revisions   Indique si les modifications des notices font l'objet de révisions.
+ * @property bool            $comments    Indique si les notices peuvent avoir des commentaires.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -49,100 +48,100 @@ class DatabaseSettings extends Composite
     {
         return [
             'fields' => [
-                'name' => [
-                    'type' => Text::class,
-                    'label' => __('Nom de la base', 'docalist-data'),
+                'name'        => [
+                    'type'        => Text::class,
+                    'label'       => __('Nom de la base', 'docalist-data'),
                     'description' => __('Nom de code interne de la base de données.', 'docalist-data'),
                 ],
-                'homepage' => [
-                    'type' => Integer::class,
-                    'label' => __("Page d'accueil", 'docalist-data'),
+                'homepage'    => [
+                    'type'        => DocalistInteger::class,
+                    'label'       => __("Page d'accueil", 'docalist-data'),
                     'description' => __("Page d'accueil de la base.", 'docalist-data'),
                 ],
-                'homemode' => [
-                    'type' => Text::class,
-                    'label' => __('Mode accueil', 'docalist-data'),
+                'homemode'    => [
+                    'type'        => Text::class,
+                    'label'       => __('Mode accueil', 'docalist-data'),
                     'description' => __("Mode de fonctionnement de la page d'accueil.", 'docalist-data'),
                 ],
-                'searchpage' => [
-                    'type' => Integer::class,
-                    'label' => __('Page liste des réponses', 'docalist-search'),
+                'searchpage'  => [
+                    'type'        => DocalistInteger::class,
+                    'label'       => __('Page liste des réponses', 'docalist-search'),
                     'description' => __(
                         'Page WordPress sur laquelle sont affichées les recherches dans cette base.',
                         'docalist-search'
                     ),
                 ],
-                'label' => [
-                    'type' => Text::class,
-                    'label' => __('Libellé à afficher', 'docalist-data'),
+                'label'       => [
+                    'type'        => Text::class,
+                    'label'       => __('Libellé à afficher', 'docalist-data'),
                     'description' => __(
                         'Libellé affiché dans les menus et dans les pages du back-office.',
                         'docalist-data'
                     ),
                 ],
                 'description' => [
-                    'type' => LargeText::class,
-                    'label' => __('Description', 'docalist-data'),
+                    'type'        => LargeText::class,
+                    'label'       => __('Description', 'docalist-data'),
                     'description' => __('Description de la base.', 'docalist-data'),
                 ],
-                'stemming' => [
-                    'type' => Text::class,
-                    'label' => __('Stemming', 'docalist-data'),
+                'stemming'    => [
+                    'type'        => Text::class,
+                    'label'       => __('Stemming', 'docalist-data'),
                     'description' => __(
                         'Stemming qui sera appliqué aux champs textes des notices.',
                         'docalist-data'
                     ),
-                    'default' => 'fr',
+                    'default'     => 'fr',
                 ],
-                'types' => [
-                    'type' => TypeSettings::class,
+                'types'       => [
+                    'type'       => TypeSettings::class,
                     'repeatable' => true,
-                    'key' => 'name',
-                    'label' => __('Types de notices gérés dans cette base', 'docalist-data'),
+                    'key'        => 'name',
+                    'label'      => __('Types de notices gérés dans cette base', 'docalist-data'),
                 ],
-                'creation' => [
-                    'type' => DateTime::class,
-                    'label' => __('Date de création', 'docalist-data'),
+                'creation'    => [
+                    'type'        => DateTime::class,
+                    'label'       => __('Date de création', 'docalist-data'),
                     'description' => __('Date/heure de création de la base.', 'docalist-data'),
                 ],
-                'lastupdate' => [
-                    'type' => DateTime::class,
-                    'label' => __('Dernière modification', 'docalist-data'),
+                'lastupdate'  => [
+                    'type'        => DateTime::class,
+                    'label'       => __('Dernière modification', 'docalist-data'),
                     'description' => __(
                         'Date/heure de dernière modification des paramètres de la base.',
                         'docalist-data'
                     ),
                 ],
-                'icon' => [
-                    'type' => Text::class,
-                    'label' => __('Icône', 'docalist-data'),
-                    'default' => 'dashicons-feedback',
+                'icon'        => [
+                    'type'        => Text::class,
+                    'label'       => __('Icône', 'docalist-data'),
+                    'default'     => 'dashicons-feedback',
                     'description' => __(
                         'Nom de la dashicon affichée dans les menus WordPress.',
                         'docalist-data'
                     ),
                 ],
-                'notes' => [
-                    'type' => LargeText::class,
-                    'label' => __('Notes et historique', 'docalist-data'),
+                'notes'       => [
+                    'type'        => LargeText::class,
+                    'label'       => __('Notes et historique', 'docalist-data'),
                     'description' => __('Notes pour les administrateurs.', 'docalist-data'),
                 ],
-                'thumbnail' => [
-                    'type' => Boolean::class,
-                    'label' => __('Image à la une', 'docalist-data'),
+                'thumbnail'   => [
+                    'type'        => Boolean::class,
+                    'label'       => __('Image à la une', 'docalist-data'),
                     'description' => __('Les références peuvent avoir une image à la une.', 'docalist-data'),
                 ],
-                'revisions' => [
-                    'type' => Boolean::class,
-                    'label' => __('Activer les révisions', 'docalist-data'),
+                'revisions'   => [
+                    'type'        => Boolean::class,
+                    'label'       => __('Activer les révisions', 'docalist-data'),
                     'description' => __(
                         'Journaliser les modifications apportées aux références.',
                         'docalist-data'
                     ),
                 ],
-                'comments' => [
-                    'type' => Boolean::class,
-                    'label' => __('Activer les commentaires', 'docalist-data'),
+                'comments'    => [
+                    'type'        => Boolean::class,
+                    'label'       => __('Activer les commentaires', 'docalist-data'),
                     'description' => __('Les références peuvent avoir des commentaires.', 'docalist-data'),
                 ],
             ],
@@ -160,12 +159,13 @@ class DatabaseSettings extends Composite
      */
     public function validate()
     {
-        if (!preg_match('~^[a-z][a-z0-9-]{1,13}$~', $this->name())) {
+        $name = $this->name->getPhpValue();
+        if (!preg_match('~^[a-z][a-z0-9-]{1,13}$~', $name)) {
             throw new Exception(__('Le nom de la base est invalide.', 'docalist-data'));
         }
 
-        $this->label = strip_tags($this->label());
-        $this->label() === '' && $this->label = $this->name;
+        $label = $this->label->getPhpValue();
+        $this->label->assign($label === '' ? $name : strip_tags($label));
 
         return true;
     }
@@ -177,7 +177,7 @@ class DatabaseSettings extends Composite
      */
     public function postType()
     {
-        return 'db' . $this->name();
+        return 'db'.$this->name->getPhpValue();
     }
 
     /**
@@ -187,7 +187,7 @@ class DatabaseSettings extends Composite
      */
     public function slug()
     {
-        return get_page_uri($this->homepage());
+        return get_page_uri($this->homepage->getPhpValue());
     }
 
     /**
@@ -197,7 +197,7 @@ class DatabaseSettings extends Composite
      */
     public function url()
     {
-        return get_permalink($this->homepage());
+        return get_permalink($this->homepage->getPhpValue());
     }
 
     /**
@@ -206,8 +206,8 @@ class DatabaseSettings extends Composite
      * Utilise get_post_type_capabilities() pour laisser WordPress générer les
      * droits standards.
      *
-     * @return array Retourne un tableau de capacités dans le format attendu
-     * par register_post_type().
+     * @return array retourne un tableau de capacités dans le format attendu
+     *               par register_post_type()
      */
     public function capabilities()
     {
@@ -215,8 +215,8 @@ class DatabaseSettings extends Composite
 
         return (array) get_post_type_capabilities((object) [
             'capability_type' => [$cap, "{$cap}s"],
-            'map_meta_cap' => true,
-            'capabilities' => [
+            'map_meta_cap'    => true,
+            'capabilities'    => [
                 // Droit "LIRE" :
                 // --------------
                 // Par défaut, tout le monde peut voir les notices car :
@@ -277,7 +277,6 @@ class DatabaseSettings extends Composite
                 // Droit supplémentaire : importer des notices dans la base
                 'import' => "import_{$cap}s",
             ],
-
         ]);
     }
 
@@ -303,6 +302,6 @@ class DatabaseSettings extends Composite
      */
     public function capabilitySuffix()
     {
-        return $this->postType() . '_ref';
+        return $this->postType().'_ref';
     }
 }
