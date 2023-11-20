@@ -11,17 +11,16 @@ declare(strict_types=1);
 
 namespace Docalist\Data;
 
-use Docalist\Repository\PostTypeRepository;
-use Docalist\Data\Settings\DatabaseSettings;
-use Docalist\Data\Record;
-use Docalist\Data\Pages\ListReferences;
-use Docalist\Data\Pages\EditReference;
 use Docalist\Data\Pages\DatabaseTools;
-use Docalist\Search\SearchUrl;
+use Docalist\Data\Pages\EditReference;
+use Docalist\Data\Pages\ListReferences;
+use Docalist\Data\Settings\DatabaseSettings;
+use Docalist\Repository\PostTypeRepository;
 use Docalist\Search\SearchRequest;
+use Docalist\Search\SearchUrl;
+use InvalidArgumentException;
 use WP_Post;
 use WP_Query;
-use InvalidArgumentException;
 
 use function Docalist\deprecated;
 
@@ -32,35 +31,35 @@ use function Docalist\deprecated;
  */
 final class Database extends PostTypeRepository
 {
+    /**
+     * @var array<string,string>
+     */
     protected static $fieldMap = [
-        'post_author' => 'createdBy',
-        'post_date' => 'creation',
-     // 'post_date_gmt'         => '',
-     // 'post_content'          => '',
-        'post_title' => 'posttitle',
-     // 'post_excerpt'          => '',
-        'post_status' => 'status',
-     // 'comment_status'        => '',
-     // 'ping_status'           => '',
+        'post_author'   => 'createdBy',
+        'post_date'     => 'creation',
+     // 'post_date_gmt' => '',
+     // 'post_content'  => '',
+        'post_title'    => 'posttitle',
+     // 'post_excerpt'  => '',
+        'post_status'   => 'status',
+     // 'comment_status'=> '',
+     // 'ping_status'   => '',
         'post_password' => 'password',
-        'post_name' => 'slug',
-     // 'to_ping'               => '',
-     // 'pinged'                => '',
+        'post_name'     => 'slug',
+     // 'to_ping'       => '',
+     // 'pinged'        => '',
         'post_modified' => 'lastupdate',
-     // 'post_modified_gmt'     => '',
+     // 'post_modified_gmt'=> '',
      // 'post_content_filtered' => '',
-        'post_parent' => 'parent',
-     // 'guid'                  => '',
-     // 'menu_order'            => '',
-        'post_type' => 'posttype',
-     // 'post_mime_type'        => 'type',
-     // 'comment_count'         => '',
+        'post_parent'   => 'parent',
+     // 'guid'          => '',
+     // 'menu_order'    => '',
+        'post_type'     => 'posttype',
+     // 'post_mime_type'=> 'type',
+     // 'comment_count' => '',
     ];
 
-    /**
-     * @var DatabaseSettings
-     */
-    protected $settings;
+    protected DatabaseSettings $settings;
 
     /**
      * Crée une nouvelle base de données docalist.
@@ -134,7 +133,7 @@ final class Database extends PostTypeRepository
             $ref = $this->load($post->ID);
 
             // Charge la grille "format court"
-            $grid = $this->settings->types[$ref->type()]->grids['excerpt'];
+            $grid = $this->settings->types[$ref->type->getPhpValue()]->grids['excerpt'];
 
             // Formatte la notice
             return $ref->getFormattedValue($grid);
@@ -157,7 +156,7 @@ final class Database extends PostTypeRepository
             $grid = is_archive() ? 'excerpt' : 'content';
 
             // Charge la grille
-            $grid = $this->settings->types[$ref->type()]->grids[$grid];
+            $grid = $this->settings->types[$ref->type->getPhpValue()]->grids[$grid];
 
             // Formatte la notice
             return $ref->getFormattedValue($grid);
@@ -166,8 +165,6 @@ final class Database extends PostTypeRepository
 
     /**
      * {@inheritDoc}
-     *
-     * @return Record
      */
     public function load($id): Record
     {
@@ -182,24 +179,21 @@ final class Database extends PostTypeRepository
     }
 
     /**
-     *
-     * @param WP_Post|array $post
+     * @param WP_Post|array<string,int|string> $post
      *
      * @throws InvalidArgumentException
-     *
-     * @return Record
      */
     public function fromPost($post): Record
     {
         // Si on nous passé un objet WP_Post, on le convertit en tableau
         if (is_object($post)) {
             $post = (array) $post;
-        } elseif (! is_array($post)) {
+        } elseif (!is_array($post)) {
             throw new InvalidArgumentException('Expected post (array or WP_Post)');
         }
 
         // Récupère l'ID du post
-        $id = isset($post['ID']) ? $post['ID'] : null;
+        $id = isset($post['ID']) ? (int) $post['ID'] : null;
 
         // Construit les données brutes de la notice à partir des données du post
         $data = $this->decode($post, $id);
@@ -208,16 +202,16 @@ final class Database extends PostTypeRepository
         if (!isset($data['type'])) {
             throw new InvalidArgumentException('No type found in record');
         }
-        $type = $data['type'];
+        $type = (string) $data['type'];
 
         // Vérifie que ce type de notice figure dans la base
-        if (! isset($this->settings->types[$type])) {
+        if (!isset($this->settings->types[$type])) {
             $msg = __('Le type "%s" n\'existe pas dans la base "%s".', 'docalist-data');
             throw new InvalidArgumentException(sprintf($msg, $type, $this->label()));
         }
 
         // Debug - vérifie que la grille 'base' existe
-        if (! isset($this->settings->types[$type]->grids['base'])) {
+        if (!isset($this->settings->types[$type]->grids['base'])) {
             $msg = __("La grille de base n'existe pas pour le type %s.", 'docalist-data');
             throw new InvalidArgumentException(sprintf($msg, $type));
         }
@@ -237,7 +231,7 @@ final class Database extends PostTypeRepository
      *
      * Lors du premier appel, le filtre 'docalist_databases_get_types' est exécuté et le résultat est stocké en cache.
      *
-     * @return string[] Un tableau de la forme type => nom complet de la classe php qui gère ce type.
+     * @return array<string,class-string<Record>> Un tableau de la forme type => nom complet de la classe php qui gère ce type.
      */
     public static function getAvailableTypes(): array
     {
@@ -255,18 +249,19 @@ final class Database extends PostTypeRepository
      * Retourne le nom complet de la classe PHP qui gère le type indiqué.
      *
      * @param string $type Le nom du type recherché.
-     * @return string Le nom de la classe php.
+     *
+     * @return class-string<Record> Le nom de la classe php.
      *
      * @throws InvalidArgumentException Si le type indiqué ne figure pas dans la liste retournée par
-     * getAvailableTypes().
+     *                                  getAvailableTypes().
      */
-    public static function getClassForType($type): string
+    public static function getClassForType(string $type): string
     {
         // Récupère la liste des types disponibles
         $types = self::getAvailableTypes();
 
         // Génère une exception si le type demandé n'existe pas
-        if (! isset($types[$type])) {
+        if (!isset($types[$type])) {
             throw new InvalidArgumentException("Type '$type' is not available");
         }
 
@@ -283,15 +278,13 @@ final class Database extends PostTypeRepository
      * seront appliquées.
      *
      * @param string $type Nom du type de notice à créer.
-     * @param array  $data Optionnel, données initiales de la notice. Si null, utilise la valeur par défaut.
+     * @param array<mixed>  $data Optionnel, données initiales de la notice. Si null, utilise la valeur par défaut.
      * @param string $grid Optionnel, nom du formulaire de saisie à utiliser pour initialiser la valeur par défaut.
-     * N'est utilisé que si $data vaut null.
-     *
-     * @return Record
+     *                     N'est utilisé que si $data vaut null.
      *
      * @throws InvalidArgumentException
      */
-    public function createReference($type, array $data = null, $grid = null): Record
+    public function createReference(string $type, array $data = null, string $grid = null): Record
     {
         // Remarque : valeur par défaut / données initiales de la notice
         // - Si $data a été transmis (non null), ce sont ces données qu'on va utiliser pour initialiser la notice.
@@ -300,12 +293,12 @@ final class Database extends PostTypeRepository
         //   sera utilisée
 
         // Vérifie que le type indiqué figure dans la base
-        if (! isset($this->settings->types[$type])) {
+        if (!isset($this->settings->types[$type])) {
             throw new InvalidArgumentException("Type '$type' does not exist in database");
         }
 
         // Vérifie que la grille de base (schéma) existe (debug / sanity check)
-        if (! isset($this->settings->types[$type]->grids['base'])) {
+        if (!isset($this->settings->types[$type]->grids['base'])) {
             throw new InvalidArgumentException("Grid 'base' does not exist for type '$type'");
         }
 
@@ -313,16 +306,16 @@ final class Database extends PostTypeRepository
         $schema = $this->settings->types[$type]->grids['base'];
 
         // Si une grille a été indiquée, vérifie qu'elle existe et que c'est bien un formulaire
-        if (is_null($data) && ! is_null($grid)) {
+        if (is_null($data) && !is_null($grid)) {
             // La grille doit exister
-            if (! isset($this->settings->types[$type]->grids[$grid])) {
+            if (!isset($this->settings->types[$type]->grids[$grid])) {
                 throw new InvalidArgumentException("Grid '$grid' does not exist for type '$type'");
             }
             $grid = $this->settings->types[$type]->grids[$grid];
 
             // La grille doit être du type 'edit'
             if ($grid->gridtype() !== 'edit') {
-                throw new InvalidArgumentException("Grid '$grid' is not an edit form");
+                throw new InvalidArgumentException('Grid "' . $grid->name() . '" is not an edit form');
             }
 
             // Si on n'a pas de données, on utilise la valeur par défaut du formulaire
@@ -335,7 +328,7 @@ final class Database extends PostTypeRepository
 
         // Crée la notice
         $ref = new $class($data, $schema);
-        $ref->type = $type;
+        $ref->type->assign($type);
 
         // Ok
         return $ref;
@@ -343,8 +336,6 @@ final class Database extends PostTypeRepository
 
     /**
      * Retourne les paramètres de la base de données.
-     *
-     * @return DatabaseSettings
      */
     final public function getSettings(): DatabaseSettings
     {
@@ -358,15 +349,13 @@ final class Database extends PostTypeRepository
      */
     public function settings()
     {
-        deprecated(get_class($this) . '::settings()', 'getSettings()', '2019-04-28');
+        deprecated(get_class($this).'::settings()', 'getSettings()', '2019-04-28');
 
         return $this->getSettings();
     }
 
     /**
      * Retourne le libellé de la base.
-     *
-     * @return string
      */
     final public function getLabel(): string
     {
@@ -376,19 +365,17 @@ final class Database extends PostTypeRepository
     /**
      * @deprecated Utiliser getLabel()
      *
-     * @return DatabaseSettings
+     * @return string
      */
     public function label()
     {
-        deprecated(get_class($this) . '::label()', 'getLabel()', '2019-04-28');
+        deprecated(get_class($this).'::label()', 'getLabel()', '2019-04-28');
 
-        return $this->settings->label();
+        return $this->settings->label->getPhpValue();
     }
 
     /**
      * Retourne l'ID de la page d'accueil indiquée dans les paramètres de la base.
-     *
-     * @return int
      */
     final public function getHomePage(): int
     {
@@ -402,15 +389,13 @@ final class Database extends PostTypeRepository
      */
     public function homePage()
     {
-        deprecated(get_class($this) . '::homePage()', 'getHomePage()', '2019-04-28');
+        deprecated(get_class($this).'::homePage()', 'getHomePage()', '2019-04-28');
 
         return $this->getHomePage();
     }
 
     /**
      * Retourne l'ID de la page de recherche indiquée dans les paramètres de la base.
-     *
-     * @return int
      */
     final public function getSearchPage(): int
     {
@@ -424,7 +409,7 @@ final class Database extends PostTypeRepository
      */
     public function searchPage()
     {
-        deprecated(get_class($this) . '::searchPage()', 'getSearchPage()', '2019-04-28');
+        deprecated(get_class($this).'::searchPage()', 'getSearchPage()', '2019-04-28');
 
         return $this->getSearchPage();
     }
@@ -432,24 +417,22 @@ final class Database extends PostTypeRepository
     /**
      * Retourne l'URL de la page "liste des réponses" indiquée dans les
      * paramètres de la base.
-     *
-     * @return string
      */
     final public function getSearchPageUrl(): string
     {
         $searchPage = $this->settings->searchpage->getPhpValue();
 
-        return $searchPage ? get_permalink($searchPage) : '';
+        return $searchPage ? (string) get_permalink($searchPage) : '';
     }
 
     /**
      * @deprecated Utiliser getSearchPageUrl()
      *
-     * @return int
+     * @return string
      */
     public function searchPageUrl()
     {
-        deprecated(get_class($this) . '::searchPageUrl()', 'getSearchPageUrl()', '2019-04-28');
+        deprecated(get_class($this).'::searchPageUrl()', 'getSearchPageUrl()', '2019-04-28');
 
         return $this->getSearchPageUrl();
     }
@@ -464,52 +447,52 @@ final class Database extends PostTypeRepository
         $type = $this->getPostType();
 
         // Compatibilité avec les bases antérieures (à supprimer une fois que le .net sera à jour)
-        !isset($this->settings->icon)       && $this->settings->icon = 'dashicons-list-view';
-        !isset($this->settings->thumbnail)  && $this->settings->thumbnail = true;
-        !isset($this->settings->revisions)  && $this->settings->revisions = true;
-        !isset($this->settings->comments)   && $this->settings->revisions = false;
+        !isset($this->settings->icon) && $this->settings->icon->assign('dashicons-list-view');
+        !isset($this->settings->thumbnail) && $this->settings->thumbnail->assign(true);
+        !isset($this->settings->revisions) && $this->settings->revisions->assign(true);
+        !isset($this->settings->comments) && $this->settings->revisions->assign(false);
 
         // Détermine les fonctionnalités qu'il faut activer
         $supports = ['author'];
-        $this->settings->thumbnail() && $supports[] = 'thumbnail';
-        $this->settings->revisions() && $supports[] = 'revisions';
-        $this->settings->comments()  && $supports[] = 'comments'; // + 'trackbacks'
+        $this->settings->thumbnail->getPhpValue() && $supports[] = 'thumbnail';
+        $this->settings->revisions->getPhpValue() && $supports[] = 'revisions';
+        $this->settings->comments->getPhpValue() && $supports[] = 'comments'; // + 'trackbacks'
 
         // Détermine les paramètres du custom post type
         $args = [
-            'labels' => $this->getPostTypeLabels(),
-            'description' => $this->settings->description(),
-            'public' => true,  //
-            'hierarchical' => false, // WP est inutilisable si on met à true (cache de la hiérarchie)
-            'exclude_from_search' => true,  // Inutile que WP recherche avec du like dans nos milliers de notices
-            'publicly_queryable' => true,  // Permet d'avoir des query dbbase=xxx
-            'show_ui' => true,  // Laisse WP générer l'interface
-            'show_in_menu' => true,  // Afficher dans le menu wordpress
-            'show_in_nav_menus' => false, // Gestionnaire de menus inutilisable si true : charge tout
-            'show_in_admin_bar' => true,  // Afficher dans la barre d'outils admin
-         // 'menu_position'         => 20,    // En dessous de "Pages", avant "commentaires"
-            'menu_icon' => $this->settings->icon(),
-            'capability_type' => $this->settings->capabilitySuffix(),
+            'labels'               => $this->getPostTypeLabels(),
+            'description'          => $this->settings->description->getPhpValue(),
+            'public'               => true,
+            'hierarchical'         => false, // WP est inutilisable si on met à true (cache de la hiérarchie)
+            'exclude_from_search'  => true,  // Inutile que WP recherche avec du like dans nos milliers de notices
+            'publicly_queryable'   => true,  // Permet d'avoir des query dbbase=xxx
+            'show_ui'              => true,  // Laisse WP générer l'interface
+            'show_in_menu'         => true,  // Afficher dans le menu wordpress
+            'show_in_nav_menus'    => false, // Gestionnaire de menus inutilisable si true : charge tout
+            'show_in_admin_bar'    => true,  // Afficher dans la barre d'outils admin
+         // 'menu_position'        => 20,    // En dessous de "Pages", avant "commentaires"
+            'menu_icon'            => $this->settings->icon->getPhpValue(),
+            'capability_type'      => $this->settings->capabilitySuffix(),
             // capability_type est inutile car on définit 'capabilities', mais ça évite que wp_front nous dise :
             // "Uses 'Posts' capabilities. Upgrade to Pro"
-            'capabilities' => $this->settings->capabilities(),
-            'map_meta_cap' => true,  // Doit être à true pour que WP traduise correctement nos droits
-            'supports' => $supports,
+            'capabilities'         => $this->settings->capabilities(),
+            'map_meta_cap'         => true,  // Doit être à true pour que WP traduise correctement nos droits
+            'supports'             => $supports,
             'register_meta_box_cb' => null,
-            'taxonomies' => [],    // Aucune pour le moment
-            'has_archive' => false, // On gère nous même la page d'accueil
-            'rewrite' => false, // On gère nous-mêmes les rewrite rules (cf. ci-dessous)
-            'query_var' => true,  // Laisse WP créer la QV dbbase=xxx
-            'can_export' => true,  // A tester, est-ce que l'export standard de WP arrive à exporter nos notices ?
-            'delete_with_user' => false, // On ne veut pas supprimer
+            'taxonomies'           => [],    // Aucune pour le moment
+            'has_archive'          => false, // On gère nous même la page d'accueil
+            'rewrite'              => false, // On gère nous-mêmes les rewrite rules (cf. ci-dessous)
+            'query_var'            => true,  // Laisse WP créer la QV dbbase=xxx
+            'can_export'           => true,  // A tester, est-ce que l'export standard de WP arrive à exporter nos notices ?
+            'delete_with_user'     => false, // On ne veut pas supprimer
         ];
 
         // Active les archives si homemode=archive
-        if ($this->settings->homemode() === 'archive') {
+        if ($this->settings->homemode->getPhpValue() === 'archive') {
             $args = [
                 'has_archive' => true,
-                'rewrite' => [
-                    'slug' => $this->settings->slug(),
+                'rewrite'     => [
+                    'slug'       => $this->settings->slug(),
                     'with_front' => false,
                 ],
             ] + $args;
@@ -521,7 +504,7 @@ final class Database extends PostTypeRepository
         // Crée une requête quand on est sur la page d'accueil
         add_filter(
             'docalist_search_create_request',
-            function (SearchRequest $request = null, WP_Query $query, & $displayResults) {
+            function (SearchRequest $request = null, WP_Query $query, &$displayResults) {
                 // Si quelqu'un a déjà créé une requête, on le laisse gérer
                 if ($request) {
                     return $request;
@@ -544,7 +527,7 @@ final class Database extends PostTypeRepository
                     }
 
                     // Page d'accueil
-                    if ($page === $this->getHomePage() && $this->settings->homemode() === 'search') {
+                    if ($page === $this->getHomePage() && $this->settings->homemode->getPhpValue() === 'search') {
                         // en mode 'page', on fait une recherche mais on laisse wp afficher la page -> non
                         // en mode 'search', on affiche les réponses obtenues
                         $searchUrl = new SearchUrl($_SERVER['REQUEST_URI'], [$this->postType]);
@@ -558,10 +541,10 @@ final class Database extends PostTypeRepository
                 elseif ($query->is_post_type_archive && $query->get('post_type') === $this->postType) {
                     return null;
                     // on fait une recherche, mais on laisse wp afficher les archives
-//                     $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
-//                     $displayResults = false;
+                    //                     $searchUrl = new SearchUrl($this->searchPageUrl(), [$this->postType]);
+                    //                     $displayResults = false;
 
-//                     return $searchUrl->getSearchRequest();
+                    //                     return $searchUrl->getSearchRequest();
                 }
 
                 // Ce n'est pas une de nos pages
@@ -570,7 +553,6 @@ final class Database extends PostTypeRepository
             10,
             3
         );
-
 
         // Vérifie que le CPT est déclaré correctement
         // var_dump(get_post_type_object($type)); die();
@@ -588,14 +570,14 @@ final class Database extends PostTypeRepository
             on crée nous-mêmes le rewrite_tag et la permastruct de notre base.
          */
         add_rewrite_tag("%$type%", '(\d+)', "$type=");
-        add_permastruct($type, $this->settings->slug() . "/%$type%", [
-            'with_front' => false,
-            'ep_mask' => EP_NONE,
-            'paged' => false,
-            'feed' => false,
+        add_permastruct($type, $this->settings->slug()."/%$type%", [
+            'with_front'  => false,
+            'ep_mask'     => EP_NONE,
+            'paged'       => false,
+            'feed'        => false,
             'forcomments' => false,
-            'walk_dirs' => false,
-            'endpoints' => false,
+            'walk_dirs'   => false,
+            'endpoints'   => false,
         ]);
 
         /*
@@ -665,20 +647,20 @@ final class Database extends PostTypeRepository
 
         // cf. wp-includes/post.php:get_post_type_labels()
         return [
-            'name' => $label,
-            'singular_name' => $singular,
-            'add_new' => $new,
-            'add_new_item' => $new,
-            'edit_item' => $edit,
-            'new_item' => $new,
-            'view_item' => $view,
-            'search_items' => $search,
-            'not_found' => $notfound,
+            'name'               => $label,
+            'singular_name'      => $singular,
+            'add_new'            => $new,
+            'add_new_item'       => $new,
+            'edit_item'          => $edit,
+            'new_item'           => $new,
+            'view_item'          => $view,
+            'search_items'       => $search,
+            'not_found'          => $notfound,
             'not_found_in_trash' => $notfound,
-            'parent_item_colon' => '', // not used
-            'all_items' => $all,
-            'menu_name' => $label,
-            'name_admin_bar' => $singular,
+            'parent_item_colon'  => '', // not used
+            'all_items'          => $all,
+            'menu_name'          => $label,
+            'name_admin_bar'     => $singular,
         ];
     }
 
