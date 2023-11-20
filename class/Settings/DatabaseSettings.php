@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Settings;
 
-use Docalist\Type\Boolean;
+use Docalist\Type\Boolean as DocalistBoolean;
 use Docalist\Type\Composite;
 use Docalist\Type\DateTime;
 use Docalist\Type\Integer as DocalistInteger;
@@ -36,9 +36,9 @@ use Exception;
  * @property DateTime        $lastupdate  Date de dernière modification des paramètres de la base.
  * @property Text            $icon        Icône à utiliser pour cette base.
  * @property LargeText       $notes       Notes et historique de la base.
- * @property bool            $thumbnail   Indique si les notices peuvent avoir une image à la une.
- * @property bool            $revisions   Indique si les modifications des notices font l'objet de révisions.
- * @property bool            $comments    Indique si les notices peuvent avoir des commentaires.
+ * @property DocalistBoolean $thumbnail   Indique si les notices peuvent avoir une image à la une.
+ * @property DocalistBoolean $revisions   Indique si les modifications des notices font l'objet de révisions.
+ * @property DocalistBoolean $comments    Indique si les notices peuvent avoir des commentaires.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -127,12 +127,12 @@ class DatabaseSettings extends Composite
                     'description' => __('Notes pour les administrateurs.', 'docalist-data'),
                 ],
                 'thumbnail'   => [
-                    'type'        => Boolean::class,
+                    'type'        => DocalistBoolean::class,
                     'label'       => __('Image à la une', 'docalist-data'),
                     'description' => __('Les références peuvent avoir une image à la une.', 'docalist-data'),
                 ],
                 'revisions'   => [
-                    'type'        => Boolean::class,
+                    'type'        => DocalistBoolean::class,
                     'label'       => __('Activer les révisions', 'docalist-data'),
                     'description' => __(
                         'Journaliser les modifications apportées aux références.',
@@ -140,7 +140,7 @@ class DatabaseSettings extends Composite
                     ),
                 ],
                 'comments'    => [
-                    'type'        => Boolean::class,
+                    'type'        => DocalistBoolean::class,
                     'label'       => __('Activer les commentaires', 'docalist-data'),
                     'description' => __('Les références peuvent avoir des commentaires.', 'docalist-data'),
                 ],
