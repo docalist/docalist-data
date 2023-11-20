@@ -20,8 +20,6 @@ interface Indexable
 {
     /**
      * Retourne le nom de la classe PHP à utiliser comme indexeur.
-     *
-     * @return Indexer
      */
     public function getIndexerClass(): string;
 }
