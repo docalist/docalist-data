@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Type;
 
+use Docalist\Type\Text;
 use Docalist\Type\TypedText;
 use Docalist\Type\TableEntry;
 use Docalist\Type\Collection;
@@ -26,7 +27,7 @@ use InvalidArgumentException;
  * Une liste de mots-clés d'un certain type.
  *
  * @property TableEntry $type   Type    Vocabulaire.
- * @property Collection $value  Value   Tags.
+ * @property Collection<Text> $value  Value   Tags.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -84,7 +85,7 @@ class Topic extends TypedText
         parent::assign($value);
     }
 
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         parent::__set($name === 'term' ? 'value' : $name, $value);
     }
@@ -116,20 +117,6 @@ class Topic extends TypedText
     public function getAvailableEditors(): array
     {
         return [];
-    }
-
-    public function getEditorForm($options = null): Element
-    {
-        throw new InvalidArgumentException("Encore utilisée ? normallement c'est Topics qui fait le job");
-
-        $schema = $this->getSchema();
-        $editor = new TopicsInput($schema->name(), $schema->table());
-
-        $editor
-            ->setLabel($this->getOption('label', $options, ''))
-            ->setDescription($this->getOption('description', $options, ''));
-
-        return $editor;
     }
 
     public function getAvailableFormats(): array
@@ -186,7 +173,7 @@ class Topic extends TypedText
      *
      * @param mixed $options
      *
-     * @return array
+     * @return array<string,string>
      */
     protected function getFormattedTerms($options): array
     {
@@ -201,16 +188,18 @@ class Topic extends TypedText
      *
      * Si un terme n'existe pas dans la table d'autorité, c'est son code qui est retourné comme label.
      *
-     * @return array Un tableau de la forme code => libellé.
+     * @return array<string,string> Un tableau de la forme code => libellé.
      */
-    public function getTermsLabel()
+    public function getTermsLabel(): array
     {
         // Récupère la liste des termes
+        /** @var array<int,string> $terms */
         $terms = $this->value->getPhpValue();
         $terms = array_combine($terms, $terms);
 
         // Récupère le table-manager
-        $tables = docalist('table-manager'); /* @var TableManager $tables */
+        /** @var TableManager $tables */
+        $tables = docalist('table-manager');
 
         // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
         $table = $this->getSchema()->getField('type')->table();
@@ -218,7 +207,8 @@ class Topic extends TypedText
         $table = $tables->get($tableName); /* @var TableInterface $table */
 
         // Détermine la source qui correspond au type du topic
-        $source = $table->find('source', 'code='. $table->quote($this->type()));
+        /** @var string|false $source */
+        $source = $table->find('source', 'code='. $table->quote($this->type->getPhpValue()));
         if ($source !== false) { // type qu'on n'a pas dans la table topics
             list($type, $tableName) = explode(':', $source);
 
@@ -259,6 +249,7 @@ class Topic extends TypedText
         $table = $tables->get($tableName);
 
         // Détermine la source qui correspond au type du topic
+        /** @var string|false $source */
         $source = $table->find('source', 'code='. $table->quote($type));
         if ($source === false) { // type qu'on n'a pas dans la table topics
             return $terms;
@@ -278,8 +269,8 @@ class Topic extends TypedText
             $seen = [$code => true];
 
             // find() retourne null si pas de BT ou false si pas de réponse (erreur dans le theso)
-            while (!empty($code = $table->find('BT', 'code=' . $table->quote($code)))) {
-
+            while (false !== $code = $table->find('BT', 'code=' . $table->quote($code))) {
+                /** @var string $code */
                 // Exit si les BT forment une boucle infinie
                 if (isset($seen[$code])) {
                     printf('<p style="color:red">Thésaurus "%s" : boucle infinie pour "%s"</p>', $tableName, $path);
