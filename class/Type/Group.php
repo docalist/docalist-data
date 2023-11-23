@@ -20,6 +20,8 @@ use Docalist\Forms\Container;
  *
  * Pseudo type de champ utilisé pour gérer les groupes de champs.
  *
+ * @extends Any<null>
+ *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
 class Group extends Any
