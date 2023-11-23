@@ -38,7 +38,7 @@ interface Converter
      *
      * @param Record $record L'enregistrement Docalist à convertir.
      *
-     * @return array|null|Generator Retourne :
+     * @return array<string,mixed>|null|Generator Retourne :
      *
      * - soit un tableau contenant les données à exporter,
      * - soit null pour empêcher l'export d'un enregistrement,

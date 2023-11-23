@@ -28,7 +28,10 @@ class DocalistConverter implements Converter
         return is_a($className, Record::class, true);
     }
 
-    public function __invoke(Record $record)
+    /**
+     * @return array<string,mixed>
+     */
+    public function __invoke(Record $record): array
     {
         return $record->getPhpValue();
     }
