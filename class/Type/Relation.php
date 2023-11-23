@@ -18,6 +18,7 @@ use Docalist\Forms\Container;
 use Docalist\Forms\EntryPicker;
 use Docalist\Data\Record;
 use InvalidArgumentException;
+use Docalist\Data\Plugin as DocalistData;
 
 /**
  * Gère une relation vers une fiche docalist.
@@ -139,31 +140,31 @@ class Relation extends Integer
 
         switch ($format) {
             case 'id':
-                return $this->phpValue;
+                return (string) $this->phpValue;
 
             case 'title':
                 return get_the_title($this->phpValue);
 
             case 'url':
-                return get_post_permalink($this->phpValue);
+                return get_post_permalink($this->phpValue) ?: '';
 
             case 'link-id':
                 return sprintf(
-                    '<a href="%s" title="%s">%s</a>',
-                    esc_attr(get_post_permalink($this->phpValue)),
+                    '<a href="%s" title="%s">%d</a>',
+                    esc_attr(get_post_permalink($this->phpValue) ?: ''),
                     esc_attr(get_the_title($this->phpValue)),
-                    esc_html($this->phpValue)
+                    $this->phpValue
                 );
 
             case 'link-title':
                 return sprintf(
                     '<a href="%s">%s</a>',
-                    esc_attr(get_post_permalink($this->phpValue)),
+                    esc_attr(get_post_permalink($this->phpValue) ?: ''),
                     esc_html(get_the_title($this->phpValue))
                 );
 
             case 'link-url':
-                $url = get_post_permalink($this->phpValue);
+                $url = get_post_permalink($this->phpValue) ?: '';
                 return sprintf(
                     '<a href="%s" title="%s">%s</a>',
                     esc_attr($url),
@@ -195,7 +196,11 @@ class Relation extends Integer
         // Charge l'entité lors du premier appel
         if ($this->entity === false) {
             $id = $this->getPhpValue();
-            $this->entity = empty($id) ? null : docalist('docalist-data')->getRecord($id);
+
+            /** @var DocalistData $docalistData */
+            $docalistData = docalist('docalist-data');
+
+            $this->entity = empty($id) ? null : $docalistData->getRecord($id);
 
         }
 

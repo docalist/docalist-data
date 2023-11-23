@@ -90,32 +90,6 @@ class Record extends Entity implements Indexable
     }
 
     /**
-     * Construit la liste des schémas hérités par la classe en cours.
-     *
-     * @return array Retourne un tableau de schémas php.
-     * - 0 : schéma du type parent du type en cours
-     * - 1 : schéma du type gran-parent
-     * - etc.
-     *
-     * Remarque : le schéma de la classe de base (Type) contenant les champs de gestion n'est pas
-     * inclus dans le tableau retourné.
-     */
-    private static function getSchemaHierarchy()
-    {
-        $schemas=[];
-
-        $class = get_called_class();
-        while ($class !== self::class) {
-            $schemas[$class] = $class::loadSchema();
-            $class = get_parent_class($class);
-        }
-
-        $schemas = array_reverse($schemas, true);
-
-        return $schemas;
-    }
-
-    /**
      * Fait un "diff" entre les champs de deux types différents.
      *
      * La méthode retourne un tableau contenant la liste des champs du schéma du type $class1
@@ -156,18 +130,19 @@ class Record extends Entity implements Indexable
     /**
      * Retourne la liste des types dont hérite la classe en cours.
      *
-     * @return array Un tableau contenant le nom de classe complet des types dont hérite le type en cours, dans
+     * @return array<int,class-string> Un tableau contenant le nom de classe complet des types dont hérite le type en cours, dans
      * l'ordre d'héritage (parent, grand-parent, etc.)
      *
      * Remarque : la classe de base des types (Type) n'est pas incluse dans le tableau retourné.
      */
-    private static function getParentTypes()
+    private static function getParentTypes(): array
     {
         $class = get_called_class();
         $parents = [];
         while ($class !== self::class) {
             $parents[] = $class;
             $class = get_parent_class($class);
+            assert(is_string($class)); // false seulement si pas de parent, ne peut pas arriver
         }
 
         return $parents;

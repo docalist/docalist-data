@@ -155,7 +155,7 @@ class Plugin
      *
      * Implémentation du filtre 'docalist_databases_get_reference'.
      *
-     * @param string $id POST_ID de la référence à charger.
+     * @param int|null $id POST_ID de la référence à charger.
      *
      * @return Record
      *

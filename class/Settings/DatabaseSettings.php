@@ -178,22 +178,18 @@ class DatabaseSettings extends Composite
 
     /**
      * Retourne le slug de la page d'accueil de la base.
-     *
-     * @return string
      */
-    public function slug()
+    public function slug(): string
     {
-        return get_page_uri($this->homepage->getPhpValue());
+        return get_page_uri($this->homepage->getPhpValue()) ?: '';
     }
 
     /**
      * Retourne l'url de la page d'accueil de la base.
-     *
-     * @return string
      */
-    public function url()
+    public function url(): string
     {
-        return get_permalink($this->homepage->getPhpValue());
+        return get_permalink($this->homepage->getPhpValue()) ?: '';
     }
 
     /**

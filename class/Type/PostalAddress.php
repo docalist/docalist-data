@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Type;
 
+use Docalist\Schema\Schema;
+use Docalist\Table\TableManager;
 use Docalist\Type\Composite;
 use Docalist\Type\LargeText;
 use Docalist\Type\Text;
@@ -161,7 +163,9 @@ class PostalAddress extends Composite
     {
         $form = parent::getFormatSettingsForm();
         $after = $form->get('after');
-        $form->remove($after);
+        if (! is_null($after)) {
+            $form->remove($after);
+        }
 
         $form->input('sep')
             ->addClass('small-text')
@@ -176,7 +180,9 @@ class PostalAddress extends Composite
             ->setLabel(__('Majuscules', 'docalist-data'))
             ->setDescription(__("Mettre certains éléments en majuscules (selon la destination).", 'docalist-data'));
 
-        $form->add($after);
+        if (! is_null($after)) {
+            $form->add($after);
+        }
 
         return $form;
     }
@@ -217,7 +223,9 @@ class PostalAddress extends Composite
         $formatter = new PostalAddressMetadata($country);
 
         // Formatte l'adresse
-        return $formatter->format($this->getPhpValue(), $args);
+        /** @var array<string,string> $data */
+        $data = $this->getPhpValue();
+        return $formatter->format($data, $args);
 
         // Comme les noms de nos champs correspondent aux noms attendus par le formatteur et qu'il ignore les
         // champs en trop (adminarea2, location...), on peut lui passer directement getPhpValue(), ce qui évite
@@ -247,9 +255,8 @@ class PostalAddress extends Composite
         $container = $form->div();
 
         // L'adresse comprend deux lignes : l'autocomplete et une div qui contient la carte et le formulaire
-        $container
-            ->add($this->editorAutocomplete($options))
-            ->add($this->editorMapAndForm($options));
+        $container->add($this->editorAutocomplete($options));
+        $container->add($this->editorMapAndForm($options));
 
         // Enqueue le JS et la CSS qu'on utilise
         wp_styles()->enqueue('docalist-postal-address');
@@ -265,6 +272,8 @@ class PostalAddress extends Composite
      * <div class='type-postal-address-row'>
      *     <input type="search" class="type-postal-address-autocomplete" placeholder="Tapez le début de l'adresse" />
      * </div>
+     *
+     * @param array<mixed>|Schema|null $options
      *
      * @return Div
      */
@@ -291,6 +300,8 @@ class PostalAddress extends Composite
      *     <formulaire>
      * </div>
      *
+     * @param array<mixed>|Schema|null $options
+     *
      * @return Div
      */
     protected function editorMapAndForm($options)
@@ -310,6 +321,8 @@ class PostalAddress extends Composite
      *     <div class="postal-address-map"></div>
      * </div>
      *
+     * @param array<mixed>|Schema|null $options
+     *
      * @return Div
      */
     protected function editorMap($options)
@@ -324,6 +337,8 @@ class PostalAddress extends Composite
     /**
      * Construit la partie de l'éditeur qui contient le formulaire de saisie d'adresse.
      *
+     * @param array<mixed>|Schema|null $options
+     *
      * @return Container
      */
     protected function editorForm($options)
@@ -332,7 +347,8 @@ class PostalAddress extends Composite
         $container = (new Container)->addClass('type-postal-address-col type-postal-address-form');
 
         // Récupère la liste des champs
-        $fields = $this->getOption('fields');
+        /** @var array<string,array<mixed>> */
+        $fields = $this->getOption('fields', []);
 
         // Ajoute les éditeurs des champs dans le container
         foreach ($fields as $name => $options) {
@@ -442,10 +458,14 @@ class PostalAddress extends Composite
         }
 
         // Ouvre la table country-to-continent
-        $table = docalist('table-manager')->get('country-to-continent'); /** @var TableInterface $table */
+        /** @var TableManager $tables */
+        $tables = docalist('table-manager');
+        $table = $tables->get('country-to-continent'); /** zzar TableInterface $table */
 
         // Détermine le continent
-        return $table->find('dst', 'src=' . $table->quote($country)) ?: '';
+        /** @var string|false $continent */
+        $continent = $table->find('dst', 'src='.$table->quote($country));
+        return $continent ?: '';
     }
 
     /**

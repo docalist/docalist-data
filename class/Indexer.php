@@ -39,7 +39,7 @@ interface Indexer
     /**
      * Retourne les données qui seront stockées dans l'index docalist-search.
      *
-     * @return array
+     * @return array<string,mixed>
      */
     public function getIndexData(): array;
 }
