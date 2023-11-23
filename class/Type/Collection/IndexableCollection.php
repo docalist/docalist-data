@@ -11,12 +11,16 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Type\Collection;
 
-use Docalist\Type\Collection;
 use Docalist\Data\Indexable;
-use Docalist\Data\Type\Collection\IndexableCollectionTrait;
+use Docalist\Type\Any;
+use Docalist\Type\Collection;
 
 /**
  * Une Collection indexable.
+ *
+ * @template Item of Any<mixed>
+ *
+ * @extends Collection<Item>
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */

@@ -11,10 +11,11 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Type\Collection;
 
-use Docalist\Type\Collection;
-use Docalist\Forms\TopicsInput;
 use Docalist\Data\Type\Topic;
 use Docalist\Forms\Element;
+use Docalist\Forms\TopicsInput;
+use Docalist\Table\TableManager;
+use Docalist\Type\Collection;
 use Docalist\Type\Collection\TypedValueCollection;
 use InvalidArgumentException;
 
@@ -22,6 +23,8 @@ use function Docalist\deprecated;
 
 /**
  * Une collection de Topic.
+ *
+ * @extends TypedValueCollection<Topic>
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -50,11 +53,12 @@ class TopicCollection extends TypedValueCollection
      */
     public function getThesaurusTopics()
     {
-        deprecated(get_class($this) . '::schema()', 'getSchema()', '2019-05-29');
+        deprecated(get_class($this).'::schema()', 'getSchema()', '2019-05-29');
 
         // Ouvre la table des topics indiquée dans le schéma du champ 'type'
         list(, $name) = explode(':', $this->getSchema()->getField('type')->table());
-        $table = docalist('table-manager')->get($name);
+        $tables = docalist('table-manager'); /** @var TableManager $tables */
+        $table = $tables->get($name);
 
         // Recherche toutes les entrées qui sont associées à une table de type 'thesaurus'
         $topics = [];
@@ -79,16 +83,16 @@ class TopicCollection extends TypedValueCollection
      * Exemple :
      *
      * <code>
-         * col1 :               [ {type:a, value:[a1,a2]}, {type:b, value:[b1,b2]} ]
-         * col2 :               [ {type:a, value:[a2,a3]}, {type:c, value:[c1]} ]
-         * col1->merge(col2) :  [ {type:a, value:[a1,a2,a3]}, {type:b, value:[b1,b2]}, {type:c, value:[c1]} ]
+     * col1 :               [ {type:a, value:[a1,a2]}, {type:b, value:[b1,b2]} ]
+     * col2 :               [ {type:a, value:[a2,a3]}, {type:c, value:[c1]} ]
+     * col1->merge(col2) :  [ {type:a, value:[a1,a2,a3]}, {type:b, value:[b1,b2]}, {type:c, value:[c1]} ]
      * </code>
      *
-     * @param Collection $collection
+     * @param TopicCollection $collection
      *
-     * @return Collection Retourne une nouvelle collection (les collections d'origine ne sont pas modifiées).
+     * @return TopicCollection Retourne une nouvelle collection (les collections d'origine ne sont pas modifiées).
      */
-    public function merge(Collection $collection): Collection
+    public function merge(Collection $collection): TopicCollection
     {
         // Vérifie que les collections sont compatibles (i.e. des TopicCollection ou des classes enfants)
         if (!is_a($collection, get_class($this))) {
@@ -100,10 +104,10 @@ class TopicCollection extends TypedValueCollection
         }
 
         // On part du tableau de Topic qu'on a déjà
-        $topics = $this->phpValue; /** @var Topic[] $topics */
+        $topics = $this->phpValue;
 
         // Fusionne la TopicCollection passée en paramètre
-        foreach ($collection->phpValue as $type => $topic) { /** @var Topic $topic */
+        foreach ($collection->phpValue as $type => $topic) {
             // Type de topic commun aux deux collections, on fusionne les termes
             if (isset($topics[$type])) {
                 // On ne veut pas modifier la collection d'origine, donc on clone le Topic
@@ -137,13 +141,11 @@ class TopicCollection extends TypedValueCollection
      * Remarque : si deux termes issus de tables d'autorité différentes ont le même code, une seule entrée est
      * retournée avec le libellé du premier topic trouvé.
      *
-     * @param array $include    Liste des types de topics à inclure : si le tableau n'est pas vide, seuls
-     *                          les termes des topics indiqués sont retournés.
-     *
-     * @param array $exclude    Liste des types de topics à exclure : si le tableau n'est pas vide, les
-     *                          termes des topics indiqués ne sont pas retournés.
-     *
-     * @param int   $limit      Nombre maximum de termes à retourner (0 = pas de limite).
+     * @param array<string> $include Liste des types de topics à inclure : si le tableau n'est pas vide, seuls
+     *                               les termes des topics indiqués sont retournés.
+     * @param array<string> $exclude Liste des types de topics à exclure : si le tableau n'est pas vide, les
+     *                               termes des topics indiqués ne sont pas retournés.
+     * @param int           $limit   Nombre maximum de termes à retourner (0 = pas de limite).
      *
      * @return string[] Un tableau de la forme code => libellé.
      */

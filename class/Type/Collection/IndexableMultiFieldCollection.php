@@ -11,12 +11,16 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Type\Collection;
 
-use Docalist\Type\Collection\MultiFieldCollection;
 use Docalist\Data\Indexable;
-use Docalist\Data\Type\Collection\IndexableCollectionTrait;
+use Docalist\Type\Collection\MultiFieldCollection;
+use Docalist\Type\MultiField;
 
 /**
  * Une MultiFieldCollection Indexable.
+ *
+ * @template Item of MultiField
+ *
+ * @extends MultiFieldCollection<Item>
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
