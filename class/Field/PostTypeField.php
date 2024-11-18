@@ -13,6 +13,7 @@ namespace Docalist\Data\Field;
 
 use Docalist\Type\ListEntry;
 use Docalist\Data\Database;
+use Docalist\Data\DocalistDataPlugin;
 
 /**
  * Champ standard "posttype" : nom de code de la base docalist où est stocké l'enregistrement.
@@ -35,7 +36,8 @@ class PostTypeField extends ListEntry
     public function getFormattedValue($options = null): string
     {
         $value = $this->getPhpValue();
-        $database = docalist('docalist-data')->database($value); /** @var Database $database */
+        $docalistDataPlugin = docalist(DocalistDataPlugin::class);
+        $database = $docalistDataPlugin->database($value); /** @var Database $database */
 
         return $database ? $database->getLabel() : $value;
     }
@@ -47,8 +49,9 @@ class PostTypeField extends ListEntry
      */
     protected function getEntries(): array
     {
+        $docalistDataPlugin = docalist(DocalistDataPlugin::class);
         $result = [];
-        foreach (docalist('docalist-data')->databases() as $postType => $database) { /** @var Database $database */
+        foreach ($docalistDataPlugin->databases() as $postType => $database) { /** @var Database $database */
             $result[$postType] = $database->getLabel();
         }
 

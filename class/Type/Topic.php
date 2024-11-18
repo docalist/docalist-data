@@ -198,13 +198,13 @@ class Topic extends TypedText
         $terms = array_combine($terms, $terms);
 
         // Récupère le table-manager
-        /** @var TableManager $tables */
-        $tables = docalist('table-manager');
+        /** @var TableManager */
+        $tableManager = docalist(TableManager::class);
 
         // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
         $table = $this->getSchema()->getField('type')->table();
         $tableName = explode(':', $table)[1];
-        $table = $tables->get($tableName); /* @var TableInterface $table */
+        $table = $tableManager->get($tableName); /* @var TableInterface $table */
 
         // Détermine la source qui correspond au type du topic
         /** @var string|false $source */
@@ -214,7 +214,7 @@ class Topic extends TypedText
 
             // Si la source est une table, on traduit les termes
             if ($type === 'table' || $type === 'thesaurus') {
-                $table = $tables->get($tableName); /* @var TableInterface $table */
+                $table = $tableManager->get($tableName); /* @var TableInterface $table */
                 foreach ($terms as & $term) {
                     $result = $table->find('label', 'code=' . $table->quote($term));
                     $result !== false && $term = $result;
@@ -243,10 +243,11 @@ class Topic extends TypedText
         }
 
         // Récupère la table qui contient la liste des vocabulaires (dans le schéma du champ type)
-        $tables = docalist('table-manager'); /** @var TableManager $tables */
+        /** @var TableManager */
+        $tableManager = docalist(TableManager::class);
         $table = $this->getSchema()->getField('type')->table();
         $tableName = explode(':', $table)[1];
-        $table = $tables->get($tableName);
+        $table = $tableManager->get($tableName);
 
         // Détermine la source qui correspond au type du topic
         /** @var string|false $source */
@@ -262,14 +263,14 @@ class Topic extends TypedText
         }
 
         // Ouvre le thésaurus
-        $table = $tables->get($tableName);
+        $table = $tableManager->get($tableName);
 
         // Pour chaque terme ajoute le terme parent comme préfixe tant qu'on a un terme parent
         foreach ($terms as $code => & $path) {
             $seen = [$code => true];
 
             // find() retourne null si pas de BT ou false si pas de réponse (erreur dans le theso)
-            while (false !== $code = $table->find('BT', 'code=' . $table->quote($code))) {
+            while (!empty($code = $table->find('BT', 'code=' . $table->quote($code)))) {
                 /** @var string $code */
                 // Exit si les BT forment une boucle infinie
                 if (isset($seen[$code])) {
@@ -297,7 +298,8 @@ class Topic extends TypedText
     {
         // Ouvre la table des topics indiquée dans le schéma du champ 'type'
         list(, $name) = explode(':', $this->getSchema()->getField('type')->table());
-        $tableManager = docalist('table-manager'); /** @var TableManager $tableManager */
+        /** @var TableManager */
+        $tableManager = docalist(TableManager::class);
         $table = $tableManager->get($name);
 
         // Retourne le code et le label des entrées qui sont associées à une table de type 'thesaurus'

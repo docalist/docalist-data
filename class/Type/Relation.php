@@ -18,7 +18,7 @@ use Docalist\Forms\Container;
 use Docalist\Forms\EntryPicker;
 use Docalist\Data\Record;
 use InvalidArgumentException;
-use Docalist\Data\Plugin as DocalistData;
+use Docalist\Data\DocalistDataPlugin;
 
 /**
  * Gère une relation vers une fiche docalist.
@@ -197,10 +197,9 @@ class Relation extends Integer
         if ($this->entity === false) {
             $id = $this->getPhpValue();
 
-            /** @var DocalistData $docalistData */
-            $docalistData = docalist('docalist-data');
+            $docalistDataPlugin = docalist(DocalistDataPlugin::class);
 
-            $this->entity = empty($id) ? null : $docalistData->getRecord($id);
+            $this->entity = empty($id) ? null : $docalistDataPlugin->getRecord($id);
 
         }
 

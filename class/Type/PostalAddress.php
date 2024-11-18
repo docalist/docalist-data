@@ -458,9 +458,9 @@ class PostalAddress extends Composite
         }
 
         // Ouvre la table country-to-continent
-        /** @var TableManager $tables */
-        $tables = docalist('table-manager');
-        $table = $tables->get('country-to-continent'); /** zzar TableInterface $table */
+        /** @var TableManager */
+        $tableManager = docalist(TableManager::class);
+        $table = $tableManager->get('country-to-continent');
 
         // Détermine le continent
         /** @var string|false $continent */

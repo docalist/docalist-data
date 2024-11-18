@@ -57,8 +57,9 @@ class TopicCollection extends TypedValueCollection
 
         // Ouvre la table des topics indiquée dans le schéma du champ 'type'
         list(, $name) = explode(':', $this->getSchema()->getField('type')->table());
-        $tables = docalist('table-manager'); /** @var TableManager $tables */
-        $table = $tables->get($name);
+        /** @var TableManager */
+        $tableManager = docalist(TableManager::class);
+        $table = $tableManager->get($name);
 
         // Recherche toutes les entrées qui sont associées à une table de type 'thesaurus'
         $topics = [];

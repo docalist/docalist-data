@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Docalist\Data;
 
+use Docalist\Sequences;
+use Docalist\Table\TableManager;
 use Docalist\Type\Entity;
 use Docalist\Schema\Schema;
 
@@ -462,14 +464,14 @@ class Record extends Entity implements Indexable
     {
         // Si la notice a déjà un numéro de référence, on se contente de synchroniser la séquence
         if (isset($this->ref) && 0 !== $this->ref->getPhpValue()) {
-            docalist('sequences')->setIfGreater($database->getPostType(), 'ref', $this->ref->getPhpValue());
+            docalist(Sequences::class)->setIfGreater($database->getPostType(), 'ref', $this->ref->getPhpValue());
 
             return;
         }
 
         // Si la notice est en statut publish, on lui attribue un numéro de référence
         if (isset($this->status) && $this->status->getPhpValue() === 'publish') {
-            $this->ref = docalist('sequences')->increment($database->getPostType(), 'ref');
+            $this->ref = docalist(Sequences::class)->increment($database->getPostType(), 'ref');
         }
     }
 
@@ -772,7 +774,9 @@ class Record extends Entity implements Indexable
         deprecated(get_class($this) . '::getTermsPath()', '$record->topic->getTermsPath()', '2019-06-06');
 
         // Ouvre le thesaurus
-        $table = docalist('table-manager')->get($tableName);
+        /** @var TableManager */
+        $tableManager = docalist(TableManager::class);
+        $table = $tableManager->get($tableName);
 
         // Pour chaque terme ajoute le terme parent comme préfixe tant qu'on a un terme parent
         foreach ($terms as & $term) {

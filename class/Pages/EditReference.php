@@ -617,7 +617,7 @@ class EditReference
 
 //             // Vérifie que la table indiquée existe
 //             if (preg_match('~([a-z]+):([a-zA-Z0-9_-]+)~', $def->$table(), $match)) {
-//                 if (docalist('table-manager')->info($match[2])) {
+//                 if (services('table-manager')->info($match[2])) {
 //                     continue;
 //                 }
 //             }
@@ -646,7 +646,7 @@ class EditReference
 //     protected function tableOptions($table, $fields = 'code,label') {
 //         empty($table) && $table = 'countries';
 //         /* @var TableManager $tableManager */
-//         $tableManager = docalist('table-manager');
+//         $tableManager = services('table-manager');
 //         return $tableManager->get($table)->search($fields);
 //     }
 }

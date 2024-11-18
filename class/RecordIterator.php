@@ -12,12 +12,15 @@ declare(strict_types=1);
 namespace Docalist\Data;
 
 use Docalist\Search\Iterator\ScrollIterator;
-use Docalist\Data\Plugin as DocalistData;
+use Docalist\Data\DocalistDataPlugin;
 use Generator;
 use InvalidArgumentException;
+use stdClass;
 
 /**
  * Un itérateur de références (pour l'export).
+ *
+ * @extends ScrollIterator<Record>
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -34,13 +37,14 @@ class RecordIterator extends ScrollIterator
     public function getIterator(): Generator
     {
         // Récupère le service docalist-data utilisé pour charger les notices
-        $docalistData = docalist('docalist-data'); /** @var DocalistData $docalistData */
+        $docalistDataPlugin = docalist(DocalistDataPlugin::class);
 
         // Parcourt tous les hits et essaie de charger la notice correspondante
+        /** @var stdClass $hit */
         foreach (parent::getIterator() as $hit) {
             $id = (int) $hit->_id;
             try {
-                yield $id => $docalistData->getRecord($id);
+                yield $id => $docalistDataPlugin->getRecord($id);
             } catch (InvalidArgumentException $e) {
                 // on ignore
             }
