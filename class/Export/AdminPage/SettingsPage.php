@@ -39,6 +39,11 @@ class SettingsPage extends AdminPage
         );
     }
 
+    public function initialize(): void
+    {
+
+    }
+
     protected function getDefaultAction()
     {
         return 'ExportSettings';
