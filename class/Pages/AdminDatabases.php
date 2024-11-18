@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Docalist\Data\Pages;
 
 use Docalist\AdminPage;
+use Docalist\Sequences;
 use Exception;
 use Docalist\Data\Database;
 use Docalist\Data\Settings\Settings;
@@ -37,18 +38,7 @@ class AdminDatabases extends AdminPage
         'default' => 'manage_options',
     ];
 
-    /**
-     * Les settings de docalist-data.
-     *
-     * @var Settings
-     */
-    protected $settings;
-
-    /**
-     *
-     * @param Settings $settings
-     */
-    public function __construct(Settings $settings)
+    public function __construct(private Settings $settings, private Sequences $sequences)
     {
         $this->settings = $settings;
 
@@ -60,6 +50,10 @@ class AdminDatabases extends AdminPage
         );
         // @formatter:on
 
+    }
+
+    public function initialize(): void
+    {
         // Ajoute un lien "Réglages" dans la page des plugins
         $filter = 'plugin_action_links_docalist-data/docalist-data.php';
         add_filter($filter, function ($actions) {
@@ -341,7 +335,7 @@ class AdminDatabases extends AdminPage
         $this->settings->save();
 
         // Supprimer la séquence utilisée pour cette base
-        docalist('sequences')->clear($database->postType());
+        $this->sequences->clear($database->postType());
 
         // Supprime les droits accordés lors de la création de la base
         // NB : Si l'utilisateur a ensuite accordé les droits à d'autres groupes
