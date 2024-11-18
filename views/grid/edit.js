@@ -38,8 +38,13 @@
     /**
      * Affiche ou masque le formulaire du champ quand on clique sur le titre
      */
-    $(document).on('click', '.grid .postbox .postbox h2, .grid .postbox .postbox .handlediv', function() {
-        $(this).parent('.postbox').toggleClass('closed');
+    $(document).on('click', '.grid .postbox .postbox .handlediv', function() { // sur l'icone
+        // postbox > postbox-header > handle-actions > handlediv
+        $(this).parent().parent().parent().toggleClass('closed');
+    });
+    $(document).on('click', '.grid .postbox .postbox h2', function() {
+        // postbox > postbox-header > h2
+        $(this).parent().parent().toggleClass('closed');
     });
 
     /*
@@ -75,7 +80,7 @@
         }
     });
     $('.capability').trigger('propertychange');
-    
+
     /**
      * Met à jour l'icone "champ obligatoire" lorsque le champ "required" est modifié.
      */
@@ -89,7 +94,7 @@
         }
     });
     $('.required-mode').trigger('change');
-    
+
     /**
      * Mémorise la dernière boite cliquée pour permettre à add-group de savoir où insérer le nouveau groupe.
      */

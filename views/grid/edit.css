@@ -28,7 +28,7 @@
     background-color: #f0f0f0; /* f0 = f5-5 = 240 */
 }
 
-/* Titre des groupes en gras*/ 
+/* Titre des groupes en gras*/
 .grid .group>h2 span {
     font-weight: bold;
 }
@@ -41,32 +41,35 @@
     -webkit-font-smoothing: antialiased;
     padding-right: .5em;
 }
-.grid .has-cap>h2:after {
+.grid .postbox-header .hndle {
+    justify-content: normal; /* le h2:before fait que le titre part complètement à droite */
+}
+.grid .has-cap > .postbox-header > h2:after {
     font-family: "dashicons";
     content: " \f112";
     vertical-align: text-bottom;
     -webkit-font-smoothing: antialiased;
     color: #00F;
 }
-.grid .is-required>h2>span:after {
+.grid .is-required > .postbox-header > h2 > span:after {
     content: " ✱";
     color: red;
 }
-.grid .group>h2:before {
+.grid .group > .postbox-header > h2:before {
     /*content: "\f203";*/
    content: "\f164";
 }
 
-.grid.base>.postbox>h2:before { /* grille de base */
+.grid.base > .postbox > .postbox-header > h2:before { /* grille de base */
    content: "\f107";
 }
 
-.grid.edit>.postbox>h2:before { /* grille edit */
+.grid.edit >.postbox > .postbox-header > h2:before { /* grille edit */
    content: "\f119";
 }
 
-.grid.content>.postbox>h2:before, /* grilles affichage */
-.grid.excerpt>.postbox>h2:before {
+.grid.content > .postbox > .postbox-header > h2:before, /* grilles affichage */
+.grid.excerpt > .postbox > .postbox-header > h2:before {
    content: "\f177";
 }
 
@@ -76,7 +79,7 @@
 }
 .grid.base .postbox .postbox { /* mais pas pour la grille de base qui n'a pas groupes */
     margin-left: 0;
-} 
+}
 
 .grid .postbox.group, /* on n'indente pas les groupes */
 .grid .postbox .postbox .postbox { /* ni les postbox des niveaux inférieurs */

@@ -163,7 +163,7 @@ if ($grid->gridtype() === 'edit') {
                 </div>
 
                 <div id="postbox-container-1" class="postbox-container">
-                    <div class="stuffbox">
+                    <div class="postbox">
                         <h3 class="hndle">Enregistrer</h3>
                         <div class="inside">
                             <p class="buttons">
@@ -174,7 +174,7 @@ if ($grid->gridtype() === 'edit') {
                         </div>
                     </div>
                     <?php if ($gridname !== 'base') :?>
-                        <div class="stuffbox">
+                        <div class="postbox">
                             <h3 class="hndle">Outils</h3>
                             <div class="inside">
                                 <button type="button" class="button add-group">
