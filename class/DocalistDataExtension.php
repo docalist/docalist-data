@@ -55,9 +55,7 @@ final class DocalistDataExtension extends KernelExtension
         ->set(ExportWidget::class, [SearchEngine::class, ExportService::class])
 
         // Plugin wordpress
-        ->set(DocalistDataPlugin::class, static fn (ContainerInterface $container): DocalistDataPlugin => new DocalistDataPlugin(
-            $container
-        ))
+        ->set(DocalistDataPlugin::class, [ContainerInterface::class, Settings::class, /*AdminDatabases::class,*/ /* SettingsPage::class */ ExportWidget::class])
         // ->alias('docalist-data', DocalistDataPlugin::class) // pas encore deprecated, utilisé partout dans le thème svb
         ->deprecate('docalist-data', DocalistDataPlugin::class, '2023-11-27')
 
