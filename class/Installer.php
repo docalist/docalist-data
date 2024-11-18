@@ -21,41 +21,39 @@ use Docalist\Table\TableInfo;
  */
 class Installer
 {
+    public function __construct(private TableManager $tableManager)
+    {
+    }
+
     /**
      * Activation : enregistre les tables prédéfinies.
      */
-    public function activate()
+    public function activate(): void
     {
-        $tableManager = docalist('table-manager'); /* @var TableManager $tableManager */
-
-        // Enregistre les tables prédéfinies
         foreach ($this->getTables() as $name => $table) {
             $table['name'] = $name;
             $table['path'] = strtr($table['path'], '/', DIRECTORY_SEPARATOR);
             $table['lastupdate'] = date_i18n('Y-m-d H:i:s', filemtime($table['path']));
-            $tableManager->register(new TableInfo($table));
+            $this->tableManager->register(new TableInfo($table));
         }
     }
 
     /**
      * Désactivation : supprime les tables prédéfinies.
      */
-    public function deactivate()
+    public function deactivate(): void
     {
-        $tableManager = docalist('table-manager'); /* @var TableManager $tableManager */
-
-        // Supprime les tables prédéfinies
         foreach (array_keys($this->getTables()) as $table) {
-            $tableManager->unregister($table);
+            $this->tableManager->unregister($table);
         }
     }
 
     /**
      * Retourne la liste des tables prédéfinies.
      *
-     * @return array
+     * @return array<string,array<string,string>>
      */
-    protected function getTables()
+    protected function getTables(): array
     {
         return
             $this->getGenericTables() +
@@ -67,9 +65,9 @@ class Installer
     /**
      * Tables génériques (indépendantes ou utilisées par plusieurs entités).
      *
-     * @return array
+     * @return array<string,array<string,string>>
      */
-    protected function getGenericTables()
+    protected function getGenericTables(): array
     {
         $dir = DOCALIST_DATA_DIR . '/tables/';
 
@@ -143,9 +141,9 @@ class Installer
     /**
      * Retourne la liste des tables "langues".
      *
-     * @return array
+     * @return array<string,array<string,string>>
      */
-    protected function getLanguagesTables()
+    protected function getLanguagesTables(): array
     {
         $dir = DOCALIST_DATA_DIR . '/tables/languages/';
 
@@ -196,9 +194,9 @@ class Installer
     /**
      * Retourne la liste des tables "pays".
      *
-     * @return array
+     * @return array<string,array<string,string>>
      */
-    protected function getCountriesTables()
+    protected function getCountriesTables(): array
     {
         $dir = DOCALIST_DATA_DIR . '/tables/countries/';
 
@@ -237,9 +235,9 @@ class Installer
     /**
      * Retourne la liste des tables "continents".
      *
-     * @return array
+     * @return array<string,array<string,string>>
      */
-    protected function getContinentsTables()
+    protected function getContinentsTables(): array
     {
         $dir = DOCALIST_DATA_DIR . '/tables/continents/';
 
