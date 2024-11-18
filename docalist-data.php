@@ -21,6 +21,9 @@
 declare(strict_types=1);
 
 namespace Docalist\Data;
+use Docalist\Autoloader;
+use Docalist\Table\TableManager;
+use Docalist\Views;
 
 /**
  * Version du plugin.
@@ -71,12 +74,15 @@ add_action('plugins_loaded', function () {
     }
 
     // Ok
-    docalist('autoloader')
+    docalist(Autoloader::class)
         ->add(__NAMESPACE__, __DIR__ . '/class')
         ->add(__NAMESPACE__ . '\Tests', __DIR__ . '/tests')
         ->add('Docalist\PostalAddressMetadata', __DIR__ . '/lib/docalist/postal-address-metadata/class');
 
-    docalist('services')->add('docalist-data', new Plugin());
+    docalist(DocalistDataPlugin::class)->initialize();
+
+
+
 });
 
 /*
@@ -86,8 +92,8 @@ register_activation_hook(DOCALIST_DATA, function () {
     // Si docalist-core n'est pas dispo, on ne peut rien faire
     if (defined('DOCALIST_CORE')) {
         // plugins_loaded n'a pas encore été lancé, donc il faut initialiser notre autoloader
-        docalist('autoloader')->add(__NAMESPACE__, __DIR__ . '/class');
-        (new Installer())->activate();
+        docalist(Autoloader::class)->add(__NAMESPACE__, __DIR__ . '/class');
+        (new Installer(docalist(TableManager::class)))->activate();
     }
 });
 
@@ -97,7 +103,7 @@ register_activation_hook(DOCALIST_DATA, function () {
 register_deactivation_hook(DOCALIST_DATA, function () {
     // Si docalist-core n'est pas dispo, on ne peut rien faire
     if (defined('DOCALIST_CORE')) {
-        docalist('autoloader')->add(__NAMESPACE__, __DIR__ . '/class');
-        (new Installer())->deactivate();
+        docalist(Autoloader::class)->add(__NAMESPACE__, __DIR__ . '/class');
+        (new Installer(docalist(TableManager::class)))->deactivate();
     }
 });
