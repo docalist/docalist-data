@@ -12,15 +12,16 @@ declare(strict_types=1);
 namespace Docalist\Data\Export\Settings;
 
 use Docalist\Repository\Repository;
+use Docalist\Type\Collection;
 use Docalist\Type\Settings;
-use Docalist\Type\Integer;
+use Docalist\Type\Integer as DocalistInteger;
 use Docalist\Data\Export\Settings\LimitSetting;
 
 /**
  * Options de configuration du module d'export.
  *
- * @property Integer        $exportpage ID de la page "export".
- * @property LimitSetting   $limit      Limites de l'export.
+ * @property DocalistInteger        $exportpage ID de la page "export".
+ * @property Collection<LimitSetting>   $limit      Limites de l'export.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -36,7 +37,7 @@ class ExportSettings extends Settings
         return [
             'fields' => [
                 'exportpage' => [
-                    'type' => Integer::class,
+                    'type' => DocalistInteger::class,
                     'label' => __("Page WordPress", 'docalist-data'),
                     'description' => __("Page WordPress sur laquelle l'export sera disponible.", 'docalist-data'),
                     'default' => 0,

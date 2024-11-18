@@ -13,13 +13,13 @@ namespace Docalist\Data\Export\Settings;
 
 use Docalist\Type\Composite;
 use Docalist\Type\Text;
-use Docalist\Type\Integer;
+use Docalist\Type\Integer as DocalistInteger;
 
 /**
  * Options de configuration du plugin.
  *
  * @property Text       $role   Rôle Wordpress.
- * @property Integer    $limit  Limite pour ce rôle.
+ * @property DocalistInteger    $limit  Limite pour ce rôle.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
@@ -35,7 +35,7 @@ class LimitSetting extends Composite
                     'description' => __("Groupe d'utilisateurs", 'docalist-data'),
                 ],
                 'limit' => [
-                    'type' => Integer::class,
+                    'type' => DocalistInteger::class,
                     'label' => __('Limite pour ce rôle', 'docalist-data'),
                     'description' => __('Nombre maximum de notices exportables.', 'docalist-data'),
                 ],
