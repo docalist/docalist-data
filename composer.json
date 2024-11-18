@@ -33,7 +33,8 @@
     "autoload": {
         "psr-4": {
             "Docalist\\Data\\": "class"
-        }
+        },
+        "files": ["bootstrap.php"]
     },
     "autoload-dev": {
         "psr-4": {
