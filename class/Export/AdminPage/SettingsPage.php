@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Export\AdminPage;
 
+use Docalist\AdminNotices;
 use Docalist\AdminPage;
 use Docalist\Data\Export\Settings\ExportSettings;
 use Exception;
@@ -23,18 +24,11 @@ use Exception;
 class SettingsPage extends AdminPage
 {
     /**
-     * Paramètres du plugin.
-     *
-     * @var ExportSettings
-     */
-    protected $settings;
-
-    /**
      * Crée la page de réglages des paramètres du plugin.
      *
      * @param ExportSettings $settings Paramètres du plugin.
      */
-    public function __construct(ExportSettings $settings)
+    public function __construct(private ExportSettings $settings, private AdminNotices $adminNotices)
     {
         $this->settings = $settings;
 
@@ -64,11 +58,11 @@ class SettingsPage extends AdminPage
                 $this->settings->filterEmpty(false);
                 $this->settings->save();
 
-                docalist('admin-notices')->success(__("Les options d'export ont été enregistrées.", 'docalist-data'));
+                $this->adminNotices->success(__("Les options d'export ont été enregistrées.", 'docalist-data'));
 
                 return $this->redirect($this->getUrl($this->getDefaultAction()), 303);
             } catch (Exception $e) {
-                docalist('admin-notices')->error($e->getMessage());
+                $this->adminNotices->error($e->getMessage());
             }
         }
 

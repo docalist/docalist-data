@@ -33,17 +33,13 @@ use Docalist\Search\Indexer\Field\PostTypeIndexer;
 class ExportService
 {
     /**
-     * Les paramètres du plugin.
-     *
-     * @var ExportSettings
-     */
-    protected $settings;
-
-    /**
      * Initialise le plugin.
      */
-    public function __construct(ExportSettings $settings)
-    {
+    public function __construct(
+        private ExportSettings $settings,
+        private Views $views,
+        private QueryDSL $queryDSL
+    ) {
         // Stocke les paramètres du module d'export
         $this->settings = $settings;
 
@@ -130,7 +126,8 @@ class ExportService
             return false;
         }
 
-        if (is_null($request = $searchResponse->getSearchRequest()) || is_null($request->getSearchUrl())) {
+        $request = $searchResponse->getSearchRequest();
+        if (is_null($request->getSearchUrl())) {
             return false;
         }
 
@@ -156,6 +153,7 @@ class ExportService
 
         // Récupère l'url complète de la recherche en cours (y compris les types implicites éventuels)
         $searchUrl = $searchResponse->getSearchRequest()->getSearchUrl(); // not null, vérifié par canExport()
+        assert(!is_null($searchUrl));
         $types = $searchUrl->getTypes();
         if ($searchUrl->hasFilter('in') || empty($types)) {
             $url = $searchUrl->getUrlForPage(1);
@@ -221,7 +219,7 @@ class ExportService
         // Ajoute une agrégation sur les types de notices
         $agg = new TermsAggregation(PostTypeIndexer::CODE_FILTER, ['size' => 1000]);
         $agg->setName('types');
-        $request->addAggregation($agg->getName(), $agg);
+        $request->addAggregation($agg);
 
         // Exécute la requête et retourne la SearchResponse obtenue
         return $request->execute(); // TODO : si null ?
@@ -256,7 +254,7 @@ class ExportService
      * La SearchResponse doit contenir une agrégation "types" de type "terms" sur le champ "type" qui est utilisée
      * pour récupérer le nombre de réponses par type d'enregistrement.
      *
-     * @return array[] Un tableau indexé par nom de type dont chaque élément contient les éléments suivants :
+     * @return array<string,array<string,int|string>> Un tableau indexé par nom de type dont chaque élément contient les éléments suivants :
      * - 'type' : le nom du type (article, book, etc.)
      * - 'class' : Nom complet de la classe PHP qui gère le type,
      * - 'label' : le libellé du type,
@@ -402,9 +400,8 @@ class ExportService
         set_time_limit(3600);
 
         // Modifie la requête pour qu'elle ne contienne que les types supportés par l'exporteur
-        $dsl = docalist('elasticsearch-query-dsl'); /* @var QueryDSL $dsl */
         $request = $searchResponse->getSearchRequest();
-        $request->addFilter($dsl->terms(PostTypeIndexer::CODE_FILTER, $supportedTypes));
+        $request->addFilter($this->queryDSL->terms(PostTypeIndexer::CODE_FILTER, $supportedTypes));
         $request->removeAggregation('types'); // l'aggrégation sur les types n'est plus nécessaire
 
         // Exporte les enregistrements
@@ -425,9 +422,8 @@ class ExportService
     private function view(string $view, array $data = []): void
     {
         // Exécute la vue
-        $views = docalist('views'); /* @var Views $views */
         $data['this'] = $this;
-        $content = $views->render($view, $data);
+        $content = $this->views->render($view, $data);
 
         // On utilise une priorité haute pour court-circuiter les filtres WordPress (wp_autop, embed, etc.)
         $exportPage = $this->getExportPageID();

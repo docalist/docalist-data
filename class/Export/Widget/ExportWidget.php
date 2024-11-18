@@ -24,7 +24,7 @@ use Docalist\Data\Export\ExportService;
  */
 class ExportWidget extends WP_Widget
 {
-    public function __construct()
+    public function __construct(private SearchEngine $searchEngine, private ExportService $exportService)
     {
         $id = 'docalist-data-export';
         parent::__construct(
@@ -48,20 +48,14 @@ class ExportWidget extends WP_Widget
      */
     private function getExportUrl(): string
     {
-        // Récupère le service docalist-search
-        $searchEngine = docalist('docalist-search-engine'); /* @var SearchEngine $searchEngine */
-
         // Récupère les résultats de la recherche en cours
-        $searchResponse = $searchEngine->getSearchResponse(); /* @var SearchResponse $searchResponse */
+        $searchResponse = $this->searchEngine->getSearchResponse();
         if (is_null($searchResponse)) {
             return '';
         }
 
-        // Récupère le service d'export
-        $exportService = docalist('docalist-data-export'); /* @var ExportService $exportService */
-
         // Ok
-        return $exportService->getExportUrl($searchResponse);
+        return $this->exportService->getExportUrl($searchResponse);
     }
 
     /**
