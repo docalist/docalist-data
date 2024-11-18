@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Tests\Export\Writer;
 
+use Docalist\Test\DocalistTestCase;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Writer\JsonWriter;
 
@@ -19,7 +20,7 @@ use Docalist\Data\Export\Writer\JsonWriter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class JsonWriterTest extends PHPUnit_Framework_TestCase
+class JsonWriterTest extends DocalistTestCase
 {
     public function testPretty()
     {

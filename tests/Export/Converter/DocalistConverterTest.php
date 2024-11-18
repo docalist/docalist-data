@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Tests\Export\Exporter;
 
-use PHPUnit_Framework_TestCase;
+use Docalist\Test\DocalistTestCase;
 use Docalist\Data\Export\Converter\DocalistConverter;
 use Docalist\Data\Export\Converter;
 use Docalist\Data\Record;
@@ -23,7 +23,7 @@ use Docalist\Data\Entity\ContentEntity;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DocalistConverterTest extends PHPUnit_Framework_TestCase
+class DocalistConverterTest extends DocalistTestCase
 {
     /**
      * Teste le convertisseur.
@@ -39,11 +39,11 @@ class DocalistConverterTest extends PHPUnit_Framework_TestCase
         // Vérifie que le convertisseur est un callable (redondant avec le test précédent mais ne nuit pas)
         $this->assertTrue(is_callable($convert));
 
-        // Vérifie que le convertisseur retourne bien tableau vide si on lui passe un enregsitrement vide
+        // Vérifie que le convertisseur retourne bien un tableau vide si on lui passe un enregistrement vide
         $record = new Record();
         $this->assertSame([], $convert($record));
 
-        // Vérifie que le convertisseur nous retourne bien les données des enregsitrements
+        // Vérifie que le convertisseur nous retourne bien les données des enregistrements
         $data = ['posttype' => 'record', 'posttitle' => 'titre'];
         $record = new Record($data);
         $this->assertSame($data, $convert($record));

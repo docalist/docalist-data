@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Tests\Field;
 
+use Docalist\Test\DocalistTestCase;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Field\SourceField;
 
@@ -19,14 +20,14 @@ use Docalist\Data\Field\SourceField;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class SourceFieldTest extends PHPUnit_Framework_TestCase
+class SourceFieldTest extends DocalistTestCase
 {
     /**
      * Fournit des exemples de données à traiter et le résultat attendu.
      *
      * @return array[]
      */
-    public function dataProvider()
+    public static function dataProvider(): array
     {
         $type = ['type' => 'crossref'];
         $url = ['url' => 'https://www.crossref.org/art/icle'];

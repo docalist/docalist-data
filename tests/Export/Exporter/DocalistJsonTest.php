@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Docalist\Data\Tests\Export\Exporter;
 
+use Docalist\Test\DocalistTestCase;
 use PHPUnit_Framework_TestCase;
 use Docalist\Data\Export\Exporter\DocalistJson;
 use Docalist\Data\Export\Converter\DocalistConverter;
@@ -24,7 +25,7 @@ use Docalist\Data\Export\Exporter\StandardExporter;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class DocalistJsonTest extends PHPUnit_Framework_TestCase
+class DocalistJsonTest extends DocalistTestCase
 {
     const EXPORTER = DocalistJson::class;
     const EXPECTED_ID = 'docalist-json';

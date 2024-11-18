@@ -16,13 +16,14 @@ use Docalist\Data\Export\Exporter\StandardExporter;
 use Docalist\Data\Record;
 use Docalist\Data\Export\Converter;
 use Docalist\Data\Export\Writer;
+use Docalist\Test\DocalistTestCase;
 
 /**
  * Teste la classe StandardExporter.
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class StandardExporterTest extends PHPUnit_Framework_TestCase
+class StandardExporterTest extends DocalistTestCase
 {
     /**
      * Crée un exporter de test.
