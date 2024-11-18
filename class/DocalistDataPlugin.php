@@ -11,6 +11,15 @@ declare(strict_types=1);
 
 namespace Docalist\Data;
 
+use Docalist\Container\ContainerInterface;
+use Docalist\Data\Export\AdminPage\SettingsPage;
+use Docalist\Data\Export\Exporter\DocalistJson;
+use Docalist\Data\Export\Exporter\DocalistJsonPretty;
+use Docalist\Data\Export\Exporter\DocalistXml;
+use Docalist\Data\Export\Exporter\DocalistXmlPretty;
+use Docalist\Data\Export\Widget\ExportWidget;
+use Docalist\Sequences;
+use Docalist\Table\TableManager;
 use Docalist\Views;
 use Docalist\Data\Database;
 use Docalist\Data\Type;
@@ -18,8 +27,8 @@ use Docalist\Data\Settings\Settings;
 use Docalist\Data\Settings\DatabaseSettings;
 use Docalist\Data\Pages\AdminDatabases;
 use Docalist\Data\Entity\ContentEntity;
-use Docalist\Data\Export\ExportSetup;
 use InvalidArgumentException;
+use Docalist\Repository\SettingsRepository;
 
 use function Docalist\deprecated;
 
@@ -28,15 +37,8 @@ use function Docalist\deprecated;
  *
  * @author Daniel Ménard <daniel.menard@laposte.net>
  */
-class Plugin
+class DocalistDataPlugin
 {
-    /**
-     * La configuration du plugin.
-     *
-     * @var Settings
-     */
-    protected $settings;
-
     /**
      * La liste des bases
      *
@@ -44,17 +46,28 @@ class Plugin
      */
     protected $databases;
 
+    public function __construct(
+        private ContainerInterface $container,
+        private Settings $settings,
+        /* private AdminDatabases $adminDatabases */
+        /* private SettingsPage $settingsPage */
+        private ExportWidget $exportWidget
+    ) {
+        // todo: on ne peut pas injecter AdminDatabases et SettingsPage car elles appelent les fonctions wordpress dès qu'elles sont créées
+        // todo: il faut séparer la création et l'installation (register) mais pour ça il faut remanier AdminPage et toutes les classes descendantes
+    }
+
     /**
      * Initialise le plugin.
      */
-    public function __construct()
+    public function initialize(): void
     {
         // Charge les fichiers de traduction du plugin
         load_plugin_textdomain('docalist-data', false, 'docalist-data/languages');
 
         // Debug - permet de réinstaller les tables docalist-data
         if (isset($_GET['reinstall-tables']) && $_GET['reinstall-tables'] === 'docalist-data') {
-            $installer = new Installer();
+            $installer = new Installer(docalist(TableManager::class));
             echo 'Uninstall docalist-data tables...<br />';
             $installer->deactivate();
             echo 'Reinstall docalist-data tables...<br />';
@@ -63,16 +76,11 @@ class Plugin
             die();
         }
 
-        // Ajoute notre répertoire "views" au service "docalist-views"
-        add_filter('docalist_service_views', function (Views $views) {
-            return $views->addDirectory('docalist-data', DOCALIST_DATA_DIR . '/views');
-        });
-
         // Initialise la liste des bases. On le fait dans l'action init car on ne peut pas appeller
         // register_post_type / add_rewrite_tag avant
         add_action('init', function () {
             // Charge la configuration du plugin
-            $this->settings = new Settings(docalist('settings-repository'));
+            //$this->settings = new Settings(docalist(SettingsRepository::class));
 
             // Crée les bases de données définies par l'utilisateur
             $this->databases = array();
@@ -85,7 +93,8 @@ class Plugin
 
         // Crée la page Réglages » Docalist-Databases
         add_action('admin_menu', function () {
-            new AdminDatabases($this->settings);
+            $this->container->get(AdminDatabases::class)->initialize(); // todo: DI
+            $this->container->get(SettingsPage::class)->initialize(); // todo: DI
         });
 
         // Déclare la liste des types définis dans ce plugin
@@ -98,8 +107,20 @@ class Plugin
         // Déclare nos assets
         require_once dirname(__DIR__) . '/assets/register.php';
 
-        // Initialise le module d'export
-        ExportSetup::setup();
+        // Initialise le widget d'export
+        add_action('widgets_init', function () {
+            register_widget($this->exportWidget);
+        });
+
+        // Déclare les exporteurs définis dans ce plugin
+        add_filter('docalist_databases_get_export_formats', function (array $formats) {
+            return $formats + [
+                DocalistJson::getID()       => DocalistJson::class,
+                DocalistJsonPretty::getID() => DocalistJsonPretty::class,
+                DocalistXml::getID()        => DocalistXml::class,
+                DocalistXmlPretty::getID()  => DocalistXmlPretty::class,
+            ];
+        }, 10);
 
         // Autorise l'upload de fichier JSON
         add_filter('upload_mimes', function(array $types) {
